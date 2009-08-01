@@ -1018,7 +1018,7 @@ function EnigConvertFromUnicode(text, charset) {
     return unicodeConv.ConvertFromUnicode(text);
 
   } catch (ex) {
-    DEBUG_LOG("enigmailCommon.js: EnigConvertFromUnicode: caught an exception\n");
+    DEBUG_LOG("enigmailCommon.js: EnigConvertFromUnicode: caught an exception when converting "+text+"\n");
 
     return text;
   }

@@ -1953,46 +1953,41 @@ function enigGenericSendMessage( msgType )
       observerService.notifyObservers(window, "mail:composeOnSend", null);
 
       // Check if the headers of composing mail can be converted to a mail charset.
-      if (msgType == nsIMsgCompDeliverMode.Now ||
+      if (msgType == nsIMsgCompDeliverMode.Now || 
         msgType == nsIMsgCompDeliverMode.Later ||
-        msgType == nsIMsgCompDeliverMode.Save ||
-        msgType == nsIMsgCompDeliverMode.SaveAsDraft ||
-        msgType == nsIMsgCompDeliverMode.AutoSaveAsDraft ||
-        msgType == nsIMsgCompDeliverMode.SaveAsTemplate)
+        msgType == nsIMsgCompDeliverMode.Save || 
+        msgType == nsIMsgCompDeliverMode.SaveAsDraft || 
+        msgType == nsIMsgCompDeliverMode.AutoSaveAsDraft || 
+        msgType == nsIMsgCompDeliverMode.SaveAsTemplate) 
       {
-        var fallbackCharset = "";
-        if (promptSvc &&
-            !enigCheckCharsetConversion(msgCompFields))
+        var fallbackCharset = new Object;
+        if (gPromptService && 
+            !gMsgCompose.checkCharsetConversion(getCurrentIdentity(), fallbackCharset)) 
         {
-          var bundle = document.getElementById("bundle_composeMsgs");
-          try {
-            var dlgTitle = bundle.getString("initErrorDlogTitle");
-            var dlgText = bundle.getString("12553");  // NS_ERROR_MSG_MULTILINGUAL_SEND
-            var result3 = promptSvc.confirmEx(window, dlgTitle, dlgText,
-                (promptSvc.BUTTON_TITLE_IS_STRING * promptSvc.BUTTON_POS_0) +
-                (promptSvc.BUTTON_TITLE_IS_STRING * promptSvc.BUTTON_POS_1) +
-                (promptSvc.BUTTON_TITLE_CANCEL * promptSvc.BUTTON_POS_2),
-                bundle.getString('sendInUTF8'),
-                bundle.getString('sendAnyway'),
-                null, null, {value:0});
-            switch(result3)
-            {
-              case 0:
-                fallbackCharset = "UTF-8";
-                break;
-              case 1:  // send anyway
-                msgCompFields.needToCheckCharset = false;
-                break;
-              case 2:  // cancel
-                return;
-            }
-          }
-          catch (ex) {
-            fallbackCharset = 'UTF-8';
+          var dlgTitle = sComposeMsgsBundle.getString("initErrorDlogTitle");
+          var dlgText = sComposeMsgsBundle.getString("12553");  // NS_ERROR_MSG_MULTILINGUAL_SEND
+          var result3 = gPromptService.confirmEx(window, dlgTitle, dlgText,
+              (gPromptService.BUTTON_TITLE_IS_STRING * gPromptService.BUTTON_POS_0) +
+              (gPromptService.BUTTON_TITLE_CANCEL * gPromptService.BUTTON_POS_1) +
+              (gPromptService.BUTTON_TITLE_IS_STRING * gPromptService.BUTTON_POS_2),
+              sComposeMsgsBundle.getString('sendInUTF8'), 
+              null,
+              sComposeMsgsBundle.getString('sendAnyway'), null, {value:0}); 
+          switch(result3)
+          {
+            case 0: 
+              fallbackCharset.value = "UTF-8";
+              break;
+            case 1:  // cancel
+              return;
+            case 2:  // send anyway
+              msgCompFields.needToCheckCharset = false;
+              break;
           }
         }
-        if (fallbackCharset != "")
-          gMsgCompose.SetDocumentCharset(fallbackCharset);
+        if (fallbackCharset && 
+            fallbackCharset.value && fallbackCharset.value != "")
+          gMsgCompose.SetDocumentCharset(fallbackCharset.value);
       }
 
       try {
