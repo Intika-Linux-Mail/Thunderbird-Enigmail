@@ -1381,7 +1381,7 @@ function enigMessageSave() {
   DEBUG_LOG("enigmailMessengerOverlay.js: enigMessageSave: path="+saveFile.path+"\n");
 
   if (saveFile.parent)
-    gEnigLastSaveDir = saveFile.parent.persistentDescriptor;
+    gEnigLastSaveDir = EnigGetFilePath(saveFile.parent);
 
   var textContent = enigGetDecryptedMessage("text/plain", true);
 
@@ -1755,7 +1755,7 @@ function enigDecryptAttachmentCallback(callbackArg, ctxt) {
     return;
   }
 
-  exitStatus=enigmailSvc.decryptAttachment(window, outFile.persistentDescriptor,
+  exitStatus=enigmailSvc.decryptAttachment(window, EnigGetFilePath(outFile),
                                 callbackArg.attachment.displayName,
                                 callbackArg.ipcBuffer,
                                 exitCodeObj, statusFlagsObj,
