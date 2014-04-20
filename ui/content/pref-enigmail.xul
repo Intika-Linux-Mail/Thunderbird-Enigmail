@@ -89,6 +89,7 @@
     <tooltip id="confirmBeforeSend.tooltip">
       <description>&enigmail.confirmBeforeSend.tooltip;</description>
     </tooltip>
+
     <tooltip id="autoSendEncryptedNever.tooltip">
       <description>&enigmail.autoSendEncryptedNever.tooltip;</description>
     </tooltip>
@@ -101,6 +102,23 @@
     <tooltip id="autoSendEncryptedWithUnknownTrust.tooltip">
       <description>&enigmail.autoSendEncryptedWithUnknownTrust.tooltip;</description>
     </tooltip>
+
+    <tooltip id="confirmBeforeSendingNever.tooltip">
+      <description>&enigmail.confirmBeforeSendingNever.tooltip;</description>
+    </tooltip>
+    <tooltip id="confirmBeforeSendingAlways.tooltip">
+      <description>&enigmail.confirmBeforeSendingAlways.tooltip;</description>
+    </tooltip>
+    <tooltip id="confirmBeforeSendingIfEncrypted.tooltip">
+      <description>&enigmail.confirmBeforeSendingIfEncrypted.tooltip;</description>
+    </tooltip>
+    <tooltip id="confirmBeforeSendingIfNotEncrypted.tooltip">
+      <description>&enigmail.confirmBeforeSendingIfNotEncrypted.tooltip;</description>
+    </tooltip>
+    <tooltip id="confirmBeforeSendingIfRules.tooltip">
+      <description>&enigmail.confirmBeforeSendingIfRules.tooltip;</description>
+    </tooltip>
+
     <tooltip id="perRecipientRules.tooltip">
       <description>&enigmail.perRecipientRules.tooltip;</description>
     </tooltip>
@@ -257,14 +275,15 @@
           <checkbox id="enigmail_allowEmptySubject"
                     hidden="true"/>
 
+          <!--
           <checkbox id="enigmail_confirmBeforeSend"
                     label="&enigmail.confirmBeforeSend.label;"
                     tooltip="confirmBeforeSend.tooltip"/>
+	  -->
 	  <!-- options to automatically send encrypted -->
           <groupbox>
             <caption label="&enigmail.autoSendEncryptedOption.label;"/>
             <radiogroup id="enigmail_autoSendEncrypted"
-                        oncommand="activateRulesButton(this, 'openRulesEditor')"
                         pref="true"
                         preftype="int"
                         prefstring="extensions.enigmail.autoSendEncrypted">
@@ -289,13 +308,40 @@
                     label="&enigmail.autoSendEncryptedWithUnknownTrust.label;"
                     tooltip="autoSendEncryptedWithUnknownTrust.tooltip"/>
             </radiogroup>
-            <separator/>
-            <vbox autostretch="always" align="end">
-              <button id="openKeysEditor"
-                      label="open key editor" qqq="&enigmail.defineRules.label;"
-                      tooltip="defineRules.tooltip"
-                      oncommand="EnigKeysEditor();"/>
-            </vbox>
+          </groupbox>
+	  <!-- options to automatically send encrypted -->
+          <groupbox>
+            <caption label="&enigmail.confirmBeforeSending.label;"/>
+            <radiogroup id="enigmail_confirmBeforeSending"
+                        pref="true"
+                        preftype="int"
+                        prefstring="extensions.enigmail.confirmBeforeSending">
+
+              <radio id="confirmBeforeSendingNever"
+                    value="0"
+                    label="&enigmail.confirmBeforeSendingNever.label;"
+                    tooltip="confirmBeforeSendingNever.tooltip"/>
+
+              <radio id="confirmBeforeSendingAlways"
+                    value="1"
+                    label="&enigmail.confirmBeforeSendingAlways.label;"
+                    tooltip="confirmBeforeSendingAlways.tooltip"/>
+
+              <radio id="confirmBeforeSendingIfEncrypted"
+                    value="2"
+                    label="&enigmail.confirmBeforeSendingIfEncrypted.label;"
+                    tooltip="confirmBeforeSendingIfEncrypted.tooltip"/>
+
+              <radio id="confirmBeforeSendingIfNotEncrypted"
+                    value="3"
+                    label="&enigmail.confirmBeforeSendingIfNotEncrypted.label;"
+                    tooltip="confirmBeforeSendingIfNotEncrypted.tooltip"/>
+
+              <radio id="confirmBeforeSendingIfRules"
+                    value="4"
+                    label="&enigmail.confirmBeforeSendingIfRules.label;"
+                    tooltip="confirmBeforeSendingIfRules.tooltip"/>
+            </radiogroup>
           </groupbox>
       </vbox>
 

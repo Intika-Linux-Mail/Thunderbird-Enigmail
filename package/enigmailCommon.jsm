@@ -3111,7 +3111,9 @@ function ConfigureEnigmail() {
       }
       catch (ex) {}
     }
-    else if (vc.compare(oldVer, "1.0") < 0) upgradeCustomHeaders();
+    else if (vc.compare(oldVer, "1.0") < 0) {
+      upgradeCustomHeaders();
+    }
   }
   catch(ex) {};
   EnigmailCommon.setPref("configuredVersion", EnigmailCommon.getVersion());

@@ -207,15 +207,29 @@
 <!ENTITY enigmail.defaultEncryptionNone.label     "No default encryption">
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
 
-<!ENTITY enigmail.autoSendEncryptedOption.label         "Automatically send encrypted when all keys are known and valid">
+<!ENTITY enigmail.autoSendEncryptedOption.label         "Automatically send encrypted">
 <!ENTITY enigmail.autoSendEncryptedNever.label          "Never">
-<!ENTITY enigmail.autoSendEncryptedNever.tooltip        "Automatically send encrypted disabled (rules might still be defined to have this effect)">
-<!ENTITY enigmail.autoSendEncryptedWithFullTrust.label  "When all keys have full trust">
-<!ENTITY enigmail.autoSendEncryptedWithFullTrust.tooltip  "Automatically send encrypted when all keys are known with full trust">
-<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.label  "When all keys have at least marginal trust">
-<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.tooltip  "Automatically send encrypted when all keys are known with at least marginal trust">
-<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.label  "When no key has explicit mistrust">
-<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.tooltip  "Automatically send encrypted when all keys are known without explicit mistrust">
+<!ENTITY enigmail.autoSendEncryptedNever.tooltip        "No automatically encrypted sending except explicitly triggered by rules">
+<!ENTITY enigmail.autoSendEncryptedWithFullTrust.label  "With full trust">
+<!ENTITY enigmail.autoSendEncryptedWithFullTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have full trust">
+<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.label  "With marginal trust">
+<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have at least marginal trust">
+<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.label  "With unknown trust">
+<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have no explicit mistrust">
+
+<!ENTITY enigmail.confirmBeforeSending.label         "Confirm before sending">
+<!ENTITY enigmail.confirmBeforeSending.tooltip       "Activate to display information dialog about signing/encryption before sending a message">
+<!ENTITY enigmail.confirmBeforeSendingOption.label         "Confirm before sending">
+<!ENTITY enigmail.confirmBeforeSendingNever.label          "Never">
+<!ENTITY enigmail.confirmBeforeSendingNever.tooltip        "Dont't display information dialog about signing/encryption before sending a message">
+<!ENTITY enigmail.confirmBeforeSendingAlways.label  "Always">
+<!ENTITY enigmail.confirmBeforeSendingAlways.tooltip  "Always display information dialog about signing/encryption before sending a message">
+<!ENTITY enigmail.confirmBeforeSendingIfEncrypted.label  "If encrypted">
+<!ENTITY enigmail.confirmBeforeSendingIfEncrypted.tooltip  "Display information dialog about signing/encryption before sending an ENCRYPTED message">
+<!ENTITY enigmail.confirmBeforeSendingIfNotEncrypted.label  "If unencrypted">
+<!ENTITY enigmail.confirmBeforeSendingIfNotEncrypted.tooltip  "Display information dialog about signing/encryption before sending an UNENCRYPTED message">
+<!ENTITY enigmail.confirmBeforeSendingIfRules.label  "If rules changed encryption">
+<!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip  "Display information dialog about signing/encryption before sending if encryption was changed by a rule or auto-encryption">
 
 <!ENTITY enigmail.recipientsSelectionOption.label "How should we choose the keys?">
 <!ENTITY enigmail.perRecipientRules.label         "By pre-set rules only">

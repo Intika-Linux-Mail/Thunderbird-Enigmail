@@ -152,6 +152,14 @@ pref("extensions.enigmail.respectHttpProxy",true);
 // 3: with unknown trust
 pref("extensions.enigmail.autoSendEncrypted",0);
 
+// ask to confirm before sending
+// 0: never
+// 1: always
+// 2: if send encrypted
+// 3: if send unencrypted
+// 4: if send (un)encrypted due to rules
+pref("extensions.enigmail.confirmBeforeSending",0);
+
 // selection of keys for unkown recipients
 // 1: rules only
 // 2: rules & email addresses (normal)

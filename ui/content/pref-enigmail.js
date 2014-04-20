@@ -178,9 +178,10 @@ function prefOnLoad() {
 
    EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
                         gEnigAutoSendEncrypted);
-
    EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
                         gEnigRecipientsSelection);
+   EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
+                        gEnigConfirmBeforeSending);
 
    gMimePartsElement = document.getElementById("mime_parts_on_demand");
 
@@ -264,10 +265,12 @@ function resetPrefs() {
 
   EnigSetPref("configuredVersion", EnigGetVersion());
 
+  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
+                       gEnigAutoSendEncrypted);
   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
                        gEnigRecipientsSelection);
-  EnigDisplayRadioPref("autoSetEncrypted", EnigGetPref("autoSetEncrypted"),
-                       gEnigAutoSetEncrypted);
+  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
+                       gEnigconfirmBeforeSending);
 
 }
 
