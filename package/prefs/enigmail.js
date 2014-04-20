@@ -145,6 +145,13 @@ pref("extensions.enigmail.quotedPrintableWarn",0);
 // use http proxy settings as set in Mozilla/Thunderbird
 pref("extensions.enigmail.respectHttpProxy",true);
 
+// selection for automatic send encrypted if all keys valid
+// 0: never
+// 1: with full trust
+// 2: with marginal trust
+// 3: with unknown trust
+pref("extensions.enigmail.autoSendEncrypted",0);
+
 // selection of keys for unkown recipients
 // 1: rules only
 // 2: rules & email addresses (normal)

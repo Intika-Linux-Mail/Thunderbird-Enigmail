@@ -61,8 +61,8 @@
 <!ENTITY enigmail.moreOptions.label "Weitere Einstellungen">
 <!ENTITY enigmail.encryptToSelf.label "Zusätzlich mit eigenem Schlüssel verschlüsseln">
 <!ENTITY enigmail.encryptToSelf.tooltip "Auch Sie selbst können die Nachrichten wieder entschlüsseln und lesen.">
-<!ENTITY enigmail.alwaysTrustSend.label "Schlüsseln immer vertrauen">
-<!ENTITY enigmail.alwaysTrustSend.tooltip "Das &quot;Web of Trust&quot; nicht verwenden, um die Gültigkeit der Schlüssel zu bestimmen.">
+<!ENTITY enigmail.alwaysTrustSend.label "Gültigen Schlüsseln immer vertrauen">
+<!ENTITY enigmail.alwaysTrustSend.tooltip "Das &quot;Web of Trust&quot; nicht verwenden, um die Gültigkeit der Schlüssel zu bestimmen (außer für abgelaufene/widerrufene Schlüssel).">
 <!ENTITY enigmail.useNonDefaultComment.label "Enigmail-Information zur OpenPGP-Signatur hinzufügen">
 <!ENTITY enigmail.keyserver.label "Schlüsselserver">
 <!ENTITY enigmail.keyserverDlg.label "Schlüsselserver auswählen">

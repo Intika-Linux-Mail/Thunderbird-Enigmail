@@ -75,8 +75,8 @@
 <!ENTITY enigmail.whenSending.label       "When sending mail">
 <!ENTITY enigmail.moreOptions.label       "More options">
 
-<!ENTITY enigmail.alwaysTrustSend.label   "Always trust people's keys">
-<!ENTITY enigmail.alwaysTrustSend.tooltip "Do not use the Web of Trust to determine the validity of keys">
+<!ENTITY enigmail.alwaysTrustSend.label   "Always trust people's valid keys">
+<!ENTITY enigmail.alwaysTrustSend.tooltip "Do not use the Web of Trust to determine the validity of keys (except for expired or revoked keys)">
 <!ENTITY enigmail.useNonDefaultComment.label "Add Enigmail comment in OpenPGP signature">
 
 <!ENTITY enigmail.keyserver.label         "Keyserver">
@@ -206,6 +206,16 @@
 
 <!ENTITY enigmail.defaultEncryptionNone.label     "No default encryption">
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
+
+<!ENTITY enigmail.autoSendEncryptedOption.label         "Automatically send encrypted when all keys are known and valid">
+<!ENTITY enigmail.autoSendEncryptedNever.label          "Never">
+<!ENTITY enigmail.autoSendEncryptedNever.tooltip        "Automatically send encrypted disabled (rules might still be defined to have this effect)">
+<!ENTITY enigmail.autoSendEncryptedWithFullTrust.label  "When all keys have full trust">
+<!ENTITY enigmail.autoSendEncryptedWithFullTrust.tooltip  "Automatically send encrypted when all keys are known with full trust">
+<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.label  "When all keys have at least marginal trust">
+<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.tooltip  "Automatically send encrypted when all keys are known with at least marginal trust">
+<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.label  "When no key has explicit mistrust">
+<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.tooltip  "Automatically send encrypted when all keys are known without explicit mistrust">
 
 <!ENTITY enigmail.recipientsSelectionOption.label "How should we choose the keys?">
 <!ENTITY enigmail.perRecipientRules.label         "By pre-set rules only">

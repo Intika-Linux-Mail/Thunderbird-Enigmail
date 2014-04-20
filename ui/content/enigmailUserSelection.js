@@ -157,7 +157,8 @@ function getPubkeysFromSecretKeys(keyString) {
 function enigmailBuildList(refresh) {
    DEBUG_LOG("enigmailUserSelection.js: enigmailBuildList\n");
 
-   const TRUSTLEVEL_SORTED="oidre-qnmfu"; // trust level sorted by increasing level of trust
+   const TRUSTLEVEL_SORTED="oidreDn-qmfu"; // trust level sorted by increasing level of trust (see commonFuncs.jsm)
+
    var sortUsers = function (a,b) {
      var r = 0;
      if ((a.activeState == 1 || b.activeState == 1) && (a.activeState != b.activeState)) {

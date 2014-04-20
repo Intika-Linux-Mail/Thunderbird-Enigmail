@@ -72,6 +72,29 @@ const NS_CREATE_FILE = 0x08;
 const NS_TRUNCATE    = 0x20;
 const DEFAULT_FILE_PERMS = 0x180; // equals 0600
 
+// trust flags according to GPG documentation:
+// (http://www.gnupg.org/documentation/manuals/gnupg.pdf):
+//   - No ownertrust assigned / not yet calculated.
+//   e Trust calculation has failed; probably due to an expired key.
+//   q Not enough information for calculation.
+//   n Never trust this key.
+//   m Marginally trusted.
+//   f Fully trusted.
+//   u Ultimately trusted.
+// with additional flags
+// (see EnigGetTrustLabel() in ui/content/enigmailCommon.js):
+//   i: invalid
+//   d/D: disabled
+//   r: revoked
+//   g: group (???)
+// and as it has been in the following string in old versions:
+//   o: ???   
+// trust level sorted by increasing level of trust
+// - Note:
+//   - n (explicit mistrust) is considered to be more severe than "unknown") 
+const TRUSTLEVEL_SORTED = "oidreDn-qmfu";  // see also enigmailMsgComposeHelper.js, enigmailUserSelection.js
+
+
 var gTxtConverter = null;
 
 var EnigmailFuncs = {
@@ -577,8 +600,6 @@ var EnigmailFuncs = {
 
     if (! sortColumn) sortColumn = "userid";
     if (! sortDirection) sortDirection = 1;
-
-    const TRUSTLEVEL_SORTED="oidreD-qnmfu"; // trust level sorted by increasing level of trust
 
     var sortByKeyId = function (a, b) {
       return (a.keyId < b.keyId) ? -sortDirection : sortDirection;

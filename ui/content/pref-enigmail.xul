@@ -89,6 +89,18 @@
     <tooltip id="confirmBeforeSend.tooltip">
       <description>&enigmail.confirmBeforeSend.tooltip;</description>
     </tooltip>
+    <tooltip id="autoSendEncryptedNever.tooltip">
+      <description>&enigmail.autoSendEncryptedNever.tooltip;</description>
+    </tooltip>
+    <tooltip id="autoSendEncryptedWithFullTrust.tooltip">
+      <description>&enigmail.autoSendEncryptedWithFullTrust.tooltip;</description>
+    </tooltip>
+    <tooltip id="autoSendEncryptedWithMarginalTrust.tooltip">
+      <description>&enigmail.autoSendEncryptedWithMarginalTrust.tooltip;</description>
+    </tooltip>
+    <tooltip id="autoSendEncryptedWithUnknownTrust.tooltip">
+      <description>&enigmail.autoSendEncryptedWithUnknownTrust.tooltip;</description>
+    </tooltip>
     <tooltip id="perRecipientRules.tooltip">
       <description>&enigmail.perRecipientRules.tooltip;</description>
     </tooltip>
@@ -248,6 +260,43 @@
           <checkbox id="enigmail_confirmBeforeSend"
                     label="&enigmail.confirmBeforeSend.label;"
                     tooltip="confirmBeforeSend.tooltip"/>
+	  <!-- options to automatically send encrypted -->
+          <groupbox>
+            <caption label="&enigmail.autoSendEncryptedOption.label;"/>
+            <radiogroup id="enigmail_autoSendEncrypted"
+                        oncommand="activateRulesButton(this, 'openRulesEditor')"
+                        pref="true"
+                        preftype="int"
+                        prefstring="extensions.enigmail.autoSendEncrypted">
+
+              <radio id="autoSendEncryptedNever"
+                    value="0"
+                    label="&enigmail.autoSendEncryptedNever.label;"
+                    tooltip="autoSendEncryptedNever.tooltip"/>
+
+              <radio id="autoSendEncryptedWithFullTrust"
+                    value="1"
+                    label="&enigmail.autoSendEncryptedWithFullTrust.label;"
+                    tooltip="autoSendEncryptedWithFullTrust.tooltip"/>
+
+              <radio id="autoSendEncryptedWithMarginalTrust"
+                    value="2"
+                    label="&enigmail.autoSendEncryptedWithMarginalTrust.label;"
+                    tooltip="autoSendEncryptedWithMarginalTrust.tooltip"/>
+
+              <radio id="autoSendEncryptedWithUnknownTrust"
+                    value="3"
+                    label="&enigmail.autoSendEncryptedWithUnknownTrust.label;"
+                    tooltip="autoSendEncryptedWithUnknownTrust.tooltip"/>
+            </radiogroup>
+            <separator/>
+            <vbox autostretch="always" align="end">
+              <button id="openKeysEditor"
+                      label="open key editor" qqq="&enigmail.defineRules.label;"
+                      tooltip="defineRules.tooltip"
+                      oncommand="EnigKeysEditor();"/>
+            </vbox>
+          </groupbox>
       </vbox>
 
       <!-- "Key Selection" Tab -->

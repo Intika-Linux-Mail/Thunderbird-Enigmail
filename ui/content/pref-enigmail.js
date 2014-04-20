@@ -176,6 +176,9 @@ function prefOnLoad() {
 
    }
 
+   EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
+                        gEnigAutoSendEncrypted);
+
    EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
                         gEnigRecipientsSelection);
 
@@ -262,7 +265,9 @@ function resetPrefs() {
   EnigSetPref("configuredVersion", EnigGetVersion());
 
   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
-                      gEnigRecipientsSelection);
+                       gEnigRecipientsSelection);
+  EnigDisplayRadioPref("autoSetEncrypted", EnigGetPref("autoSetEncrypted"),
+                       gEnigAutoSetEncrypted);
 
 }
 

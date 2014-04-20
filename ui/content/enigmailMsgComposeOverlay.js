@@ -1258,13 +1258,14 @@ Enigmail.msg = {
       // - enableRules: rules not temporarily disabled
       // REPLACES email addresses by keys in its result !!!
       if (recipientsSelection != 3 && recipientsSelection != 4 && this.enableRules) {
-        var result = this.processRules (forceRecipientSettings, sendFlags, toAddr, bccAddr)
+        var result = this.processRules (forceRecipientSettings, sendFlags, optSendFlags, toAddr, bccAddr)
         if (!result) {
           return null;
         }
-	sendFlags = result.sendFlags;
-	toAddr = result.toAddr;    // replace email addresses with rules by the corresponding keys
-	bccAddr = result.bccAddr;  // replace email addresses with rules by the corresponding keys
+        sendFlags = result.sendFlags;
+        optSendFlags = result.optSendFlags;
+        toAddr = result.toAddr;    // replace email addresses with rules by the corresponding keys
+        bccAddr = result.bccAddr;  // replace email addresses with rules by the corresponding keys
       }
 
       // if encryption is requested for the email:
@@ -1304,12 +1305,13 @@ Enigmail.msg = {
    *
    * @forceRecipientSetting: force manual selection for each missing key?
    * @sendFlags:    INPUT/OUTPUT all current combined/processed send flags (incl. optSendFlags)
+   * @optSendFlags: INOUT/OUTPUT may only be SEND_ALWAYS_TRUST or SEND_ENCRYPT_TO_SELF
    * @toAddr:       INPUT/OUTPUT comma separated string of keys and unprocessed to/cc emails
    * @bccAddr:      INPUT/OUTPUT comma separated string of keys and unprocessed bcc emails
    * @return:       { sendFlags, toAddr, bccAddr }
    *                or null (cancel sending the email)
    */
-  processRules: function (forceRecipientSettings, sendFlags, toAddr, bccAddr)
+  processRules: function (forceRecipientSettings, sendFlags, optSendFlags, toAddr, bccAddr)
   {
     EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.processRules(): toAddr=\""+toAddr+"\" bccAddr=\""+bccAddr+"\" forceRecipientSettings="+forceRecipientSettings+"\n");
     const nsIEnigmail = Components.interfaces.nsIEnigmail;
@@ -1369,6 +1371,43 @@ Enigmail.msg = {
       }
     }
 
+    // if allowed, try to send automatically if all keys known
+    if (((sendFlags&ENCRYPT) == 0) && (!flagsObj.value || flagsObj.encrypt == 1) && bccAddr.length == 0) {
+      var autoSendEncrypted = EnigmailCommon.getPref("autoSendEncrypted");
+      if (autoSendEncrypted) {
+        EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.processRules(): autoSendEncrypted=\""+autoSendEncrypted+"\"\n");
+        var minTrustLevel;
+        switch (autoSendEncrypted) {
+          case 0:  // EncNever
+            minTrustLevel = null;
+            break;
+          case 1:  // EncWithFullTrust
+            minTrustLevel = "f";
+            break;
+          case 2: // EncWithMarginalTrust
+            minTrustLevel = "m";
+            break;
+          case 3: // EncWithUnknownTrust
+            minTrustLevel = "-";
+            break;
+          default:  // EncNever
+            minTrustLevel = null;
+            break;
+        }
+        if (minTrustLevel != null) {
+          var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,minTrustLevel);
+          if (keyList != null) {
+            toAddr = keyList.join(", ");
+            sendFlags |= ENCRYPT;
+            // in case we have the preference to "auto send encrypted with unknown trust"
+            // this overrules having preference "always trust" disabled
+            sendFlags |= nsIEnigmail.SEND_ALWAYS_TRUST;
+            optSendFlags |= nsIEnigmail.SEND_ALWAYS_TRUST;
+          }
+        }
+      }
+    }
+
     // get keys for bcc addresses:
     // - matchedKeysObj will contain the keys and the remaining bccAddr elements
     // - NOTE: bcc recipients are ignored when in general computing whether to sign or encrypt or pgpMime
@@ -1386,6 +1425,7 @@ Enigmail.msg = {
 
     return {
       sendFlags: sendFlags,
+      optSendFlags: optSendFlags,
       toAddr: toAddr,
       bccAddr: bccAddr
     };
@@ -1691,6 +1731,9 @@ Enigmail.msg = {
            this.addRecipients(toAddrList, recList);
          }
 
+         // special handling of bcc:
+         // - note: bcc and encryption is a problem
+         // - but bcc to the sender is fine
          if (msgCompFields.bcc.length > 0) {
            recList = splitRecipients(msgCompFields.bcc, true, arrLen);
 

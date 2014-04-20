@@ -139,7 +139,8 @@ const PGP_MIME_ALWAYS   = 2;
 const ENIG_POSSIBLE_PGPMIME = -2081;
 const ENIG_PGP_DESKTOP_ATT  = -2082;
 
-var gUsePGPMimeOptionList = ["usePGPMimeNever", "usePGPMimePossible",
+var gUsePGPMimeOptionList = ["usePGPMimeNever",
+                             "usePGPMimePossible",
                              "usePGPMimeAlways"];
 
 var gEnigRecipientsSelection = ["-",
@@ -147,6 +148,11 @@ var gEnigRecipientsSelection = ["-",
                                 "perRecipientRulesAndEmail",
                                 "perEmailAddress",
                                 "askRecipientsAlways"];
+
+var gEnigAutoSendEncrypted = ["autoSendEncryptedNever",
+                              "autoSendEncryptedWithFullTrust",
+                              "autoSendEncryptedWithMarginalTrust",
+                              "autoSendEncryptedWithUnknownTrust"];
 
 const ENIG_BUTTON_POS_0           = 1;
 const ENIG_BUTTON_POS_1           = 1 << 8;
