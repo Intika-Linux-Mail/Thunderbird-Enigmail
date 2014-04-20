@@ -298,6 +298,14 @@ Enigmail.msg = {
       toobarElem.setAttribute("platform", "macos");
     }
 
+    var adrCol = document.getElementById("addressCol2#1");
+    if (adrCol) {
+      var attr = adrCol.getAttribute("oninput");
+      adrCol.setAttribute("oninput", attr+"; Enigmail.msg.addressOnChange().bind(Enigmail.msg);");
+      attr = adrCol.getAttribute("onchange");
+      adrCol.setAttribute("onchange", attr+"; Enigmail.msg.addressOnChange().bind(Enigmail.msg);");
+    }
+
     if (EnigmailCommon.getPref("keepSettingsForReply") && (!(this.sendMode & ENCRYPT))) {
         var draftId = gMsgCompose.compFields.draftId;
         if (typeof(draftId)=="string" && draftId.length>0) {
@@ -1197,7 +1205,7 @@ Enigmail.msg = {
   /* process rules and find keys for passed email addresses
    * This is THE core method to prepare sending encryptes emails.
    * - it processes the recipient rules (if not disabled)
-   * - it 
+   * - it
    *
    * @sendFlags:    all current combined/processed send flags (incl. optSendFlags)
    * @optSendFlags: may only be SEND_ALWAYS_TRUST or SEND_ENCRYPT_TO_SELF
@@ -2037,20 +2045,20 @@ Enigmail.msg = {
        var conf = EnigmailCommon.getPref("confirmBeforeSending");
        switch (conf) {
          case 0:  // never
-	   confirm = false;
-	   break;
+           confirm = false;
+           break;
          case 1:  // always
-	   confirm = true;
-	   break;
+           confirm = true;
+           break;
          case 2:  // if send encrypted
-	   confirm = ((sendFlags&ENCRYPT) == ENCRYPT);
-	   break;
+           confirm = ((sendFlags&ENCRYPT) == ENCRYPT);
+           break;
          case 3:  // if send unencrypted
-	   confirm = ((sendFlags&ENCRYPT) == 0);
-	   break;
+           confirm = ((sendFlags&ENCRYPT) == 0);
+           break;
          case 4:  // if encryption changed due to rules
-	   confirm = ((sendFlags&ENCRYPT) != (this.sendMode&ENCRYPT));
-	   break;
+           confirm = ((sendFlags&ENCRYPT) != (this.sendMode&ENCRYPT));
+           break;
        }
        if ((!(sendFlags & nsIEnigmail.SAVE_MESSAGE)) && confirm) {
          if (!this.confirmBeforeSend(toAddrList.join(", "), toAddr+", "+bccAddr, sendFlags, isOffline)) {
@@ -2995,6 +3003,11 @@ Enigmail.msg = {
     if (this.editor) {
       return this.editor.outputToString(mimeType, flags);
     }
+  },
+
+  addressOnChange: function(element) {
+     EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.addressOnChange\n");
+     this.fireSendFlags();
   },
 
   focusChange: function ()
