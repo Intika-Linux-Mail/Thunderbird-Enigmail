@@ -208,20 +208,19 @@
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
 
 <!ENTITY enigmail.autoSendEncryptedOption.label         "Automatically send encrypted">
-<!ENTITY enigmail.autoSendEncryptedNever.label          "Never">
+<!ENTITY enigmail.autoSendEncryptedNever.label          "Never (except according to recipient rules)">
 <!ENTITY enigmail.autoSendEncryptedNever.tooltip        "No automatically encrypted sending except explicitly triggered by rules">
-<!ENTITY enigmail.autoSendEncryptedWithFullTrust.label  "With full trust">
+<!ENTITY enigmail.autoSendEncryptedWithFullTrust.label  "Only if I know all keys have full trust for them">
 <!ENTITY enigmail.autoSendEncryptedWithFullTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have full trust">
-<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.label  "With marginal trust">
+<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.label  "If I know all keys and have at least marginal trust them">
 <!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have at least marginal trust">
-<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.label  "With unknown trust">
+<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.label  "If I know all keys (unless I have mistrust for at least one key)">
 <!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have no explicit mistrust">
 
 <!ENTITY enigmail.confirmBeforeSending.label         "Confirm before sending">
-<!ENTITY enigmail.confirmBeforeSending.tooltip       "Activate to display information dialog about signing/encryption before sending a message">
 <!ENTITY enigmail.confirmBeforeSendingOption.label         "Confirm before sending">
 <!ENTITY enigmail.confirmBeforeSendingNever.label          "Never">
-<!ENTITY enigmail.confirmBeforeSendingNever.tooltip        "Dont't display information dialog about signing/encryption before sending a message">
+<!ENTITY enigmail.confirmBeforeSendingNever.tooltip        "Don't display information dialog about signing/encryption before sending a message">
 <!ENTITY enigmail.confirmBeforeSendingAlways.label  "Always">
 <!ENTITY enigmail.confirmBeforeSendingAlways.tooltip  "Always display information dialog about signing/encryption before sending a message">
 <!ENTITY enigmail.confirmBeforeSendingIfEncrypted.label  "If encrypted">
