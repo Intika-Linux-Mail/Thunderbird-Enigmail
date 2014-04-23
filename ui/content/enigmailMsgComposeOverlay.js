@@ -1042,6 +1042,14 @@ Enigmail.msg = {
           this.encryptRules = flagsObj.encrypt;
         }
       }
+      // if allowed, try to send automatically if all keys known
+      if (toAddrList.length > 0 && this.encryptRules == 1) {
+        var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddrList.join(", "),
+                                                             false);  // don't refresh key list
+        if (keyList != null) {
+          this.encryptRules = 2;
+        }
+      }
 
       // signal new resulting state (maybe will use the current sendMode as tooltip)
       this.updateStatusBar();
@@ -1381,38 +1389,11 @@ Enigmail.msg = {
 
     // if allowed, try to send automatically if all keys known
     if (((sendFlags&ENCRYPT) == 0) && (!flagsObj.value || flagsObj.encrypt == 1) && bccAddr.length == 0) {
-      var autoSendEncrypted = EnigmailCommon.getPref("autoSendEncrypted");
-      if (autoSendEncrypted) {
-        EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.processRules(): autoSendEncrypted=\""+autoSendEncrypted+"\"\n");
-        var minTrustLevel;
-        switch (autoSendEncrypted) {
-          case 0:  // EncNever
-            minTrustLevel = null;
-            break;
-          case 1:  // EncWithFullTrust
-            minTrustLevel = "f";
-            break;
-          case 2: // EncWithMarginalTrust
-            minTrustLevel = "m";
-            break;
-          case 3: // EncWithUnknownTrust
-            minTrustLevel = "-";
-            break;
-          default:  // EncNever
-            minTrustLevel = null;
-            break;
-        }
-        if (minTrustLevel != null) {
-          var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,minTrustLevel);
-          if (keyList != null) {
-            toAddr = keyList.join(", ");
-            sendFlags |= ENCRYPT;
-            // in case we have the preference to "auto send encrypted with unknown trust"
-            // this overrules having preference "always trust" disabled
-            sendFlags |= nsIEnigmail.SEND_ALWAYS_TRUST;
-            optSendFlags |= nsIEnigmail.SEND_ALWAYS_TRUST;
-          }
-        }
+      var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,
+                                                           true);  // refresh key list
+      if (keyList != null) {
+        toAddr = keyList.join(", ");
+        sendFlags |= ENCRYPT;
       }
     }
 

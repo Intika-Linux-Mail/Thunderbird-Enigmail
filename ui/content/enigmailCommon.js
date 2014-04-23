@@ -150,9 +150,13 @@ var gEnigRecipientsSelection = ["-",
                                 "askRecipientsAlways"];
 
 var gEnigAutoSendEncrypted = ["autoSendEncryptedNever",
-                              "autoSendEncryptedWithFullTrust",
-                              "autoSendEncryptedWithMarginalTrust",
-                              "autoSendEncryptedWithUnknownTrust"];
+                              "autoSendEncryptedIfValid"];
+
+var gEnigConfirmBeforeSending = ["confirmBeforeSendingNever",
+                                 "confirmBeforeSendingAlways",
+                                 "confirmBeforeSendingIfEncrypted",
+                                 "confirmBeforeSendingIfNotEncrypted",
+                                 "confirmBeforeSendingIfRules"];
 
 const ENIG_BUTTON_POS_0           = 1;
 const ENIG_BUTTON_POS_1           = 1 << 8;

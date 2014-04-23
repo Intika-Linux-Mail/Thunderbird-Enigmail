@@ -75,7 +75,7 @@
 <!ENTITY enigmail.whenSending.label       "When sending mail">
 <!ENTITY enigmail.moreOptions.label       "More options">
 
-<!ENTITY enigmail.alwaysTrustSend.label   "Always trust people's valid keys">
+<!ENTITY enigmail.alwaysTrustSend.label   "Always trust people's keys">
 <!ENTITY enigmail.alwaysTrustSend.tooltip "Do not use the Web of Trust to determine the validity of keys (except for expired or revoked keys)">
 <!ENTITY enigmail.useNonDefaultComment.label "Add Enigmail comment in OpenPGP signature">
 
@@ -207,15 +207,11 @@
 <!ENTITY enigmail.defaultEncryptionNone.label     "No default encryption">
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
 
-<!ENTITY enigmail.autoSendEncryptedOption.label         "Automatically send encrypted">
-<!ENTITY enigmail.autoSendEncryptedNever.label          "Never (except according to recipient rules)">
-<!ENTITY enigmail.autoSendEncryptedNever.tooltip        "No automatically encrypted sending except explicitly triggered by rules">
-<!ENTITY enigmail.autoSendEncryptedWithFullTrust.label  "Only if I know all keys have full trust for them">
-<!ENTITY enigmail.autoSendEncryptedWithFullTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have full trust">
-<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.label  "If I know all keys and have at least marginal trust them">
-<!ENTITY enigmail.autoSendEncryptedWithMarginalTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have at least marginal trust">
-<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.label  "If I know all keys (unless I have mistrust for at least one key)">
-<!ENTITY enigmail.autoSendEncryptedWithUnknownTrust.tooltip  "Automatically send encrypted when all keys are known and valid and have no explicit mistrust">
+<!ENTITY enigmail.autoSendEncryptedOption.label    "Automatically send encrypted">
+<!ENTITY enigmail.autoSendEncryptedNever.label     "Never (except according to recipient rules)">
+<!ENTITY enigmail.autoSendEncryptedNever.tooltip   "Don't automatically send encrypted except explicitly triggered by rules">
+<!ENTITY enigmail.autoSendEncryptedIfValid.label   "If we have trusted keys for all e-mail addresses">
+<!ENTITY enigmail.autoSendEncryptedIfValid.tooltip "Automatically send encrypted when all keys are known and valid or enabled the option to always trust all keys">
 
 <!ENTITY enigmail.confirmBeforeSending.label         "Confirm before sending">
 <!ENTITY enigmail.confirmBeforeSendingOption.label         "Confirm before sending">

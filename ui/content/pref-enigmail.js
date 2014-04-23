@@ -270,8 +270,7 @@ function resetPrefs() {
   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
                        gEnigRecipientsSelection);
   EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
-                       gEnigconfirmBeforeSending);
-
+                       gEnigConfirmBeforeSending);
 }
 
 function resetRememberedValues() {

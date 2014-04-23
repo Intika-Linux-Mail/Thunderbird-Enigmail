@@ -93,14 +93,8 @@
     <tooltip id="autoSendEncryptedNever.tooltip">
       <description>&enigmail.autoSendEncryptedNever.tooltip;</description>
     </tooltip>
-    <tooltip id="autoSendEncryptedWithFullTrust.tooltip">
-      <description>&enigmail.autoSendEncryptedWithFullTrust.tooltip;</description>
-    </tooltip>
-    <tooltip id="autoSendEncryptedWithMarginalTrust.tooltip">
-      <description>&enigmail.autoSendEncryptedWithMarginalTrust.tooltip;</description>
-    </tooltip>
-    <tooltip id="autoSendEncryptedWithUnknownTrust.tooltip">
-      <description>&enigmail.autoSendEncryptedWithUnknownTrust.tooltip;</description>
+    <tooltip id="autoSendEncryptedIfValid.tooltip">
+      <description>&enigmail.autoSendEncryptedIfValid.tooltip;</description>
     </tooltip>
 
     <tooltip id="confirmBeforeSendingNever.tooltip">
@@ -293,20 +287,10 @@
                     label="&enigmail.autoSendEncryptedNever.label;"
                     tooltip="autoSendEncryptedNever.tooltip"/>
 
-              <radio id="autoSendEncryptedWithFullTrust"
+              <radio id="autoSendEncryptedIfValid"
                     value="1"
-                    label="&enigmail.autoSendEncryptedWithFullTrust.label;"
-                    tooltip="autoSendEncryptedWithFullTrust.tooltip"/>
-
-              <radio id="autoSendEncryptedWithMarginalTrust"
-                    value="2"
-                    label="&enigmail.autoSendEncryptedWithMarginalTrust.label;"
-                    tooltip="autoSendEncryptedWithMarginalTrust.tooltip"/>
-
-              <radio id="autoSendEncryptedWithUnknownTrust"
-                    value="3"
-                    label="&enigmail.autoSendEncryptedWithUnknownTrust.label;"
-                    tooltip="autoSendEncryptedWithUnknownTrust.tooltip"/>
+                    label="&enigmail.autoSendEncryptedIfValid.label;"
+                    tooltip="autoSendEncryptedIfValid.tooltip"/>
             </radiogroup>
           </groupbox>
 	  <!-- options to automatically send encrypted -->
