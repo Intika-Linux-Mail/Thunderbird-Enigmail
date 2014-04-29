@@ -70,6 +70,14 @@ pref("extensions.enigmail.composeHtmlAlertCount",3);
 // enable confirm dialog before sending message
 pref("extensions.enigmail.confirmBeforeSend",false);
 
+// ask to confirm before sending
+// 0: never
+// 1: always
+// 2: if send encrypted
+// 3: if send unencrypted
+// 4: if send (un)encrypted due to rules
+pref("extensions.enigmail.confirmBeforeSending",0);
+
 // prefer S/MIME or PGP/MIME (0: PGP/MIME, 1: ask, 2: S/MIME)
 pref("extensions.enigmail.mimePreferPgp",1);
 
@@ -145,20 +153,15 @@ pref("extensions.enigmail.quotedPrintableWarn",0);
 // use http proxy settings as set in Mozilla/Thunderbird
 pref("extensions.enigmail.respectHttpProxy",true);
 
+// selection for which keys to accept (trust-model always)
+// 0: accept valid/authenticated keys
+// 1: accept all keys (except disabled, ...)
+pref("extensions.enigmail.acceptedKeys",0);
+
 // selection for automatic send encrypted if all keys valid
 // 0: never
-// 1: with full trust
-// 2: with marginal trust
-// 3: with unknown trust
+// 1: if all keys found and valid
 pref("extensions.enigmail.autoSendEncrypted",0);
-
-// ask to confirm before sending
-// 0: never
-// 1: always
-// 2: if send encrypted
-// 3: if send unencrypted
-// 4: if send (un)encrypted due to rules
-pref("extensions.enigmail.confirmBeforeSending",0);
 
 // selection of keys for unkown recipients
 // 1: rules only

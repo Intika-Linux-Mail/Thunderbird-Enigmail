@@ -176,12 +176,14 @@ function prefOnLoad() {
 
    }
 
+   EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
+                        gEnigAcceptedKeys);
    EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
                         gEnigAutoSendEncrypted);
-   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
-                        gEnigRecipientsSelection);
    EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
                         gEnigConfirmBeforeSending);
+   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
+                        gEnigRecipientsSelection);
 
    gMimePartsElement = document.getElementById("mime_parts_on_demand");
 

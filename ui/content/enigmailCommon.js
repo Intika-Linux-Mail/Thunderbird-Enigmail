@@ -143,11 +143,8 @@ var gUsePGPMimeOptionList = ["usePGPMimeNever",
                              "usePGPMimePossible",
                              "usePGPMimeAlways"];
 
-var gEnigRecipientsSelection = ["-",
-                                "perRecipientRules",
-                                "perRecipientRulesAndEmail",
-                                "perEmailAddress",
-                                "askRecipientsAlways"];
+var gEnigAcceptedKeys = ["acceptedKeysValid",
+                         "acceptedKeysAll"];
 
 var gEnigAutoSendEncrypted = ["autoSendEncryptedNever",
                               "autoSendEncryptedIfValid"];
@@ -157,6 +154,12 @@ var gEnigConfirmBeforeSending = ["confirmBeforeSendingNever",
                                  "confirmBeforeSendingIfEncrypted",
                                  "confirmBeforeSendingIfNotEncrypted",
                                  "confirmBeforeSendingIfRules"];
+
+var gEnigRecipientsSelection = ["-",
+                                "perRecipientRules",
+                                "perRecipientRulesAndEmail",
+                                "perEmailAddress",
+                                "askRecipientsAlways"];
 
 const ENIG_BUTTON_POS_0           = 1;
 const ENIG_BUTTON_POS_1           = 1 << 8;

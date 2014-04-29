@@ -298,12 +298,20 @@ Enigmail.msg = {
       toobarElem.setAttribute("platform", "macos");
     }
 
+    // check rules for status bar icons with every excipients modification
     var adrCol = document.getElementById("addressCol2#1");
     if (adrCol) {
       var attr = adrCol.getAttribute("oninput");
       adrCol.setAttribute("oninput", attr+"; Enigmail.msg.addressOnChange().bind(Enigmail.msg);");
       attr = adrCol.getAttribute("onchange");
       adrCol.setAttribute("onchange", attr+"; Enigmail.msg.addressOnChange().bind(Enigmail.msg);");
+    }
+    adrCol = document.getElementById("addressCol1#1");
+    if (adrCol) {
+      var attr = adrCol.getAttribute("oncommand");
+      adrCol.setAttribute("oncommand", attr+"; Enigmail.msg.addressOnChange().bind(Enigmail.msg);");
+      //attr = adrCol.getAttribute("onchange");
+      //adrCol.setAttribute("onchange", attr+"; Enigmail.msg.addressOnChange().bind(Enigmail.msg);");
     }
 
     if (EnigmailCommon.getPref("keepSettingsForReply") && (!(this.sendMode & ENCRYPT))) {
@@ -1676,8 +1684,22 @@ Enigmail.msg = {
        var optSendFlags = 0;
        var inlineEncAttach=false;
 
-       if (EnigmailCommon.getPref("alwaysTrustSend") || this.trustAllKeys) {
+       // request or preference to always accept (even non-authenticated) keys?
+       if (this.trustAllKeys) {
          optSendFlags |= nsIEnigmail.SEND_ALWAYS_TRUST;
+       }
+       else {
+         var acceptedKeys = EnigmailCommon.getPref("acceptedKeys");
+         switch (acceptedKeys) {
+           case 0: // accept valid/authenticated keys only
+             break; 
+           case 1: // accept all but revoked/disabled/expired keys
+             optSendFlags |= nsIEnigmail.SEND_ALWAYS_TRUST;
+             break; 
+           default:
+             EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: validKeysForAllRecipients(): INVALID VALUE for acceptedKeys: \""+acceptedKeys+"\"\n");
+             break;
+         }
        }
 
        if (EnigmailCommon.getPref("encryptToSelf") || (sendFlags & nsIEnigmail.SAVE_MESSAGE)) {

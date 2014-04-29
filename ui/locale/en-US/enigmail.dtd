@@ -207,10 +207,16 @@
 <!ENTITY enigmail.defaultEncryptionNone.label     "No default encryption">
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
 
+<!ENTITY enigmail.acceptedKeysOption.label    "Accept the following keys to send encrypted">
+<!ENTITY enigmail.acceptedKeysValid.label     "Authenticated keys">
+<!ENTITY enigmail.acceptedKeysValid.tooltip   "Keys for email recipients are only accepted if they are valid for encryption according to the Web of Trust">
+<!ENTITY enigmail.acceptedKeysAll.label       "All valid keys (even if not authenticated)">
+<!ENTITY enigmail.acceptedKeysAll.tooltip     "Keys for email recipients are accepted if not disabled/revoked/expired">
+
 <!ENTITY enigmail.autoSendEncryptedOption.label    "Automatically send encrypted">
 <!ENTITY enigmail.autoSendEncryptedNever.label     "Never (except according to recipient rules)">
 <!ENTITY enigmail.autoSendEncryptedNever.tooltip   "Don't automatically send encrypted except explicitly triggered by rules">
-<!ENTITY enigmail.autoSendEncryptedIfValid.label   "If we have trusted keys for all e-mail addresses">
+<!ENTITY enigmail.autoSendEncryptedIfValid.label   "If we have accepted keys for all email addresses and no rule forcing not to encrypt">
 <!ENTITY enigmail.autoSendEncryptedIfValid.tooltip "Automatically send encrypted when all keys are known and valid or enabled the option to always trust all keys">
 
 <!ENTITY enigmail.confirmBeforeSending.label         "Confirm before sending">
@@ -243,7 +249,7 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Use PGP/MIME by default">
 <!ENTITY enigmail.autoEncryptDrafts.label         "Encrypt draft messages on saving">
 
-<!ENTITY enigmail.keepCryptoSettingsForReply.label      "Encrypt/sign replies to encrypted/signed message">
+<!ENTITY enigmail.keepCryptoSettingsForReply.label      "Encrypt/sign replies to encrypted/signed messages">
 <!ENTITY enigmail.confirmBeforeSend.label         "Always confirm before sending">
 <!ENTITY enigmail.confirmBeforeSend.tooltip       "Activate to display information dialog about signing/encryption before sending a message">
 <!ENTITY enigmail.wrapHtmlBeforeSend.label        "Re-wrap signed HTML text before sending">

@@ -284,16 +284,28 @@ Enigmail.hlp = {
     if (!autoSendEncrypted) {
       return null;
     }
-    var alwaysTrustSend = EnigmailCommon.getPref("alwaysTrustSend");
+    var acceptedKeys = EnigmailCommon.getPref("acceptedKeys");
     var minTrustLevel;
     switch (autoSendEncrypted) {
       case 0:  // EncNever
         return null;
         break;
       case 1:  // EncIfValid
-        minTrustLevel = alwaysTrustSend ? "-" : "f";
+        switch (acceptedKeys) {
+          case 0: // accept valid/authenticated keys only
+            minTrustLevel = "f";
+            break; 
+          case 1: // accept all but revoked/disabled/expired keys
+            minTrustLevel = "-";
+            break; 
+          default:
+            EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: validKeysForAllRecipients(): INVALID VALUE for acceptedKeys: \""+acceptedKeys+"\"\n");
+            return null;
+            break;
+        }
         break;
       default:
+        EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: validKeysForAllRecipients(): INVALID VALUE for autoSendEncrypted: \""+autoSendEncrypted+"\"\n");
         return null;
         break;
     }
