@@ -62,21 +62,13 @@ pref("extensions.enigmail.autoKeyRetrieve","");
 pref("extensions.enigmail.autoDecrypt",true);
 
 // enable X-Enigmail-xxx headers
-pref("extensions.enigmail.addHeaders",true);
+pref("extensions.enigmail.addHeaders",false);
 
 // countdown for alerts when composing inline PGP HTML msgs
 pref("extensions.enigmail.composeHtmlAlertCount",3);
 
 // enable confirm dialog before sending message
 pref("extensions.enigmail.confirmBeforeSend",false);
-
-// ask to confirm before sending
-// 0: never
-// 1: always
-// 2: if send encrypted
-// 3: if send unencrypted
-// 4: if send (un)encrypted due to rules
-pref("extensions.enigmail.confirmBeforeSending",0);
 
 // prefer S/MIME or PGP/MIME (0: PGP/MIME, 1: ask, 2: S/MIME)
 pref("extensions.enigmail.mimePreferPgp",1);
@@ -163,6 +155,14 @@ pref("extensions.enigmail.acceptedKeys",0);
 // 1: if all keys found and valid
 pref("extensions.enigmail.autoSendEncrypted",0);
 
+// ask to confirm before sending
+// 0: never
+// 1: always
+// 2: if send encrypted
+// 3: if send unencrypted
+// 4: if send (un)encrypted due to rules
+pref("extensions.enigmail.confirmBeforeSending",0);
+
 // selection of keys for unkown recipients
 // 1: rules only
 // 2: rules & email addresses (normal)
@@ -174,8 +174,8 @@ pref("extensions.enigmail.recipientsSelection",2);
 // support different passwords for each key (not yet available)
 pref("extensions.enigmail.supportMultiPass",false);
 
-// use GnuPG's default comment for signed messages
-pref("extensions.enigmail.useDefaultComment",false);
+// use GnuPG's default instead of Enigmail/Mozilla comment of for signed messages
+pref("extensions.enigmail.useDefaultComment",true);
 
 // allow encryption to newsgroups
 pref("extensions.enigmail.encryptToNews", false);

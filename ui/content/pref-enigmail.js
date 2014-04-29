@@ -267,6 +267,8 @@ function resetPrefs() {
 
   EnigSetPref("configuredVersion", EnigGetVersion());
 
+  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
+                       gEnigAcceptedKeys);
   EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
                        gEnigAutoSendEncrypted);
   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
