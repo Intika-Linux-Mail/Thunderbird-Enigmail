@@ -207,11 +207,13 @@
 <!ENTITY enigmail.defaultEncryptionNone.label     "No default encryption">
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
 
-<!ENTITY enigmail.acceptedKeysOption.label    "Accept the following keys to send encrypted">
-<!ENTITY enigmail.acceptedKeysValid.label     "Authenticated keys">
-<!ENTITY enigmail.acceptedKeysValid.tooltip   "Keys for email recipients are only accepted if they are valid for encryption according to the Web of Trust">
-<!ENTITY enigmail.acceptedKeysAll.label       "All valid keys (even if not authenticated)">
-<!ENTITY enigmail.acceptedKeysAll.tooltip     "Keys for email recipients are accepted if not disabled/revoked/expired">
+<!ENTITY enigmail.acceptedKeysOption.label    "To send encrypted, accept">
+<!ENTITY enigmail.acceptedKeysPersonal.label     "only keys signed by me personally">
+<!ENTITY enigmail.acceptedKeysPersonal.tooltip   "This option is provided to deal with the danger of faked keys, when you only trust yourself. You only accept keys that are signed by yourself.">
+<!ENTITY enigmail.acceptedKeysValid.label     "keys signed by me or other people I trust">
+<!ENTITY enigmail.acceptedKeysValid.tooltip   "This option is provided to deal with the danger of faked keys using the Web-of-Trust. You only accept keys that are signed by yourself or by other people you trust.">
+<!ENTITY enigmail.acceptedKeysAll.label       "all keys except disabled, revoked, or expired">
+<!ENTITY enigmail.acceptedKeysAll.tooltip     "This option allows encryption whenever you have a key that is neither disabled by you nor revoked/expired by the owner. Because these keys are not necessarily validated/signed by you or people you trust, there is a risk that you use faked keys so that others than the requested receivers can read the content of the encrypted email. However, that is still better than sending emails unencrypted.">
 
 <!ENTITY enigmail.autoSendEncryptedOption.label    "Automatically send encrypted">
 <!ENTITY enigmail.autoSendEncryptedNever.label     "Never (except according to recipient rules)">

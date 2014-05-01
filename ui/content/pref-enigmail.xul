@@ -90,7 +90,10 @@
       <description>&enigmail.confirmBeforeSend.tooltip;</description>
     </tooltip>
 
-    <!-- basic: accepted keys (trust-model always) -->
+    <!-- sending preferences: accepted keys -->
+    <tooltip id="acceptedKeysPersonal.tooltip">
+      <description>&enigmail.acceptedKeysPersonal.tooltip;</description>
+    </tooltip>
     <tooltip id="acceptedKeysValid.tooltip">
       <description>&enigmail.acceptedKeysValid.tooltip;</description>
     </tooltip>
@@ -98,7 +101,7 @@
       <description>&enigmail.acceptedKeysAll.tooltip;</description>
     </tooltip>
 
-    <!-- basic: auto send encrypted -->
+    <!-- sending preferences: auto send encrypted -->
     <tooltip id="autoSendEncryptedNever.tooltip">
       <description>&enigmail.autoSendEncryptedNever.tooltip;</description>
     </tooltip>
@@ -271,6 +274,7 @@
                     tooltip="keepCryptoSettingsForReply.tooltip"
                     label="&enigmail.keepCryptoSettingsForReply.label;" />
 
+          <!-- sending preferences: accepted keys -->
           <!-- basic: accepted keys (trust-model always) -->
           <!--
           <checkbox id="enigmail_alwaysTrustSend"
@@ -283,6 +287,10 @@
                         pref="true"
                         preftype="int"
                         prefstring="extensions.enigmail.acceptedKeys">
+              <radio id="acceptedKeysPersonal"
+                    value="0"
+                    label="&enigmail.acceptedKeysPersonal.label;"
+                    tooltip="acceptedKeysPersonal.tooltip"/>
               <radio id="acceptedKeysValid"
                     value="0"
                     label="&enigmail.acceptedKeysValid.label;"
@@ -297,7 +305,7 @@
           <checkbox id="enigmail_allowEmptySubject"
                     hidden="true"/>
 
-	  <!-- options to automatically send encrypted -->
+          <!-- sending preferences: auto send encrypted -->
           <groupbox>
             <caption label="&enigmail.autoSendEncryptedOption.label;"/>
             <radiogroup id="enigmail_autoSendEncrypted"
