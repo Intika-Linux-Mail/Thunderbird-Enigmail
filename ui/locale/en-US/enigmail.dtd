@@ -208,12 +208,10 @@
 <!ENTITY enigmail.defaultNotSignedsend.label      "Do not sign messages by default">
 
 <!ENTITY enigmail.acceptedKeysOption.label    "To send encrypted, accept">
-<!ENTITY enigmail.acceptedKeysPersonal.label     "only keys signed by me personally">
-<!ENTITY enigmail.acceptedKeysPersonal.tooltip   "This option is provided to deal with the danger of faked keys, when you only trust yourself. You only accept keys that are signed by yourself.">
 <!ENTITY enigmail.acceptedKeysValid.label     "keys signed by me or other people I trust">
-<!ENTITY enigmail.acceptedKeysValid.tooltip   "This option is provided to deal with the danger of faked keys using the Web-of-Trust. You only accept keys that are signed by yourself or by other people you trust.">
+<!ENTITY enigmail.acceptedKeysValid.tooltip   "This option is provided to deal with the danger of faked keys using the Web-of-Trust. You only accept keys that are signed by yourself or by other people you trust. Technically, you only accept keys 'valid' for encryption.">
 <!ENTITY enigmail.acceptedKeysAll.label       "all keys except disabled, revoked, or expired">
-<!ENTITY enigmail.acceptedKeysAll.tooltip     "This option allows encryption whenever you have a key that is neither disabled by you nor revoked/expired by the owner. Because these keys are not necessarily validated/signed by you or people you trust, there is a risk that you use faked keys so that others than the requested receivers can read the content of the encrypted email. However, that is still better than sending emails unencrypted.">
+<!ENTITY enigmail.acceptedKeysAll.tooltip     "This option allows encryption whenever you have a key that is neither disabled by you nor revoked/expired by the owner. Because these keys are not necessarily validated/signed, there is a risk that you use faked keys, so that others than the requested recipients can read the content of the encrypted email. However, that's still better than sending emails unencrypted. Technically, this uses the GPG option '--trust-model always'.">
 
 <!ENTITY enigmail.autoSendEncryptedOption.label    "Automatically send encrypted">
 <!ENTITY enigmail.autoSendEncryptedNever.label     "Never (except according to recipient rules)">

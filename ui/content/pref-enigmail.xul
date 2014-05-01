@@ -91,9 +91,6 @@
     </tooltip>
 
     <!-- sending preferences: accepted keys -->
-    <tooltip id="acceptedKeysPersonal.tooltip">
-      <description>&enigmail.acceptedKeysPersonal.tooltip;</description>
-    </tooltip>
     <tooltip id="acceptedKeysValid.tooltip">
       <description>&enigmail.acceptedKeysValid.tooltip;</description>
     </tooltip>
@@ -287,10 +284,6 @@
                         pref="true"
                         preftype="int"
                         prefstring="extensions.enigmail.acceptedKeys">
-              <radio id="acceptedKeysPersonal"
-                    value="0"
-                    label="&enigmail.acceptedKeysPersonal.label;"
-                    tooltip="acceptedKeysPersonal.tooltip"/>
               <radio id="acceptedKeysValid"
                     value="0"
                     label="&enigmail.acceptedKeysValid.label;"

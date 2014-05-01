@@ -1393,17 +1393,7 @@ Enigmail.msg = {
       }
     }
 
-    // if allowed, try to send automatically if all keys known
-    if (((sendFlags&ENCRYPT) == 0) && (!flagsObj.value || flagsObj.encrypt == 1) && bccAddr.length == 0) {
-      var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,
-                                                           true);  // refresh key list
-      if (keyList != null) {
-        toAddr = keyList.join(", ");
-        sendFlags |= ENCRYPT;
-      }
-    }
-
-    // get keys for bcc addresses:
+    // get keys according to rules for bcc addresses:
     // - matchedKeysObj will contain the keys and the remaining bccAddr elements
     // - NOTE: bcc recipients are ignored when in general computing whether to sign or encrypt or pgpMime
     if (!Enigmail.hlp.getRecipientsKeys(bccAddr,
@@ -1416,6 +1406,16 @@ Enigmail.msg = {
     if (matchedKeysObj.value) {
       bccAddr=matchedKeysObj.value;
       EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.processRules(): after getRecipientsKeys() bccAddr=\""+bccAddr+"\"\n");
+    }
+
+    // if allowed, try to send automatically if all keys known
+    if (((sendFlags&ENCRYPT) == 0) && (!flagsObj.value || flagsObj.encrypt == 1) && bccAddr.length == 0) {
+      var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,
+                                                           true);  // refresh key list
+      if (keyList != null) {
+        toAddr = keyList.join(", ");
+        sendFlags |= ENCRYPT;
+      }
     }
 
     return {
