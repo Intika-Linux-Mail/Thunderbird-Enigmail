@@ -475,6 +475,7 @@ Enigmail.hlp = {
    */
   getInvalidAddress: function (gpgMsg)
   {
+    EnigmailCommon.DEBUG_LOG("enigmailMsgComposeHelper.js: getInvalidAddress(): gpgMsg=\""+gpgMsg+"\"\n\n");
     var invalidAddr = [];
     var lines = gpgMsg.split(/[\n\r]+/);
     for (var i=0; i < lines.length; i++) {

@@ -159,18 +159,24 @@ function enigmailBuildList(refresh) {
 
    const TRUSTLEVEL_SORTED="oidreDn-qmfu"; // trust level sorted by increasing level of trust (see commonFuncs.jsm)
 
+   // sorting criterion for dialog entries
    var sortUsers = function (a,b) {
      var r = 0;
-     if ((a.activeState == 1 || b.activeState == 1) && (a.activeState != b.activeState)) {
+     // active keys in front of not active keys (note: we have values 0, 1, or 2)
+     if ((a.activeState != b.activeState) && (a.activeState == 1 || b.activeState == 1)) {
        r = (a.activeState == 1 ? -1 : 1);
      }
+     // keys matching invalid addresses in front 
+     else if (a.uidMatchInvalid != b.uidMatchInvalid) {
+       r = (a.uidMatchInvalid == 1 ? -1 : 1);
+     }
+     // sort according to user IDs
      else if (a.userId.toLowerCase()<b.userId.toLowerCase()) {
        r = -1;
      }
      else {
        r = 1;
      }
-
      return r;
    };
 
@@ -255,6 +261,7 @@ function enigmailBuildList(refresh) {
    }
    var aUserList = new Array();
    var userObj = new Object();
+   userObj.uidMatchInvalid=false;  // match any of the invalid keys
    var i;
    for (i=0; i<aGpgUserList.length; i++) {
      var listRow=aGpgUserList[i].split(/:/);
@@ -338,7 +345,7 @@ function enigmailBuildList(refresh) {
 
    var invalidAddr = "";
    try{
-     if (typeof(window.arguments[INPUT].invalidAddr)=="string" && !refresh) {
+     if (typeof(window.arguments[INPUT].invalidAddr)=="string") { // refresh did enable untrusted keys?: && !refresh) {
         invalidAddr=" "+window.arguments[INPUT].invalidAddr+" ";
      }
    }
@@ -392,9 +399,17 @@ function enigmailBuildList(refresh) {
               escapedMailAddr=mailAddr.replace(escapeRegExp, "\\$1");
               s1=new RegExp("[, ]?"+escapedMailAddr+"[, ]","i");
               s2=new RegExp("[, ]"+escapedMailAddr+"[, ]?","i");
-              if ((mailAddr != EMPTY_UID) && (invalidAddr.indexOf(" "+mailAddr+" ")<0)) {
-                aValidUsers.push(mailAddr);
-                aUserList[i].activeState =(toAddr.search(s1)>=0 || toAddr.search(s2)>=0) ? 1 : 0;
+              if (mailAddr != EMPTY_UID) {
+                if (invalidAddr.indexOf(" "+mailAddr+" ")<0) {
+                  aValidUsers.push(mailAddr);
+                  aUserList[i].activeState =(toAddr.search(s1)>=0 || toAddr.search(s2)>=0) ? 1 : 0;
+                }
+                else {
+                  // mail address found as invalid address: marks that to sort them to the beginning
+                  aUserList[i].uidMatchInvalid = true;
+                  aUserList[i].uidValid = false;
+                  aUserList[i].activeState = 0;
+                }
               }
               else {
                 aUserList[i].uidValid = false;
@@ -548,11 +563,15 @@ function enigUserSelCreateRow (userObj, activeState, userId, keyValue, dateField
 
   var validity=EnigGetTrustLabel(uidValidityStatus.charAt(0));
   if (!uidValid) {
-    userCol.setAttribute("properties", "enigKeyInactive");
-    uidValidityCol.setAttribute("properties", "enigKeyInactive");
-    expCol.setAttribute("properties", "enigKeyInactive");
-    keyCol.setAttribute("properties", "enigKeyInactive");
-    validity=EnigGetString("keyTrust.untrusted");
+    // if uid is not valid, set validity to "untrusted":
+    //userCol.setAttribute("properties", "enigKeyInactive");
+    //uidValidityCol.setAttribute("properties", "enigKeyInactive");
+    //expCol.setAttribute("properties", "enigKeyInactive");
+    //keyCol.setAttribute("properties", "enigKeyInactive");
+    if (validity=="-") {
+      validity="-  ("+EnigGetString("keyTrust.untrusted").toUpperCase()+")";
+    }
+    keyCol.style.color = "red";
   }
   if (!userObj.subkeyOK && KEY_NOT_VALID.indexOf(uidValidityStatus.charAt(0))<0) {
     validity=EnigGetString("keyValid.noSubkey");

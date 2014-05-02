@@ -1050,9 +1050,9 @@ Enigmail.msg = {
       }
       // if allowed, try to send automatically if all keys known
       if (toAddrList.length > 0 && this.encryptRules == 1) {
-        var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddrList.join(", "),
-                                                             false);  // don't refresh key list
-        if (keyList != null) {
+        var validKeyList = Enigmail.hlp.validKeysForAllRecipients(toAddrList.join(", "),
+                                                                  false);  // don't refresh key list
+        if (validKeyList != null) {
           this.encryptRules = 2;
         }
       }
@@ -1301,6 +1301,9 @@ Enigmail.msg = {
         if (!result) {
           return null;
         }
+        if (result.toAddr) {
+          toAddr = result.toAddr;
+        }
         if (result.doRulesProcessingAgain) {  // start rule processing again ?
           doRulesProcessingAgain=true;
           forceRecipientSettings=true;
@@ -1315,6 +1318,7 @@ Enigmail.msg = {
       }
     }
 
+    EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.keySelection(): return toAddr=\""+toAddr+"\" bccAddr=\""+bccAddr+"\"\n");
     return {
       sendFlags: sendFlags,
       toAddr: toAddr,
@@ -1410,10 +1414,10 @@ Enigmail.msg = {
 
     // if allowed, try to send automatically if all keys known
     if (((sendFlags&ENCRYPT) == 0) && (!flagsObj.value || flagsObj.encrypt == 1) && bccAddr.length == 0) {
-      var keyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,
-                                                           true);  // refresh key list
-      if (keyList != null) {
-        toAddr = keyList.join(", ");
+      var validKeyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,
+                                                                true);  // refresh key list
+      if (validKeyList != null) {
+        toAddr = validKeyList.join(", ");
         sendFlags |= ENCRYPT;
       }
     }
@@ -1451,11 +1455,22 @@ Enigmail.msg = {
     var testStatusFlagsObj = new Object();
     var testErrorMsgObj    = new Object();
 
+    // get keys for remaining email addresses
+    // - NOTE: This should not be necessary; however, in GPG there is a problem:
+    //         Only the first key found for an email is used.
+    //         If this is invalid, no other keys are tested.
+    //         Thus, WE make it better here in enigmail until the bug is fixed.
+    var validKeyList = Enigmail.hlp.validKeysForAllRecipients(toAddr,
+                                                              true);  // refresh key list
+    if (validKeyList != null) {
+      toAddr = validKeyList.join(", ");
+    }
+
     // encrypt test message for test recipients
     var testPlain = "Test Message";
     var testUiFlags   = nsIEnigmail.UI_TEST;
     var testSendFlags = nsIEnigmail.SEND_TEST | ENCRYPT | optSendFlags ;
-    EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.keySelection(): call encryptTestMessage() for fromAddr=\""+fromAddr+"\" toAddr=\""+toAddr+"\" bccAddr=\""+bccAddr+"\" recipientsSelection="+recipientsSelection+"\n");
+    EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.encryptTestMessage(): call encryptMessage() for fromAddr=\""+fromAddr+"\" toAddr=\""+toAddr+"\" bccAddr=\""+bccAddr+"\" recipientsSelection="+recipientsSelection+"\n");
     testCipher = enigmailSvc.encryptMessage(window, testUiFlags, testPlain,
                                             fromAddr, toAddr, bccAddr,
                                             testSendFlags,
@@ -1487,7 +1502,7 @@ Enigmail.msg = {
       // prepare dialog options:
       inputObj.options = "multisel";
       if (recipientsSelection==2) {
-        inputObj.options += ",rulesOption";
+        inputObj.options += ",rulesOption"; // enable button to create per-recipient rule
       }
       if (notSignedIfNotEnc) {
         inputObj.options += ",notsigned";
@@ -1523,7 +1538,9 @@ Enigmail.msg = {
         if (! resultObj.encrypt) {
           // encryption explicitely turned off
           sendFlags &= ~ENCRYPT;
-          if (notSignedIfNotEnc) sendFlags &= ~SIGN;
+          if (notSignedIfNotEnc) {
+            sendFlags &= ~SIGN;
+          }
         }
         else {
           if (bccAddrList.length > 0) {
@@ -1548,7 +1565,8 @@ Enigmail.msg = {
       EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.keySelection: No default encryption because test failed\n");
     }
     return {
-      doRulesProcessingAgain : false
+      doRulesProcessingAgain : false,
+      toAddr: toAddr
     };
   },
 
