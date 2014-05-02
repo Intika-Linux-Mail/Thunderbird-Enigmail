@@ -49,8 +49,9 @@
         title="&enigmail.userSelectionList.label;"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         onload="enigmailUserSelLoad();"
-        ondialogaccept="return enigmailUserSelAccept();"
         buttons="accept,cancel,extra1"
+        buttonlabelaccept="&enigmail.send.label;"
+        ondialogaccept="return enigmailUserSelAccept();"
         buttonlabelextra1="&enigmail.perRecipientsOption.label;"
         ondialogextra1="enigmailNewRecipientRule();"
         minheight="450">
@@ -111,11 +112,17 @@
       </tree>
     </groupbox>
 
-    <checkbox id="enigmailUserSelPlainText"
-              label="&enigmail.userSelPlainText.label;"
-              data-noSignLabel="&enigmail.userSelPlainTextNotSigned.label;"
-              accesskey="&enigmail.userSelPlainText.accesskey;"
-              oncommand="plainTextCallback();"/>
+    <checkbox id="enigmailUserSelSendSigned"
+              label="&enigmail.userSelSendSigned.label;"
+              accesskey="&enigmail.userSelSendSigned.accesskey;"
+              checked="true"
+              oncommand="switchSendSignedCallback();"/>
+    <checkbox id="enigmailUserSelSendEncrypted"
+              label="&enigmail.userSelSendEncrypted.label;"
+              accesskey="&enigmail.userSelSendEncrypted.accesskey;"
+              checked="true"
+              oncommand="switchSendEncryptedCallback();"/>
+
     <checkbox id="displayNoLonger"
               label="&enigmail.displayNoLonger.label;"
               checked="false"

@@ -533,7 +533,9 @@ Enigmail.msg = {
     var inputObj = new Object();
     inputObj.dialogHeader = EnigmailCommon.getString("keysToExport");
     inputObj.options = "multisel,allowexpired,nosending";
-    if (this.trustAllKeys) inputObj.options += ",trustallkeys"
+    if (this.trustAllKeys) {
+      inputObj.options += ",trustallkeys"
+    }
     var userIdValue="";
 
     window.openDialog("chrome://enigmail/content/enigmailUserSelection.xul","", "dialog,modal,centerscreen", inputObj, resultObj);
@@ -1129,36 +1131,46 @@ Enigmail.msg = {
   {
     EnigmailCommon.DEBUG_LOG("enigmailMsgComposeOverlay.js: Enigmail.msg.confirmBeforeSend: sendFlags="+sendFlags+"\n");
     // get confirmation before sending message
-    var msgStatus = "";
 
     const nsIEnigmail = Components.interfaces.nsIEnigmail;
     const SIGN    = nsIEnigmail.SEND_SIGNED;
     const ENCRYPT = nsIEnigmail.SEND_ENCRYPTED;
 
+    // get wording for message status (e.g. " SIGNED ENCRYPTED")
+    var msgStatus = "";
     if (sendFlags & (ENCRYPT | SIGN)) {
-      if (sendFlags & nsIEnigmail.SEND_PGP_MIME)
-        msgStatus += EnigmailCommon.getString("statPGPMIME")+" ";
-
-      if (sendFlags & SIGN)
-        msgStatus += EnigmailCommon.getString("statSigned")+" ";
-
-      if (sendFlags & ENCRYPT)
-        msgStatus += EnigmailCommon.getString("statEncrypted")+" ";
-
-    } else {
-      msgStatus += EnigmailCommon.getString("statPlain")+" ";
+      if (sendFlags & nsIEnigmail.SEND_PGP_MIME) {
+        msgStatus += " " + EnigmailCommon.getString("statPGPMIME");
+      }
+      if (sendFlags & SIGN) {
+        msgStatus += " " + EnigmailCommon.getString("statSigned");
+      }
+      if (sendFlags & ENCRYPT) {
+        msgStatus += " " + EnigmailCommon.getString("statEncrypted");
+      }
+    }
+    else {
+      msgStatus += " " + EnigmailCommon.getString("statPlain");
     }
 
-    gpgKeys=gpgKeys.replace(/^, /, "").replace(/, $/,"");
-
-    var msgConfirm = (isOffline || sendFlags & nsIEnigmail.SEND_LATER)
-            ? EnigmailCommon.getString("offlineSave", [ msgStatus, EnigmailFuncs.stripEmail(toAddr).replace(/,/g, ", ") ])
-            : EnigmailCommon.getString("onlineSend", [ msgStatus, EnigmailFuncs.stripEmail(toAddr).replace(/,/g, ", ") ]);
-    if (sendFlags & ENCRYPT)
+    // create message
+    var msgConfirm = ""
+    if (isOffline || sendFlags & nsIEnigmail.SEND_LATER) {
+      msgConfirm = EnigmailCommon.getString("offlineSave", [ msgStatus, EnigmailFuncs.stripEmail(toAddr).replace(/,/g, ", ") ])
+    }
+    else {
+      msgConfirm = EnigmailCommon.getString("onlineSend", [ msgStatus, EnigmailFuncs.stripEmail(toAddr).replace(/,/g, ", ") ]);
+    }
+    
+    // add list of keys
+    if (sendFlags & ENCRYPT) {
+      gpgKeys=gpgKeys.replace(/^, /, "").replace(/, $/,"");
       msgConfirm += "\n\n"+EnigmailCommon.getString("encryptKeysNote", [ gpgKeys ]);
+    }
 
     return EnigmailCommon.confirmDlg(window, msgConfirm,
-        EnigmailCommon.getString((isOffline || sendFlags & nsIEnigmail.SEND_LATER) ? "msgCompose.button.save" : "msgCompose.button.send"));
+                                     EnigmailCommon.getString((isOffline || sendFlags & nsIEnigmail.SEND_LATER)
+                                      ? "msgCompose.button.save" : "msgCompose.button.send"));
   },
 
 
@@ -1301,9 +1313,9 @@ Enigmail.msg = {
         if (!result) {
           return null;
         }
-        if (result.toAddr) {
-          toAddr = result.toAddr;
-        }
+        sendFlags = result.sendFlags;
+        toAddr = result.toAddr;
+        bccAddr = result.bccAddr;
         if (result.doRulesProcessingAgain) {  // start rule processing again ?
           doRulesProcessingAgain=true;
           forceRecipientSettings=true;
@@ -1504,8 +1516,11 @@ Enigmail.msg = {
       if (recipientsSelection==2) {
         inputObj.options += ",rulesOption"; // enable button to create per-recipient rule
       }
+      if (!(sendFlags&SIGN)) {
+        inputObj.options += ",unsigned";
+      }
       if (notSignedIfNotEnc) {
-        inputObj.options += ",notsigned";
+        inputObj.options += ",notSignedIfNotEnc";
       }
       if (recipientsSelection == 4) {
         inputObj.options += ",noforcedisp";
@@ -1515,7 +1530,7 @@ Enigmail.msg = {
       }
       inputObj.dialogHeader = EnigmailCommon.getString("recipientsSelectionHdr");
 
-      // perform key slection dialog:
+      // perform key selection dialog:
       window.openDialog("chrome://enigmail/content/enigmailUserSelection.xul","", "dialog,modal,centerscreen", inputObj, resultObj);
 
       // process result from key selection dialog:
@@ -1530,17 +1545,24 @@ Enigmail.msg = {
           // do an extra round because the user wants to set a PGP rule
           // THIS is the place that triggers a second iteration
           return {
-            doRulesProcessingAgain : true
+            doRulesProcessingAgain : true,
+            sendFlags : sendFlags,
+            toAddr : toAddr,
+            bccAddr : bccAddr,
           }
         }
 
         // process OK button:
+        if (resultObj.sign) {
+          sendFlags |= SIGN;
+        }
+        else {
+          sendFlags &= ~SIGN;
+        }
         if (! resultObj.encrypt) {
           // encryption explicitely turned off
+          // - notSignedIfNotEnc is not processed in this case
           sendFlags &= ~ENCRYPT;
-          if (notSignedIfNotEnc) {
-            sendFlags &= ~SIGN;
-          }
         }
         else {
           if (bccAddrList.length > 0) {
@@ -1566,7 +1588,9 @@ Enigmail.msg = {
     }
     return {
       doRulesProcessingAgain : false,
-      toAddr: toAddr
+      sendFlags : sendFlags,
+      toAddr : toAddr,
+      bccAddr : bccAddr,
     };
   },
 

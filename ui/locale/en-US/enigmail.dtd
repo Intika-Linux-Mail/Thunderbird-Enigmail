@@ -215,9 +215,9 @@
 
 <!ENTITY enigmail.autoSendEncryptedOption.label    "Automatically send encrypted">
 <!ENTITY enigmail.autoSendEncryptedNever.label     "Never (except according to recipient rules)">
-<!ENTITY enigmail.autoSendEncryptedNever.tooltip   "Don't automatically send encrypted except explicitly triggered by rules">
-<!ENTITY enigmail.autoSendEncryptedIfValid.label   "If we have accepted keys for all email addresses and no rule forcing not to encrypt">
-<!ENTITY enigmail.autoSendEncryptedIfValid.tooltip "Automatically send encrypted when all keys are known and valid or enabled the option to always trust all keys">
+<!ENTITY enigmail.autoSendEncryptedNever.tooltip   "Don't automatically send encrypted except explicitly triggered by per-recipient rules">
+<!ENTITY enigmail.autoSendEncryptedIfValid.label   "If I have accepted keys for all email addresses and no rule forcing not to encrypt">
+<!ENTITY enigmail.autoSendEncryptedIfValid.tooltip "Automatically send encrypted when all keys are known and accepted.">
 
 <!ENTITY enigmail.confirmBeforeSendingOption.label           "Confirm before sending">
 <!ENTITY enigmail.confirmBeforeSendingNever.label            "Never">
@@ -229,7 +229,7 @@
 <!ENTITY enigmail.confirmBeforeSendingIfNotEncrypted.label   "If unencrypted">
 <!ENTITY enigmail.confirmBeforeSendingIfNotEncrypted.tooltip "Display information dialog about signing/encryption before sending an UNENCRYPTED message">
 <!ENTITY enigmail.confirmBeforeSendingIfRules.label          "If rules changed encryption">
-<!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip        "Display information dialog about signing/encryption before sending, if encryption was changed by a per-recipient rule">
+<!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip        "Display information dialog about signing/encryption before sending, if your preference regarding encryption was changed by a per-recipient rule or auto encryption">
 
 <!ENTITY enigmail.recipientsSelectionOption.label "How should we choose the keys?">
 <!ENTITY enigmail.perRecipientRules.label         "By pre-set rules only">
@@ -291,12 +291,17 @@
 <!ENTITY enigmail.userSelPlainText.label            "Send mail unencrypted">
 <!ENTITY enigmail.userSelPlainTextNotSigned.label   "Send mail unencrypted and not signed">
 <!ENTITY enigmail.userSelPlainText.accesskey        "S">
+<!ENTITY enigmail.userSelSendSigned.label           "Send signed">
+<!ENTITY enigmail.userSelSendSigned.accesskey       "S">
+<!ENTITY enigmail.userSelSendEncrypted.label        "Send encrypted">
+<!ENTITY enigmail.userSelSendEncrypted.accesskey    "E">
 <!ENTITY enigmail.displayNoLonger.label             "Do not display this dialog again if encryption is not possible">
 <!ENTITY enigmail.importMissingKeys.label           "Download missing keys">
 <!ENTITY enigmail.importMissingKeys.accesskey       "D">
 <!ENTITY enigmail.importMissingKeys.tooltip         "Try to import the missing keys from a key server">
 <!ENTITY enigmail.refreshKeys.label                 "Refresh Key List">
 <!ENTITY enigmail.refreshKeys.accesskey             "R">
+<!ENTITY enigmail.send.label                        "Send">
 <!ENTITY enigmail.perRecipientsOption.label         "Create per-recipient rule(s)">
 
 <!ENTITY enigmail.experimental.label                "Use experimental inline signing/encryption for PGP/MIME">
