@@ -126,8 +126,8 @@ function displayPrefs(showDefault, showPrefs, setPrefs) {
   }
 }
 
-function prefOnLoad() {
-
+function prefOnLoad()
+{
    GetEnigmailSvc();
    displayPrefs(false, true, false);
 
@@ -176,12 +176,13 @@ function prefOnLoad() {
 
    }
 
-   EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
-                        gEnigAcceptedKeys);
-   EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
-                        gEnigAutoSendEncrypted);
-   EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
-                        gEnigConfirmBeforeSending);
+   gEnigEncryptionModel = EnigGetPref("encryptionModel");
+   if (gEnigEncryptionModel == 0) { // convenient encryption
+     resetSendingPrefsConvenient();
+   }
+   else {
+     resetSendingPrefsManually();
+   }
    EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
                         gEnigRecipientsSelection);
 
@@ -267,12 +268,13 @@ function resetPrefs() {
 
   EnigSetPref("configuredVersion", EnigGetVersion());
 
-  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
-                       gEnigAcceptedKeys);
-  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
-                       gEnigAutoSendEncrypted);
-  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
-                       gEnigConfirmBeforeSending);
+  gEnigEncryptionModel = EnigGetPref("encryptionModel");
+  if (gEnigEncryptionModel == 0) { // convenient encryption
+    resetSendingPrefsConvenient();
+  }
+  else {
+    resetSendingPrefsManually();
+  }
   EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
                        gEnigRecipientsSelection);
 }
@@ -303,38 +305,35 @@ function disableManually (disable)
   }
 }
 
+function updateSendingPrefs()
+{
+  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
+                       gEnigAcceptedKeys);
+  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
+                       gEnigAutoSendEncrypted);
+  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
+                       gEnigConfirmBeforeSending);
+  gEnigEncryptionModel = EnigGetPref("encryptionModel");
+  disableManually(gEnigEncryptionModel == 0);
+  displayPrefs(false, true, false);
+}
+
 function resetSendingPrefsConvenient() {
+  gEnigEncryptionModel = 0;       // convenient encryption settings
+  EnigSetPref("encryptionModel", gEnigEncryptionModel);
   gEnigAcceptedKeys = 1;          // all
   gEnigAutoSendEncrypted = 1;     // if keys accepted
   gEnigConfirmBeforeSending = 0;  // never
   EnigSetPref("acceptedKeys", gEnigAcceptedKeys);
   EnigSetPref("autoSendEncrypted", gEnigAutoSendEncrypted);
   EnigSetPref("confirmBeforeSending", gEnigConfirmBeforeSending);
-  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
-                       gEnigAcceptedKeys);
-  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
-                       gEnigAutoSendEncrypted);
-  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
-                       gEnigConfirmBeforeSending);
-  disableManually(true);
-  displayPrefs(false, true, false);
+  updateSendingPrefs();
 }
 
 function resetSendingPrefsManually() {
-  //gEnigAcceptedKeys = 0;          // only valid keys
-  //gEnigAutoSendEncrypted = 0;     // never
-  //gEnigConfirmBeforeSending = 1;  // always
-  EnigSetPref("acceptedKeys", gEnigAcceptedKeys);
-  EnigSetPref("autoSendEncrypted", gEnigAutoSendEncrypted);
-  EnigSetPref("confirmBeforeSending", gEnigConfirmBeforeSending);
-  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
-                       gEnigAcceptedKeys);
-  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
-                       gEnigAutoSendEncrypted);
-  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
-                       gEnigConfirmBeforeSending);
-  disableManually(false);
-  displayPrefs(false, true, false);
+  gEnigEncryptionModel = 1;         // manual encryption settings
+  EnigSetPref("encryptionModel", gEnigEncryptionModel);
+  updateSendingPrefs();
 }
 
 function resetRememberedValues() {

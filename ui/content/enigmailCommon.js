@@ -143,6 +143,9 @@ var gUsePGPMimeOptionList = ["usePGPMimeNever",
                              "usePGPMimePossible",
                              "usePGPMimeAlways"];
 
+var gEnigEncryptionModel = ["encryptionModelConvenient",
+                            "encryptionModelManually"];
+
 var gEnigAcceptedKeys = ["acceptedKeysValid",
                          "acceptedKeysAll"];
 

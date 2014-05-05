@@ -145,7 +145,12 @@ pref("extensions.enigmail.quotedPrintableWarn",0);
 // use http proxy settings as set in Mozilla/Thunderbird
 pref("extensions.enigmail.respectHttpProxy",true);
 
-// selection for which keys to accept (trust-model always)
+// selection for which encryption model to prefer
+// 0: convenient encryption settings
+// 1: manual encryption settings
+pref("extensions.enigmail.encryptionModel",0);
+
+// selection for which keys to accept
 // 0: accept valid/authenticated keys
 // 1: accept all keys (except disabled, ...)
 pref("extensions.enigmail.acceptedKeys",0);

@@ -267,27 +267,27 @@
       <vbox id="sending" flex="1">
           <description class="enigmailPrefsTitle">&enigmail.whenSending.label; ...</description>
 
-         <hbox flex="1" align="end">
-          <radiogroup id="enigmail_encryptionModel"
-                     flex="1"
-                     pref="true"
-                     preftype="int"
-                     prefstring="extensions.enigmail.encryptionModel">
-           <radio id="encryptionModelConvenient"
-                 value="0"
-                 label="Convenient encryption settings"
-                      oncommand="resetSendingPrefsConvenient();"/>
-           <radio id="encryptionModelManual"
-                 value="1"
-                 label="Manual encryption settings"
-                      oncommand="resetSendingPrefsManually();"/>
-         </radiogroup>
-          <vbox align="end">
+          <hbox flex="1" align="end">
+            <radiogroup id="enigmail_encryptionModel"
+                        flex="1"
+                        pref="true"
+                        preftype="int"
+                        prefstring="extensions.enigmail.encryptionModel">
+              <radio id="encryptionModelConvenient"
+                     value="0"
+                     label="&enigmail.encryptionModelConvenient.label;"
+                     oncommand="resetSendingPrefsConvenient();"/>
+              <radio id="encryptionModelManually"
+                     value="1"
+                     label="&enigmail.encryptionModelManually.label;"
+                     oncommand="resetSendingPrefsManually();"/>
+            </radiogroup>
+            <vbox align="end">
               <button id="sendingPrefsHelp"
                       label="&enigmail.help.label;"
                       oncommand="EnigHelpWindow('sendingPrefs');"/>
-          </vbox>
-         </hbox>
+            </vbox>
+          </hbox>
 
         <!-- elements for manual settings: -->
         <groupbox id="enigmail_pref_sending_manually">
