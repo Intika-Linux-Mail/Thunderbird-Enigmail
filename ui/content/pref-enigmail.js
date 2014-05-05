@@ -271,10 +271,70 @@ function resetPrefs() {
                        gEnigAcceptedKeys);
   EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
                        gEnigAutoSendEncrypted);
-  EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
-                       gEnigRecipientsSelection);
   EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
                        gEnigConfirmBeforeSending);
+  EnigDisplayRadioPref("recipientsSelection", EnigGetPref("recipientsSelection"),
+                       gEnigRecipientsSelection);
+}
+
+function disableManually (disable)
+{
+  var elems = [
+                "enigmail_keepSettingsForReply",
+                "acceptedKeysValid",
+                "acceptedKeysAll",
+                "autoSendEncryptedNever",
+                "autoSendEncryptedIfValid",
+                "confirmBeforeSendingNever",
+                "confirmBeforeSendingAlways",
+                "confirmBeforeSendingIfEncrypted",
+                "confirmBeforeSendingIfNotEncrypted",
+                "confirmBeforeSendingIfRules",
+              ];
+  var elem;
+  for (var i=0; i < elems.length; ++i) {
+    elem = document.getElementById(elems[i]);
+    if (disable) {
+      elem.setAttribute("disabled","true");
+    }
+    else {
+      elem.removeAttribute("disabled");
+    }
+  }
+}
+
+function resetSendingPrefsConvenient() {
+  gEnigAcceptedKeys = 1;          // all
+  gEnigAutoSendEncrypted = 1;     // if keys accepted
+  gEnigConfirmBeforeSending = 0;  // never
+  EnigSetPref("acceptedKeys", gEnigAcceptedKeys);
+  EnigSetPref("autoSendEncrypted", gEnigAutoSendEncrypted);
+  EnigSetPref("confirmBeforeSending", gEnigConfirmBeforeSending);
+  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
+                       gEnigAcceptedKeys);
+  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
+                       gEnigAutoSendEncrypted);
+  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
+                       gEnigConfirmBeforeSending);
+  disableManually(true);
+  displayPrefs(false, true, false);
+}
+
+function resetSendingPrefsManually() {
+  //gEnigAcceptedKeys = 0;          // only valid keys
+  //gEnigAutoSendEncrypted = 0;     // never
+  //gEnigConfirmBeforeSending = 1;  // always
+  EnigSetPref("acceptedKeys", gEnigAcceptedKeys);
+  EnigSetPref("autoSendEncrypted", gEnigAutoSendEncrypted);
+  EnigSetPref("confirmBeforeSending", gEnigConfirmBeforeSending);
+  EnigDisplayRadioPref("acceptedKeys", EnigGetPref("acceptedKeys"),
+                       gEnigAcceptedKeys);
+  EnigDisplayRadioPref("autoSendEncrypted", EnigGetPref("autoSendEncrypted"),
+                       gEnigAutoSendEncrypted);
+  EnigDisplayRadioPref("confirmBeforeSending", EnigGetPref("confirmBeforeSending"),
+                       gEnigConfirmBeforeSending);
+  disableManually(false);
+  displayPrefs(false, true, false);
 }
 
 function resetRememberedValues() {

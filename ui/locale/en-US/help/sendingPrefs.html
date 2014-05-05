@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Enigmail Help: Edit OpenPGP Rule</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <style type="text/css">
+  /*<![CDATA[*/
+    dt  { font-weight: bold;  }
+  /*]]>*/
+  </style>
+</head>
+
+<body>
+  <h1>Enigmail Help</h1>
+
+  <h3>Defining Preferences to Send Encrypted</h3>
+
+  <p>In the Sending Preferences you can choose your model for encryption. There are choices because in general two options are possible:</p>
+  <dl>
+<dt>Convenient Encryption</dt>
+  <dd>With these settings, emails are encrypted whenever possible. 
+    <p>This is like sending emails as letters instead of postcards. Unlike postcards letters usually hide their contents while in transit. However as with letters, you can't be sure that nobody is opening the letter while it is in transit, but some technical effort is necessary for that.
+  <p>Technically, the risk is that you accidentally use &quot;faked keys&quot; you got from somewhere or somebody claiming that the key belongs to the person you want to send emails to.</dd>
+  
+  <dt>Thorough (Careful/Accurate/Elaborated) Encryption</dt>
+  <dd>With these settings, email are encrypted using only keys you can trust (either signed by you or signed by people you trust).
+    <p> This follows the default trust model of PGP, which accepts keys as &quot;valid for encryption&quot; only, if you explicitly signed them or enough people you trust signed them.
+  <p>
+  While this model eliminates some additional risks, 
+  it requires that you actively sign keys and declare owner trust.</dd>
+  <p>If you just want to switch from sending emails without encryption to sending emails encrypted whenever possible, convenient encryption is probably your choice. </p>
+  <p>If it is key for you that content you send encrypted can't be read by other people or organizations, choose thorough encryption.</p>
+</body>
+</html>

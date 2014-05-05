@@ -267,17 +267,34 @@
       <vbox id="sending" flex="1">
           <description class="enigmailPrefsTitle">&enigmail.whenSending.label; ...</description>
 
+         <hbox flex="1" align="end">
+          <radiogroup id="enigmail_encryptionModel"
+                     flex="1"
+                     pref="true"
+                     preftype="int"
+                     prefstring="extensions.enigmail.encryptionModel">
+           <radio id="encryptionModelConvenient"
+                 value="0"
+                 label="Convenient encryption settings"
+                      oncommand="resetSendingPrefsConvenient();"/>
+           <radio id="encryptionModelManual"
+                 value="1"
+                 label="Manual encryption settings"
+                      oncommand="resetSendingPrefsManually();"/>
+         </radiogroup>
+          <vbox align="end">
+              <button id="sendingPrefsHelp"
+                      label="&enigmail.help.label;"
+                      oncommand="EnigHelpWindow('sendingPrefs');"/>
+          </vbox>
+         </hbox>
+
+        <!-- elements for manual settings: -->
+        <groupbox id="enigmail_pref_sending_manually">
           <checkbox id="enigmail_keepSettingsForReply"
                     tooltip="keepCryptoSettingsForReply.tooltip"
                     label="&enigmail.keepCryptoSettingsForReply.label;" />
 
-          <!-- sending preferences: accepted keys -->
-          <!-- basic: accepted keys (trust-model always) -->
-          <!--
-          <checkbox id="enigmail_alwaysTrustSend"
-                    label="&enigmail.alwaysTrustSend.label;"
-                    tooltip="alwaysTrustSend.tooltip"/>
-          -->
           <groupbox>
             <caption label="&enigmail.acceptedKeysOption.label;"/>
             <radiogroup id="enigmail_acceptedKeys"
@@ -355,6 +372,7 @@
                     tooltip="confirmBeforeSendingIfRules.tooltip"/>
             </radiogroup>
           </groupbox>
+        </groupbox>
       </vbox>
 
       <!-- "Key Selection" Tab -->

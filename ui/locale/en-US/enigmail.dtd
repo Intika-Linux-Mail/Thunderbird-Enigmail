@@ -231,6 +231,9 @@
 <!ENTITY enigmail.confirmBeforeSendingIfRules.label          "If rules changed encryption">
 <!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip        "Display information dialog about signing/encryption before sending, if your preference regarding encryption was changed by a per-recipient rule or auto encryption">
 
+<!ENTITY enigmail.sendingPrefsConvenientButton.label         "Convenient Encryption">
+<!ENTITY enigmail.sendingPrefsThoroughButton.label           "Thorough Encryption">
+
 <!ENTITY enigmail.recipientsSelectionOption.label "How should we choose the keys?">
 <!ENTITY enigmail.perRecipientRules.label         "By pre-set rules only">
 <!ENTITY enigmail.perRecipientRules.tooltip       "Choose keys according to rules; prompt for creating new rules recipients without rules.">
