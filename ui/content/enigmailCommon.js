@@ -143,15 +143,13 @@ var gUsePGPMimeOptionList = ["usePGPMimeNever",
                              "usePGPMimePossible",
                              "usePGPMimeAlways"];
 
+// sending options:
 var gEnigEncryptionModel = ["encryptionModelConvenient",
                             "encryptionModelManually"];
-
 var gEnigAcceptedKeys = ["acceptedKeysValid",
                          "acceptedKeysAll"];
-
 var gEnigAutoSendEncrypted = ["autoSendEncryptedNever",
-                              "autoSendEncryptedIfValid"];
-
+                              "autoSendEncryptedIfKeys"];
 var gEnigConfirmBeforeSending = ["confirmBeforeSendingNever",
                                  "confirmBeforeSendingAlways",
                                  "confirmBeforeSendingIfEncrypted",

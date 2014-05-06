@@ -216,11 +216,11 @@
 <!ENTITY enigmail.acceptedKeysAll.label       "all keys except disabled, revoked, or expired">
 <!ENTITY enigmail.acceptedKeysAll.tooltip     "This option allows encryption whenever you have a key that is neither disabled by you nor revoked/expired by the owner. Because these keys are not necessarily validated/signed, there is a risk that you use faked keys, so that others than the requested recipients can read the content of the encrypted email. However, that's still better than sending emails unencrypted. Technically, this uses the GPG option '--trust-model always'.">
 
-<!ENTITY enigmail.autoSendEncryptedOption.label    "Automatically send encrypted">
-<!ENTITY enigmail.autoSendEncryptedNever.label     "Never (except according to recipient rules)">
-<!ENTITY enigmail.autoSendEncryptedNever.tooltip   "Don't automatically send encrypted except explicitly triggered by per-recipient rules">
-<!ENTITY enigmail.autoSendEncryptedIfValid.label   "If I have accepted keys for all email addresses and no rule forcing not to encrypt">
-<!ENTITY enigmail.autoSendEncryptedIfValid.tooltip "Automatically send encrypted when all keys are known and accepted.">
+<!ENTITY enigmail.autoSendEncryptedOption.label   "Automatically send encrypted">
+<!ENTITY enigmail.autoSendEncryptedNever.label    "Never (except according to recipient rules)">
+<!ENTITY enigmail.autoSendEncryptedNever.tooltip  "Don't automatically send encrypted except explicitly triggered by per-recipient rules">
+<!ENTITY enigmail.autoSendEncryptedIfKeys.label   "If I have accepted keys for all email addresses and no rule forcing not to encrypt">
+<!ENTITY enigmail.autoSendEncryptedIfKeys.tooltip "Automatically send encrypted when all keys are known and accepted.">
 
 <!ENTITY enigmail.confirmBeforeSendingOption.label           "Confirm before sending">
 <!ENTITY enigmail.confirmBeforeSendingNever.label            "Never">

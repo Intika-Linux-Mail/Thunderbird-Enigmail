@@ -102,8 +102,8 @@
     <tooltip id="autoSendEncryptedNever.tooltip">
       <description>&enigmail.autoSendEncryptedNever.tooltip;</description>
     </tooltip>
-    <tooltip id="autoSendEncryptedIfValid.tooltip">
-      <description>&enigmail.autoSendEncryptedIfValid.tooltip;</description>
+    <tooltip id="autoSendEncryptedIfKeys.tooltip">
+      <description>&enigmail.autoSendEncryptedIfKeys.tooltip;</description>
     </tooltip>
 
     <!-- basic: confirm before sending -->
@@ -326,10 +326,10 @@
                     value="0"
                     label="&enigmail.autoSendEncryptedNever.label;"
                     tooltip="autoSendEncryptedNever.tooltip"/>
-              <radio id="autoSendEncryptedIfValid"
+              <radio id="autoSendEncryptedIfKeys"
                     value="1"
-                    label="&enigmail.autoSendEncryptedIfValid.label;"
-                    tooltip="autoSendEncryptedIfValid.tooltip"/>
+                    label="&enigmail.autoSendEncryptedIfKeys.label;"
+                    tooltip="autoSendEncryptedIfKeys.tooltip"/>
             </radiogroup>
           </groupbox>
 

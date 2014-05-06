@@ -115,9 +115,6 @@ pref("extensions.enigmail.inlineSigAttachExt",".sig");
 // debug log directory (if set, also enabled debugging)
 pref("extensions.enigmail.logDirectory","");
 
-// enable encryption for replies to encrypted mails
-pref("extensions.enigmail.keepSettingsForReply",true);
-
 // display all or no keys by default in the key manager
 pref("extensions.enigmail.keyManShowAllKeys",true);
 
@@ -146,22 +143,25 @@ pref("extensions.enigmail.quotedPrintableWarn",0);
 pref("extensions.enigmail.respectHttpProxy",true);
 
 // selection for which encryption model to prefer
-// 0: convenient encryption settings
+// 0: convenient encryption settings DEFAULT
 // 1: manual encryption settings
 pref("extensions.enigmail.encryptionModel",0);
 
+// enable encryption for replies to encrypted mails
+pref("extensions.enigmail.keepSettingsForReply",true);
+
 // selection for which keys to accept
 // 0: accept valid/authenticated keys
-// 1: accept all keys (except disabled, ...)
-pref("extensions.enigmail.acceptedKeys",0);
+// 1: accept all keys (except disabled, ...) DEFAULT
+pref("extensions.enigmail.acceptedKeys",1);
 
 // selection for automatic send encrypted if all keys valid
 // 0: never
-// 1: if all keys found and valid
-pref("extensions.enigmail.autoSendEncrypted",0);
+// 1: if all keys found and accepted DEFAULT
+pref("extensions.enigmail.autoSendEncrypted",1);
 
 // ask to confirm before sending
-// 0: never
+// 0: never DEFAULT
 // 1: always
 // 2: if send encrypted
 // 3: if send unencrypted
