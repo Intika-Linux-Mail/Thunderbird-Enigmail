@@ -128,8 +128,8 @@ var gStatusFlags = {GOODSIG:         nsIEnigmail.GOOD_SIGNATURE,
                     SC_OP_FAILURE:   nsIEnigmail.SC_OP_FAILURE,
                     UNKNOWN_ALGO:    nsIEnigmail.UNKNOWN_ALGO,
                     SIG_CREATED:     nsIEnigmail.SIG_CREATED,
-                    END_ENCRYPTION : nsIEnigmail.END_ENCRYPTION,
-                    INV_SGNR:        0x100000000
+                    END_ENCRYPTION:  nsIEnigmail.END_ENCRYPTION,
+                    INV_SGNR:        0x100000000,
 };
 
 ///////////////////////////////////////////////////////////////////////////////

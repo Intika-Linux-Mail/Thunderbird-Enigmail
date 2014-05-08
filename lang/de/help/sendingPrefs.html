@@ -13,29 +13,30 @@
 </head>
 
 <body>
-  <h1>Enigmail Help</h1>
+  <h1>OpenPGP Hilfe</h1>
 
-  <h3>Defining Preferences to Send Encrypted</h3>
+  <h3>Optionen zum Verschlüsselten Senden</h3>
 
-  <p>In the Sending Preferences you can choose your model for encryption. There are choices because in general two options are possible:</p>
+  <p>In den Senden Einstellungen can man prinzipiell das Modell und die prinzipiellen Einstellungen zum Verschlüsseln einstellen. </p>
   <dl>
-<dt>Convenient Encryption</dt>
-  <dd>With these settings, emails are encrypted whenever possible. 
-    <p>This setup is appropriate, if you just want to improve your privacy by sending emails encyrpted instead of unencrypted.     
-    <p>The effect is like sending emails as letters instead of postcards. Unlike postcards, letters usually hide their contents while in transit.     
-<p>Note however that as with letters, you can't be sure that nobody is opening the letter while it is in transit (although, some technical effort is necessary for that).
-<p>A concrete  risk is that you accidentally use &quot;faked keys&quot; you got from somewhere or somebody claiming that the key belongs to the person you want to send emails to. To avoid this risk, you can either use the trust model of PGP (see below) or you should always verify, whether the fingerprint of a public key is correct.</dd>
+<dt>Bequeme Verschlüsselung</dt>
+  <dd>Mit diesen Einstellungen wird möglichst immer ohne Rückfragen verschlüsselt. 
+    <p>Diese Einstellungen sind vor allem dann angemessen, wenn man einfach nur seine Privatsphäre erhöhen will, indem man Emails möglichst verschlüsselt statt unverschlüsselt verschickt.    
+    <p>Der Effekt ist wie wenn man Emails statt als Postkarten als Briefe versendet. Im Gegensatz zu Postkarten kann damit unterwges nicht mehr jder den Inhalt der Email einfach so mitlesen.    
+    <p>Wie bei Briefen bietet das aber keine absolute Garantie, dass die Emails unterwegs nicht von anderen gelesen werden können (auch wenn dazu ein gewisser technischer Aufwand notwendig ist).    
+<p>Ein ganz konkretes Risiko besteht darin, aus Versehen &quot;gefälschte Schlüssel&quot; zu verwenden, die man von irgendjemanden oder irgendwo bekommen hat und nur behauptet wurde, dass der Schlüssel zur angegebenen Email-Adresse gehört. Um dieses Risiko zu vermeiden, sollte man nur Schlüssel akzeptieren, denen man vetrauen kann (siehe unten), oder immer selbst einen Schlüssel anhand des Fingerabdrucks mit dem Eigentümer abgleichen (und unterschreiben).</dd>
   
-  <dt>Manual Encryption</dt>
-  <dd>This option allows you to specify the different preferences for encryption according to your needs. You can
-  <ul>
-   <li>Specify whether replies to encrypted/signed emails should automatically also be encrypted/signed</li>
-   <li>Specify to use the trust model of PGP, which means that to use a key you either have to sign the key or have enough other people you trust having signed the key</li>
-   <li>Specify whether you want to automatically send emails encrypted if all keys are accepted.</li>
-   <li>Specify whether and when you want to finally confirm sending an email</li>
-  </ul>
-  
-  If it is important for you that content you send encrypted can't be read by other people or organizations, you should at least choose the option to accept keys only if you or other people signed them. While this model reduces the risk of using faked keys, it requires that you actively sign keys and declare owner trust using the key managament dialog.</dd>
+  <dt>Manuelle Verschlüsselung</dt>
+  <dd>Mit dieser Option kann man die verschiedenen Einstellungen zur Verschlüsselung nach den eignenen Vorstellungen anpassen. Man kann festlegen
+    <ul>
+      <li>ob auf verschlüsselte/signierte Emails automatisch verschlüsselt/signiert geantwortet werden soll.</li>
+      <li>ob man nur Schlüssel akzeptieren will, denen man auch vertrauen kann (dies aktiviert das OpenPGP Vertrauensmodell, durch das man nur Schlüsseln vertraut, die von einem selbst oder Personen, denen man trauen kann, unterschrieben wurden).</li>
+      <li>ob man möglichst immer automatisch verschlüsseln will.</li>
+      <li>ob und unter welchen Umständen eine ausgehende Email (und deren Verschlüsselung) final bestätigt werden muss.</li>
+    </ul>
+  </dd>
+
+Falls es wichtig ist, dass der Inhalt von verschlüsselten Emails nicht von anderen Personen oder Organisationen gelesen werden können, sollte man zumindest bei den manuellen Einstellungen die Option einschalten, mit der nur vertrauenswürdige Schlüssel akzeptiert werden. Während dies das Risiko der Verwendung von &quot;gefälschten Schlüsseln&quot; reduziert, muss man dazu aber in der Schlüsselverwaltung Schlüssel aktiv unterschreiben und/oder aktiv bestätigen, welchen Email-Adressen (Personen/Organizationen) man trauen kann, wenn diese die Gültigkeit von Schlüssel bestätigen.
   
 </body>
 </html>

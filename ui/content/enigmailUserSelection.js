@@ -160,7 +160,7 @@ function getPubkeysFromSecretKeys(keyString) {
 function enigmailBuildList(refresh) {
    DEBUG_LOG("enigmailUserSelection.js: enigmailBuildList\n");
 
-   const TRUSTLEVEL_SORTED="oidreDn-qmfu"; // trust level sorted by increasing level of trust (see commonFuncs.jsm)
+   const TRUSTLEVEL_SORTED="indDrego-qmfu"; // trust level sorted by increasing level of trust (see commonFuncs.jsm)
 
    // sorting criterion for dialog entries
    // - note: for active state we have values:

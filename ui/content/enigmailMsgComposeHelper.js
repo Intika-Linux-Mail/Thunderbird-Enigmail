@@ -310,7 +310,7 @@ Enigmail.hlp = {
         break;
     }
 
-    const TRUSTLEVEL_SORTED="oidreDn-qmfu"; // trust level sorted by increasing level of trust (see commonFuncs.jsm)
+    const TRUSTLEVEL_SORTED="indDrego-qmfu"; // trust level sorted by increasing level of trust (see commonFuncs.jsm)
     var minTrustLevelIndex = TRUSTLEVEL_SORTED.indexOf(minTrustLevel);
     EnigmailCommon.DEBUG_LOG("enigmailMsgComposeHelper.js: validKeysForAllRecipients(): with minTrustLevel=\""+minTrustLevel+"\"\n");
 

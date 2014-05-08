@@ -73,26 +73,23 @@ const NS_TRUNCATE    = 0x20;
 const DEFAULT_FILE_PERMS = 0x180; // equals 0600
 
 // trust flags according to GPG documentation:
-// (http://www.gnupg.org/documentation/manuals/gnupg.pdf):
-//   - No ownertrust assigned / not yet calculated.
-//   e Trust calculation has failed; probably due to an expired key.
-//   q Not enough information for calculation.
-//   n Never trust this key.
-//   m Marginally trusted.
-//   f Fully trusted.
-//   u Ultimately trusted.
-// with additional flags
-// (see EnigGetTrustLabel() in ui/content/enigmailCommon.js):
-//   i: invalid
-//   d/D: disabled
-//   r: revoked
-//   g: group (???)
-// and as it has been in the following string in old versions:
-//   o: ???   
-// trust level sorted by increasing level of trust
-// - Note:
-//   - n (explicit mistrust) is considered to be more severe than "unknown") 
-const TRUSTLEVEL_SORTED = "oidreDn-qmfu";  // see also enigmailMsgComposeHelper.js, enigmailUserSelection.js
+// - http://www.gnupg.org/documentation/manuals/gnupg.pdf
+// - sources: doc/DETAILS
+// In the order of trustworthy:
+//  i = The key is invalid (e.g. due to a missing self-signature)
+//  n = The key is not valid / Never trust this key
+//  d/D = The key has been disabled
+//  r = The key has been revoked
+//  e = The key has expired
+//  g = group (???)
+//  o = Unknown (this key is new to the system)
+//  - = Unknown validity (i.e. no value assigned)
+//  q = Undefined validity (Not enough information for calculation)
+//      '-' and 'q' may safely be treated as the same value for most purposes
+//  m = Marginally trusted
+//  f = Fully trusted
+//  u = Ultimately trusted
+const TRUSTLEVEL_SORTED = "indDrego-qmfu";  // see also enigmailMsgComposeHelper.js, enigmailUserSelection.js
 
 
 var gTxtConverter = null;
