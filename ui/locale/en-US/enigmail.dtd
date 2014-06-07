@@ -777,10 +777,10 @@
                                                       If privacy is a critical issue for you, you should
                                                       choose by default always to encrypt.
                                                       For each email you can still explicitly choose whether to encrypt.">
-<!ENTITY enigmail.setupWiz.pgEncConv.convEncMsg      "Shall your outgoing emails be automatically encrypted if possible?">
-<!ENTITY enigmail.setupWiz.pgEncConv.convYes         "Yes, I prefer convenient auto-encryption">
-<!ENTITY enigmail.setupWiz.pgEncConv.convEncYes      "No, I prefer always to encrypt by default because privacy is critical for me">
-<!ENTITY enigmail.setupWiz.pgEncConv.convEncNo       "No, I prefer never to encrypt by default (using explicit encryption and per-recipient rules)">
+<!ENTITY enigmail.setupWiz.pgEncConv.convEncMsg      "Which general mode do you prefer to encrypt outgoing emails?">
+<!ENTITY enigmail.setupWiz.pgEncConv.convYes         "I prefer convenient auto encryption">
+<!ENTITY enigmail.setupWiz.pgEncConv.convEncYes      "I prefer always to encrypt by default because privacy is critical for me">
+<!ENTITY enigmail.setupWiz.pgEncConv.convEncNo       "I prefer never to encrypt by default (using explicit encryption and per-recipient rules)">
 
 <!ENTITY enigmail.setupWiz.pgSettings.title          "Preferences">
 <!ENTITY enigmail.setupWiz.pgSettings.subtitle       "Change Your Email Settings To Make OpenPGP Work More Reliably">

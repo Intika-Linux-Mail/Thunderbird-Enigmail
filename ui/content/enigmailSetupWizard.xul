@@ -160,8 +160,8 @@
     <description>
       &enigmail.setupWiz.pgSelectId.note;
     </description>
-
   </wizardpage>
+
 
   <wizardpage id="pgSign" pageid="pgSign" next="pgEncConv"
               label="&enigmail.setupWiz.pgSign.title;"
@@ -182,25 +182,6 @@
     </radiogroup>
   </wizardpage>
 
-  <wizardpage id="pgEnc" pageid="pgEnc" next="pgSettings"
-              label="&enigmail.setupWiz.pgEnc.title;"
-              description="&enigmail.setupWiz.pgEnc.subtitle;">
-    <description>
-      &enigmail.setupWiz.pgEnc.desc;
-    </description>
-    <separator/>
-    <label value="&enigmail.setupWiz.pgEnc.encryptAllMsg;" control="encryptMsg"/>
-    <radiogroup id="encryptMsg" value="0">
-      <radio id="encryptMsg_yes"
-             label="&enigmail.setupWiz.pgEnc.yesEncrypt;"
-             value="1"/>
-      <radio id="encryptMsg_no"
-             label="&enigmail.setupWiz.pgEnc.noEncrypt;"
-             selected="true"
-             value="0"/>
-    </radiogroup>
-
-  </wizardpage>
 
   <wizardpage id="pgEncConv" pageid="pgEncConv" next="pgSettings"
               label="&enigmail.setupWiz.pgEncConv.title;"
@@ -222,8 +203,8 @@
              label="&enigmail.setupWiz.pgEncConv.convEncNo;"
              value="2"/>
     </radiogroup>
-
   </wizardpage>
+
 
   <wizardpage id="pgSettings" pageid="pgSettings" next="pgKeySel"
               label="&enigmail.setupWiz.pgSettings.title;"

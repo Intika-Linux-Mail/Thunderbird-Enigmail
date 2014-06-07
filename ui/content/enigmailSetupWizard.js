@@ -875,9 +875,6 @@ function wizardApplyId(identity, keyId) {
   identity.setIntAttribute("openPgpHeaderMode", 0);
 
   var signMsg = (document.getElementById("signMsg").value== "1");
-  // old:
-  //var encryptMsg = ((!newsServer) && (document.getElementById("encryptMsg").value == "1"));
-  // new:
   var encryptMsg = ((!newsServer) && (document.getElementById("convEncryptMsg").value == "1"));
 
   identity.setBoolAttribute("pgpSignEncrypted", signMsg);
@@ -1035,14 +1032,7 @@ function displayActions() {
     appendDesc(EnigGetString("setupWizard.signNone"));
   }
 
-  // old enc wizard:
-  //if (document.getElementById("encryptMsg").value== "1") {
-  //  appendDesc(EnigGetString("setupWizard.encryptAll"));
-  //}
-  //else {
-  //  appendDesc(EnigGetString("setupWizard.encryptNone"));
-  //}
-  // new enc wizard:
+  // convenient encryption wizard step:
   switch (document.getElementById("convEncryptMsg").value) {
     case "0": // convYes
       appendDesc(EnigGetString("setupWizard.convEncrypt"));
