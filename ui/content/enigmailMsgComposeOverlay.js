@@ -242,6 +242,7 @@ Enigmail.msg = {
     // reset default send settings, unless we have changed them already
     if (!this.sendModeDirty) {
       this.processAccountSpecificDefaultOptions();
+      this.determineSendFlags();  // important to use identity specific settings
       this.processFinalState();
       this.updateStatusBar();
     }
