@@ -179,9 +179,9 @@ Enigmail.hlp = {
                       let foundAddr = openAddresses.substring(start+1,end-1);  // without { and }
                       // - assign key if one exists (not ".")
                       if (keyIds != ".") {  // if NOT "do not check further rules for this address"
-                        var ids = keyIds.replace(/[ ,;]+/g, ", ");
+                        let ids = keyIds.replace(/[ ,;]+/g, ", ");
                         keyList.push(ids);
-                        var elem = {addr:foundAddr,keys:ids};
+                        let elem = {addr:foundAddr,keys:ids};
                         addrKeysList.push(elem);
                       }
                       // - remove found address from openAdresses and add it to foundAddresses (with { and } as delimiters)
@@ -212,10 +212,10 @@ Enigmail.hlp = {
                 keyIds=node.getAttribute("keyId");
                 if (keyIds) {
                   if (keyIds != ".") {
-                    var ids = keyIds.replace(/[ ,;]+/g, ", ");
+                    let ids = keyIds.replace(/[ ,;]+/g, ", ");
                     keyList.push(ids);
                     let foundAddr = "{}";
-                    var elem = {addr:foundAddr,keys:ids};
+                    let elem = {addr:foundAddr,keys:ids};
                     addrKeysList.push(elem);
                   }
                 }
@@ -255,7 +255,9 @@ Enigmail.hlp = {
               pgpMime = this.getFlagVal(pgpMime, resultObj, "pgpMime");
               if (resultObj.keyId.length>0) {
                 keyList.push(resultObj.keyId);
-                var replaceAddr = new RegExp("{"+addrList[i]+"}", "g");
+                let elem = {addr:theAddr,keys:resultObj.keyId};
+                addrKeysList.push(elem);
+                let replaceAddr = new RegExp("{"+addrList[i]+"}", "g");
                 openAddresses = openAddresses.replace(replaceAddr, "");
               }
               else {
