@@ -193,7 +193,6 @@ MimeVerify.prototype = {
     this.pipe = null;
     this.readMode = 0;
     this.keepData = "";
-    this.last80Chars = "";
     this.signedData = "";
     this.statusStr = "";
     this.returnStatus = null;
