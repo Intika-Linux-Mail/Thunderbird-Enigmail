@@ -1,4 +1,4 @@
-/*global Components: false, dump: false */
+/*global Components: false */
 /*jshint -W097 */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -100,4 +100,3 @@ PgpMimeHandler.prototype = {
 
 
 var NSGetFactory = XPCOMUtils.generateNSGetFactory([PgpMimeHandler]);
-dump("pgpmimeHandler.js: registration done\n");

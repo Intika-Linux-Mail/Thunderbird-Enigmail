@@ -1,4 +1,4 @@
-/*global Components: false, dump: false */
+/*global Components: false */
 /*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -353,5 +353,3 @@ EnigmailVerify.registerContentTypeHandler();
 const NSGetFactory = XPCOMUtils.generateNSGetFactory([Enigmail, EnigmailProtocolHandler, EnigmailCommandLine.Handler]);
 
 EnigmailFilters.registerAll();
-
-dump("enigmail.js: Registered components\n");

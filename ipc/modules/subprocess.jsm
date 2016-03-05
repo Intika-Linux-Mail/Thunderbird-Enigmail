@@ -354,8 +354,6 @@ var gDebugFunc = null,
 function LogError(s) {
   if (gLogFunc)
     gLogFunc(s);
-  else
-    dump(s);
 }
 
 function debugLog(s) {
