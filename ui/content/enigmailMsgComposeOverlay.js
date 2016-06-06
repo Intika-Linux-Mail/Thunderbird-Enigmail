@@ -3748,8 +3748,30 @@ Enigmail.msg = {
     }
   },
 
+  /**
+   * Handle the 'compose-send-message' event from TB
+   */
   sendMessageListener: function(event) {
     EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.sendMessageListener\n");
+
+    // Do nothing if a compatible version of the "SendLater" addon is installed.
+    // SendLater will call handleSendMessageEvent when needed.
+
+    try {
+      if (typeof(Sendlater3Composing.callEnigmail) === "function") {
+        return;
+      }
+    }
+    catch (ex) {}
+
+    Enigmail.msg.handleSendMessageEvent(event);
+  },
+
+  /**
+   * Perform handling of the compose-send-message' event from TB (or SendLater)
+   */
+  handleSendMessageEvent: function(event) {
+    EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.handleSendMessageEvent\n");
     let msgcomposeWindow = document.getElementById("msgcomposeWindow");
     let sendMsgType = Number(msgcomposeWindow.getAttribute("msgtype"));
 
