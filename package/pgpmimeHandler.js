@@ -159,7 +159,7 @@ PgpMimeHandler.prototype = {
         }
         else {
           // otherwise just make sure message body is returned
-          cth = EnigmailVerify.newVerifier("application/pkcs7-signature");
+          cth = EnigmailVerify.newVerifier("application/(x-)?pkcs7-signature");
         }
       }
     }
