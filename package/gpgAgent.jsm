@@ -474,7 +474,7 @@ var EnigmailGpgAgent = {
         catch (ex) {}
 
         if (!agentPath) {
-          let gpgPath = gpgPath + "\\pub";
+          let gpgPath = "C:\\Program Files\\GnuPG\\pub";
           agentPath = EnigmailFiles.resolvePath(agentName, gpgPath, EnigmailOS.isDosLike());
         }
       }
