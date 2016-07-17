@@ -558,7 +558,7 @@ MimeVerify.prototype = {
       let headerSink = this.msgWindow.msgHeaderSink.securityInfo.QueryInterface(Ci.nsIEnigMimeHeaderSink);
 
       if (this.protectedHeaders) {
-        headerSink.modifyMessageHeaders(this.uri, JSON.stringify(this.protectedHeaders.newHeaders));
+        headerSink.modifyMessageHeaders(this.uri, JSON.stringify(this.protectedHeaders.newHeaders), this.mimePartNumber);
       }
 
       if (headerSink) {
