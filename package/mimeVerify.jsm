@@ -486,8 +486,6 @@ MimeVerify.prototype = {
       }
     }
 
-    EnigmailLog.DEBUG("mimeVerify.jsm: data:---\n" + data + "---\n");
-
     gConv.setData(data, data.length);
     try {
       this.mimeSvc.onStartRequest(null, null);
