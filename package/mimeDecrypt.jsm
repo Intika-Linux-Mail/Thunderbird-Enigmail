@@ -445,12 +445,22 @@ EnigmailMimeDecrypt.prototype = {
         let proto = EnigmailMime.getProtocol(ct);
         let veri = EnigmailVerify.newVerifier(proto);
         veri.onStartRequest(this.mimeSvc, this.uri);
-        veri.onDataAvailable(null, null, gConv, 0, data.length + 1);
+        try {
+          veri.onDataAvailable(null, null, gConv, 0, data.length + 1);
+        }
+        catch (x) {
+          EnigmailLog.ERROR("mimeDecrypt.jsm: returnData(): mimeSvc.onDataAvailable failed:\n" + ex.toString());
+        }
         veri.onStopRequest(null, null, 0);
       }
       else {
         this.mimeSvc.onStartRequest(null, null);
-        this.mimeSvc.onDataAvailable(null, null, gConv, 0, data.length);
+        try {
+          this.mimeSvc.onDataAvailable(null, null, gConv, 0, data.length);
+        }
+        catch (x) {
+          EnigmailLog.ERROR("mimeDecrypt.jsm: returnData(): mimeSvc.onDataAvailable failed:\n" + ex.toString());
+        }
         this.mimeSvc.onStopRequest(null, null, 0);
       }
     }
