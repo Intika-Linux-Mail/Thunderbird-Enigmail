@@ -253,7 +253,7 @@ var EnigmailKey = {
       return ret;
     }
 
-    const tempDir = EnigmailFiles.createTempSubDir("enigmail_import");
+    const tempDir = EnigmailFiles.createTempSubDir("enigmail_import", true);
     const tempPath = EnigmailFiles.getFilePath(tempDir);
     const args = EnigmailGpg.getStandardArgs(true).concat([
       "--import",
