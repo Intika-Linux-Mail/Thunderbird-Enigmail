@@ -584,6 +584,12 @@ var EnigmailGpgAgent = {
 
     let filePath = cloneOrNull(EnigmailGpgAgent.agentPath);
 
+    if (filePath) {
+      // try to get the install directory of gpg/gpg2 executable
+      filePath.normalize();
+      filePath = filePath.parent;
+    }
+
     if (filePath) filePath = filePath.parent;
     if (filePath) {
       filePath.append(fileName);
