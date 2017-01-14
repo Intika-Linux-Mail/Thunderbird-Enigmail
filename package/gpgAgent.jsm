@@ -590,7 +590,6 @@ var EnigmailGpgAgent = {
       filePath = filePath.parent;
     }
 
-    if (filePath) filePath = filePath.parent;
     if (filePath) {
       filePath.append(fileName);
       if (filePath.exists()) {
