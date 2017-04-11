@@ -9,7 +9,7 @@
 
 // Uses: chrome://enigmail/content/enigmailCommon.js
 
-/* global EnigmailLog: false, doSetOKCancel: false, EnigmailLocale: false, EnigmailKeyServer: false */
+/* global EnigmailLog: false, EnigmailLocale: false, EnigmailKeyServer: false */
 /* global EnigmailErrorHandling: false */
 
 // from enigmailCommon.js:
@@ -95,13 +95,6 @@ function onLoad() {
   var enigmailSvc = GetEnigmailSvc();
   if (!enigmailSvc)
     return;
-
-  // Set up dialog button callbacks.
-  var object = this;
-  doSetOKCancel("", function() {
-    return object.onCancel();
-  });
-
 
   var statTxt = document.getElementById("dialog.status2");
   if (inArg.accessType == nsIEnigmail.UPLOAD_KEY) {
