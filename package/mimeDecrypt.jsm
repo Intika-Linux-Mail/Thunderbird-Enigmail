@@ -316,7 +316,8 @@ EnigmailMimeDecrypt.prototype = {
   displayStatus: function() {
     EnigmailLog.DEBUG("mimeDecrypt.jsm: displayStatus\n");
 
-    if (this.exitCode === null || this.msgWindow === null || this.statusDisplayed)
+    if (this.exitCode === null || this.msgWindow === null || this.msgWindow.msgHeaderSink === null ||
+      this.statusDisplayed)
       return;
 
     let uriSpec = (this.uri ? this.uri.spec : null);

@@ -74,12 +74,12 @@ PgpMimeEncrypt.prototype = {
 
   // nsIStreamListener interface
   onStartRequest: function(request) {
-    LOCAL_DEBUG("mimeEncrypt.js: onStartRequest\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: onStartRequest()\n");
     this.encHeader = null;
   },
 
   onDataAvailable: function(req, sup, stream, offset, count) {
-    LOCAL_DEBUG("mimeEncrypt.js: onDataAvailable\n");
+    LOCAL_DEBUG("mimeEncrypt.js: onDataAvailable()\n");
     this.inStream.init(stream);
     var data = this.inStream.read(count);
     //LOCAL_DEBUG("mimeEncrypt.js: >"+data+"<\n");
@@ -87,7 +87,7 @@ PgpMimeEncrypt.prototype = {
   },
 
   onStopRequest: function(request, win, status) {
-    LOCAL_DEBUG("mimeEncrypt.js: onStopRequest\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: onStopRequest\n");
   },
 
   disableSMimeCheck: function() {
@@ -97,7 +97,7 @@ PgpMimeEncrypt.prototype = {
 
   // nsIMsgComposeSecure interface
   requiresCryptoEncapsulation: function(msgIdentity, msgCompFields) {
-    LOCAL_DEBUG("mimeEncrypt.js: requiresCryptoEncapsulation\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: requiresCryptoEncapsulation\n");
     try {
 
       if (this.checkSMime) {
@@ -126,10 +126,10 @@ PgpMimeEncrypt.prototype = {
   },
 
   beginCryptoEncapsulation: function(outStream, recipientList, msgCompFields, msgIdentity, sendReport, isDraft) {
-    LOCAL_DEBUG("mimeEncrypt.js: beginCryptoEncapsulation\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: beginCryptoEncapsulation\n");
 
     if (this.checkSMime && (!this.smimeCompose)) {
-      LOCAL_DEBUG("mimeEncrypt.js: beginCryptoEncapsulation: ERROR MsgComposeSecure not instantiated\n");
+      EnigmailLog.DEBUG("mimeEncrypt.js: beginCryptoEncapsulation: ERROR MsgComposeSecure not instantiated\n");
       throw Cr.NS_ERROR_FAILURE;
     }
 
@@ -204,7 +204,7 @@ PgpMimeEncrypt.prototype = {
   },
 
   startCryptoHeaders: function() {
-    LOCAL_DEBUG("mimeEncrypt.js: startCryptoHeaders\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: startCryptoHeaders()\n");
 
     if (this.cryptoMode == MIME_SIGNED) this.signedHeaders1(false);
     if (this.cryptoMode == MIME_ENCRYPTED) this.encryptedHeaders();
@@ -213,6 +213,7 @@ PgpMimeEncrypt.prototype = {
   },
 
   writeSecureHeaders: function() {
+    EnigmailLog.DEBUG("mimeEncrypt.js: writeSecureHeaders()\n");
     this.encHeader = EnigmailMime.createBoundary();
 
     let allHdr = "";
@@ -305,7 +306,7 @@ PgpMimeEncrypt.prototype = {
   },
 
   encryptedHeaders: function(isEightBit) {
-    LOCAL_DEBUG("mimeEncrypt.js: encryptedHeaders\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: encryptedHeaders()\n");
     this.writeOut("Content-Type: multipart/encrypted;\r\n" +
       " protocol=\"application/pgp-encrypted\";\r\n" +
       " boundary=\"" + this.cryptoBoundary + "\"\r\n" +
@@ -347,13 +348,13 @@ PgpMimeEncrypt.prototype = {
   },
 
   finishCryptoHeaders: function() {
-    LOCAL_DEBUG("mimeEncrypt.js: finishCryptoHeaders\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: finishCryptoHeaders()\n");
 
     this.writeOut("\r\n--" + this.cryptoBoundary + "--\r\n");
   },
 
   finishCryptoEncapsulation: function(abort, sendReport) {
-    LOCAL_DEBUG("mimeEncrypt.js: finishCryptoEncapsulation\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: finishCryptoEncapsulation()\n");
 
     if (this.checkSMime && (!this.smimeCompose))
       throw Cr.NS_ERROR_NOT_INITIALIZED;
@@ -384,7 +385,7 @@ PgpMimeEncrypt.prototype = {
       // wait here for this.proc to terminate
       this.inspector.enterNestedEventLoop(0);
 
-      LOCAL_DEBUG("mimeEncrypt.js: finishCryptoEncapsulation: exitCode = " + this.exitCode + "\n");
+      EnigmailLog.DEBUG("mimeEncrypt.js: finishCryptoEncapsulation: exitCode = " + this.exitCode + "\n");
       if (this.exitCode !== 0) throw Cr.NS_ERROR_FAILURE;
 
       if (this.cryptoMode == MIME_SIGNED) this.signedHeaders2();
@@ -562,7 +563,7 @@ PgpMimeEncrypt.prototype = {
   },
 
   done: function(exitCode) {
-    LOCAL_DEBUG("mimeEncrypt.js: done: " + exitCode + "\n");
+    EnigmailLog.DEBUG("mimeEncrypt.js: done(): " + exitCode + "\n");
 
     let retStatusObj = {};
 
@@ -574,8 +575,14 @@ PgpMimeEncrypt.prototype = {
       this.dataLength,
       retStatusObj);
 
-    if (this.exitCode !== 0)
-      EnigmailDialog.alert(this.win, retStatusObj.errorMsg);
+    if (this.exitCode !== 0) {
+      try {
+        EnigmailDialog.alert(this.win, retStatusObj.errorMsg);
+      }
+      catch (ex1) {
+        EnigmailDialog.alert(null, retStatusObj.errorMsg);
+      }
+    }
 
     if (this.inspector && this.inspector.eventLoopNestLevel > 0) {
       // unblock the waiting lock in finishCryptoEncapsulation
