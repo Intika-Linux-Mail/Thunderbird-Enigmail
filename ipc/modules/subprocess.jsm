@@ -194,7 +194,7 @@ var subprocess = {
       if (options.mergeStderr) {
         opts.stderr = "stdout";
       }
-      else if (options.stderr) {
+      else {
         opts.stderr = "pipe";
       }
 
@@ -275,10 +275,15 @@ var subprocess = {
         }));
       }
 
-      if (options.stderr && proc.stderr) {
-        promises.push(readAllData(proc.stderr, read, function _f(data) {
-          stderrData += data;
-        }));
+      if (proc.stderr) {
+        if (options.stderr) {
+          promises.push(readAllData(proc.stderr, read, options.stderr));
+        }
+        else {
+          promises.push(readAllData(proc.stderr, read, function _f(data) {
+            stderrData += data;
+          }));
+        }
       }
 
       // Process stdin
