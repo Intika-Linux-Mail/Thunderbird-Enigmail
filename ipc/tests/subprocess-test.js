@@ -147,7 +147,7 @@ function run_test() {
     command: pl,
     arguments: [cmd.path, 'dump'],
     environment: envList,
-    workdir: do_get_file(".", true),
+    workdir: do_get_file(".", true).path,
     stdin: function(pipe) {
       for (var i = 0; i < gTestLines.length; i++) {
         pipe.write(gTestLines[i]);
