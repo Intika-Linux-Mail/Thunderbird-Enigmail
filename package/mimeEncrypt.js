@@ -551,9 +551,13 @@ PgpMimeEncrypt.prototype = {
       EnigmailLog.DEBUG("mimeEncrypt.js: stdin: write " + this.pipeQueue.length + " bytes\n");
       pipe.write(this.pipeQueue);
       this.pipeQueue = "";
-      if (this.closePipe) pipe.close();
     }
-    this.pipe = pipe;
+    if (this.closePipe) {
+      pipe.close();
+    }
+    else {
+      this.pipe = pipe;
+    }
   },
 
   stdout: function(s) {
