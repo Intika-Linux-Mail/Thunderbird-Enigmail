@@ -183,7 +183,7 @@ EnigmailMimeDecrypt.prototype = {
   },
 
   onStopRequest: function(request, win, status) {
-    LOCAL_DEBUG("mimeDecrypt.jsm: onStopRequest\n");
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: onStopRequest\n");
     --gNumProc;
     if (!this.initOk) return;
 
@@ -284,15 +284,18 @@ EnigmailMimeDecrypt.prototype = {
     }
 
     if (this.pipe) {
+      EnigmailLog.DEBUG("mimeDecrypt.jsm: flush to pipe\n");
       this.pipe.write(this.outQueue);
       this.bytesWritten += this.outQueue.length;
       this.outQueue = "";
       this.pipe.close();
     }
     else {
+      EnigmailLog.DEBUG("mimeDecrypt.jsm: pipe not yet ready\n");
       this.closePipe = true;
     }
 
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: waiting for proc to finish\n");
     this.proc.wait();
 
     this.returnStatus = {};
@@ -353,14 +356,20 @@ EnigmailMimeDecrypt.prototype = {
 
   // API for decryptMessage Listener
   stdin: function(pipe) {
-    LOCAL_DEBUG("mimeDecrypt.jsm: stdin\n");
-    if (this.outQueue.length > 0) {
-      pipe.write(this.outQueue);
-      this.bytesWritten += this.outQueue.length;
-      this.outQueue = "";
-      if (this.closePipe) pipe.close();
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: stdin()\n");
+
+    if (this.closePipe) {
+      if (this.outQueue.length > 0) {
+        pipe.write(this.outQueue);
+        this.bytesWritten += this.outQueue.length;
+        this.outQueue = "";
+      }
+      EnigmailLog.DEBUG("mimeDecrypt.jsm: stdin: closing pipe\n");
+      pipe.close();
     }
-    this.pipe = pipe;
+    else {
+      this.pipe = pipe;
+    }
   },
 
   stdout: function(s) {
@@ -376,7 +385,7 @@ EnigmailMimeDecrypt.prototype = {
   },
 
   done: function(exitCode) {
-    LOCAL_DEBUG("mimeDecrypt.jsm: done: " + exitCode + "\n");
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: done: " + exitCode + "\n");
 
     if (gDebugLogLevel > 4)
       LOCAL_DEBUG("mimeDecrypt.jsm: done: decrypted data='" + this.decryptedData + "'\n");
