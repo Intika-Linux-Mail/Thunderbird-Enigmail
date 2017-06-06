@@ -15,8 +15,15 @@ const Cc = Components.classes;
 const Ci = Components.interfaces;
 const Cu = Components.utils;
 
-Cu.import("resource://enigmail/os.jsm");
-Cu.import("resource://enigmail/data.jsm");
+Cu.import("resource://enigmail/data.jsm"); /* global EnigmailData: false */
+Cu.import("resource://enigmail/os.jsm"); /* global EnigmailOS: false */
+Cu.import("resource://enigmail/lazy.jsm"); /* global EnigmailLazy: false */
+
+const {
+  TextDecoder, TextEncoder, OS
+} = Cu.import("resource://gre/modules/osfile.jsm", {});
+
+const lazyLog = EnigmailLazy.loader("enigmail/log.jsm", "EnigmailLog");
 
 const NS_FILE_CONTRACTID = "@mozilla.org/file/local;1";
 const NS_LOCAL_FILE_CONTRACTID = "@mozilla.org/file/local;1";
@@ -31,17 +38,6 @@ const NS_WRONLY = 0x02;
 const NS_CREATE_FILE = 0x08;
 const NS_TRUNCATE = 0x20;
 const DEFAULT_FILE_PERMS = 0x180; // equals 0600
-
-const lazyLog = (function() {
-  let log = null;
-  return function() {
-    if (!log) {
-      Components.utils.import("resource://enigmail/log.jsm");
-      log = EnigmailLog;
-    }
-    return log;
-  };
-})();
 
 const EnigmailFiles = {
 
@@ -144,27 +140,58 @@ const EnigmailFiles = {
     }
   },
 
-  // Read the contents of a file into a string
-  readFile: function(filePath) {
-    // @filePath: nsIFile
-    if (filePath.exists()) {
-      var ioServ = Cc[NS_IOSERVICE_CONTRACTID].getService(Ci.nsIIOService);
-      if (!ioServ)
-        throw Components.results.NS_ERROR_FAILURE;
+  /**
+   * Read the contents of a text file into a string
+   *
+   * @param fileObj: Object (nsIFile)
+   *
+   * @return String (file contents)
+   */
+  readFile: function(fileObj) {
+    let fileContents = "";
 
-      var fileURI = ioServ.newFileURI(filePath);
-      var fileChannel = ioServ.newChannel(fileURI.asciiSpec, null, null);
+    if (fileObj.exists()) {
+      let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
 
-      var rawInStream = fileChannel.open();
+      let decoder = new TextDecoder();
+      OS.File.read(fileObj.path).then(arr => {
+        fileContents = decoder.decode(arr); // Convert this array to a text
+        inspector.exitNestedEventLoop();
+      }).catch(err => {
+        inspector.exitNestedEventLoop();
+      });
 
-      var scriptableInStream = Cc[NS_SCRIPTABLEINPUTSTREAM_CONTRACTID].createInstance(Ci.nsIScriptableInputStream);
-      scriptableInStream.init(rawInStream);
-      var available = scriptableInStream.available();
-      var fileContents = scriptableInStream.read(available);
-      scriptableInStream.close();
-      return fileContents;
+      inspector.enterNestedEventLoop(0); // wait for async process to terminate
     }
-    return "";
+
+    return fileContents;
+  },
+
+  /** Read the contents of a file with binary data into a string
+   * @param fileObj: Object (nsIFile)
+   *
+   * @return String (file contents)
+   */
+  readBinaryFile: function(fileObj) {
+    let fileContents = "";
+
+    if (fileObj.exists()) {
+      let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+      OS.File.read(fileObj.path).then(arr => {
+        for (let i = 0; i < arr.length; i++) {
+          fileContents += String.fromCharCode(arr[i]);
+        }
+
+        inspector.exitNestedEventLoop();
+      }).catch(err => {
+        inspector.exitNestedEventLoop();
+      });
+
+      inspector.enterNestedEventLoop(0); // wait for async process to terminate
+    }
+
+    return fileContents;
   },
 
   formatCmdLine: function(command, args) {
