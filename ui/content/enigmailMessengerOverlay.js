@@ -130,14 +130,13 @@ Enigmail.msg = {
 
     Enigmail.msg.decryptButton = document.getElementById("button-enigmail-decrypt");
 
-    Enigmail.msg.expiryTimer = EnigmailTimer.setTimeout(function _f() {
+    EnigmailTimer.setTimeout(function _f() {
       let msg = EnigmailExpiry.keyExpiryCheck();
 
       if (msg && msg.length > 0) {
         EnigmailDialog.alert(window, msg);
       }
 
-      this.expiryTimer = undefined;
     }.bind(Enigmail.msg), 60000); // 1 minute
 
     // Need to add event listener to Enigmail.msg.messagePane to make it work
@@ -545,16 +544,16 @@ Enigmail.msg = {
     // MsgHdrToMimeMessage is not on the main thread which may lead to problems with
     // accessing DOM and debugging
 
-    EnigmailEvents.dispatchEvent(
-      function(argList) {
-        var enigmailSvc = Enigmail.getEnigmailSvc();
+    let event = this.event;
+    let isAuto = this.isAuto;
+
+    EnigmailTimer.setTimeout(
+      function _f() {
+        let enigmailSvc = Enigmail.getEnigmailSvc();
         if (!enigmailSvc) return;
 
-        var event = argList[0];
-        var isAuto = argList[1];
-        var mimeMsg = argList[2];
         Enigmail.msg.messageDecryptCb(event, isAuto, mimeMsg);
-      }, 0, [this.event, this.isAuto, mimeMsg]);
+      }, 0);
   },
 
   /***
@@ -1551,7 +1550,7 @@ Enigmail.msg = {
 
 
             if (gFolderDisplay.selectedMessageIsNews) {
-              if (typeof(currentHeaderData.newsgroups)) {
+              if (currentHeaderData.newsgroups) {
                 msgHdr.Newsgroups = currentHeaderData.newsgroups.headerValue;
               }
             }

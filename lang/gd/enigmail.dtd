@@ -1,4 +1,4 @@
-<!ENTITY enigmail.label "Enigmail">
+<!ENTITY enigmail.label "Bheir Enigmail taic dhut airson teachdaireachdan a chrioptachadh ’s a shoidhneadh le OpenPGP. Feumaidh tu GnuPG (gpg) a stàladh an toiseach mus urrainn dhut an gleus seo a chleachdadh.">
 <!ENTITY enigmail.keyUserId.label "Cunntas / ID a’ chleachdaiche">
 <!ENTITY enigmail.keygenTitle.label "Gin iuchair OpenPGP">
 <!ENTITY enigmail.useForSigning.label "Cleachd an iuchair air a gintinn airson na dearbh-aithne a thagh thu">

@@ -15,7 +15,7 @@
 <!ENTITY enigmail.keyGen.years.label "лет">
 <!ENTITY enigmail.keyGen.noExpiry.label "Срок действия ключа не ограничен">
 <!ENTITY enigmail.keyGen.keySize.label "Размер ключа">
-<!ENTITY enigmail.keyGen.console.label "Консоль генерации ключа">
+<!ENTITY enigmail.keyGen.console.label "Консоль создания ключа">
 <!ENTITY enigmail.keyGen.keyType.label "Тип ключа">
 <!ENTITY enigmail.keyGen.keyType.dsa "DSA и El Gamal">
 <!ENTITY enigmail.keyGen.keyType.rsa "RSA">
@@ -33,16 +33,22 @@
 <!ENTITY enigmail.agentAdditionalParam.label "Дополнительные параметры для GnuPG">
 <!ENTITY enigmail.agentAdditionalParam.tooltip "Укажите опции, которые будет использовать GnuPG.">
 <!ENTITY enigmail.mime_parts_on_demand.label "Загружать MIME-части по требованию (папки IMAP)">
-<!ENTITY enigmail.maxIdleMinutesHead.label "Запоминать пароль в течение">
+<!ENTITY enigmail.maxIdleMinutesHead.label "Запоминать пароль на">
 <!ENTITY enigmail.maxIdleMinutesTail.label "минут(ы) бездействия">
 <!ENTITY enigmail.maxIdleMinutes.tooltip "Не запрашивать пароль в течении указанного времени.">
 <!ENTITY enigmail.resetPrefsButton.label "Сбросить">
 <!ENTITY enigmail.resetPrefs.tooltip "Сбросить все параметры Enigmail на значения по умолчанию.">
+<!ENTITY enigmail.backupPrefsButton.label "Экспортировать настройки и ключи">
+<!ENTITY enigmail.backupPrefs.tooltip "Сохранить все настройки Enigmail, включая ключи OpenPGP, в файл.">
+<!ENTITY enigmail.restorePrefsButton.label "Восстановить настройки и ключи">
+<!ENTITY enigmail.restorePrefs.tooltip "Восстановить все настройки Enigmail, включая ваши ключи PGP, из файла">
+<!ENTITY enigmail.backupRestore.desc "Экспорт (резервное копирование) и восстановление настроек, включая ключи OpenPGP.">
 <!ENTITY enigmail.basic.label "Основное">
 <!ENTITY enigmail.sending.label "Отправка">
 <!ENTITY enigmail.keySel.label "Подбор ключей">
 <!ENTITY enigmail.pgpMime.label "PGP/MIME">
 <!ENTITY enigmail.advanced.label "Дополнительно">
+<!ENTITY enigmail.backupRestore.label "Резервное копирование и восстановление">
 <!ENTITY enigmail.basicPrefs.label "Основные параметры">
 <!ENTITY enigmail.moreOptions.label "Дополнительные параметры">
 <!ENTITY enigmail.useNonDefaultComment.label "Добавить комментарий Enigmail в подпись OpenPGP">
@@ -59,6 +65,8 @@
 <!ENTITY enigmail.noHushMailSupport.tooltip "Использовать '&lt;' и '&gt;' для указания адресов электронной почты для GnuPG. Отключите, если у ваших получателей имеются старые ключи в формате Hushmail.">
 <!ENTITY enigmail.mime_parts_on_demand.tooltip "Отключите эту настройку, если получаете сообщения в формате PGP/MIME в свои папки на сервере IMAP">
 <!ENTITY enigmail.disableSMIMEui.tooltip "Удалить кнопку S/MIME из панели инструментов окна составления сообщения">
+<!ENTITY enigmail.autoKeyServerSelection.label "Всегда использовать первый сервер ключей">
+<!ENTITY enigmail.autoKeyServerSelection.tooltip "Использовать первый сервер ключей из списка по умолчанию.">
 <!ENTITY enigmail.decryptbutton.label "Расшифровать">
 <!ENTITY enigmail.decryptbutton.tip "Расшифровать/проверить с помощью Enigmail">
 <!ENTITY enigmail.messengermenu.accesskey "n">
@@ -68,6 +76,11 @@
 <!ENTITY enigmail.autoDecrypt.label "Автоматически расшифровывать/проверять сообщения">
 <!ENTITY enigmail.clearPassphrase.label "Удалить запомненный пароль">
 <!ENTITY enigmail.editRules.label "Редактор правил">
+<!ENTITY enigmail.decryptToFolder.label "Расшифровать в каталог.">
+<!ENTITY enigmail.decryptToFolder.accesskey "Р">
+<!-- "recent" label for Folder selection submenu -->
+<!ENTITY enigmail.recent.label "Недавние">
+<!ENTITY enigmail.recent.accesskey "Н">
 <!ENTITY enigmail.prefs.label "Настройки">
 <!ENTITY enigmail.debugMenu.label "Параметры отладки">
 <!ENTITY enigmail.viewconsole.label "Показать консоль">
@@ -103,10 +116,13 @@
 <!ENTITY enigmail.pgpAccountSettings.label "Параметры шифрования/подписи...">
 <!ENTITY enigmail.sendOptionsMenu.label "Параметры отправки...">
 <!ENTITY enigmail.defaultKeySelOpts.label "Параметры подбора ключей...">
+<!ENTITY enigmail.usePgpMime.label "Протокол: PGP/MIME">
+<!ENTITY enigmail.useInline.label "Протокол: Inline PGP">
 <!ENTITY enigmail.tempTrustAllKeys.label "Доверять ключам всех получателей">
 <!ENTITY enigmail.undoencryption.label "Отменить шифрование">
 <!ENTITY enigmail.attachkey.label "Присоединить открытый ключ...">
 <!ENTITY enigmail.attachmykey.label "Присоединить мой открытый ключ">
+<!ENTITY enigmail.protectHeaders.label "Защищать тему">
 <!ENTITY enigmail.composemenu.accesskey "n">
 <!ENTITY enigmail.signedsend.accesskey "п">
 <!ENTITY enigmail.signedsend.key "S">
@@ -115,6 +131,8 @@
 <!ENTITY enigmail.sendOptionsMenu.accesskey "П">
 <!ENTITY enigmail.defaultKeySelOpts.accesskey "ю">
 <!ENTITY enigmail.pgpAccountSettings.accesskey "ш">
+<!ENTITY enigmail.usePgpMime.accesskey "G">
+<!ENTITY enigmail.useInline.accesskey "I">
 <!ENTITY enigmail.tempTrustAllKeys.accesskey "Д">
 <!ENTITY enigmail.undoencryption.accesskey "О">
 <!ENTITY enigmail.attachkey.accesskey "о">
@@ -174,7 +192,7 @@
 <!ENTITY enigmail.autoKeyRetrieve2.label "со следующего сервера ключей:">
 <!ENTITY enigmail.resetRememberedValues.label "Сбросить настройки отображения предупреждений">
 <!ENTITY enigmail.resetRememberedValues.tooltip "Отобразить заново все окна с предупреждениями и вопросами, скрытые вами в прошлом.">
-<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>ПРИМЕЧАНИЕ: создание ключей может занять несколько минут.</a> Не закрывайте приложение во время этого процесса. Активный сёрфинг и интенсивное выполнение операций чтения и записи на диск во время генерации ключей внесут необходимый элемент случайности и ускорят процесс. Вы будете предупреждены о завершении создания ключа.">
+<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>ПРИМЕЧАНИЕ: создание ключей может занять несколько минут.</a> Не закрывайте приложение во время этого процесса. Активный просмотр интернета или интенсивное выполнение операций дисковых операций во время создания ключей внесут необходимый элемент случайности и ускорят процесс. Вы будете предупреждены о завершении.">
 <!ENTITY enigmail.userSelectionList.label "Подбор ключа Enigmail">
 <!ENTITY enigmail.usersNotFound.label "Адресаты неверны, не найдены или к ним нет доверия">
 <!ENTITY enigmail.keyExpiry.label "Срок действия">
@@ -318,6 +336,7 @@
 <!ENTITY enigmail.sKeyDlg.signKey.label "Подписываемый ключ:">
 <!ENTITY enigmail.sKeyDlg.fingerprint.label "Отпечаток:">
 <!ENTITY enigmail.sKeyDlg.signWithKey.label "Ключ для подписи:">
+<!ENTITY enigmail.sKeyDlg.ownKeyTrust.label "Примечание: вы должны установить абсолютный уровень доверия своим ключам что бы они были показаны в этом списке.">
 <!ENTITY enigmail.sKeyDlg.checked.label "Насколько тщательно вы проверили, действительно ли ключ, который вы собираетесь подписать, принадлежит лицу(ам)  указанному(ым) выше?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label "Я не хочу отвечать">
 <!ENTITY enigmail.sKeyDlg.notChecked.label "Я не проверял вовсе">
@@ -339,16 +358,16 @@
 <!ENTITY enigmail.keyExpiry.expiryKey.label "Установить новый срок действия для следующих ключей:">
 <!ENTITY enigmail.keyMan.title "Управление ключами Enigmail">
 <!ENTITY enigmail.keyMan.close.label "Закрыть окно">
-<!ENTITY enigmail.keyMan.generate.label "Новую ключевую пару">
+<!ENTITY enigmail.keyMan.generate.label "Новую пару ключей">
 <!ENTITY enigmail.keyMan.sign.label "Подписать ключ">
 <!ENTITY enigmail.keyMan.setTrust.label "Установить уровень доверия владельца к ключу">
 <!ENTITY enigmail.keyMan.genRevoke.label "Сертификат отзыва">
-<!ENTITY enigmail.keyMan.ctxGenRevoke.label "Сгенерировать и сохранить сертификат отзыва">
+<!ENTITY enigmail.keyMan.ctxGenRevoke.label "Создать и сохранить сертификат отзыва">
 <!ENTITY enigmail.keyMan.fileMenu.label "Файл">
 <!ENTITY enigmail.keyMan.editMenu.label "Правка">
 <!ENTITY enigmail.keyMan.viewMenu.label "Вид">
 <!ENTITY enigmail.keyMan.keyserverMenu.label "Сервер ключей">
-<!ENTITY enigmail.keyMan.generateMenu.label "Генерировать">
+<!ENTITY enigmail.keyMan.generateMenu.label "Создать">
 <!ENTITY enigmail.keyMan.fileMenu.accesskey "Ф">
 <!ENTITY enigmail.keyMan.editMenu.accesskey "П">
 <!ENTITY enigmail.keyMan.viewMenu.accesskey "В">
@@ -357,6 +376,7 @@
 <!ENTITY enigmail.keyMan.importFromFile.label "Импортировать ключи из файла">
 <!ENTITY enigmail.keyMan.importFromServer.label "Искать ключи">
 <!ENTITY enigmail.keyMan.importFromClipbrd.label "Импортировать ключи из буфера обмена">
+<!ENTITY enigmail.keyMan.importFromUrl.label "Импорт ключей по URL">
 <!ENTITY enigmail.keyMan.exportToFile.label "Экспортировать ключи в файл">
 <!ENTITY enigmail.keyMan.sendKeys.label "Отправить открытые ключи по эл. почте">
 <!ENTITY enigmail.keyMan.createMail.label "Составить сообщение для выделенных ключей">
@@ -416,6 +436,7 @@
 <!ENTITY enigmail.keyMan.showOthersKeys.accesskey "O">
 <!ENTITY enigmail.keyMan.showPhoto.accesskey "ф">
 <!ENTITY enigmail.keyMan.importFromClipbrd.accesskey "И">
+<!ENTITY enigmail.keyMan.importFromUrl.accesskey "U">
 <!ENTITY enigmail.keyMan.copyToClipbrd.accesskey "б">
 <!ENTITY enigmail.keyMan.keyDetails.accesskey "С">
 <!ENTITY enigmail.keyMan.showAllKeys.accesskey "б">
@@ -438,6 +459,9 @@
 <!ENTITY enigmail.manageUidDlg.revokeUid.label "Отозвать">
 <!ENTITY enigmail.manageUidDlg.setPrimary.label "Установить как первичный">
 <!ENTITY enigmail.keyDetails.title "Свойства ключа">
+<!ENTITY enigmail.keyDetails.signaturesTab "Сертификация">
+<!ENTITY enigmail.keyDetails.structureTab "Структура">
+<!ENTITY enigmail.keyDetails.uidCertifiedCol "ID Пользователя / Кем удостоверен">
 <!ENTITY enigmail.keyDetails.userId.label "Первичный идентификатор пользователя">
 <!ENTITY enigmail.keyDetails.ID.label "Идентификатор">
 <!ENTITY enigmail.keyDetails.keyType.label "Тип">
@@ -450,6 +474,11 @@
 <!ENTITY enigmail.keyDetails.fingerprint.label "Отпечаток">
 <!ENTITY enigmail.keyDetails.selAction.label "Выбрать действие...">
 <!ENTITY enigmail.keyDetails.selAction.accesskey "б">
+<!ENTITY enigmail.keyDetails.change.label "Изменить">
+<!ENTITY enigmail.keyDetails.signKey.label "Удостоверить">
+<!ENTITY enigmail.keyDetails.trustStatus.label "Ваши настройки доверия">
+<!ENTITY enigmail.keyDetails.keyValidity.label "Валидность">
+<!ENTITY enigmail.keyDetails.alsoKnown.label "Так же известен как">
 <!ENTITY enigmail.cardDetails.title "Информация OpenPGP для смарт-карты">
 <!ENTITY enigmail.cardDetails.cardMenu.label "Смарт-карта">
 <!ENTITY enigmail.cardDetails.adminPin.label "Сменить PIN-код">
@@ -502,18 +531,30 @@
 Для того чтобы использовать Enigmail, вам сперва требуется корректно его настроить.
 Этот ассистент будет вам помогать в процессе настройки.">
 <!ENTITY enigmail.setupWiz.pgIntro.desc2 "Хотите настроить Enigmail сейчас или сделаете это позже?">
+<!ENTITY enigmail.setupWiz.pgIntro.startNow "Начать настройку сейчас">
 <!ENTITY enigmail.setupWiz.pgIntro.startLater "Настроить Enigmail позднее">
+<!ENTITY enigmail.setupWiz.pgWelcome.title "Как бы вы хотели настроить Enigmail?">
+<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto "Вы хотите настроить  Enigmail вручную или вам требуется помощь?">
 <!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode "Я предпочитаю стандартную конфигурацию (рекомендуется новичкам)">
+<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode "Я предпочитаю расширенные настройки (для продвинутых пользователей)">
 <!ENTITY enigmail.setupWiz.pgWelcome.manualMode "Я предпочитаю ручную настройку (рекомендуется экспертам)">
+<!ENTITY enigmail.setupWiz.pgWelcome.importSettings "Импортировать настройки от предыдущей установки.">
 <!-- wizard: select account IDs step -->
 <!ENTITY enigmail.setupWiz.pgSelectId.title "Выбор учетных записей">
 <!ENTITY enigmail.setupWiz.pgSelectId.subtitle "Выберите учетные записи, с которыми должен работать Enigmail">
+<!ENTITY enigmail.setupWiz.pgSelectId.desc2 "Хотите ли вы настроить  Enigmail для всех ваших учётных записей и личностей?">
+<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds "Мне хотелось бы включить Enigmail ко всем моим учётным записям и личностям">
+<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds "Мне хотелось бы включить Enigmail только для следующих личностей:">
 <!ENTITY enigmail.setupWiz.pgSelectId.note "<a class='enigmailStrong'>Примечание:</a> Enigmail будет всегда проверять подписи под каждым сообщением для каждой учетной записи, независимо от того, включён ли он или нет">
 <!-- wizard: install GnuPG step -->
 <!ENTITY enigmail.setupWiz.pgInstall.title "Требуется установка GnuPG">
 <!ENTITY enigmail.setupWiz.pgInstall.desc "Для использования Enigmail требуется дополнительный компонент GnuPG, осуществляющий всю криптографическую работу.
 
 Мастеру установки не удалось найти GnuPG на компьютере.">
+<!ENTITY enigmail.setupWiz.pgInstall.installDesc1 "Enigmail может скачать GnuPG и запустить установочный мастер для вас. 
+
+Если вы хотите это сделать, нажмите кнопку &quot;Установить GnuPG&quot;, и GnuPG будет скачан и установлен.">
+<!ENTITY enigmail.setupWiz.pgInstall.installDesc2 "Или если GnuPG уже установлен, нажмите кнопку &quot;Обзор&quot;, чтобы указать к нему дорожку вручную.">
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc "Пожалуйста, укажите местоположение GnuPG с помощью кнопки «Обзор».">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton "Установить ...">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton "Обзор ...">
@@ -524,14 +565,31 @@
 <!-- wizard: key selection step -->
 <!ENTITY enigmail.setupWiz.pgKeySel.title "Подбор ключа">
 <!ENTITY enigmail.setupWiz.pgKeySel.subtitle "Создать ключ для подписи и шифрования почты">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey "Я хочу создать новую ключевую пару для подписи и шифрования моей почты">
+<!ENTITY enigmail.setupWiz.pgKeySel.desc2 "Мы обнаружили, что вы уже имеете OpenPGP ключ. Вы можете или воспользоваться одним из ваших имеющихся ключей, или создать новую пару.">
+<!ENTITY enigmail.setupWiz.pgKeySel.newKey "Я хочу создать новую пару ключей  для подписи и шифрования почты">
 <!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey "Я хочу выбрать один из указанных ниже ключей для подписи и шифрования моей почты:">
 <!-- wizard: key creation - password step -->
 <!ENTITY enigmail.setupWiz.pgKeyCreate.title "Создать ключ">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle "Создать ключ для подписи и шифрования почтовых сообщений">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys "Этот диалог создаст новую пару двух ключей:">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub "Ваш">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1 "<html:b>Закрытый ключ</html:b> — <html:b>только ваш</html:b>, служит для расшифровки писем и для подписания отправляемых вами писем.
+
+Не давайте его никому.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2 "<html:b>Закрытый ключ</html:b> — <html:b>только ваш</html:b>, служит для расшифровки писем и для подписания отправляемых вами писем.
+
+Не давайте его никому.
+
+Для защиты закрытого ключа в следующих двух диалогах будет предложено указать парольную фразу.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass "<html:b>Парольная фраза</html:b> — это пароль, защищающий ваш закрытый ключ. Он препятствует ошибочному использованию закрытого ключа.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain "Парольная фраза должна содержать фразу, содержащую не менее 8 символов, цифр и знаков препинания. Умлауты (например, ä, é, ñ) и символы, специфичные для языка, <html:b>не</html:b> рекомендуются.">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat "Пожалуйста, подтвердите ваш пароль, введя его повторно">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality "Качество парольной фразы:">
 <!-- wizard: no key found step -->
 <!ENTITY enigmail.setupWiz.pgNoKeyFound.title2 "Создать или импортировать ключи OpenPGP">
+<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2 "Похоже, что у вас еще нет ни одного ключа OpenPGP. Создать новый ключ или
+
+импортировать ключи из файла?">
 <!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey "У меня есть существующий открытый и закрытый ключ, которые я хотел бы импортировать">
 <!-- wizard: import key page -->
 <!ENTITY enigmail.setupWiz.pgKeyImport.title "Импорт ключей OpenPGP">
@@ -542,12 +600,39 @@
 <!-- wizard: key creation - key generation step -->
 <!ENTITY enigmail.setupWiz.pgKeygen.title "Создание ключа">
 <!ENTITY enigmail.setupWiz.pgKeygen.subtitle "Идет создание вашего ключа">
+<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete "Ваш ключ создан">
+<!ENTITY enigmail.setupWiz.pgKeygen.revokeCertDesc "В случае, если закрытые ключи будут утеряны или скомпроментированы, может потребоваться отзыв вашего открытого ключа
+
+для того, что бы остальные не продолжали использовать ваш старый ключ.
+
+Для этого вам потребуется сертификат отзыва.
+
+<html:br/>Для этого  будет предложено ввести пароль.">
 <!ENTITY enigmail.setupWiz.pgKeygen.revCertButton "Создать сертификат отзыва">
+<!-- wizard: import settings from previous installation -->
+<!ENTITY enigmail.setupWiz.pgImportSettings.title "Импортировать настройки из предыдущей установки">
+<!ENTITY enigmail.setupWiz.pgImportSettings.desc "Enigmail позволяет перенести все настройки, включая ключи OpenPGP
+
+на новый компьютер. Это делается за два шага:
+
+<html:ol>
+
+<html:li>экспорт данных со старого компьютера, используя этот мастер.</html:li> 
+
+<html:li>импорт данных на новом компьютере используя мастер установки.</html:li> 
+
+</html:ol>">
+<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "Выберите файл, содержащий резервную копию данных:">
+<!ENTITY enigmail.setupWiz.pgImportSettings.importing "Импортируются ключи и применяются настройки">
+<!ENTITY enigmail.setupWiz.pgImportSettings.error "Произошла ошибка. Настройки не могут быть применены.">
 <!-- wizard: final page -->
 <!ENTITY enigmail.setupWiz.pgComplete.title "Спасибо">
 <!ENTITY enigmail.setupWiz.pgComplete.desc "Теперь всё готово для использования Enigmail.<html:br></html:br><html:br></html:br>Спасибо за использование Enigmail.">
 <!-- wizard: manual setup page -->
 <!ENTITY enigmail.setupWiz.pgExpert.title "Ручная настройка Enigmail">
+<!ENTITY enigmail.setupWiz.pgExpert.desc "Вы выбрали настройку Enigmail без использования мастера настройки.">
+<!ENTITY enigmail.setupWiz.pgExpert.keyManager "Менеджер ключей Enigmail доступен отсюда">
+<!ENTITY enigmail.setupWiz.pgExpert.expertSettings "Экспертные настройки доступны отсюда">
 <!ENTITY enigmail.advancedIdentityDlg.title "Дополнительные параметры Enigmail учётной записи">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label "Прикреплять к сообщениям мой открытый ключ">
 <!ENTITY enigmail.addPhoto.question.label "Вы хотите добавить следующее изображение к данному ключу?">
@@ -560,3 +645,27 @@
 <!ENTITY enigmail.addToRule.newRuleButton.label "Создать новое правило">
 <!ENTITY enigmail.addToRule.newRuleButton.accesskey "N">
 <!ENTITY enigmail.savelogfile.label "Сохранить журнал в файл">
+<!ENTITY enigmail.filterEditor.moveError.label "Другие действия после «Расшифровать постоянно» не поддерживаются.">
+<!-- Export wizard -->
+<!ENTITY enigmail.exportWiz.title "Экспортировать вши настройки Enigmail">
+<!ENTITY enigmail.exportWiz.pgIntro.title "Добро пожаловать в мастер экспорта настроек">
+<!ENTITY enigmail.exportWiz.pgIntro.desc1 "Enigmail позволяет перенести все настройки, включая ключи OpenPGP
+
+на новый компьютер. Это делается за два шага:
+
+<html:ol>
+
+<html:li>экспорт данных со старого компьютера, используя этот мастер.</html:li> 
+
+<html:li>импорт данных на новом компьютере используя мастер установки.</html:li> 
+
+</html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.specifyFile "Укажите файл экспорта">
+<!ENTITY enigmail.exportWiz.pgExport.title "Экспортируются настройки Enigmail">
+<!ENTITY enigmail.exportWiz.pgExport.exporting "Выполняется сохранение. Возможно, будет предложено ввести парольную фразу (фразы) для колюча (ключей).">
+<!ENTITY enigmail.exportWiz.pgExport.done "Ключи OpenPGP и настройки Enigmail сохранены.
+
+Перенесите созданные файлы на новый компьютер, запустите 
+
+Thunderbird и запустите мастер установки из меню Enigmail.">
+<!ENTITY enigmail.exportWiz.pgExport.failed "Во время экспорта произошла ошибка. Настройки не могут быть экспортированы.">

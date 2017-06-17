@@ -1,20 +1,20 @@
 <!ENTITY enigmail.label "Enigmail">
-<!ENTITY enigmail.keyUserId.label "Account/ID utente">
-<!ENTITY enigmail.keygenTitle.label "Genera chiave OpenPGP">
-<!ENTITY enigmail.useForSigning.label "Utilizza la chiave generata per l'identità selezionata">
+<!ENTITY enigmail.keyUserId.label "Account / ID utente">
+<!ENTITY enigmail.keygenTitle.label "Visualizza impostazioni avanzate e menu">
+<!ENTITY enigmail.useForSigning.label "Nascondi impostazioni avanzate e menu">
 <!ENTITY enigmail.keyNoPassphrase.label "Nessuna frase segreta">
 <!ENTITY enigmail.keyPassphrase.label "Frase segreta">
-<!ENTITY enigmail.keyPassphraseRepeat.label "Frase segreta (ripeti)">
-<!ENTITY enigmail.generateKey.tooltip "Genera una nuova chiave in formato OpenPGP per cifrare e/o firmare">
-<!ENTITY enigmail.cancelKey.label "Annulla">
+<!ENTITY enigmail.keyPassphraseRepeat.label "Scarica gli allegati solo se aperti (solo per IMAP)">
+<!ENTITY enigmail.generateKey.tooltip "minuti di attesa">
+<!ENTITY enigmail.cancelKey.label "Specifica i server delle chiavi">
 <!ENTITY enigmail.cancelKey.tooltip "Annulla creazione chiave">
 <!ENTITY enigmail.keyGen.expiry.title "Scadenza della chiave">
-<!ENTITY enigmail.keyGen.expire.label "La chiave scade tra">
+<!ENTITY enigmail.keyGen.expire.label "<a class='enigmailStrong'>NOTA: la creazione della chiave può richiedere anche diversi minuti.</a> Non uscire dall'applicazione prima del termine dell'operazione. Navigare su internet o svolgere attività che sfruttino intensamente il disco durante la creazione della chiave potrà facilitare la generazione di numeri casuali e accelerare il processo stesso. Sarai avvertito quando la creazione della chiave sarà stata completata.">
 <!ENTITY enigmail.keyGen.days.label "giorni">
 <!ENTITY enigmail.keyGen.months.label "mesi">
 <!ENTITY enigmail.keyGen.years.label "anni">
 <!ENTITY enigmail.keyGen.noExpiry.label "La chiave non scade">
-<!ENTITY enigmail.keyGen.keySize.label "Dimensione della chiave">
+<!ENTITY enigmail.keyGen.keySize.label "Lunghezza della chiave">
 <!ENTITY enigmail.keyGen.console.label "Console di creazione chiave">
 <!ENTITY enigmail.keyGen.keyType.label "Tipo chiave">
 <!ENTITY enigmail.keyGen.keyType.dsa "DSA e El Gamal">
@@ -23,18 +23,18 @@
 <!ENTITY enigmail.passwordSettings.label "Impostazioni frase segreta">
 <!ENTITY enigmail.userNoPassphrase.label "Non chiedere alcuna frase segreta">
 <!ENTITY enigmail.userNoPassphrase.tooltip "Da attivare nel caso in cui la tua chiave OpenPGP non sia protetta da una passphrase.">
-<!ENTITY enigmail.expertUserMenus.label "Visualizza impostazioni e menu avanzate">
+<!ENTITY enigmail.expertUserMenus.label "Visualizza Impostazioni avanzate e menu">
 <!ENTITY enigmail.expertUser.tooltip "Premi qui per vedere le voci di menu e le opzioni riservate ad utenti esperti.">
-<!ENTITY enigmail.basicUserMenus.label "Nascondi impostazioni e menu avanzate">
+<!ENTITY enigmail.basicUserMenus.label "Nascondi Impostazioni avanzate e menu">
 <!ENTITY enigmail.basicUser.tooltip "Premi qui per nascondere le voci di menu e le opzioni riservate ad utenti esperti.">
 <!ENTITY enigmail.prefs.pathsTitle.label "File e cartelle">
-<!ENTITY enigmail.prefs.overrideGpg.label "Dai la precedenza a">
-<!ENTITY enigmail.prefs.overrideGpg.tooltip "Fai clic per specificare una posizione per GnuPG">
+<!ENTITY enigmail.prefs.overrideGpg.label "Utilizza invece">
+<!ENTITY enigmail.prefs.overrideGpg.tooltip "Fai clic per specificare il percorso di GnuPG">
 <!ENTITY enigmail.agentAdditionalParam.label "Parametri aggiuntivi per GnuPG">
 <!ENTITY enigmail.agentAdditionalParam.tooltip "Specifica le opzioni che saranno utilizzate da GnuPG.">
-<!ENTITY enigmail.mime_parts_on_demand.label "Scarica gli allegati solo quando vengono aperti (cartelle IMAP)">
+<!ENTITY enigmail.mime_parts_on_demand.label "Scarica gli allegati solo quando vengono aperti (solo per IMAP)">
 <!ENTITY enigmail.maxIdleMinutesHead.label "Ricorda la frase segreta per">
-<!ENTITY enigmail.maxIdleMinutesTail.label "minuti di attesa">
+<!ENTITY enigmail.maxIdleMinutesTail.label "minuti">
 <!ENTITY enigmail.maxIdleMinutes.tooltip "Mantieni in memoria la frase segreta per un tempo limitato.">
 <!ENTITY enigmail.resetPrefsButton.label "Ripristina">
 <!ENTITY enigmail.resetPrefs.tooltip "Ripristina i valori predefiniti delle preferenze di Enigmail.">
@@ -54,14 +54,14 @@
 <!ENTITY enigmail.useNonDefaultComment.label "Aggiungi il commento di Enigmail nella firma di OpenPGP">
 <!ENTITY enigmail.keyserver.label "Server delle chiavi">
 <!ENTITY enigmail.keyserverDlg.label "Seleziona server delle chiavi">
-<!ENTITY enigmail.keyservers.label "Specifica server delle chiavi">
+<!ENTITY enigmail.keyservers.label "Indica i server delle chiavi">
 <!ENTITY enigmail.keyservers.sample "Esempio: sks.dnsalias.net, pgp.mit.edu, ldap://certserver.pgp.com">
 <!ENTITY enigmail.searchForKey.label "Cerca chiave">
 <!ENTITY enigmail.doubleDashSeparator.label "'--' è un separatore di firma">
 <!ENTITY enigmail.useGpgAgent.label "Usa gpg-agent per le frasi segrete">
 <!ENTITY enigmail.noHushMailSupport.label "Usa '&lt;' e '&gt;' per specificare gli indirizzi email">
 <!ENTITY enigmail.doubleDashSeparator.tooltip "Due trattini isolati su una riga indicheranno l'inizio della firma">
-<!ENTITY enigmail.useGpgAgent.tooltip "Usa gpg-agent (compreso in GnuPG 2) ogni volta che devi digitare la frase segreta">
+<!ENTITY enigmail.useGpgAgent.tooltip "Usa gpg-agent (parte di GnuPG 2) ogni volta che devi digitare la frase segreta">
 <!ENTITY enigmail.noHushMailSupport.tooltip "Usa i caratteri '&lt;' e '&gt;' per evidenziare gli indirizzi email a GnuPG. Disattivare se i destinatari usano vecchie chiavi Hushmail.">
 <!ENTITY enigmail.mime_parts_on_demand.tooltip "Questa opzione deve essere disattivata se si ricevono in cartelle IMAP messaggi di posta in formato PGP/MIME.">
 <!ENTITY enigmail.disableSMIMEui.tooltip "Rimuovi il pulsante S/MIME dalla barra della finestra di composizione dei messaggi">
@@ -178,7 +178,7 @@
 <!-- keySel Preferences -->
 <!ENTITY enigmail.recipientsSelectionOption.label "Come devono essere scelte le chiavi?">
 <!ENTITY enigmail.assignKeysByRules.label "Dalle regole per destinatario">
-<!ENTITY enigmail.assignKeysByRules.tooltip "Assegna le chiavi in base alle regole per destinatario. Forza la richiesta di creazione di nuove regole se questa è l'unica opzione selezionata.">
+<!ENTITY enigmail.assignKeysByRules.tooltip "Assegna le chiavi in base alle regole per i destinatari. Forza la richiesta di creazione di nuove regole se questa è l'unica opzione selezionata.">
 <!ENTITY enigmail.assignKeysByEmailAddr.label "Dagli indirizzi email in base al gestore delle chiavi">
 <!ENTITY enigmail.assignKeysByEmailAddr.tooltip "Assegna le chiavi in base alle chiavi associate agli indirizzi email nel gestore delle chiavi.">
 <!ENTITY enigmail.assignKeysManuallyIfMissing.label "Manualmente se mancano le chiavi">
@@ -192,7 +192,7 @@
 <!ENTITY enigmail.autoKeyRetrieve2.label "dai seguenti server delle chiavi:">
 <!ENTITY enigmail.resetRememberedValues.label "Riattiva gli avvisi">
 <!ENTITY enigmail.resetRememberedValues.tooltip "Mostra di nuovo tutti i messaggi di avviso e le richieste che in passato hai deciso di nascondere.">
-<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>NOTA: La creazione della chiave può richiedere anche parecchi minuti.</a> Non uscire dall'applicazione prima del termine dell'operazione. Navigare su internet o svolgere attività che sfruttino intensamente il disco durante la creazione della chiave potrà facilitare la generazione dei numeri casuali e accelerare il processo stesso. Sarai avvertito quando la creazione della chiave sarà completata.">
+<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>NOTA: la creazione della chiave può richiedere anche parecchi minuti.</a> Non uscire dall'applicazione prima del termine dell'operazione. Navigare su internet o svolgere attività che sfruttino intensamente il disco durante la creazione della chiave potrà facilitare la generazione dei numeri casuali e accelerare il processo stesso. Sarai avvertito quando la creazione della chiave sarà stata completata.">
 <!ENTITY enigmail.userSelectionList.label "Seleziona chiave Enigmail">
 <!ENTITY enigmail.usersNotFound.label "Destinatari non validi, senza fiducia o non trovati">
 <!ENTITY enigmail.keyExpiry.label "Scadenza">

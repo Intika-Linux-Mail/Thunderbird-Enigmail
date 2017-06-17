@@ -32,11 +32,11 @@
 <!ENTITY enigmail.prefs.overrideGpg.tooltip "Klikoni që të përcaktoni një vend për GnuPG-në">
 <!ENTITY enigmail.agentAdditionalParam.label "Parametra shtesë për GnuPG-në">
 <!ENTITY enigmail.agentAdditionalParam.tooltip "Përcaktoni mundësitë që do të përdoren nga GnuPG.">
-<!ENTITY enigmail.mime_parts_on_demand.label "Bashkëngjitjes shkarkoji vetëm kur hapen (vetëm për IMAP)">
+<!ENTITY enigmail.mime_parts_on_demand.label "Bashkëngjitjet shkarkoji vetëm kur hapen (vetëm për IMAP)">
 <!ENTITY enigmail.maxIdleMinutesHead.label "Mbaje mend frazëkalimin për">
 <!ENTITY enigmail.maxIdleMinutesTail.label "minutash plogështie">
 <!ENTITY enigmail.maxIdleMinutes.tooltip "Ruajeni frazëkalimin në kujtesë për një kohë të kufizuar.">
-<!ENTITY enigmail.resetPrefsButton.label "Rikthe te parazgjedhjet">
+<!ENTITY enigmail.resetPrefsButton.label "Riktheji te parazgjedhjet">
 <!ENTITY enigmail.resetPrefs.tooltip "Rikthejini krejt parapëlqimet për Enigmail-in te vlerat parazgjedhje.">
 <!ENTITY enigmail.backupPrefsButton.label "Eksportoni Rregullime dhe Kyçe">
 <!ENTITY enigmail.backupPrefs.tooltip "Ruajini në një kartelë krejt parapëlqimet mbi Enigmail-in, përfshi kyçet tuaj OpenPGP.">
@@ -76,7 +76,7 @@
 <!ENTITY enigmail.autoDecrypt.label "Shfshehtëzo/Verifiko Mesazhet Vetvetiu">
 <!ENTITY enigmail.clearPassphrase.label "Pastroje Frazëkalimin e Ruajtur">
 <!ENTITY enigmail.editRules.label "Përpunoni Rregulla Sipas-Marrësish">
-<!ENTITY enigmail.decryptToFolder.label "Çfshehtëzoje në dosje">
+<!ENTITY enigmail.decryptToFolder.label "Shfshehtëzoje në dosje">
 <!ENTITY enigmail.decryptToFolder.accesskey "Ç">
 <!-- "recent" label for Folder selection submenu -->
 <!ENTITY enigmail.recent.label "Së fundi">
@@ -176,7 +176,7 @@
 <!ENTITY enigmail.confirmBeforeSendingIfRules.label "Nëse rregullat ndryshuan rregullimin parazgjedhje për fshehtëzimin">
 <!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip "Shfaqni dialog të dhënash mbi nënshkrime/fshehtëzime përpara dërgimit, nëse parapëlqimi juaj për fshehtëzime qe ndryshuar nga një rregull sipas-marrësish ose nga vetëfshehtëzimi">
 <!-- keySel Preferences -->
-<!ENTITY enigmail.recipientsSelectionOption.label "Si duhet t’i zgjedhim kyçet?">
+<!ENTITY enigmail.recipientsSelectionOption.label "Si duhet t&apos;i zgjedhim kyçet?">
 <!ENTITY enigmail.assignKeysByRules.label "Sipas Rregullash Sipas-Marrësish">
 <!ENTITY enigmail.assignKeysByRules.tooltip "Kyçet caktojini në përputhje me rregulla sipas-marrësish. Bëjeni të kërkojë detyrimisht krijim rregullash të reja, nëse kjo është e vetmja mundësi e përzgjedhur.">
 <!ENTITY enigmail.assignKeysByEmailAddr.label "Sipas Adresash Email në përputhje me përgjegjësin e kyçeve">
@@ -192,9 +192,9 @@
 <!ENTITY enigmail.autoKeyRetrieve2.label "prej shërbyesve vijues të kyçeve:">
 <!ENTITY enigmail.resetRememberedValues.label "Rikthe Sinjalizimet">
 <!ENTITY enigmail.resetRememberedValues.tooltip "Rishfaqni krejt dialogët dhe pyetjet që keni fshehur më parë.">
-<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>SHËNIM: Prodhimi i kyçeve mund të dojë disa minuta të plotësohet.</a> Mos e mbyllni programin, ndërkohë që kryhet prodhimi i kyçeve. Shfletimi rëndshëm, ose kryerja e veprimeve që e përdorin shumë diskun, gjatë prodhimit të kyçeve do ta rimbushë 'burimin e rastësisë' dhe përshpejtojë procesin. Kur prodhimi i kyçeve të jetë plotësuar, do t’ju njoftohet.">
+<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>SHËNIM: Prodhimi i kyçeve mund të dojë disa minuta të plotësohet.</a> Mos e mbyllni programin, ndërkohë që kryhet prodhimi i kyçeve. Shfletimi rëndshëm, ose kryerja e veprimeve që e përdorin shumë diskun, gjatë prodhimit të kyçeve do ta rimbushë 'burimin e rastësisë' dhe përshpejtojë procesin. Kur prodhimi i kyçeve të jetë plotësuar, do t&apos;ju njoftohet.">
 <!ENTITY enigmail.userSelectionList.label "Përzgjedhje Kyçesh Enigmail">
-<!ENTITY enigmail.usersNotFound.label "Marrë jo të vlefshëm, jo të besuar ose që nuk gjenden">
+<!ENTITY enigmail.usersNotFound.label "Marrës jo të vlefshëm, jo të besuar ose që nuk gjenden">
 <!ENTITY enigmail.keyExpiry.label "Skadim">
 <!ENTITY enigmail.uidValidity.label "Vlefshmëri">
 <!ENTITY enigmail.keySelection.label "Përzgjedhje">
@@ -211,7 +211,7 @@
 <!ENTITY enigmail.refreshKeys.accesskey "R">
 <!ENTITY enigmail.send.label "Dërgoje">
 <!ENTITY enigmail.perRecipientsOption.label "Krijoni rregull(a) sipas-marrësish">
-<!ENTITY enigmail.enigmailAttachDesc.label "Ky mesazh përmban bashkëngjitje. Si do të donit t’i fshehtëzonit/nënshkruanit ato?">
+<!ENTITY enigmail.enigmailAttachDesc.label "Ky mesazh përmban bashkëngjitje. Si do të donit t&apos;i fshehtëzonit/nënshkruanit ato?">
 <!ENTITY enigmail.enigEncryptAttachNone.label "Thjesht fshehtëzo/nënshkruaj tekstin e mesazhit, por jo bashkëngjitjet">
 <!ENTITY enigmail.enigAttachNoneSign.label "Nënshkruaj tekstin e mesazhit, por jo bashkëngjitjet">
 <!ENTITY enigmail.enigAttachNoneEncrypt.label "Fshehtëzo tekstin e mesazhit, por jo bashkëngjitjet">
@@ -284,7 +284,7 @@
 <!ENTITY enigmail.wrapSelectionList.label "Përzgjidhni mbështjellje">
 <!ENTITY enigmail.compose.wrap_radio.label "Mbështille vetvetiu (nënshkrim i mirë, por mund të mos duket bukur)">
 <!ENTITY enigmail.compose.sendasis_radio.label "Dërgoje siç është (dhe rrezikoni të ketë nënshkrim të keq)">
-<!ENTITY enigmail.compose.use_mime_radio.label "Përdor PGP/MIME (nënshkrim i mirë, por disa nga marrësit mund të mos arrijnë ta çkodojnë)">
+<!ENTITY enigmail.compose.use_mime_radio.label "Përdor PGP/MIME (nënshkrim i mirë, por disa nga marrësit mund të mos arrijnë ta shkodojnë)">
 <!ENTITY enigmail.compose.editmanually.label "Përpunojeni dorazi">
 <!ENTITY enigmail.selKeysButton.label "Përzgjidhni Kyç(e)...">
 <!ENTITY enigmail.action.label "Veprim">
@@ -333,7 +333,7 @@
 <!ENTITY enigmail.created.label "Krijuar më">
 <!ENTITY enigmail.progress.label "Ecuri">
 <!ENTITY enigmail.sKeyDlg.title "Enigmail - Nënshkruani Kyç">
-<!ENTITY enigmail.sKeyDlg.signKey.label "Kyç për t’u nënshkruar:">
+<!ENTITY enigmail.sKeyDlg.signKey.label "Kyç për t&apos;u nënshkruar:">
 <!ENTITY enigmail.sKeyDlg.fingerprint.label "Shenja gishtash:">
 <!ENTITY enigmail.sKeyDlg.signWithKey.label "Kyç për nënshkrim:">
 <!ENTITY enigmail.sKeyDlg.ownKeyTrust.label "Shënim: që kyçet tuaj të shfaqen këtu, besueshmërinë e të zotit për ta duhet të caktoni si përfundimtare.">
@@ -347,7 +347,7 @@
 <!ENTITY enigmail.addUidDlg.name.label "Emër">
 <!ENTITY enigmail.addUidDlg.email.label "Email">
 <!ENTITY enigmail.keyTrust.title "Enigmail - Caktoni Besueshmëri Pronari">
-<!ENTITY enigmail.keyTrust.trustKey.label "Kyç Për T’u Besuar:">
+<!ENTITY enigmail.keyTrust.trustKey.label "Kyç Për T&apos;u Besuar:">
 <!ENTITY enigmail.keyTrust.trustLevel.label "Sa i besoni të zotit të kyçit për nënshkrim si duhet kyçesh të tjerë?">
 <!ENTITY enigmail.keyTrust.dontKnow.label "Nuk e di">
 <!ENTITY enigmail.keyTrust.noTrust.label "NUK e besoj">
@@ -355,7 +355,7 @@
 <!ENTITY enigmail.keyTrust.fullTrust.label "E besoj plotësisht">
 <!ENTITY enigmail.keyTrust.ultimateTrust.label "E besoj përfundimisht">
 <!ENTITY enigmail.keyExpiry.title "Enigmail - Ndryshoni Datë Skadence">
-<!ENTITY enigmail.keyExpiry.expiryKey.label "Kyçe të cilëve t’u ndërrohet data e skadimit:">
+<!ENTITY enigmail.keyExpiry.expiryKey.label "Kyçe të cilëve t&apos;u ndërrohet data e skadimit:">
 <!ENTITY enigmail.keyMan.title "Administrimi Kyçesh Enigmail">
 <!ENTITY enigmail.keyMan.close.label "Mbylle Dritaren">
 <!ENTITY enigmail.keyMan.generate.label "Çift i Ri Kyçesh">
@@ -452,7 +452,7 @@
 <!ENTITY enigmail.keyMan.refreshKey.key "R">
 <!ENTITY enigmail.keySearch.selectAll.key "A">
 <!ENTITY enigmail.manageUidDlg.title "Ndryshoni ID Parësore Përdoruesi">
-<!ENTITY enigmail.manageUidDlg.affectedKey.label "Kyç për t’u ndryshuar:">
+<!ENTITY enigmail.manageUidDlg.affectedKey.label "Kyç për t&apos;u ndryshuar:">
 <!ENTITY enigmail.manageUidDlg.availableUid.label "ID përdoruesi të gatshme:">
 <!ENTITY enigmail.manageUidDlg.addUid.label "Shtoni">
 <!ENTITY enigmail.manageUidDlg.deleteUid.label "Fshije">
@@ -512,9 +512,9 @@
 <!ENTITY enigmail.cardDetails.editData.accesskey "D">
 <!ENTITY enigmail.genCardKey.title "Prodho Kyç OpenPGP">
 <!ENTITY enigmail.genCardKey.backupKey.label "Kopjeruajtjen e kyçit ruaje jashtë kartës">
-<!ENTITY enigmail.genCardKey.desc "<a class='enigmailStrong'>SHËNIM: Prodhimi i kyçeve mund të dojë disa minuta të plotësohet.</a> Mos e mbyllni programin, ndërkohë që kryhet prodhimi i kyçeve. Kur prodhimi i kyçeve të jetë plotësuar, do t’ju njoftohet.">
+<!ENTITY enigmail.genCardKey.desc "<a class='enigmailStrong'>SHËNIM: Prodhimi i kyçeve mund të dojë disa minuta të plotësohet.</a> Mos e mbyllni programin, ndërkohë që kryhet prodhimi i kyçeve. Kur prodhimi i kyçeve të jetë plotësuar, do t&apos;ju njoftohet.">
 <!ENTITY enigmail.cardPin.title "Ndryshoni PIN-in e Kartës së Mençur">
-<!ENTITY enigmail.cardPin.action.label "Ç’doni të bëni">
+<!ENTITY enigmail.cardPin.action.label "Ç&apos;doni të bëni">
 <!ENTITY enigmail.cardPin.changePin.label "Ndryshoni PIN-in">
 <!ENTITY enigmail.cardPin.changeAdmPin.label "Ndryshoni PIN Përgjegjësi">
 <!ENTITY enigmail.cardPin.unblockPin.label "Zhbllokoni PIN-in">
@@ -529,7 +529,7 @@
 <!ENTITY enigmail.setupWiz.pgIntro.title "Mirë se vini te Ndihmësi për Rregullimin e Enigmail-in">
 <!ENTITY enigmail.setupWiz.pgIntro.desc "Duket se e nisët për herë të parë Enigmail-in në këtë kompjuter.
                                                       Që të mund të përdorni Enigmail-in, lypset së pari ta rregulloni si duhet.
-                                                      Ky ndihmës mund t’ju udhëheqë nëpër procesin e rregullimit.">
+                                                      Ky ndihmës mund t&apos;ju udhëheqë nëpër procesin e rregullimit.">
 <!ENTITY enigmail.setupWiz.pgIntro.desc2 "Doni ta rregulloni Enigmail-in tani, apo doni ta bëni këtë më vonë?">
 <!ENTITY enigmail.setupWiz.pgIntro.startNow "Niseni rregullimin tani">
 <!ENTITY enigmail.setupWiz.pgIntro.startLater "Formësojeni Enigmail-in më vonë">
@@ -538,7 +538,7 @@
 <!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode "Parapëlqej formësim standard (i këshilluar për fillestarë)">
 <!ENTITY enigmail.setupWiz.pgWelcome.advancedMode "Parapëlqej formësim të thelluar (i këshilluar për përdorues të përparuar)">
 <!ENTITY enigmail.setupWiz.pgWelcome.manualMode "Parapëlqej formësim dorazi (i këshilluar për ekspertë)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings "Dua t’i importoj rregullimet e mia nga një instalim i mëparshëm">
+<!ENTITY enigmail.setupWiz.pgWelcome.importSettings "Dua t&apos;i importoj rregullimet e mia nga një instalim i mëparshëm">
 <!-- wizard: select account IDs step -->
 <!ENTITY enigmail.setupWiz.pgSelectId.title "Përzgjidhni Identitete">
 <!ENTITY enigmail.setupWiz.pgSelectId.subtitle "Përzgjidhni llogaritë ose identitetet për të cilët doni që të funksionojë Enigmail-i">
@@ -572,12 +572,12 @@
 <!ENTITY enigmail.setupWiz.pgKeyCreate.title "Krijoni Kyç">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle "Krijoni një Çift të ri Kyçesh">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys "Në këtë skenë do të krijohet një çift kyçesh:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub "<html:b>Kyçi juaj publik</html:b> shërben <html:b>për t’u përdorur nga të tjerët</html:b> që t’ju dërgojnë mesazhe të fshehtëzuar. Mund t’ia jepni kujtdo.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1 "<html:b>Kyçi juaj privat</html:b> shërben që <html:b>ju vetë</html:b> t’i shfshehtëzoni këto email-e dhe që të dërgoni email-e të nënshkruar.
-                                                      S’duhet t’ia jepni ndokujt.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2 "<html:b>Kyçi juaj privat</html:b> shërben që <html:b>ju</html:b> t’i shfshehtëzoni këto email-e dhe të dërgoni email-e të nënshkruar.
-                                                      S’duhet t’ia jepni ndokujt.
-                                                      Që ta siguroni kyçin tuaj privat, në dy hapat vijues do t’ju kërkohet një frazëkalim.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub "<html:b>Kyçi juaj publik</html:b> shërben <html:b>për t&apos;u përdorur nga të tjerët</html:b> që t&apos;ju dërgojnë mesazhe të fshehtëzuar. Mund t&apos;ia jepni kujtdo.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1 "<html:b>Kyçi juaj privat</html:b> shërben që <html:b>ju vetë</html:b> t&apos;i shfshehtëzoni këto email-e dhe që të dërgoni email-e të nënshkruar.
+                                                      S&apos;duhet t’ia jepni ndokujt.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2 "<html:b>Kyçi juaj privat</html:b> shërben që <html:b>ju</html:b> t&apos;i shfshehtëzoni këto email-e dhe të dërgoni email-e të nënshkruar.
+                                                      S&apos;duhet t&apos;ia jepni ndokujt.
+                                                      Që ta siguroni kyçin tuaj privat, në dy hapat vijues do t&apos;ju kërkohet një frazëkalim.">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.descPass "<html:b>Frazëkalimi</html:b> juaj është një fjalëkalim për mbrojtjen e kyçit tuaj privat. Ai parandalon përdorimin e paautorizuar të kyçit tuaj privat.">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.passContain "Frazëkalimi duhet të jetë një frazë që përmban të paktën 8 shenja, shifra dhe shenja pikësimi. <html:b>Nuk</html:b> këshillohen shkronjat me shenja sipër (p.sh. ë, é, ñ) dhe shkronja specifike të një gjuhe të caktuar.">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat "Ju lutemi, ripohoni frazëkalimin tuaj, duke e shtypur sërish">
@@ -586,7 +586,7 @@
 <!ENTITY enigmail.setupWiz.pgNoKeyFound.title2 "Krijoni ose Importoni Kyçe OpenPGP">
 <!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2 "Nuk duket se keni ndonjë kyç OpenPGP. Do të donit të krijohet një kyç i ri, apo
                                                       doni të importoni kyçe nga një kartelë?">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey "Kam kyçe publik dhe privat që do të doja t’i importoja">
+<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey "Kam kyçe publik dhe privat që do të doja t&apos;i importoja">
 <!-- wizard: import key page -->
 <!ENTITY enigmail.setupWiz.pgKeyImport.title "Importoni Kyçe OpenPGP">
 <!ENTITY enigmail.setupWiz.pgKeyImport.subtitle "Tregoni kartelat për importim">
@@ -599,10 +599,10 @@ e parë përmban si kyçin privat, ashtu edhe atë publik.">
 <!ENTITY enigmail.setupWiz.pgKeygen.title "Krijim Kyçi">
 <!ENTITY enigmail.setupWiz.pgKeygen.subtitle "Kyçi juaj po prodhohet">
 <!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete "Kyçi Juaj u Prodhua">
-<!ENTITY enigmail.setupWiz.pgKeygen.revokeCertDesc "Në rast se kyçi juaj privat humb ose komprometohet, mund t’ju duhet të shfuqizoni kyçin tuaj publik,
+<!ENTITY enigmail.setupWiz.pgKeygen.revokeCertDesc "Në rast se kyçi juaj privat humb ose komprometohet, mund t&apos;ju duhet të shfuqizoni kyçin tuaj publik,
                                                       që të tjerët të mos vazhdojnë të përdorin kyçin tuaj të vjetër.
                                                       Për këtë qëllim, ju duhet një dëshmi shfuqizimi.
-                                                      <html:br/>Për këtë do t’ju kërkohet të jepni fjalëkalimin tuaj.">
+                                                      <html:br/>Për këtë do t&apos;ju kërkohet të jepni fjalëkalimin tuaj.">
 <!ENTITY enigmail.setupWiz.pgKeygen.revCertButton "Krijoni Dëshmi Shfuqizimi">
 <!-- wizard: import settings from previous installation -->
 <!ENTITY enigmail.setupWiz.pgImportSettings.title "Importo Rregullime prej Instalimi të Mëparshëm">
@@ -625,7 +625,7 @@ e parë përmban si kyçin privat, ashtu edhe atë publik.">
 <!ENTITY enigmail.setupWiz.pgExpert.expertSettings "Rregullimet për ekspertë gjenden prej këtu">
 <!ENTITY enigmail.advancedIdentityDlg.title "Rregullime të Thelluara Identitetesh Enigmail">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label "Bashkëngjiti mesazheve kyçin tim publik">
-<!ENTITY enigmail.addPhoto.question.label "Dëshironi t’i shtoni foton vijuese kyçit vijues?">
+<!ENTITY enigmail.addPhoto.question.label "Dëshironi t&apos;i shtoni foton vijuese kyçit vijues?">
 <!ENTITY enigmail.addPhoto.title "Shtojini Kyçit Foto">
 <!ENTITY enigmail.msgViewColumn.label "OpenPGP">
 <!ENTITY enigmail.msgViewColumn.tooltip "Renditini sipas gjendjes së OpenPGP-së">
@@ -647,8 +647,8 @@ e parë përmban si kyçin privat, ashtu edhe atë publik.">
                                                       </html:ol>">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile "Ju lutemi, përcaktoni kartelën e eksportimit">
 <!ENTITY enigmail.exportWiz.pgExport.title "Po eksportohen Rregullime Enigmail-i">
-<!ENTITY enigmail.exportWiz.pgExport.exporting "Ruajtja po kryhet. Mund t’ju kërkohet frazëkalimi(et) për kyçin(et) tuaj.">
+<!ENTITY enigmail.exportWiz.pgExport.exporting "Ruajtja po kryhet. Mund t&apos;ju kërkohet frazëkalimi(et) për kyçin(et) tuaj.">
 <!ENTITY enigmail.exportWiz.pgExport.done "Kyçet tuaj OpenPGP dhe rregullimet tuaja për Enigmail-in u ruajtën.
                                                       Ju lutemi, kartelën e prodhuar mbarteni te kompjuteri juaj i ri, nisni
                                                       Thunderbird-in dhe vini në punë Ndihmësin e Rregullimeve që nga menuja Enigmail.">
-<!ENTITY enigmail.exportWiz.pgExport.failed "Ndodhi një gabim gjatë eksportimit. Rregullimet s’u eksportuan dot.">
+<!ENTITY enigmail.exportWiz.pgExport.failed "Ndodhi një gabim gjatë eksportimit. Rregullimet s&apos;u eksportuan dot.">

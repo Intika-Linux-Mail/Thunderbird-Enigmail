@@ -210,6 +210,7 @@
 <!ENTITY enigmail.enigEncryptAttachInline.label "Critografar cada anexo separadamente e enviar a mensagem utilizando PGP inline">
 <!ENTITY enigmail.enigAttachInlineSign.label "Assinar cada anexo separadamente e enviar a mensagem usando inline PGP">
 <!ENTITY enigmail.enigAttachInlineEncrypt.label "Criptografar cada anexo separadamente e enviar a mensagem usando inline PGP">
+<!ENTITY enigmail.enigAttachInlineEncryptAndSign.label "Criptografe e assine cada anexo separadamente e envie a mensagem usando inline PGP">
 <!ENTITY enigmail.enigEncryptAttachPgpMime.label "Criptografar/assinar a mensagem como um todo e enviar utilizando PGP/MIME">
 <!ENTITY enigmail.enigAttachPgpMimeSign.label "Assinar a mensagem como um todo e enviá-la usando PGP/MIME">
 <!ENTITY enigmail.enigAttachPgpMimeEncrypt.label "Criptografar a mensagem como um todo e enviá-la usando PGP/MIME">
@@ -508,10 +509,15 @@
 <!ENTITY enigmail.setupWiz.pgIntro.startNow "Configurar agora">
 <!ENTITY enigmail.setupWiz.pgIntro.startLater "Configurar mais tarde">
 <!ENTITY enigmail.setupWiz.pgWelcome.title "Como você deseja Configurar o Enigmail">
+<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto "Você gostaria de configurar o Enigmail manualmente, ou você precisa de assistência no processo de configuração?">
+<!ENTITY enigmail.setupWiz.pgWelcome.manualMode "Eu prefiro configurar manualmente (recomendado para experts)">
 <!ENTITY enigmail.setupWiz.pgWelcome.importSettings "Eu desejo importar minhas configurações de um arquivo de uma antiga instalação">
 <!-- wizard: select account IDs step -->
 <!ENTITY enigmail.setupWiz.pgSelectId.title "Selecionar Identidade">
 <!ENTITY enigmail.setupWiz.pgSelectId.subtitle "Selecione a conta ou identidade que o Enigmail deverá usar para trabalhar">
+<!ENTITY enigmail.setupWiz.pgSelectId.desc2 "Você gostaria de habilitar o Enigmail para todas as suas contas de email / identidades?">
+<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds "Eu gostaria de habilitar o Enigmail para todas as minhas contas de email / identidades">
+<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds "Eu gostaria de habilitar o Enigmail para as seguintes identidades:">
 <!ENTITY enigmail.setupWiz.pgSelectId.note "<a class='enigmailStrong'>Nota:</a> O Enigmail irá sempre verificar assinaturas, caso existam, em mensagens de todas as contas e identidades                                                             não importando se o Enigmail está especificamente configurado ou não">
 <!-- wizard: install GnuPG step -->
 <!ENTITY enigmail.setupWiz.pgInstall.title "GnuPG Necessário">

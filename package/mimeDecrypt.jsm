@@ -22,6 +22,7 @@ Components.utils.import("resource://enigmail/prefs.jsm"); /*global EnigmailPrefs
 Components.utils.import("resource://enigmail/decryption.jsm"); /*global EnigmailDecryption: false */
 Components.utils.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: false */
 Components.utils.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
+Components.utils.import("resource://gre/modules/Services.jsm"); /* global Services: false */
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -34,7 +35,7 @@ const ENCODING_DEFAULT = 0;
 const ENCODING_BASE64 = 1;
 const ENCODING_QP = 2;
 
-const maxBufferLen = 102400;
+const MAX_NUM_PROC = 1;
 
 var gDebugLogLevel = 0;
 
@@ -82,7 +83,7 @@ EnigmailMimeDecrypt.prototype = {
     EnigmailLog.DEBUG("mimeDecrypt.jsm: onStartRequest\n"); // always log this one
 
     ++gNumProc;
-    if (gNumProc > 2) {
+    if (gNumProc > MAX_NUM_PROC) {
       EnigmailLog.DEBUG("mimeDecrypt.jsm: number of parallel requests above threshold - ignoring requst\n");
       return;
     }
@@ -183,9 +184,16 @@ EnigmailMimeDecrypt.prototype = {
   },
 
   onStopRequest: function(request, win, status) {
-    EnigmailLog.DEBUG("mimeDecrypt.jsm: onStopRequest\n");
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: onStopRequest()\n");
+    this.stopRequestcallback(request, win, status);
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: onStopRequest - end\n");
     --gNumProc;
-    if (!this.initOk) return;
+  },
+
+  stopRequestcallback: function(request, win, status) {
+    if (!this.initOk) {
+      return;
+    }
 
     this.msgWindow = EnigmailVerify.lastMsgWindow;
     this.msgUriSpec = EnigmailVerify.lastMsgUri;
@@ -296,7 +304,8 @@ EnigmailMimeDecrypt.prototype = {
     }
 
     EnigmailLog.DEBUG("mimeDecrypt.jsm: waiting for proc to finish\n");
-    this.proc.wait();
+    while (this.exitCode === null)
+      Services.tm.currentThread.processNextEvent(true);
 
     this.returnStatus = {};
     EnigmailDecryption.decryptMessageEnd(this.statusStr,
@@ -366,6 +375,8 @@ EnigmailMimeDecrypt.prototype = {
       }
       EnigmailLog.DEBUG("mimeDecrypt.jsm: stdin: closing pipe\n");
       pipe.close();
+      EnigmailLog.DEBUG("mimeDecrypt.jsm: stdin: pipe closed\n");
+      this.pipe = null;
     }
     else {
       this.pipe = pipe;
@@ -387,41 +398,44 @@ EnigmailMimeDecrypt.prototype = {
   done: function(exitCode) {
     EnigmailLog.DEBUG("mimeDecrypt.jsm: done: " + exitCode + "\n");
 
-    if (gDebugLogLevel > 4)
-      LOCAL_DEBUG("mimeDecrypt.jsm: done: decrypted data='" + this.decryptedData + "'\n");
-
-    // ensure newline at the end of the stream
-    if (!this.decryptedData.endsWith("\n")) {
-      this.decryptedData += "\r\n";
-    }
-
-    var verifyData = this.decryptedData;
-
     try {
-      this.extractEncryptedHeaders();
-    }
-    catch (ex) {}
+      if (gDebugLogLevel > 4)
+        LOCAL_DEBUG("mimeDecrypt.jsm: done: decrypted data='" + this.decryptedData + "'\n");
 
-    var i = this.decryptedData.search(/\n\r?\n/);
-    if (i > 0) {
-      var hdr = this.decryptedData.substr(0, i).split(/\r?\n/);
-      var j;
-      for (j in hdr) {
-        if (hdr[j].search(/^\s*content-type:\s+text\/(plain|html)/i) >= 0) {
-          LOCAL_DEBUG("mimeDecrypt.jsm: done: adding multipart/mixed around " + hdr[j] + "\n");
+      // ensure newline at the end of the stream
+      if (!this.decryptedData.endsWith("\n")) {
+        this.decryptedData += "\r\n";
+      }
 
-          let wrapper = EnigmailMime.createBoundary();
-          this.decryptedData = 'Content-Type: multipart/mixed; boundary="' + wrapper + '"\r\n' +
-            'Content-Disposition: inline\r\n\r\n' +
-            '--' + wrapper + '\r\n' +
-            this.decryptedData + '\r\n' +
-            '--' + wrapper + '--\r\n';
-          break;
+      var verifyData = this.decryptedData;
+
+      try {
+        this.extractEncryptedHeaders();
+      }
+      catch (ex) {}
+
+      var i = this.decryptedData.search(/\n\r?\n/);
+      if (i > 0) {
+        var hdr = this.decryptedData.substr(0, i).split(/\r?\n/);
+        var j;
+        for (j in hdr) {
+          if (hdr[j].search(/^\s*content-type:\s+text\/(plain|html)/i) >= 0) {
+            LOCAL_DEBUG("mimeDecrypt.jsm: done: adding multipart/mixed around " + hdr[j] + "\n");
+
+            let wrapper = EnigmailMime.createBoundary();
+            this.decryptedData = 'Content-Type: multipart/mixed; boundary="' + wrapper + '"\r\n' +
+              'Content-Disposition: inline\r\n\r\n' +
+              '--' + wrapper + '\r\n' +
+              this.decryptedData + '\r\n' +
+              '--' + wrapper + '--\r\n';
+            break;
+          }
         }
       }
     }
+    catch (x) {}
 
-    this.exitCode = exitCode;
+    this.exitCode = (exitCode === null ? -1 : exitCode);
   },
 
   extractContentType: function(data) {
