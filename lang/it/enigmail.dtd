@@ -9,7 +9,7 @@
 <!ENTITY enigmail.cancelKey.label "Specifica i server delle chiavi">
 <!ENTITY enigmail.cancelKey.tooltip "Annulla creazione chiave">
 <!ENTITY enigmail.keyGen.expiry.title "Scadenza della chiave">
-<!ENTITY enigmail.keyGen.expire.label "<a class='enigmailStrong'>NOTA: la creazione della chiave può richiedere anche diversi minuti.</a> Non uscire dall'applicazione prima del termine dell'operazione. Navigare su internet o svolgere attività che sfruttino intensamente il disco durante la creazione della chiave potrà facilitare la generazione di numeri casuali e accelerare il processo stesso. Sarai avvertito quando la creazione della chiave sarà stata completata.">
+<!ENTITY enigmail.keyGen.expire.label "La chiave scade tra">
 <!ENTITY enigmail.keyGen.days.label "giorni">
 <!ENTITY enigmail.keyGen.months.label "mesi">
 <!ENTITY enigmail.keyGen.years.label "anni">
