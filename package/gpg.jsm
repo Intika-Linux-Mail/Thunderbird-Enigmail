@@ -98,6 +98,8 @@ const EnigmailGpg = {
         return vc.compare(gpgVersion, "2.1") > 0;
       case 'windows-photoid-bug':
         return vc.compare(gpgVersion, "2.0.16") < 0;
+      case "no-auto-key-retrieve":
+        return vc.compare(gpgVersion, "2.1.23") >= 0;
     }
 
     return undefined;
@@ -114,6 +116,14 @@ const EnigmailGpg = {
   getStandardArgs: function(withBatchOpts) {
     // return the arguments to pass to every GnuPG subprocess
     let r = ["--charset", "utf-8", "--display-charset", "utf-8", "--use-agent"]; // mandatory parameter to add in all cases
+
+    // add --no-auto-key-retrieve if not enabled in Enigmail
+    if (this.getGpgFeature("no-auto-key-retrieve")) {
+      let autoServer = EnigmailPrefs.getPref("autoKeyRetrieve");
+      if (typeof(autoServer) === "string" && autoServer.length === 0) {
+        r.push("--no-auto-key-retrieve");
+      }
+    }
 
     try {
       let p = EnigmailPrefs.getPref("agentAdditionalParam").replace(/\\\\/g, "\\");
