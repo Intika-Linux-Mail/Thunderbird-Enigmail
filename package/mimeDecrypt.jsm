@@ -303,9 +303,9 @@ EnigmailMimeDecrypt.prototype = {
       this.closePipe = true;
     }
 
+
     EnigmailLog.DEBUG("mimeDecrypt.jsm: waiting for proc to finish\n");
-    while (this.exitCode === null)
-      Services.tm.currentThread.processNextEvent(true);
+    this.proc.wait();
 
     this.returnStatus = {};
     EnigmailDecryption.decryptMessageEnd(this.statusStr,
