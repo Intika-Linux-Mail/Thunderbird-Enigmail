@@ -561,13 +561,13 @@ PgpMimeEncrypt.prototype = {
   },
 
   stdout: function(s) {
-    //EnigmailLog.DEBUG("mimeEncrypt.js: stdout():" + s.length + "\n");
+    LOCAL_DEBUG("mimeEncrypt.js: stdout():" + s.length + "\n");
     this.encryptedData += s;
     this.dataLength += s.length;
   },
 
   stderr: function(s) {
-    //EnigmailLog.DEBUG("mimeEncrypt.js: stderr(): " + s.length + "\n");
+    LOCAL_DEBUG("mimeEncrypt.js: stderr(): " + s.length + "\n");
     this.statusStr += s;
   },
 
