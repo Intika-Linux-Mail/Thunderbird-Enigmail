@@ -60,7 +60,6 @@ PgpMimeEncrypt.prototype = {
   cryptoBoundary: null,
   win: null,
   pipe: null,
-  proc: null,
   statusStr: "",
   encryptedData: "",
   hashAlgorithm: null,
@@ -178,20 +177,6 @@ PgpMimeEncrypt.prototype = {
       }
       else
         throw Cr.NS_ERROR_NOT_IMPLEMENTED;
-
-      var statusFlagsObj = {};
-      var errorMsgObj = {};
-      this.proc = EnigmailEncryption.encryptMessageStart(this.win,
-        this.enigSecurityInfo.UIFlags,
-        this.enigSecurityInfo.senderEmailAddr,
-        this.enigSecurityInfo.recipients,
-        this.enigSecurityInfo.bccRecipients,
-        this.hashAlgorithm,
-        this.enigSecurityInfo.sendFlags,
-        this,
-        statusFlagsObj,
-        errorMsgObj);
-      if (!this.proc) throw Cr.NS_ERROR_FAILURE;
 
       this.cryptoBoundary = EnigmailMime.createBoundary();
       this.startCryptoHeaders();
@@ -365,6 +350,23 @@ PgpMimeEncrypt.prototype = {
     }
 
     try {
+
+      let statusFlagsObj = {};
+      let errorMsgObj = {};
+
+      let proc = EnigmailEncryption.encryptMessageStart(this.win,
+        this.enigSecurityInfo.UIFlags,
+        this.enigSecurityInfo.senderEmailAddr,
+        this.enigSecurityInfo.recipients,
+        this.enigSecurityInfo.bccRecipients,
+        this.hashAlgorithm,
+        this.enigSecurityInfo.sendFlags,
+        this,
+        statusFlagsObj,
+        errorMsgObj);
+
+      if (!proc) throw Cr.NS_ERROR_FAILURE;
+
       if (this.encapsulate) this.writeToPipe("--" + this.encapsulate + "--\r\n");
 
       if (this.encHeader) {
@@ -372,8 +374,6 @@ PgpMimeEncrypt.prototype = {
         if (this.cryptoMode == MIME_SIGNED) this.writeOut("\r\n--" + this.encHeader + "--\r\n");
       }
 
-
-      if (!this.proc) return;
       this.flushInput();
 
       if (!this.pipe) {
@@ -385,7 +385,7 @@ PgpMimeEncrypt.prototype = {
 
       // wait here for this.proc to terminate
       //this.inspector.enterNestedEventLoop(0);
-      this.proc.wait();
+      proc.wait();
 
       EnigmailLog.DEBUG("mimeEncrypt.js: finishCryptoEncapsulation: exitCode = " + this.exitCode + "\n");
       if (this.exitCode !== 0) throw Cr.NS_ERROR_FAILURE;
@@ -467,7 +467,7 @@ PgpMimeEncrypt.prototype = {
 
     this.outQueue += str;
 
-    if (this.outQueue.length > maxBufferLen)
+    if (this.pipe && this.outQueue.length > maxBufferLen)
       this.flushOutput();
   },
 
@@ -561,13 +561,13 @@ PgpMimeEncrypt.prototype = {
   },
 
   stdout: function(s) {
-    EnigmailLog.DEBUG("mimeEncrypt.js: stdout():" + s.length + "\n");
+    //EnigmailLog.DEBUG("mimeEncrypt.js: stdout():" + s.length + "\n");
     this.encryptedData += s;
     this.dataLength += s.length;
   },
 
   stderr: function(s) {
-    EnigmailLog.DEBUG("mimeEncrypt.js: stderr(): " + s.length + "\n");
+    //EnigmailLog.DEBUG("mimeEncrypt.js: stderr(): " + s.length + "\n");
     this.statusStr += s;
   },
 
