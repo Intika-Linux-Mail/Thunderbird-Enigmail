@@ -577,7 +577,7 @@
 <!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2 "여러분의 <html:b>비밀키(비밀열쇠)</html:b>는<html:b>여러분 자신이</html:b> 암호메일을 복호화할 때나 이메일에 서명할 때 사용합니다.
 비밀열쇠를 다른 사람에게 보내지 마십시오.
 비밀키를 안전하게 사용하기 위해 다음 대화상자에서 두번 암호문구을 입력해야 합니다.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass "여러분의 <html:b>암호문구/html:b>은 여러분의 비밀열쇠를 지키는 패스워드입니다. 여러분의 비밀열쇠를 다른 사람이 무단으로 사용하는 것을 방지 합니다.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass "여러분의 <html:b>암호문구</html:b>은 여러분의 비밀열쇠를 지키는 패스워드입니다. 여러분의 비밀열쇠를 다른 사람이 무단으로 사용하는 것을 방지 합니다.">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.passContain "암호문구는 문자와 숫자, 구둣점을 포함하여 8자로 만들어야 합니다. 하지만  움라우트나 일부 언어에만 있는 독특한 문자를 사용해서는 <html:b>절대로 안</html:b>됩니다. ">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat "패스프레이즈를 한번더 입력해서 확인해주십시오">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality "암호문장의 품질:">
