@@ -114,6 +114,7 @@ zip --must-match\
     modules/pipeConsole.jsm \
     modules/prefs.jsm \
     modules/promise.jsm \
+    modules/rng.jsm \
     modules/rules.jsm \
     modules/streams.jsm \
     modules/subprocess.jsm \

@@ -30,6 +30,7 @@ Components.utils.import("resource://enigmail/uris.jsm"); /*global EnigmailURIs: 
 Components.utils.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
 Components.utils.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 Components.utils.import("resource://enigmail/clipboard.jsm"); /*global EnigmailClipboard: false */
+Components.utils.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: false */
 
 if (!Enigmail) var Enigmail = {};
 
@@ -648,6 +649,7 @@ Enigmail.hdrView = {
         try {
 
           Enigmail.hdrView.statusBarHide();
+          Enigmail.msg.mimeParts = null;
 
           EnigmailVerify.setMsgWindow(msgWindow, Enigmail.msg.getCurrentMsgUriSpec());
 
@@ -1077,29 +1079,52 @@ if (messageHeaderSink) {
       },
 
       /**
-       * Determine if a given mime part number should be displayed.
-       * Returns true if one of these conditions is true:
-       *  - this is the 1st crypto-mime part
-       *  - the mime part is earlier in the mime tree
-       *  - the mime part is the 1st child of an already displayed mime part
+       * Determine if a given MIME part number is a multipart/related message or a child thereof
+       *
+       * @param mimePart:      Object - The MIME Part object to evaluate from the MIME tree
+       * @param searchPartNum: String - The part number to determine
        */
-      displaySubPart: function(mimePartNumber) {
-        if (!mimePartNumber) return true;
+      isMultipartRelated: function(mimePart, searchPartNum) {
+        if (searchPartNum.indexOf(mimePart.partNum) == 0 && mimePart.partNum.length <= searchPartNum.length) {
+          if (mimePart.fullContentType.search(/^multipart\/related/i) === 0) return true;
 
-        let securityInfo = Enigmail.msg.securityInfo;
-        if (mimePartNumber.length > 0 && securityInfo && securityInfo.encryptedMimePart && securityInfo.encryptedMimePart.length > 0) {
-          let c = EnigmailFuncs.compareMimePartLevel(securityInfo.encryptedMimePart, mimePartNumber);
-
-          if (c === -1) {
-            EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: displaySubPart: MIME part after already processed part\n");
-            return false;
-          }
-          if (c === -2 && mimePartNumber !== securityInfo.encryptedMimePart + ".1") {
-            EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: displaySubPart: MIME part not 1st child of parent\n");
-            return false;
+          for (let i in mimePart.subParts) {
+            if (this.isMultipartRelated(mimePart.subParts[i], searchPartNum)) return true;
           }
         }
+        return false;
+      },
 
+      /**
+       * Determine if a given mime part number should be displayed.
+       * Returns true if one of these conditions is true:
+       *  - this is the 1st displayed block of the message
+       *  - the message part displayed corresonds to the decrypted part
+       *
+       * @param mimePartNumber: String - the MIME part number that was decrypted/verified
+       * @param uriSpec:        String - the URI spec that is being displayed
+       */
+      displaySubPart: function(mimePartNumber, uriSpec) {
+        if (!mimePartNumber) return true;
+        let part = EnigmailMime.getMimePartNumber(uriSpec);
+
+        if (part.length === 0) {
+          // only display header if 1st message part
+          if (mimePartNumber.search(/^1(\.1)*$/) < 0) return false;
+        }
+        else {
+          let r = EnigmailFuncs.compareMimePartLevel(mimePartNumber, part);
+
+          // analyzed mime part is contained in viewed message part
+          if (r === 2) {
+            if (mimePartNumber.substr(part.length).search(/^\.1(\.1)*$/) < 0) return false;
+          }
+          else if (r !== 0) return false;
+
+          if (Enigmail.msg.mimeParts) {
+            if (this.isMultipartRelated(Enigmail.msg.mimeParts, mimePartNumber)) return false;
+          }
+        }
         return true;
       },
 
@@ -1112,7 +1137,11 @@ if (messageHeaderSink) {
 
         if (this.isCurrentMessage(uri)) {
 
-          if (!this.displaySubPart(mimePartNumber)) return;
+          if (!this.displaySubPart(mimePartNumber, uriSpec)) return;
+          if (this.hasUnauthenticatedParts(mimePartNumber)) {
+            EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: updateSecurityStatus: found unauthenticated part\n");
+            statusFlags |= Components.interfaces.nsIEnigmail.PARTIALLY_PGP;
+          }
 
           Enigmail.hdrView.updateHdrIcons(exitCode, statusFlags, keyId, userId, sigDetails,
             errorMsg, blockSeparation, encToDetails,
@@ -1128,6 +1157,37 @@ if (messageHeaderSink) {
         return;
       },
 
+      /**
+       * Determine if there are message parts that are not signed/encrypted
+       *
+       * @param mimePartNumber String - the MIME part number that was authenticated
+       *
+       * @return Boolean: true: there are siblings / false: no siblings
+       */
+      hasUnauthenticatedParts: function(mimePartNumber) {
+        function hasSiblings(mimePart, searchPartNum, parent) {
+          if (mimePart.partNum.indexOf(parent) == 0 && mimePart.partNum !== searchPartNum) return true;
+
+          for (let i in mimePart.subParts) {
+            if (hasSiblings(mimePart.subParts[i], searchPartNum, parent)) return true;
+          }
+
+          return false;
+        }
+
+        let parent = mimePartNumber.replace(/\.\d+$/, "");
+        if (mimePartNumber.search(/\./) < 0) {
+          parent = "";
+        }
+
+        if (mimePartNumber && Enigmail.msg.mimeParts) {
+          if (hasSiblings(Enigmail.msg.mimeParts, mimePartNumber, parent)) return true;
+        }
+
+        return false;
+      },
+
+
       modifyMessageHeaders: function(uri, headerData, mimePartNumber) {
         EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: EnigMimeHeaderSink.modifyMessageHeaders:\n");
         EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: headerData= " + headerData + ", mimePart=" + mimePartNumber + "\n");
@@ -1139,6 +1199,7 @@ if (messageHeaderSink) {
           }
         }
 
+        let uriSpec = (uri ? uri.spec : null);
         let hdr;
         try {
           hdr = JSON.parse(headerData);
@@ -1155,7 +1216,7 @@ if (messageHeaderSink) {
         if (typeof(hdr) !== "object") return;
         if (!this.isCurrentMessage(uri) || gFolderDisplay.selectedMessages.length !== 1) return;
 
-        if (!this.displaySubPart(mimePartNumber)) return;
+        if (!this.displaySubPart(mimePartNumber, uriSpec)) return;
 
         if ("subject" in hdr) {
           msg.subject = EnigmailData.convertFromUnicode(hdr.subject, "utf-8");

@@ -13,7 +13,7 @@
 /*global msgHdrToMimeMessage: false, MimeMessage: false, MimeContainer: false, UpdateAttachmentBucket: false, gContentChanged: true */
 /*global AddAttachments: false, AddAttachment: false, ChangeAttachmentBucketVisibility: false, GetResourceFromUri: false */
 /*global Recipients2CompFields: false, Attachments2CompFields: false, DetermineConvertibility: false, gWindowLocked: false */
-/*global CommandUpdate_MsgCompose: false, gSMFields: false */
+/*global CommandUpdate_MsgCompose: false, gSMFields: false, Sendlater3Composing: false*/
 
 Components.utils.import("resource://enigmail/glodaMime.jsm");
 Components.utils.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
@@ -35,6 +35,7 @@ Components.utils.import("resource://enigmail/uris.jsm"); /*global EnigmailURIs: 
 Components.utils.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
 Components.utils.import("resource://enigmail/passwords.jsm"); /*global EnigmailPassword: false */
 Components.utils.import("resource://enigmail/rules.jsm"); /*global EnigmailRules: false */
+Components.utils.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: false */
 Components.utils.import("resource://enigmail/clipboard.jsm"); /*global EnigmailClipboard: false */
 
 try {
@@ -309,26 +310,87 @@ Enigmail.msg = {
     this.finalSignDependsOnEncrypt = (this.getAccDefault("signIfEnc") || this.getAccDefault("signIfNotEnc"));
   },
 
+  /**
+   * Get a mail URL from a uriSpec
+   *
+   * @param uriSpec: String - URI of the desired message
+   *
+   * @return Object: nsIURL or nsIMsgMailNewsUrl object
+   */
+  getUrlFromUriSpec: function(uriSpec) {
+    try {
+      if (!uriSpec)
+        return null;
+
+      let messenger = Components.classes["@mozilla.org/messenger;1"].getService(Components.interfaces.nsIMessenger);
+      let msgService = messenger.messageServiceFromURI(uriSpec);
+
+      let urlObj = {};
+      msgService.GetUrlForUri(uriSpec, urlObj, null);
+
+      let url = urlObj.value;
+
+      if (url.scheme == "file") {
+        return url;
+      }
+      else {
+        return url.QueryInterface(Components.interfaces.nsIMsgMailNewsUrl);
+      }
+
+    }
+    catch (ex) {
+      return null;
+    }
+  },
+
+  getOriginalMsgUri: function() {
+    let draftId = gMsgCompose.compFields.draftId;
+    let msgUri = null;
+
+    if (typeof(draftId) == "string" && draftId.length > 0) {
+      // original message is draft
+      msgUri = draftId.replace(/\?.*$/, "");
+    }
+    else if (typeof(gMsgCompose.originalMsgURI) == "string" && gMsgCompose.originalMsgURI.length > 0) {
+      // original message is a "true" mail
+      msgUri = gMsgCompose.originalMsgURI;
+    }
+
+    return msgUri;
+  },
+
+  getMsgHdr: function(msgUri) {
+    if (!msgUri) {
+      msgUri = this.getOriginalMsgUri();
+    }
+    let messenger = Components.classes["@mozilla.org/messenger;1"].getService(Components.interfaces.nsIMessenger);
+    return messenger.messageServiceFromURI(msgUri).messageURIToMsgHdr(msgUri);
+  },
 
   getMsgProperties: function(msgUri, draft) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: Enigmail.msg.getMsgProperties:\n");
     const nsIEnigmail = Components.interfaces.nsIEnigmail;
 
-    var properties = 0;
+    let properties = 0;
+    let self = this;
+
     try {
-      var messenger = Components.classes["@mozilla.org/messenger;1"].getService(Components.interfaces.nsIMessenger);
-      var msgHdr = messenger.messageServiceFromURI(msgUri).messageURIToMsgHdr(msgUri);
+      let msgHdr = this.getMsgHdr(msgUri);
       if (msgHdr) {
+        let msgUrl = this.getUrlFromUriSpec(msgUri);
         properties = msgHdr.getUint32Property("enigmail");
-        if (draft) {
-          try {
-            msgHdrToMimeMessage(msgHdr, null, this.getMsgPropertiesCb, true, {
-              examineEncryptedParts: true
-            });
-          }
-          catch (ex) {
-            EnigmailLog.DEBUG("enigmailMessengerOverlay.js: Enigmail.msg.getMsgProperties: cannot use msgHdrToMimeMessage\n");
-          }
+        try {
+          EnigmailMime.getMimeTreeFromUrl(msgUrl.spec, false, function _cb(mimeMsg) {
+            if (draft) {
+              self.setDraftOptions(mimeMsg);
+            }
+            else {
+              self.checkMimeStructure(mimeMsg);
+            }
+          });
+        }
+        catch (ex) {
+          EnigmailLog.DEBUG("enigmailMessengerOverlay.js: Enigmail.msg.getMsgProperties: excetion in getMimeTreeFromUrl\n");
         }
       }
     }
@@ -343,8 +405,41 @@ Enigmail.msg = {
     return properties;
   },
 
-  getMsgPropertiesCb: function(msg, mimeMsg) {
-    EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.getMsgPropertiesCb\n");
+  checkMimeStructure: function(mimeMsg) {
+    EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.checkMimeStructure\n");
+
+    if (mimeMsg.fullContentType.search(/^multipart\/encrypted.*protocol="?application\/pgp-encrypted?"/i) === 0) return;
+
+    function getEncryptedSubPart(mimeMsg) {
+      if (mimeMsg.fullContentType.search(/^multipart\/encrypted.*protocol="?application\/pgp-encrypted?"/i) === 0) return true;
+      if (mimeMsg.fullContentType.search(/^message\/rfc822/i) === 0) return false;
+
+      for (let i in mimeMsg.subParts) {
+        if (getEncryptedSubPart(mimeMsg.subParts[i])) return true;
+      }
+
+      return false;
+    }
+
+    for (let i in mimeMsg.subParts) {
+      if (getEncryptedSubPart(mimeMsg.subParts[i])) {
+        this.displayPartialEncryptedWarning();
+        return;
+      }
+    }
+  },
+
+  /**
+   * Display a warning message if we are replying to or forwarding
+   * a partially decrypted email
+   */
+  displayPartialEncryptedWarning: function() {
+
+    this.notifyUser(1, EnigmailLocale.getString("msgCompose.partiallyEncrypted.short"), "notifyPartialDecrypt", EnigmailLocale.getString("msgCompose.partiallyEncrypted.long"));
+  },
+
+  setDraftOptions: function(msg, mimeMsg) {
+    EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.setDraftOptions\n");
 
     const nsIEnigmail = Components.interfaces.nsIEnigmail;
 
@@ -356,7 +451,7 @@ Enigmail.msg = {
       return;
     }
 
-    EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.getMsgPropertiesCb: draftStatus: " + stat + "\n");
+    EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.setDraftOptions: draftStatus: " + stat + "\n");
 
     if (stat.substr(0, 1) == "N") {
       // new style drafts (Enigmail 1.7)
@@ -1078,7 +1173,6 @@ Enigmail.msg = {
       case 'final-pgpmimeDefault':
       case 'final-pgpmimeYes':
       case 'final-pgpmimeNo':
-        // status bar buttons:
       case 'toggle-final-sign':
       case 'toggle-final-encrypt':
       case 'toggle-final-mime':
@@ -3966,6 +4060,7 @@ Enigmail.msg = {
   decryptQuote: function(interactive) {
     EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.decryptQuote: " + interactive + "\n");
     const nsIEnigmail = Components.interfaces.nsIEnigmail;
+    const CT = Components.interfaces.nsIMsgCompType;
 
     if (gWindowLocked || this.processed)
       return;
@@ -4164,6 +4259,36 @@ Enigmail.msg = {
 
     if (tail)
       this.editorInsertText(tail);
+
+    if (statusFlagsObj.value & nsIEnigmail.DECRYPTION_OKAY) {
+      let hLines = (head.search(/[^\s>]/) < 0 ? 0 : 1);
+
+      if (hLines > 0) {
+        switch (gMsgCompose.type) {
+          case CT.Reply:
+          case CT.ReplyAll:
+          case CT.ReplyToSender:
+          case CT.ReplyToGroup:
+          case CT.ReplyToSenderAndGroup:
+          case CT.ReplyToList:
+            {
+              // if head contains at most 1 line of text, we assume it's the
+              // header above the quote (e.g. XYZ wrote:)
+
+              let h = head.split(/\r?\n/);
+              hLines = -1;
+
+              for (let i = 0; i < h.length; i++) {
+                if (h[i].search(/[^\s>]/) >= 0) hLines++;
+              }
+            }
+        }
+      }
+      if (hLines > 0 || tail.search(/[^\s>]/) >= 0) {
+        this.displayPartialEncryptedWarning();
+      }
+    }
+
 
     if (clipBoard.supportsSelectionClipboard()) {
       // restore the clipboard contents for selected text (X11)

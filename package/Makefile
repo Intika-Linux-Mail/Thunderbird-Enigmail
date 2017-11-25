@@ -66,9 +66,10 @@ MODFILES = \
            pipeConsole.jsm \
            prefs.jsm \
            promise.jsm \
+           rng.jsm \
            rules.jsm \
            streams.jsm \
-					 system.jsm \
+	   system.jsm \
            time.jsm \
            timer.jsm \
            trust.jsm \

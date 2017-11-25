@@ -10,15 +10,6 @@
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
-try {
-  // TB with omnijar
-  Components.utils.import("resource:///modules/gloda/mimemsg.js"); /* global MsgHdrToMimeMessage: false */
-}
-catch (ex) {
-  // "old style" TB
-  Components.utils.import("resource://app/modules/gloda/mimemsg.js");
-}
-
 /* global EnigmailData: false, EnigmailApp: false, EnigmailDialog: false, EnigmailTimer: false, EnigmailWindows: false, EnigmailTime: false */
 /* global EnigmailLocale: false, EnigmailLog: false, XPCOMUtils: false, EnigmailPrefs: false */
 
@@ -54,6 +45,7 @@ Components.utils.import("resource://enigmail/passwords.jsm"); /*global EnigmailP
 Components.utils.import("resource://enigmail/expiry.jsm"); /*global EnigmailExpiry: false */
 Components.utils.import("resource://enigmail/uris.jsm"); /*global EnigmailURIs: false */
 Components.utils.import("resource://enigmail/protocolHandler.jsm"); /*global EnigmailProtocolHandler: false */
+Components.utils.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: false */
 
 if (!Enigmail) var Enigmail = {};
 
@@ -75,7 +67,7 @@ Enigmail.msg = {
   savedHeaders: null,
   removeListener: false,
   enableExperiments: false,
-  headersList: ["content-type", "content-transfer-encoding",
+  headersList: ["content-transfer-encoding",
     "x-enigmail-version", "x-pgp-encoding-format"
   ],
   buggyExchangeEmailContent: null, // for HACK for MS-EXCHANGE-Server Problem
@@ -506,6 +498,8 @@ Enigmail.msg = {
   messageDecrypt: function(event, isAuto) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: messageDecrypt: " + event + "\n");
 
+    this.mimeParts = null;
+
     var cbObj = {
       event: event,
       isAuto: isAuto
@@ -527,11 +521,10 @@ Enigmail.msg = {
     }
 
     try {
-      if (gFolderDisplay.selectedMessageIsNews) throw "dummy"; // workaround for broken NNTP support in Gloda
-      MsgHdrToMimeMessage(gFolderDisplay.selectedMessage, cbObj, Enigmail.msg.msgDecryptMimeCb, true, {
-        examineEncryptedParts: true,
-        partsOnDemand: false
-      });
+      EnigmailMime.getMimeTreeFromUrl(this.getCurrentMsgUrl().spec, false,
+        function _cb(mimeMsg) {
+          Enigmail.msg.messageDecryptCb(event, isAuto, mimeMsg);
+        });
     }
     catch (ex) {
       EnigmailLog.DEBUG("enigmailMessengerOverlay.js: enigMessageDecrypt: cannot use MsgHdrToMimeMessage\n");
@@ -539,63 +532,28 @@ Enigmail.msg = {
     }
   },
 
-
-  msgDecryptMimeCb: function(msg, mimeMsg) {
-    // MsgHdrToMimeMessage is not on the main thread which may lead to problems with
-    // accessing DOM and debugging
-
-    let event = this.event;
-    let isAuto = this.isAuto;
-
-    EnigmailTimer.setTimeout(
-      function _f() {
-        let enigmailSvc = Enigmail.getEnigmailSvc();
-        if (!enigmailSvc) return;
-
-        Enigmail.msg.messageDecryptCb(event, isAuto, mimeMsg);
-      }, 0);
-  },
-
   /***
    * walk through the (sub-) mime tree and determine PGP/MIME encrypted and signed message parts
    *
-   * @mimePart: parent object to walk through
-   * @resultObj: object containing two arrays. The resultObj must be pre-initialized by the caller
-   *               - encrypted
-   *               - signed
+   * @param mimePart:  parent object to walk through
+   * @param resultObj: object containing two arrays. The resultObj must be pre-initialized by the caller
+   *                    - encrypted
+   *                    - signed
    */
   enumerateMimeParts: function(mimePart, resultObj) {
-    EnigmailLog.DEBUG("enumerateMimeParts: partName=\"" + mimePart.partName + "\"\n");
-    EnigmailLog.DEBUG("                    " + mimePart.headers["content-type"] + "\n");
-    EnigmailLog.DEBUG("                    " + mimePart + "\n");
-    if (mimePart.parts) {
-      EnigmailLog.DEBUG("                    " + mimePart.parts.length + " subparts\n");
-    }
-    else {
-      EnigmailLog.DEBUG("                    0 subparts\n");
-    }
+    EnigmailLog.DEBUG("enumerateMimeParts: partNum=\"" + mimePart.partNum + "\"\n");
+    EnigmailLog.DEBUG("                    " + mimePart.fullContentType + "\n");
+    EnigmailLog.DEBUG("                    " + mimePart.subParts.length + " subparts\n");
 
     try {
-      if (typeof(mimePart.contentType) == "string" &&
-        mimePart.contentType == "multipart/fake-container") {
-        // workaround for wrong content type of signed message
-        let signedPart = mimePart.parts[1];
-        if (typeof(signedPart.headers["content-type"][0]) == "string") {
-          if (signedPart.headers["content-type"][0].search(/application\/pgp-signature/i) >= 0) {
-            resultObj.signed.push(signedPart.partName.replace(/\.[0-9]+$/, ""));
-            EnigmailLog.DEBUG("enumerateMimeParts: found signed subpart " + resultObj.signed + "\n");
-          }
-        }
-      }
-
-      var ct = mimePart.headers["content-type"][0];
+      var ct = mimePart.fullContentType;
       if (typeof(ct) == "string") {
         ct = ct.replace(/[\r\n]/g, " ");
         if (ct.search(/multipart\/signed.*application\/pgp-signature/i) >= 0) {
-          resultObj.signed.push(mimePart.partName);
+          resultObj.signed.push(mimePart.partNum);
         }
         else if (ct.search(/application\/pgp-encrypted/i) >= 0)
-          resultObj.encrypted.push(mimePart.partName);
+          resultObj.encrypted.push(mimePart.partNum);
       }
     }
     catch (ex) {
@@ -603,8 +561,8 @@ Enigmail.msg = {
     }
 
     var i;
-    for (i in mimePart.parts) {
-      this.enumerateMimeParts(mimePart.parts[i], resultObj);
+    for (i in mimePart.subParts) {
+      this.enumerateMimeParts(mimePart.subParts[i], resultObj);
     }
   },
 
@@ -613,11 +571,10 @@ Enigmail.msg = {
 
     this.buggyExchangeEmailContent = null; // reinit HACK for MS-EXCHANGE-Server Problem
 
-    var enigmailSvc;
-    try {
-      var showHeaders = 0;
-      var contentType = "";
+    let enigmailSvc;
+    let contentType = "";
 
+    try {
       if (!mimeMsg) {
         EnigmailLog.DEBUG("enigmailMessengerOverlay.js: messageDecryptCb: mimeMsg is null\n");
         try {
@@ -627,28 +584,48 @@ Enigmail.msg = {
           contentType = "text/plain";
         }
         mimeMsg = {
+          partNum: "1",
           headers: {
-            'content-type': [contentType]
+            has: function() {
+              return false;
+            },
+            contentType: {
+              type: contentType,
+              mediatype: "",
+              subtype: ""
+            }
           },
-          contentType: contentType,
-          partName: "1",
-          parts: []
+          fullContentType: contentType,
+          body: "",
+          parent: null,
+          subParts: []
         };
       }
 
       // Copy selected headers
       Enigmail.msg.savedHeaders = {};
 
+      if (!mimeMsg.fullContentType) {
+        mimeMsg.fullContentType = "text/plain";
+      }
+      this.mimeParts = mimeMsg;
+
+      Enigmail.msg.savedHeaders["content-type"] = mimeMsg.fullContentType;
+
       for (var index = 0; index < Enigmail.msg.headersList.length; index++) {
         var headerName = Enigmail.msg.headersList[index];
         var headerValue = "";
 
-        if (mimeMsg.headers[headerName]) {
-          headerValue = mimeMsg.headers[headerName].toString();
+        if (mimeMsg.headers.has(headerName)) {
+          let h = mimeMsg.headers.get(headerName);
+          if (Array.isArray(h)) {
+            headerValue = h.join("");
+          }
+          else
+            headerValue = h;
         }
-
         Enigmail.msg.savedHeaders[headerName] = headerValue;
-        EnigmailLog.DEBUG("enigmailMessengerOverlay.js: header " + headerName + ": " + headerValue + "\n");
+        EnigmailLog.DEBUG("enigmailMessengerOverlay.js: header " + headerName + ": '" + headerValue + "'\n");
       }
 
       var msgSigned = null;
@@ -658,7 +635,7 @@ Enigmail.msg = {
         signed: []
       };
 
-      if (mimeMsg.parts) {
+      if (mimeMsg.subParts.length > 0) {
         this.enumerateMimeParts(mimeMsg, resultObj);
         EnigmailLog.DEBUG("enigmailMessengerOverlay.js: embedded objects: " + resultObj.encrypted.join(", ") + " / " + resultObj.signed.join(", ") + "\n");
 
@@ -671,15 +648,15 @@ Enigmail.msg = {
 
         try {
 
-          if (mimeMsg.parts && mimeMsg.parts.length && mimeMsg.parts.length == 1 &&
-            mimeMsg.headers["x-mailer"][0].indexOf("ZimbraWebClient") >= 0 &&
-            mimeMsg.parts[0].parts[0].headers["content-type"][0].indexOf("text/plain") >= 0 &&
-            mimeMsg.parts[0].headers["content-type"][0].indexOf("multipart/mixed") >= 0 &&
-            mimeMsg.parts[0].parts[0].body.indexOf("Version: OpenPGP.js") >= 0 &&
-            mimeMsg.parts[0].parts[1].headers["content-type"][0].indexOf("application/pgp-encrypted") >= 0) {
-            this.messageParse(!event, false, Enigmail.msg.savedHeaders["content-transfer-encoding"], this.getCurrentMsgUriSpec());
+          if (mimeMsg.subParts.length > 1 &&
+            mimeMsg.headers.has("x-mailer") && mimeMsg.headers.get("x-mailer")[0].indexOf("ZimbraWebClient") >= 0 &&
+            mimeMsg.subParts[0].fullContentType.indexOf("text/plain") >= 0 &&
+            mimeMsg.fullContentType.indexOf("multipart/mixed") >= 0 &&
+            mimeMsg.subParts[1].fullContentType.indexOf("application/pgp-encrypted") >= 0) {
+            this.messageParse(event, false, Enigmail.msg.savedHeaders["content-transfer-encoding"], this.getCurrentMsgUriSpec());
             return;
           }
+
         }
         catch (ex) {}
 
@@ -696,16 +673,15 @@ Enigmail.msg = {
         // iPGMail produces a similar broken structure, see here:
         //   - https://sourceforge.net/p/enigmail/forum/support/thread/afc9c246/#5de7
 
-        if (mimeMsg.parts && mimeMsg.parts.length && mimeMsg.parts.length == 1 &&
-          mimeMsg.parts[0].parts && mimeMsg.parts[0].parts.length && mimeMsg.parts[0].parts.length == 3 &&
-          mimeMsg.parts[0].headers["content-type"][0].indexOf("multipart/mixed") >= 0 &&
-          mimeMsg.parts[0].parts[0].headers["content-type"][0].search(/multipart\/encrypted/i) < 0 &&
-          mimeMsg.parts[0].parts[0].headers["content-type"][0].search(/text\/(plain|html)/i) >= 0 &&
-          mimeMsg.parts[0].parts[1].headers["content-type"][0].indexOf("application/pgp-encrypted") >= 0) {
-          if (mimeMsg.parts[0].parts[1].headers["content-type"][0].search(/multipart\/encrypted/i) < 0 &&
-            mimeMsg.parts[0].parts[1].headers["content-type"][0].search(/PGP\/?MIME Versions? Identification/i) >= 0 &&
-            mimeMsg.parts[0].parts[2].headers["content-type"][0].indexOf("application/octet-stream") >= 0 &&
-            mimeMsg.parts[0].parts[2].headers["content-type"][0].indexOf("encrypted.asc") >= 0) {
+        if (mimeMsg.subParts.length == 3 &&
+          mimeMsg.fullContentType.search(/multipart\/mixed/i) >= 0 &&
+          mimeMsg.subParts[0].fullContentType.search(/multipart\/encrypted/i) < 0 &&
+          mimeMsg.subParts[0].fullContentType.search(/text\/(plain|html)/i) >= 0 &&
+          mimeMsg.subParts[1].fullContentType.search(/application\/pgp-encrypted/i) >= 0) {
+          if (mimeMsg.subParts[1].fullContentType.search(/multipart\/encrypted/i) < 0 &&
+            mimeMsg.subParts[1].fullContentType.search(/PGP\/?MIME Versions? Identification/i) >= 0 &&
+            mimeMsg.subParts[2].fullContentType.search(/application\/octet-stream/i) >= 0 &&
+            mimeMsg.subParts[2].fullContentType.search(/encrypted.asc/i) >= 0) {
             this.buggyMailType = "exchange";
           }
           else {
@@ -1443,8 +1419,8 @@ Enigmail.msg = {
     if (!hyperlink)
       return text;
 
-    // Hyperlink email addresses
-    var addrs = text.match(/\b[A-Za-z0-9_+\-\.]+@[A-Za-z0-9\-\.]+\b/g);
+    // Hyperlink email addresses (we accept at most 1024 characters before and after the @)
+    var addrs = text.match(/\b[A-Za-z0-9_+.-]{1,1024}@[A-Za-z0-9.-]{1,1024}\b/g);
 
     var newText, offset, loc;
     if (addrs && addrs.length) {
@@ -1477,8 +1453,8 @@ Enigmail.msg = {
       text = newText;
     }
 
-    // Hyperlink URLs
-    var urls = text.match(/\b(http|https|ftp):\S+\s/g);
+    // Hyperlink URLs (we don't accept URLS or more than 1024 characters length)
+    var urls = text.match(/\b(http|https|ftp):\S{1,1024}\s/g);
 
     if (urls && urls.length) {
       newText = "";
