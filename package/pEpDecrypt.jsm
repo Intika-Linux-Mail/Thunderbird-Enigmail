@@ -24,6 +24,7 @@ Cu.import("resource://enigmail/locale.jsm"); /*global EnigmailLocale: false */
 Cu.import("resource://enigmail/mimeVerify.jsm"); /*global EnigmailVerify: false */
 Cu.import("resource://enigmail/uris.jsm"); /*global EnigmailURIs: false */
 Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
+Cu.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 Cu.import("resource:///modules/jsmime.jsm"); /*global jsmime: false*/
 Cu.import("resource://enigmail/singletons.jsm"); /*global EnigmailSingletons: false */
 
@@ -244,8 +245,9 @@ PEPDecryptor.prototype = {
     this.decryptedData = 'Content-Type: multipart/mixed; boundary="' + wrapper + '"\r\n' +
       'Content-Disposition: inline\r\n\r\n' +
       '--' + wrapper + '\r\n' +
-      "Content-Type: text/plain\r\n\r\n" + EnigmailLocale.getString("pEpDecrypt.cannotDecrypt") + '\r\n' +
-      '--' + wrapper + '--\r\n';
+      'Content-Type: text/plain; charset="UTF-8"\r\n\r\n' +
+      EnigmailData.convertFromUnicode(EnigmailLocale.getString("pEpDecrypt.cannotDecrypt"), "UTF-8") +
+      '\r\n--' + wrapper + '--\r\n';
 
     this.sourceData = "Content-Type: " + this.contentType + "\r\n\r\n" + this.sourceData;
 
