@@ -390,6 +390,12 @@ var EnigmailAutocrypt = {
         'Autocrypt-Prefer-Encrypt': preferEncrypt
       }) + '\r\n';
 
+      if (!innerMsg || innerMsg.length === 0) {
+        EnigmailLog.DEBUG("autocrypt.jsm: createSetupMessage: empty key data after replaceArmorHeaders\n");
+        reject(1);
+        return;
+      }
+
       let bkpCode = createBackupCode();
       let enc = {
         data: innerMsg,
