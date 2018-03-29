@@ -23,6 +23,7 @@ const Cu = Components.utils;
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 Cu.import("resource://enigmail/prefs.jsm"); /*global EnigmailPrefs: false */
 Cu.import("resource://enigmail/locale.jsm"); /*global EnigmailLocale: false */
+Cu.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 
 var gTxtConverter = null;
 
@@ -312,7 +313,7 @@ var EnigmailFuncs = {
    */
   getProtectedSubjectText: function() {
     if (EnigmailPrefs.getPref("protectedSubjectText").length > 0) {
-      return EnigmailPrefs.getPref("protectedSubjectText");
+      return EnigmailData.convertToUnicode(EnigmailPrefs.getPref("protectedSubjectText"), "utf-8");
     }
     else {
       return EnigmailLocale.getString("msgCompose.encryptedSubjectStub");
