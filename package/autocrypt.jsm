@@ -39,6 +39,7 @@ Cu.import("resource://enigmail/rules.jsm"); /*global EnigmailRules: false */
 Cu.import("resource://enigmail/keyEditor.jsm"); /*global EnigmailKeyEditor: false */
 Cu.import("resource://enigmail/stdlib.jsm"); /*global EnigmailStdlib: false */
 Cu.import("resource://enigmail/prefs.jsm"); /*global EnigmailPrefs: false */
+Cu.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
 
 var gCreatedSetupIds = [];
 
@@ -252,7 +253,7 @@ var EnigmailAutocrypt = {
 
                     if (key && key.fpr) {
                       let ruleObj = {
-                        email: "{" + keyArr[i].email + "}",
+                        email: "{" + EnigmailConstants.AC_RULE_PREFIX + keyArr[i].email + "}",
                         keyList: "0x" + key.fpr,
                         sign: signEncrypt,
                         encrypt: signEncrypt,
@@ -940,7 +941,7 @@ function importSetupKey(keyData) {
 
 
 function updateRuleForEmail(email, preferEncrypt) {
-  let node = EnigmailRules.getRuleByEmail(email);
+  let node = EnigmailRules.getRuleByEmail(EnigmailConstants.AC_RULE_PREFIX + email);
 
   if (node) {
     let signEncrypt = (preferEncrypt === "mutual" ? "1" : "0");
