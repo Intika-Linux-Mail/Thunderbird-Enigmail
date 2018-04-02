@@ -733,7 +733,9 @@ var EnigmailGpgAgent = {
     let homeDirObj = Components.classes[NS_LOCAL_FILE_CONTRACTID].createInstance(Ci.nsIFile);
     EnigmailFiles.initPath(homeDirObj, homeDir);
 
-    homeDirObj.normalize(); // resolve symlinks etc.
+    if (homeDirObj.exists()) {
+      homeDirObj.normalize(); // resolve symlinks etc.
+    }
 
     let dirType = EnigmailFiles.ensureWritableDirectory(homeDirObj, 0x1C0); // 0700
     let errMsg = "";
