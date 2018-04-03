@@ -49,6 +49,11 @@ function startup(data, reason) {
 function shutdown(data, reason) {
   try {
     const {
+      EnigmailMsgRead
+    } = Cu.import("resource://enigmail/msgRead.jsm", {});
+    EnigmailMsgRead.onShutdown(reason);
+
+    const {
       subprocess
     } = Cu.import("resource://enigmail/subprocess.jsm", {});
     subprocess.onShutdown();
