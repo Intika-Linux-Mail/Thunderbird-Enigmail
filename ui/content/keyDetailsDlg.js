@@ -22,6 +22,8 @@
 var gKeyId = null;
 var gUserId = null;
 var gKeyList = null;
+const Ci = Components.interfaces;
+const Cc = Components.classes;
 
 function onLoad() {
   window.arguments[1].refresh = false;
