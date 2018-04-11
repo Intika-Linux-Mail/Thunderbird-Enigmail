@@ -400,7 +400,11 @@ var EnigmailKeyEditor = {
       },
       signKeyCallback,
       null,
-      callbackFunc);
+      function _f(returnCode, errorMsg) {
+        runKeyTrustCheck();
+        EnigmailKeyRing.updateKeys([keyId]);
+        callbackFunc(returnCode, errorMsg);
+      });
   },
 
   genRevokeCert: function(parent, keyId, outFile, reasonCode, reasonText, callbackFunc) {
