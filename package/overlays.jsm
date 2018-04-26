@@ -277,7 +277,12 @@ var EnigmailOverlays = {
   /**
    * Load overlays (See below)
    */
-  loadOverlays: loadOverlays
+  loadOverlays: loadOverlays,
+
+  /**
+   * Load insert a single overlay (see below)
+   */
+  insertXul: insertXul
 };
 
 function getAppId() {

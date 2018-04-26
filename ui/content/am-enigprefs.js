@@ -4,13 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/* global Components: false */
+/* global Components: false, gIdentity: true, gAccount: true */
 
 "use strict";
 
 Components.utils.import("resource://enigmail/pEpAdapter.jsm"); /*global EnigmailPEPAdapter: false */
 Components.utils.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 Components.utils.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
+Components.utils.import("resource://enigmail/overlays.jsm"); /*global EnigmailOverlays: false */
 
 if (!Enigmail) var Enigmail = {};
 
@@ -52,24 +53,21 @@ function onPreInit(account, accountValues) {
 
   if (!foundEnigmail) {
     // Enigmail Overlay not yet loaded
-    document.loadOverlay("chrome://enigmail/content/enigmailEditIdentity.xul", {
-      observe: function(subject, topic, data) {
-        EnigmailLog.DEBUG("am-enigprefs.js: onPreInit: topic=" + topic + "\n");
-        // let e = new Event("load-enigmail");
-        // window.dispatchEvent(e);
+    EnigmailOverlays.insertXul("enigmailEditIdentity.xul", window, document,
+      function _cb() {
+        EnigmailLog.DEBUG("am-enigprefs.js: onPreInit: XUL inserted\n");
 
         Enigmail.edit.identity = account.defaultIdentity;
         Enigmail.edit.account = account;
-        Enigmail.edit.overlayLoaded = true;
+        Enigmail.overlayLoaded = true;
 
         try {
           if (Enigmail.overlayInitialized) performInit();
         }
         catch (ex) {
-          EnigmailLog.DEBUG("am-enigprefs.js: onPreInit: error: " + ex.message + "\n");
+          EnigmailLog.DEBUG(`am-enigprefs.js: onPreInit: error: ${ex.message}\n${ex.stack}\n`);
         }
-      }
-    });
+      });
   }
   else {
     // Enigmail Overlay already loaded

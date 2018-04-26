@@ -11,6 +11,7 @@
 
 Components.utils.import("resource://enigmail/funcs.jsm"); /* global EnigmailFuncs: false */
 Components.utils.import("resource://enigmail/locale.jsm"); /* global EnigmailLocale: false */
+Components.utils.import("resource://enigmail/log.jsm"); /* global EnigmailLog: false */
 Components.utils.import("resource://enigmail/windows.jsm"); /* global EnigmailWindows: false */
 Components.utils.import("resource://enigmail/dialog.jsm"); /* global EnigmailDialog: false */
 Components.utils.import("resource://enigmail/pEpAdapter.jsm"); /* global EnigmailPEPAdapter: false */
@@ -34,6 +35,8 @@ Enigmail.edit = {
   usingPep: null,
 
   onInit: function() {
+    EnigmailLog.DEBUG("enigmailEditIdentity.js: onInit()\n");
+
     // initialize all of our elements based on the current identity values....
     EnigmailFuncs.collapseAdvanced(document.getElementById("enigmail_PrefsBox"), "hidden");
 
@@ -123,11 +126,12 @@ Enigmail.edit = {
   },
 
   onLoadEditor: function() {
+    EnigmailLog.DEBUG("enigmailEditIdentity.js: onLoadEditor()\n");
     if (typeof(gAccount) == "object") {
       this.account = gAccount;
       this.identity = gIdentity;
     }
-    else {
+    else if ("arguments" in window) {
       this.identity = window.arguments[0].identity;
       this.account = window.arguments[0].account;
     }
@@ -144,6 +148,7 @@ Enigmail.edit = {
   },
 
   onAcceptEditor: function() {
+    EnigmailLog.DEBUG("enigmailEditIdentity.js: onAcceptEditor()\n");
     try {
       if (onOk() === false) {
         return false;
@@ -159,41 +164,47 @@ Enigmail.edit = {
   },
 
   onSave: function() {
-    if (!this.identity) {
-      this.identity = gIdentity;
+    EnigmailLog.DEBUG("enigmailEditIdentity.js: onSave()\n");
+    try {
+      if (!this.identity) {
+        this.identity = gIdentity;
+      }
+      this.identity.setBoolAttribute("enablePgp", this.enablePgp.checked);
+
+      if (this.enablePgp.checked) {
+        // PGP is enabled
+        this.identity.setIntAttribute("pgpKeyMode", this.pgpKeyMode.selectedItem.value);
+        this.identity.setIntAttribute("mimePreferOpenPGP", this.mimePreferOpenPGP.selectedItem.value);
+        this.identity.setCharAttribute("pgpkeyId", this.pgpKeyId.value);
+        this.identity.setIntAttribute("defaultSigningPolicy", (this.signingPolicy.checked ? 1 : 0));
+        this.identity.setIntAttribute("defaultEncryptionPolicy", (this.encryptionPolicy.checked ? 1 : 0));
+        this.identity.setBoolAttribute("pgpMimeMode", this.pgpMimeMode.checked);
+        this.identity.setBoolAttribute("pgpSignEncrypted", this.pgpSignEncPolicy.checked);
+        this.identity.setBoolAttribute("pgpSignPlain", this.pgpSignPlainPolicy.checked);
+        this.identity.setBoolAttribute("autoEncryptDrafts", this.autoEncryptDrafts.checked);
+        this.identity.setIntAttribute("openPgpHeaderMode", this.advancedSettings.openPgpHeaderMode);
+        this.identity.setCharAttribute("openPgpUrlName", this.advancedSettings.openPgpUrlName);
+        this.identity.setBoolAttribute("attachPgpKey", this.advancedSettings.attachPgpKey);
+      }
+
+      let usingPep = EnigmailPEPAdapter.usingPep();
+
+      if (usingPep !== this.usingPep) {
+        EnigmailPEPAdapter.handleJuniorModeChange();
+        this.usingPep = usingPep;
+      }
+
+      if (usingPep) {
+        EnigmailPEPAdapter.setOwnIdentities(0);
+      }
+
+      if (!this.isSingleIdEditor) {
+        this.account.incomingServer.setBoolValue("enableAutocrypt", this.enableAc.checked);
+        this.account.incomingServer.setIntValue("acPreferEncrypt", this.acPreferEncrypt.checked ? 1 : 0);
+      }
     }
-    this.identity.setBoolAttribute("enablePgp", this.enablePgp.checked);
-
-    if (this.enablePgp.checked) {
-      // PGP is enabled
-      this.identity.setIntAttribute("pgpKeyMode", this.pgpKeyMode.selectedItem.value);
-      this.identity.setIntAttribute("mimePreferOpenPGP", this.mimePreferOpenPGP.selectedItem.value);
-      this.identity.setCharAttribute("pgpkeyId", this.pgpKeyId.value);
-      this.identity.setIntAttribute("defaultSigningPolicy", (this.signingPolicy.checked ? 1 : 0));
-      this.identity.setIntAttribute("defaultEncryptionPolicy", (this.encryptionPolicy.checked ? 1 : 0));
-      this.identity.setBoolAttribute("pgpMimeMode", this.pgpMimeMode.checked);
-      this.identity.setBoolAttribute("pgpSignEncrypted", this.pgpSignEncPolicy.checked);
-      this.identity.setBoolAttribute("pgpSignPlain", this.pgpSignPlainPolicy.checked);
-      this.identity.setBoolAttribute("autoEncryptDrafts", this.autoEncryptDrafts.checked);
-      this.identity.setIntAttribute("openPgpHeaderMode", this.advancedSettings.openPgpHeaderMode);
-      this.identity.setCharAttribute("openPgpUrlName", this.advancedSettings.openPgpUrlName);
-      this.identity.setBoolAttribute("attachPgpKey", this.advancedSettings.attachPgpKey);
-    }
-
-    let usingPep = EnigmailPEPAdapter.usingPep();
-
-    if (usingPep !== this.usingPep) {
-      EnigmailPEPAdapter.handleJuniorModeChange();
-      this.usingPep = usingPep;
-    }
-
-    if (usingPep) {
-      EnigmailPEPAdapter.setOwnIdentities(0);
-    }
-
-    if (!this.isSingleIdEditor) {
-      this.account.incomingServer.setBoolValue("enableAutocrypt", this.enableAc.checked);
-      this.account.incomingServer.setIntValue("acPreferEncrypt", this.acPreferEncrypt.checked ? 1 : 0);
+    catch (ex) {
+      EnigmailLog.ERROR(`enigmailEditIdentity.js: onSave: error: ${ex.message}\n`);
     }
   },
 
