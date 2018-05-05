@@ -27,6 +27,7 @@ Cu.import("resource://enigmail/os.jsm"); /*global EnigmailOS: false */
 Cu.import("resource://enigmail/versioning.jsm"); /*global EnigmailVersioning: false */
 Cu.import("resource://enigmail/lazy.jsm"); /*global EnigmailLazy: false */
 const getGpgAgent = EnigmailLazy.loader("enigmail/gpgAgent.jsm", "EnigmailGpgAgent");
+const getDialog = EnigmailLazy.loader("enigmail/dialog.jsm", "EnigmailDialog");
 
 const MINIMUM_GPG_VERSION = "2.0.14";
 const GPG_BATCH_OPT_LIST = ["--batch", "--no-tty", "--status-fd", "2"];
@@ -241,6 +242,11 @@ var EnigmailGpg = {
 
   // returns the output of --with-colons --list-config
   getGnupgConfig: function(exitCodeObj, errorMsgObj) {
+    if (!EnigmailGpg.agentPath) {
+      exitCodeObj.value = 0;
+      return "";
+    }
+
     const args = EnigmailGpg.getStandardArgs(true).
     concat(["--fixed-list-mode", "--with-colons", "--list-config"]);
 
@@ -280,7 +286,7 @@ var EnigmailGpg = {
     const cfgStr = EnigmailGpg.getGnupgConfig(exitCodeObj, errorMsgObj);
 
     if (exitCodeObj.value !== 0) {
-      EnigmailDialog.alert(errorMsgObj.value);
+      getDialog().alert(errorMsgObj.value);
       return null;
     }
 
