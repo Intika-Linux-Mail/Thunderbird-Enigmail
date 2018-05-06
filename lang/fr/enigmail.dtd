@@ -288,7 +288,7 @@ Enigmail peut importer ces paramètres directement ; pour les autres clients d
 <!ENTITY enigmail.resetRememberedValues.label     "Réinitialiser les avertissements">
 <!ENTITY enigmail.resetRememberedValues.tooltip   "Réafficher toutes les boîtes de dialogue et questions d’avertissement que vous avez masqués auparavant.">
 
-<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>NOTE : la génération d’une clé peut prendre plusieurs minutes.</a> Veuillez ne pas quitter l’application tant que la génération de clé est en cours. Parcourir activement le Web ou effectuer des opérations sollicitant le disque dur pendant la génération de clé renouvellera la « réserve d’aléation » (entropie) et accélérera le processus. Vous serez averti quand l’opération de génération de clé sera terminée.">
+<!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>NOTE : La génération d’une clé peut prendre plusieurs minutes.</a> Veuillez ne pas quitter l’application tant que la génération de clé est en cours. Parcourir activement le Web ou effectuer des opérations sollicitant le disque dur pendant la génération de clé renouvellera la « réserve d’aléation » (entropie) et accélérera le processus. Vous serez averti quand l’opération de génération de clé sera terminée.">
 
 <!ENTITY enigmail.userSelectionList.label           "Sélection de clés d’Enigmail">
 <!ENTITY enigmail.usersNotFound.label               "Les destinataires sont invalides, non dignes de confiance ou introuvables">
@@ -414,7 +414,7 @@ Enigmail peut importer ces paramètres directement ; pour les autres clients d
 <!ENTITY enigmail.never.label                       "Jamais">
 <!ENTITY enigmail.always.label                      "Toujours">
 <!ENTITY enigmail.maybe.label                       "Oui, si sélectionné dans Rédaction de messages">
-<!ENTITY enigmail.singleRcptSettings.desc           "(Note : en cas de conflit, « Jamais » prévaut sur « Toujours »)">
+<!ENTITY enigmail.singleRcptSettings.desc           "(Note : En cas de conflit, « Jamais » prévaut sur « Toujours »)">
 <!ENTITY enigmail.ruleEmail.label                   "Définir les règles Enigmail pour">
 <!ENTITY enigmail.ruleEmail.tooltip                 "Ne compléter que les adresses courriel, ne PAS définir les noms des destinataires\nPar exemple, « un nom <un.nom@adresse.net> » est invalide">
 <!ENTITY enigmail.sepratationDesc.label             "(séparer plusieurs adresses courriel par des espaces)">
@@ -457,7 +457,7 @@ Enigmail peut importer ces paramètres directement ; pour les autres clients d
 <!ENTITY enigmail.sKeyDlg.signKey.label            "Clé à signer :">
 <!ENTITY enigmail.sKeyDlg.fingerprint.label        "Empreinte :">
 <!ENTITY enigmail.sKeyDlg.signWithKey.label        "Clé pour signer :">
-<!ENTITY enigmail.sKeyDlg.ownKeyTrust.label        "Note : vous devez avoir défini le niveau de confiance envers le propriétaire à « confiance absolue » pour que vos propres clés soient affichées ici.">
+<!ENTITY enigmail.sKeyDlg.ownKeyTrust.label        "Note : Vous devez avoir défini le niveau de confiance envers le propriétaire à « confiance absolue » pour que vos propres clés soient affichées ici.">
 <!ENTITY enigmail.sKeyDlg.checked.label            "Avec quelle attention avez-vous vérifié que la clé que vous êtes sur le point de signer appartient bien aux personnes désignées ci-dessus ?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Je ne souhaite pas répondre">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Je n’ai pas vérifié du tout">
@@ -655,7 +655,7 @@ Enigmail peut importer ces paramètres directement ; pour les autres clients d
 
 <!ENTITY enigmail.genCardKey.title                   "Générer une clé OpenPGP">
 <!ENTITY enigmail.genCardKey.backupKey.label         "Enregistrer une copie de sauvegarde de la clé externe à la carte">
-<!ENTITY enigmail.genCardKey.desc                    "<a class='enigmailStrong'>NOTE : la génération de clé peut prendre plusieurs minutes.</a> Veuillez ne pas quitter l’application tant que cette opération est en cours. Vous serez averti quand l’opération de génération de clé sera terminée.">
+<!ENTITY enigmail.genCardKey.desc                    "<a class='enigmailStrong'>NOTE : La génération de clé peut prendre plusieurs minutes.</a> Veuillez ne pas quitter l’application tant que cette opération est en cours. Vous serez averti quand l’opération de génération de clé sera terminée.">
 
 <!ENTITY enigmail.cardPin.title                      "Changer le NIP de la carte à puce intelligente">
 <!ENTITY enigmail.cardPin.action.label               "Que souhaitez-vous faire ?">
@@ -723,9 +723,10 @@ Si vous le souhaitez, cliquez sur le bouton « Installer GnuPG » pour télécha
 <!-- wizard: key creation - password step -->
 <!ENTITY enigmail.setupWiz.pgKeyCreate.title         "Créer une clé">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "Créer une nouvelle biclé">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "Cette boîte de dialogue créera deux clés :">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "Cette boîte de dialogue créera une paire de clés :">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "Votre <html:b>clé publique</html:b> permet <html:b>aux autres</html:b> de vous envoyer des courriels chiffrés. Vous pouvez la distribuer à tout le monde.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "Votre <html:b>clé privée</html:b> <html:b>vous</html:b> permet de déchiffrer ces courriels et d’envoyer des courriels signés. Vous ne devriez la donner à personne.">
+<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "Votre <html:b>clé privée</html:b> <html:b>vous</html:b> permet de déchiffrer ces courriels et d’envoyer des courriels signés.
+Vous ne devriez la donner à personne.">
 <!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "Votre <html:b>clé privée</html:b> <html:b>vous</html:b> permet de déchiffrer ces courriels et d’envoyer des courriels signés.
 Vous ne devriez la donner à personne.
 Pour protéger votre clé privée, vous serez invité à saisir une phrase de passe dans les deux boîtes de dialogue suivantes.">

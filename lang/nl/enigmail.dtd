@@ -77,7 +77,7 @@
 
 <!ENTITY enigmail.pref.backupRestore.overallDesc "Enigmail ondersteunt twee manieren om uw sleutels en instellingen over te brengen naar een ander apparaat.<html:br/><html:br/>
 ‘Autocrypt-sleuteloverbrenging’ vereist dat het e-mailprogramma op het andere apparaat compatibel is met Autocrypt.
-Hoewel dit de eenvoudigere oplossing is, ondersteunt slechts een beperkt aantal programma’s op dit moment deze standaard.<html:br/><html:br/>De andere manier is via ‘het maken en terugzetten van een reservekopie’ van uw instellingen.
+Hoewel dit de eenvoudigere oplossing is, ondersteunen slechts een paar applicaties op dit moment deze standaard.<html:br/><html:br/>De andere manier is via ‘het maken en terugzetten van een reservekopie’ van uw instellingen.
 Dit creëert een zipbestand met alle benodigde informatie en sleutels, dat u naar uw nieuwe apparaat kunt kopiëren.
 Enigmail kan deze instellingen direct importeren; voor andere e-mailprogramma’s kan het zipbestand uitgepakt worden en handmatig worden verwerkt.">
 

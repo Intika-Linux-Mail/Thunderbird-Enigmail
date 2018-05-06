@@ -134,7 +134,7 @@
 <!ENTITY enigmail.editRules.label        "Modifica regole per destinatario">
 
 <!ENTITY enigmail.decryptToFolder.label     "Decifra nella cartella">
-<!ENTITY enigmail.decryptToFolder.accesskey "">
+<!ENTITY enigmail.decryptToFolder.accesskey "d">
 
 <!-- "recent" label for Folder selection submenu -->
 <!ENTITY enigmail.recent.label              "Recente">
