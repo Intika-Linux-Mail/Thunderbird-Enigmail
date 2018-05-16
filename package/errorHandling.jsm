@@ -396,6 +396,12 @@ function parseErrorLine(errLine, c) {
   }
   else {
     // non-status line (details of previous status command)
+    if (errLine == "gpg: WARNING: message was not integrity protected") {
+      // workaround for Gpg < 2.0.8 that don't fail on missing MDC for old 
+      // algorithms like CAST5
+      c.statusFlags |= EnigmailConstants.DECRYPTION_FAILED;
+      c.inDecryptionFailed = true;
+    }
     c.errArray.push(errLine);
     // save details of DECRYPTION_FAILED message ass error message
     if (c.inDecryptionFailed) {
@@ -470,6 +476,9 @@ function parseErrorOutputWith(c) {
     if (c.isError) break;
   }
 
+  if ((c.statusFlags & EnigmailConstants.DECRYPTION_OKAY) && (c.statusFlags & EnigmailConstants.DECRYPTION_FAILED)) {
+    c.statusFlags &= ~EnigmailConstants.DECRYPTION_OKAY;
+  }
   detectForgedInsets(c);
 
   c.retStatusObj.blockSeparation = c.retStatusObj.blockSeparation.replace(/ $/, "");
