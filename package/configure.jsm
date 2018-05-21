@@ -30,6 +30,16 @@ Cu.import("chrome://enigmail/content/modules/installPep.jsm"); /* global Enigmai
 Cu.import("chrome://enigmail/content/modules/stdlib.jsm"); /* global EnigmailStdlib: false */
 Cu.import("chrome://enigmail/content/modules/lazy.jsm"); /* global EnigmailLazy: false */
 
+// Interfaces
+const nsIFolderLookupService = Ci.nsIFolderLookupService;
+const nsIMsgAccountManager = Ci.nsIMsgAccountManager;
+const nsIMsgAccount = Ci.nsIMsgAccount;
+const nsIMsgDBHdr = Ci.nsIMsgDBHdr;
+const nsIMessenger = Ci.nsIMessenger;
+const nsIMsgMessageService = Ci.nsIMsgMessageService;
+const nsIMsgFolder = Ci.nsIMsgFolder;
+
+
 /**
  * Upgrade sending prefs
  * (v1.6.x -> v1.7 )
@@ -182,6 +192,195 @@ function displayUpgradeInfo() {
   catch (ex) {}
 }
 
+// Util Function for Extracting manually added Headers
+function streamListener()
+{
+  var newStreamListener = {
+    mAttachments: [],
+    mHeaders:     [],
+    mBusy:        true,
+
+    onStartRequest : function (aRequest, aContext)
+    {
+      this.mAttachments = [];
+      this.mHeaders     = [];
+      this.mBusy        = true;
+
+      var channel = aRequest.QueryInterface(Components.interfaces.nsIChannel);
+      channel.URI.QueryInterface(Components.interfaces.nsIMsgMailNewsUrl);
+      channel.URI.msgHeaderSink = this;  // adds this header sink interface to the channel
+    },
+    onStopRequest : function (aRequest, aContext, aStatusCode)
+    {
+      this.mBusy = false;  // if needed, you can poll this var to see if we are done collecting attachment details
+    },
+    onDataAvailable : function (aRequest, aContext, aInputStream, aOffset, aCount) {},
+    onStartHeaders: function() {},
+    onEndHeaders: function() {},
+    processHeaders: function(aHeaderNameEnumerator, aHeaderValueEnumerator, aDontCollectAddress)
+    {
+      while (aHeaderNameEnumerator.hasMore())
+        this.mHeaders.push({name:aHeaderNameEnumerator.getNext().toLowerCase(), value:aHeaderValueEnumerator.getNext()});
+    },
+    handleAttachment: function(aContentType, aUrl, aDisplayName, aUri, aIsExternalAttachment)
+    {
+      if (aContentType == "text/html") return;
+      this.mAttachments.push({contentType:aContentType, url:aUrl, displayName:aDisplayName, uri:aUri, isExternal:aIsExternalAttachment});
+    },
+    onEndAllAttachments: function() {},
+    onEndMsgDownload: function(aUrl) {},
+    onEndMsgHeaders: function(aUrl) {},
+    onMsgHasRemoteContent: function(aMsgHdr) {},
+    getSecurityInfo: function() {},
+    setSecurityInfo: function(aSecurityInfo) {},
+    getDummyMsgHeader: function() {},
+
+    QueryInterface : function(aIID)
+    {
+      if (aIID.equals(Components.interfaces.nsIStreamListener) ||
+          aIID.equals(Components.interfaces.nsIMsgHeaderSink) ||
+          aIID.equals(Components.interfaces.nsISupports))
+        return this;
+
+      throw Components.results.NS_NOINTERFACE;
+      return 0;
+    }
+  };
+
+  return newStreamListener;
+}
+
+// Util Function to identify which function to perform on start up
+function getMsgHeader() {
+
+    getEnigmailLog().DEBUG("configure.jsm: getMsgHeader()\n");
+
+    let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(nsIMsgAccountManager);
+    let folderService = Cc["@mozilla.org/mail/folder-lookup;1"].getService(nsIFolderLookupService);
+    let returnMsgValue = {
+        value: 3
+    }
+
+    var accounts = msgAccountManager.accounts;
+
+    let autocryptHeaders = [];
+    let autocryptSetupMessage = {};
+
+    // Ierating through each account
+
+    for (var i = 0; i < accounts.length; i++) {
+        var account = accounts.queryElementAt(i, nsIMsgAccount);
+        var accountMsgServer = account.incomingServer;
+        gFolderURIs.push(accountMsgServer.serverURI);
+
+        let rootFolder = folderService.getFolderForURL(gFolderURIs[i]);
+
+        if (rootFolder == null) {
+            break;
+        }
+
+        let msgFolders = [];
+
+        msgFolders.push(rootFolder);
+
+        // To list all the Folder in Main Account Folder
+
+        var j = 0;
+
+        while (msgFolders.length > j) {
+
+            let containFolder = msgFolders[j];
+
+            if (containFolder.hasSubFolders) {
+                let subFolders = containFolder.subFolders;
+                while (subFolders.hasMoreElements()) {
+                    msgFolders.push(subFolders.getNext().QueryInterface(nsIMsgFolder));
+                }
+            }
+            j++;
+
+        }
+
+        // Iterating through each Folder in the Account
+
+        for (var k = 0; k < msgFolders.length; k++) {
+            let msgFolder = msgFolders[k];
+
+            let msgDatabase = msgFolder.msgDatabase;
+
+            if (msgDatabase != null) {
+                let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
+
+                // Iterating through each message in the Folder
+
+                while (msgEnumerator.hasMoreElements()) {
+
+                    let msgHeader = msgEnumerator.getNext().QueryInterface(nsIMsgDBHdr);
+                    let msgURI = msgFolder.getUriForMsg(msgHeader);
+
+                    // Listing all the headers in the message
+
+                    var messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
+                    var mms = messenger.messageServiceFromURI(msgURI).QueryInterface(nsIMsgMessageService);
+                    var listener = streamListener();
+                    mms.streamMessage(msgURI, listener, null, null, true, "filter");
+
+                    //lazy async, wait for listener
+                    let thread = Components.classes["@mozilla.org/thread-manager;1"].getService().currentThread;
+                    while (listener.mBusy) {
+                        thread.processNextEvent(true);
+                    }
+
+                    // Store all headers in the mData-variable
+                    for (var i = 0; i < listener.mHeaders.length; i++) {
+                        var name = listener.mHeaders[i].name;
+                        var value = listener.mHeaders[i].value;
+                        if(name == 'autocrypt-setup-message' && value == 'v1' && msgHeader.author == msgHeader.recipients){
+                            if(!returnMsgValue.header){
+                                returnMsgValue.value = 1;
+                                returnMsgValue.header = msgHeader;
+                            }
+                            else if(returnMsgValue.header.date < msgHeader.date){
+                                returnMsgValue.header = msgHeader;
+                            }
+                        }
+                        else if(name == 'autocrypt'){
+                            if(!autocryptHeaders.includes(value[0])){
+                                autocryptHeaders.push(value[0]);
+                            }
+                        }
+
+                    }
+
+                    const currDateInSeconds = new Date().getTime() / 1000;
+                    const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
+
+                    /**
+                        2592000 = No. of Seconds in a Month.
+                        This is to ignore 1 month old messages.
+                    */
+                    if (diffSecond > 2592000.0) {
+                        break;
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    if(returnMsgValue.header){
+        return returnMsgValue;
+    }
+
+    if (autocryptHeaders.length > 0) {
+        returnMsgValue.value = 2;
+        returnMsgValue.autocryptheaders = autocryptHeaders;
+    }
+
+    return returnMsgValue;
+}
+
 
 var EnigmailConfigure = {
   configureEnigmail: function(win, startingPreferences) {
@@ -205,6 +404,20 @@ var EnigmailConfigure = {
 
     if (oldVer === "") {
       EnigmailPrefs.setPref("configuredVersion", EnigmailApp.getVersion());
+
+      let headerValue = getMsgHeader();
+
+      if(headerValue.value == 1){
+        // Notify Autocrypt Setup Message Found and Open that(Latest)
+      }
+      else if(headerValue.value == 2){
+        // Notify messages with autocrypt header found and store keys accordingly
+      }
+
+      else if(headerValue.value == 3){
+        // Create a new Key associated with default account and Notify user that key is made.
+      }
+
 
       if (EnigmailPrefs.getPref("juniorMode") === 0 || (!isPepInstallable())) {
         // start wizard if pEp Junior Mode is forced off or if pep cannot
