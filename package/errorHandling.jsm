@@ -309,7 +309,7 @@ function decryptionInfo(c) {
       c.statusFlags |= EnigmailConstants.DECRYPTION_FAILED; // be sure to fail
       c.flag = EnigmailConstants.MISSING_MDC;
       EnigmailLog.DEBUG("errorHandling.jsm: missing MDC!\n");
-      c.retStatusObj.statusMsg += EnigmailLocale.getString("missingMdcError") + "\n";
+      c.retStatusObj.statusMsg += EnigmailLocale.getString("mdcError") + "\n";
     }
   }
 }
