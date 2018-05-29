@@ -33,8 +33,6 @@ const nsIMessenger = Ci.nsIMessenger;
 const nsIMsgMessageService = Ci.nsIMsgMessageService;
 const nsIMsgFolder = Ci.nsIMsgFolder;
 
-let console = (Cu.import("resource://gre/modules/Console.jsm", {})).console;
-
 
 var gFolderURIs = [];
 
@@ -200,21 +198,20 @@ var EnigmailAutocryptSetup = {
           EnigmailDialog.info(null, EnigmailLocale.getString("autocrypt.importSetupKey.success", headerValue.header.author));
         }).
         catch(err => {
-          console.log(err);
           EnigmailLog.DEBUG("autocryptSetup.js: performAutocryptSetup got cancel status=" + err + "\n");
 
           switch (err) {
             case "getSetupMessageData":
-              EnigmailDialog.alert(window, EnigmailLocale.getString("autocrypt.importSetupKey.invalidMessage"));
+              EnigmailDialog.alert(null, EnigmailLocale.getString("autocrypt.importSetupKey.invalidMessage"));
               break;
             case "wrongPasswd":
-              if (EnigmailDialog.confirmDlg(window, EnigmailLocale.getString("autocrypt.importSetupKey.wrongPasswd"), EnigmailLocale.getString("dlg.button.retry"),
+              if (EnigmailDialog.confirmDlg(null, EnigmailLocale.getString("autocrypt.importSetupKey.wrongPasswd"), EnigmailLocale.getString("dlg.button.retry"),
                   EnigmailLocale.getString("dlg.button.cancel"))) {
-                performAutocryptSetup(headerValue);
+                EnigmailAutocryptSetup.performAutocryptSetup(headerValue);
               }
               break;
             case "keyImportFailed":
-              EnigmailDialog.alert(window, EnigmailLocale.getString("autocrypt.importSetupKey.invalidKey"));
+              EnigmailDialog.alert(null, EnigmailLocale.getString("autocrypt.importSetupKey.invalidKey"));
               break;
           }
         });
