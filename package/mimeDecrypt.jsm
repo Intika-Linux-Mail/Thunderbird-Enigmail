@@ -382,10 +382,7 @@ MimeDecryptHandler.prototype = {
 
     let spec = this.uri ? this.uri.spec : null;
     EnigmailLog.DEBUG(`mimeDecrypt.jsm: checking MIME structure for ${this.mimePartNumber} / ${spec}\n`);
-
-    // Allow some semi-safe variants of subparts if View > Message Body as == Plaintext
-    let acceptSubParts = (EnigmailPrefs.getPrefRoot().getIntPref("mailnews.display.html_as") === 1);
-    if (!EnigmailMime.isRegularMimeStructure(this.mimePartNumber, spec, acceptSubParts)) {
+    if (!EnigmailMime.isRegularMimeStructure(this.mimePartNumber, spec)) {
       this.returnData("");
       return;
     }
