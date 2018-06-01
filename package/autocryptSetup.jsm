@@ -22,6 +22,7 @@ Cu.import("chrome://enigmail/content/modules/locale.jsm"); /* global EnigmailLoc
 Cu.import("chrome://enigmail/content/modules/autocrypt.jsm"); /* global EnigmailAutocrypt: false*/
 Cu.import("chrome://enigmail/content/modules/windows.jsm"); /* global EnigmailWindows: false*/
 Cu.import("chrome://enigmail/content/modules/dialog.jsm"); /* global EnigmailDialog: false*/
+Cu.import("chrome://enigmail/content/modules/autocrypt.jsm"); /* global EnigmailAutocrypt: false*/
 
 
 // Interfaces
@@ -111,6 +112,8 @@ var EnigmailAutocryptSetup = {
               let msgHeader = msgEnumerator.getNext().QueryInterface(nsIMsgDBHdr);
               let msgURI = msgFolder.getUriForMsg(msgHeader);
 
+              let msgAuthor = msgHeader.author.substring(msgHeader.author.lastIndexOf("<")+1,msgHeader.author.lastIndexOf(">"));
+
               // Listing all the headers in the message
 
               var messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
@@ -137,9 +140,47 @@ var EnigmailAutocryptSetup = {
                     returnMsgValue.header = msgHeader;
                     returnMsgValue.attachment = listener.mAttachments[0];
                   }
-                } else if (name == 'autocrypt') {
-                  if (!autocryptHeaders.includes(value[0])) {
-                    autocryptHeaders.push(value[0]);
+                } else if (name == 'autocrypt' && msgAuthor == accountMsgServer.username) {
+                  if(autocryptHeaders.length == 0){
+                    var msgDate;
+                    for (var j = 0; j < listener.mHeaders.length; j++) {
+                        if(listener.mHeaders[j].name == 'date'){
+                            msgDate = listener.mHeaders[j].value;
+                        }
+                    }
+                    let addHeader = {
+                        'fromAddr' : msgAuthor,
+                        'msgData' : [value],
+                        'date' : msgDate
+                    }
+                    autocryptHeaders.push(addHeader);
+                  }
+                  else {
+                    let fromHeaderExist = 0;
+                    for(let j=0;j<autocryptHeaders.length;j++){
+                        if(autocryptHeaders[j].fromAddr == msgAuthor){
+                            if(!autocryptHeaders[j].msgData.includes(value)){
+                                autocryptHeaders[j].msgData.push(value);
+                            }
+                            fromHeaderExist++;
+                            break;
+                        }
+                    }
+
+                    var msgDate;
+                    for (var j = 0; j < listener.mHeaders.length; j++) {
+                      if (listener.mHeaders[j].name == 'date') {
+                        msgDate = listener.mHeaders[j].value;
+                      }
+                    }
+                    if(fromHeaderExist == 0){
+                      let addHeader = {
+                        'fromAddr': msgAuthor,
+                        'msgData': [value],
+                        'date' : msgDate
+                      }
+                      autocryptHeaders.push(addHeader);
+                    }
                   }
                 }
 
@@ -216,6 +257,33 @@ var EnigmailAutocryptSetup = {
           }
         });
       }
+    },
+
+    /**
+        * Process the Autocrypt Setup Message
+        *
+        * @param headerValue:      Object - containing distinct Autocrypt headers from all the sent mails
+        *
+    */
+
+    processAutocryptHeader : function(headerValue){
+        EnigmailLog.DEBUG("autocryptSetup.js: processAutocryptHeader()");
+        for (let i = 0; i < headerValue.autocryptheaders.length; i++) {
+          for (let j = 0; j < headerValue.autocryptheaders[i].msgData.length; j++) {
+            let success = EnigmailAutocrypt.processAutocryptHeader(headerValue.autocryptheaders[i].fromAddr, [headerValue.autocryptheaders[i].msgData[j]], headerValue.autocryptheaders[i].date);
+            let check = 0;
+            success.then((value) => {
+              if (value != 0) {
+                EnigmailDialog.alert(null, EnigmailLocale.getString("acStartup.acHeaderFound.failure"));
+                check++;
+              }
+            });
+            if(check != 0){
+                return;
+            }
+          }
+        }
+        EnigmailDialog.alert(null, EnigmailLocale.getString("acStartup.acHeaderFound.success"));
     }
 };
 

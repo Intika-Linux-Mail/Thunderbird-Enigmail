@@ -216,13 +216,15 @@ var EnigmailConfigure = {
       if(headerValue.value == 1){
         if (EnigmailDialog.confirmDlg(null,
             EnigmailLocale.getString("acStartup.acMessageFound.desc"),
-            EnigmailLocale.getString("acStartup.acMessageFound.import.label"),
-            EnigmailLocale.getString("acStartup.acMessageFound.cancle.label"))) {
+            EnigmailLocale.getString("acStartup.import.label"),
+            EnigmailLocale.getString("acStartup.cancle.label"))) {
             EnigmailAutocryptSetup.performAutocryptSetup(headerValue);
         }
       }
       else if(headerValue.value == 2){
-        // Notify messages with autocrypt header found and store keys accordingly
+        if (getEnigmailDialog().confirmDlg(null, getEnigmailLocale().getString("acStartup.acHeaderFound.desc"), getEnigmailLocale().getString("acStartup.import.label"), getEnigmailLocale().getString("acStartup.cancle.label"))) {
+          getEnigmailAutocryptSetup().processAutocryptHeader(headerValue);
+        }
       }
 
       else if(headerValue.value == 3){
