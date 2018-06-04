@@ -284,6 +284,10 @@ var EnigmailAutocryptSetup = {
           }
         }
         EnigmailDialog.alert(null, EnigmailLocale.getString("acStartup.acHeaderFound.success"));
+    },
+
+    startKeyGen : function(){
+
     }
 };
 

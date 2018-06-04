@@ -222,13 +222,16 @@ var EnigmailConfigure = {
         }
       }
       else if(headerValue.value == 2){
-        if (getEnigmailDialog().confirmDlg(null, getEnigmailLocale().getString("acStartup.acHeaderFound.desc"), getEnigmailLocale().getString("acStartup.import.label"), getEnigmailLocale().getString("acStartup.cancle.label"))) {
-          getEnigmailAutocryptSetup().processAutocryptHeader(headerValue);
+        if (EnigmailDialog.confirmDlg(null,
+            EnigmailLocale.getString("acStartup.acHeaderFound.desc"),
+            EnigmailLocale.getString("acStartup.import.label"),
+            EnigmailLocale.getString("acStartup.cancle.label"))) {
+            EnigmailAutocryptSetup.processAutocryptHeader(headerValue);
         }
       }
 
       else if(headerValue.value == 3){
-        // Create a new Key associated with default account and Notify user that key is made.
+        EnigmailAutocryptSetup.startKeyGen();
       }
 
 
