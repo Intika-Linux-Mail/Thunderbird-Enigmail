@@ -23,7 +23,7 @@ Cu.import("chrome://enigmail/content/modules/autocrypt.jsm"); /* global Enigmail
 Cu.import("chrome://enigmail/content/modules/windows.jsm"); /* global EnigmailWindows: false*/
 Cu.import("chrome://enigmail/content/modules/dialog.jsm"); /* global EnigmailDialog: false*/
 Cu.import("chrome://enigmail/content/modules/autocrypt.jsm"); /* global EnigmailAutocrypt: false*/
-
+Cu.import("chrome://enigmail/content/modules/keyRing.jsm"); /* global EnigmailKeyRing: false*/
 
 // Interfaces
 const nsIFolderLookupService = Ci.nsIFolderLookupService;
@@ -212,6 +212,9 @@ var EnigmailAutocryptSetup = {
         returnMsgValue.autocryptheaders = autocryptHeaders;
       }
 
+      returnMsgValue.userName = msgAccountManager.defaultAccount.defaultIdentity.fullName;
+      returnMsgValue.userEmail = msgAccountManager.defaultAccount.defaultIdentity.email;
+
       return returnMsgValue;
     },
 
@@ -286,8 +289,22 @@ var EnigmailAutocryptSetup = {
         EnigmailDialog.alert(null, EnigmailLocale.getString("acStartup.acHeaderFound.success"));
     },
 
-    startKeyGen : function(){
+    startKeyGen : function(headerValue){
+      EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen()");
+      let userName = headerValue.userName,
+        userEmail = headerValue.userEmail,
+        expiry = 1825,
+        keyLength = 4096,
+        keyType = "RSA",
+        passphrase = "",
+        generateObserver = new enigGenKeyObserver();
 
+      try{
+        EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+      }
+      catch(ex) {
+        EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen() error : " + ex);
+      }
     }
 };
 
@@ -351,3 +368,14 @@ function streamListener() {
 
   return newStreamListener;
 }
+
+function enigGenKeyObserver() {}
+
+enigGenKeyObserver.prototype = {
+  keyId: null,
+  backupLocation: null,
+  _state: 0,
+
+  onDataAvailable: function(data) {},
+  onStopRequest: function(exitCode) {}
+};
