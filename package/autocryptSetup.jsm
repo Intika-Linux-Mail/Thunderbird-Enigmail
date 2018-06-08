@@ -24,6 +24,7 @@ Cu.import("chrome://enigmail/content/modules/windows.jsm"); /* global EnigmailWi
 Cu.import("chrome://enigmail/content/modules/dialog.jsm"); /* global EnigmailDialog: false*/
 Cu.import("chrome://enigmail/content/modules/autocrypt.jsm"); /* global EnigmailAutocrypt: false*/
 Cu.import("chrome://enigmail/content/modules/keyRing.jsm"); /* global EnigmailKeyRing: false*/
+Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 // Interfaces
 const nsIFolderLookupService = Ci.nsIFolderLookupService;
@@ -73,27 +74,7 @@ var EnigmailAutocryptSetup = {
           break;
         }
 
-        let msgFolders = [];
-
-        msgFolders.push(rootFolder);
-
-        // To list all the Folder in Main Account Folder
-
-        var j = 0;
-
-        while (msgFolders.length > j) {
-
-          let containFolder = msgFolders[j];
-
-          if (containFolder.hasSubFolders) {
-            let subFolders = containFolder.subFolders;
-            while (subFolders.hasMoreElements()) {
-              msgFolders.push(subFolders.getNext().QueryInterface(nsIMsgFolder));
-            }
-          }
-          j++;
-
-        }
+        let msgFolders = getMsgFolders(rootFolder);
 
         // Iterating through each Folder in the Account
 
@@ -118,73 +99,13 @@ var EnigmailAutocryptSetup = {
 
               var messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
               var mms = messenger.messageServiceFromURI(msgURI).QueryInterface(nsIMsgMessageService);
-              var listener = streamListener();
-              mms.streamMessage(msgURI, listener, null, null, true, "filter");
 
-              //lazy async, wait for listener
-              let thread = Components.classes["@mozilla.org/thread-manager;1"].getService().currentThread;
-              while (listener.mBusy) {
-                thread.processNextEvent(true);
-              }
+              let headerObj = getStreamedHeaders(msgURI, mms);
 
-              // Store all headers in the mData-variable
-              for (var i = 0; i < listener.mHeaders.length; i++) {
-                var name = listener.mHeaders[i].name;
-                var value = listener.mHeaders[i].value;
-                if (name == 'autocrypt-setup-message' && value == 'v1' && msgHeader.author == msgHeader.recipients) {
-                  if (!returnMsgValue.header) {
-                    returnMsgValue.value = 1;
-                    returnMsgValue.header = msgHeader;
-                    returnMsgValue.attachment = listener.mAttachments[0];
-                  } else if (returnMsgValue.header.date < msgHeader.date) {
-                    returnMsgValue.header = msgHeader;
-                    returnMsgValue.attachment = listener.mAttachments[0];
-                  }
-                } else if (name == 'autocrypt' && msgAuthor == accountMsgServer.username) {
-                  if(autocryptHeaders.length == 0){
-                    var msgDate;
-                    for (var j = 0; j < listener.mHeaders.length; j++) {
-                        if(listener.mHeaders[j].name == 'date'){
-                            msgDate = listener.mHeaders[j].value;
-                        }
-                    }
-                    let addHeader = {
-                        'fromAddr' : msgAuthor,
-                        'msgData' : [value],
-                        'date' : msgDate
-                    }
-                    autocryptHeaders.push(addHeader);
-                  }
-                  else {
-                    let fromHeaderExist = 0;
-                    for(let j=0;j<autocryptHeaders.length;j++){
-                        if(autocryptHeaders[j].fromAddr == msgAuthor){
-                            if(!autocryptHeaders[j].msgData.includes(value)){
-                                autocryptHeaders[j].msgData.push(value);
-                            }
-                            fromHeaderExist++;
-                            break;
-                        }
-                    }
+              let checkHeaderValues = checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnMsgValue, autocryptHeaders);
 
-                    var msgDate;
-                    for (var j = 0; j < listener.mHeaders.length; j++) {
-                      if (listener.mHeaders[j].name == 'date') {
-                        msgDate = listener.mHeaders[j].value;
-                      }
-                    }
-                    if(fromHeaderExist == 0){
-                      let addHeader = {
-                        'fromAddr': msgAuthor,
-                        'msgData': [value],
-                        'date' : msgDate
-                      }
-                      autocryptHeaders.push(addHeader);
-                    }
-                  }
-                }
-
-              }
+              autocryptHeaders = checkHeaderValues.autocryptHeaders;
+              returnMsgValue = checkHeaderValues.checkHeaderValues;
 
               const currDateInSeconds = new Date().getTime() / 1000;
               const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
@@ -308,65 +229,134 @@ var EnigmailAutocryptSetup = {
     }
 };
 
-// Util Function for Extracting manually added Headers
-function streamListener() {
-  var newStreamListener = {
-    mAttachments: [],
-    mHeaders: [],
-    mBusy: true,
 
-    onStartRequest: function(aRequest, aContext) {
-      this.mAttachments = [];
-      this.mHeaders = [];
-      this.mBusy = true;
+function createStreamListener(k) {
+  return {
+    _data: "",
+    _stream: null,
 
-      var channel = aRequest.QueryInterface(Components.interfaces.nsIChannel);
-      channel.URI.QueryInterface(Components.interfaces.nsIMsgMailNewsUrl);
-      channel.URI.msgHeaderSink = this; // adds this header sink interface to the channel
-    },
+    QueryInterface: XPCOMUtils.generateQI([Ci.nsIStreamListener, Ci.nsIRequestObserver]),
+
+    // nsIRequestObserver
+    onStartRequest: function(aRequest, aContext) {},
     onStopRequest: function(aRequest, aContext, aStatusCode) {
-      this.mBusy = false; // if needed, you can poll this var to see if we are done collecting attachment details
+      try {
+        k(this._data);
+      }
+      catch (e) {
+        console.log("Error inside stream listener:\n" + e + "\n");
+      }
     },
-    onDataAvailable: function(aRequest, aContext, aInputStream, aOffset, aCount) {},
-    onStartHeaders: function() {},
-    onEndHeaders: function() {},
-    processHeaders: function(aHeaderNameEnumerator, aHeaderValueEnumerator, aDontCollectAddress) {
-      while (aHeaderNameEnumerator.hasMore())
-        this.mHeaders.push({
-          name: aHeaderNameEnumerator.getNext().toLowerCase(),
-          value: aHeaderValueEnumerator.getNext()
-        });
-    },
-    handleAttachment: function(aContentType, aUrl, aDisplayName, aUri, aIsExternalAttachment) {
-      if (aContentType == "text/html") return;
-      this.mAttachments.push({
-        contentType: aContentType,
-        url: aUrl,
-        displayName: aDisplayName,
-        uri: aUri,
-        isExternal: aIsExternalAttachment
-      });
-    },
-    onEndAllAttachments: function() {},
-    onEndMsgDownload: function(aUrl) {},
-    onEndMsgHeaders: function(aUrl) {},
-    onMsgHasRemoteContent: function(aMsgHdr) {},
-    getSecurityInfo: function() {},
-    setSecurityInfo: function(aSecurityInfo) {},
-    getDummyMsgHeader: function() {},
 
-    QueryInterface: function(aIID) {
-      if (aIID.equals(Components.interfaces.nsIStreamListener) ||
-        aIID.equals(Components.interfaces.nsIMsgHeaderSink) ||
-        aIID.equals(Components.interfaces.nsISupports))
-        return this;
-
-      throw Components.results.NS_NOINTERFACE;
-      return 0;
+    // nsIStreamListener
+    onDataAvailable: function(aRequest, aContext, aInputStream, aOffset, aCount) {
+      if (this._stream == null) {
+        this._stream = Cc["@mozilla.org/scriptableinputstream;1"].createInstance(Ci.nsIScriptableInputStream);
+        this._stream.init(aInputStream);
+      }
+      this._data += this._stream.read(aCount);
     }
   };
+}
 
-  return newStreamListener;
+function getMsgFolders(rootFolder){
+
+  let msgFolders = [];
+  msgFolders.push(rootFolder);
+
+  // To list all the Folder in Main Account Folder
+
+  var j = 0;
+
+  while (msgFolders.length > j) {
+
+    let containFolder = msgFolders[j];
+
+    if (containFolder.hasSubFolders) {
+      let subFolders = containFolder.subFolders;
+      while (subFolders.hasMoreElements()) {
+        msgFolders.push(subFolders.getNext().QueryInterface(nsIMsgFolder));
+      }
+    }
+    j++;
+  }
+
+  return msgFolders;
+}
+
+function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnMsgValue, autocryptHeaders){
+  if (headerObj['autocrypt-setup-message'] && msgHeader.author == msgHeader.recipient) {
+    if (!returnMsgValue.header) {
+      returnMsgValue.value = 1;
+      returnMsgValue.header = msgHeader;
+       MsgHdrToMimeMessage(msgHeade, null, function(aMsgHdr, aMimeMsg){
+         console.log(aMsgHdr, aMimeMsg);
+       })
+      //returnMsgValue.attachment = listener.mAttachments[0];
+    } else if (returnMsgValue.header.date < msgHeader.date) {
+      returnMsgValue.header = msgHeader;
+      MsgHdrToMimeMessage(msgHeade, null, function(aMsgHdr, aMimeMsg){
+        console.log(aMsgHdr, aMimeMsg);
+      })
+      //returnMsgValue.attachment = listener.mAttachments[0];
+    }
+  } else if (headerObj['autocrypt'] && msgAuthor == accountMsgServer.username) {
+    if (autocryptHeaders.length == 0) {
+      let addHeader = {
+        'fromAddr': msgAuthor,
+        'msgData': headerObj['autocrypt'],
+        'date': headerObj['date'][0]
+      }
+      autocryptHeaders.push(addHeader);
+    } else {
+      let fromHeaderExist = 0;
+      for (let j = 0; j < autocryptHeaders.length; j++) {
+        if (autocryptHeaders[j].fromAddr == msgAuthor) {
+          if (!autocryptHeaders[j].msgData.includes(headerObj['autocrypt'][0])) {
+            autocryptHeaders[j].msgData.push(headerObj['autocrypt'][0]);
+          }
+          fromHeaderExist++;
+          break;
+        }
+      }
+      if (fromHeaderExist == 0) {
+        let addHeader = {
+          'fromAddr': msgAuthor,
+          'msgData': headerObj['autocrypt'],
+          'date': headerObj['date'][0]
+        }
+        autocryptHeaders.push(addHeader);
+      }
+    }
+  }
+
+  return {
+    'returnMsgValue' : returnMsgValue,
+    'autocryptHeaders' : autocryptHeaders
+  }
+}
+
+function getStreamedHeaders(msgURI, mms){
+
+    let headerObj = {};
+
+    mms.streamHeaders(msgURI, createStreamListener(aRawString => {
+      let re = '/\r?\n\s+/g';
+      let str = aRawString.replace(re, " ");
+      let lines = str.split(/\r?\n/);
+      for (let line of lines) {
+        let i = line.indexOf(":");
+        if (i < 0)
+          continue;
+        let k = line.substring(0, i).toLowerCase();
+        let v = line.substring(i + 1).trim();
+        if (!(k in headerObj))
+          headerObj[k] = [];
+        headerObj[k].push(v);
+      }
+    }), null, false);
+
+    return headerObj;
 }
 
 function enigGenKeyObserver() {}
