@@ -35,7 +35,6 @@ const nsIMessenger = Ci.nsIMessenger;
 const nsIMsgMessageService = Ci.nsIMsgMessageService;
 const nsIMsgFolder = Ci.nsIMsgFolder;
 
-
 var gFolderURIs = [];
 
 var EnigmailAutocryptSetup = {
@@ -46,7 +45,7 @@ var EnigmailAutocryptSetup = {
        *
        * @return Object with Headers(Optional), value : For each case assigned value,
     */
-    getMsgHeader: function(){
+    getMsgHeader: async function(){
 
       EnigmailLog.DEBUG("autocryptSetup.jsm: getMsgHeader()\n");
 
@@ -74,52 +73,47 @@ var EnigmailAutocryptSetup = {
           break;
         }
 
-        let msgFolders = getMsgFolders(rootFolder);
+        let msgObject = getMsgFolders(rootFolder);
 
-        // Iterating through each Folder in the Account
+        // Iterating through each Folder Database in the Account
 
-        for (var k = 0; k < msgFolders.length; k++) {
-          let msgFolder = msgFolders[k];
+        for (var k = 0; k < msgObject.length; k++) {
 
-          let msgDatabase = msgFolder.msgDatabase;
+          let msgDatabase = msgObject[k].msgDatabase;
+          let msgFolder = msgObject[k].msgFolder;
 
-          if (msgDatabase != null) {
-            let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
+          let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
 
-            // Iterating through each message in the Folder
+          // Iterating through each message in the Folder
+          while (msgEnumerator.hasMoreElements()) {
+            let msgHeader = msgEnumerator.getNext().QueryInterface(nsIMsgDBHdr);
+            let msgURI = msgFolder.getUriForMsg(msgHeader);
 
-            while (msgEnumerator.hasMoreElements()) {
+            let msgAuthor = msgHeader.author.substring(msgHeader.author.lastIndexOf("<") + 1, msgHeader.author.lastIndexOf(">"));
 
-              let msgHeader = msgEnumerator.getNext().QueryInterface(nsIMsgDBHdr);
-              let msgURI = msgFolder.getUriForMsg(msgHeader);
+            // Listing all the headers in the message
 
-              let msgAuthor = msgHeader.author.substring(msgHeader.author.lastIndexOf("<")+1,msgHeader.author.lastIndexOf(">"));
+            var messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
+            var mms = messenger.messageServiceFromURI(msgURI).QueryInterface(nsIMsgMessageService);
 
-              // Listing all the headers in the message
+            let headerObj = await getStreamedHeaders(msgURI, mms);
 
-              var messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
-              var mms = messenger.messageServiceFromURI(msgURI).QueryInterface(nsIMsgMessageService);
+            let checkHeaderValues = checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnMsgValue, autocryptHeaders);
 
-              let headerObj = getStreamedHeaders(msgURI, mms);
+            autocryptHeaders = checkHeaderValues.autocryptHeaders;
+            returnMsgValue = checkHeaderValues.returnMsgValue;
 
-              let checkHeaderValues = checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnMsgValue, autocryptHeaders);
+            const currDateInSeconds = new Date().getTime() / 1000;
+            const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
 
-              autocryptHeaders = checkHeaderValues.autocryptHeaders;
-              returnMsgValue = checkHeaderValues.checkHeaderValues;
-
-              const currDateInSeconds = new Date().getTime() / 1000;
-              const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
-
-              /**
-                  2592000 = No. of Seconds in a Month.
-                  This is to ignore 1 month old messages.
-              */
-              if (diffSecond > 2592000.0) {
-                break;
-              }
+            /**
+                2592000 = No. of Seconds in a Month.
+                This is to ignore 1 month old messages.
+            */
+            if (diffSecond > 2592000.0) {
+              break;
             }
           }
-
         }
 
       }
@@ -281,7 +275,24 @@ function getMsgFolders(rootFolder){
     j++;
   }
 
-  return msgFolders;
+  let msgFoldersDatabase = [];
+
+  for (var i = 0; i < msgFolders.length; i++) {
+    let msgDatabase = msgFolders[i].msgDatabase;
+    if(msgDatabase != null){
+        let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
+        if(msgEnumerator.hasMoreElements()){
+            let msgObject = {
+              'msgFolder' : msgFolders[i],
+              'msgDatabase' : msgDatabase
+            };
+            msgFoldersDatabase.push(msgObject);
+        }
+    }
+
+  }
+
+  return msgFoldersDatabase;
 }
 
 function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnMsgValue, autocryptHeaders){
@@ -289,15 +300,9 @@ function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnM
     if (!returnMsgValue.header) {
       returnMsgValue.value = 1;
       returnMsgValue.header = msgHeader;
-       MsgHdrToMimeMessage(msgHeade, null, function(aMsgHdr, aMimeMsg){
-         console.log(aMsgHdr, aMimeMsg);
-       })
       //returnMsgValue.attachment = listener.mAttachments[0];
     } else if (returnMsgValue.header.date < msgHeader.date) {
       returnMsgValue.header = msgHeader;
-      MsgHdrToMimeMessage(msgHeade, null, function(aMsgHdr, aMimeMsg){
-        console.log(aMsgHdr, aMimeMsg);
-      })
       //returnMsgValue.attachment = listener.mAttachments[0];
     }
   } else if (headerObj['autocrypt'] && msgAuthor == accountMsgServer.username) {
@@ -336,27 +341,32 @@ function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, returnM
   }
 }
 
-function getStreamedHeaders(msgURI, mms){
+function getStreamedHeaders(msgURI, mms) {
 
-    let headerObj = {};
+  return new Promise((resolve, reject) => {
+     let headerObj = {};
+     mms.streamHeaders(msgURI, createStreamListener(aRawString => {
+       try {
+         let re = '/\r?\n\s+/g';
+         let str = aRawString.replace(re, " ");
+         let lines = str.split(/\r?\n/);
+         for (let line of lines) {
+           let i = line.indexOf(":");
+           if (i < 0)
+             continue;
+           let k = line.substring(0, i).toLowerCase();
+           let v = line.substring(i + 1).trim();
+           if (!(k in headerObj))
+             headerObj[k] = [];
+           headerObj[k].push(v);
+         }
+       } catch (e) {
+         EnigmailLog.DEBUG("autocryptSetup.js: getStreamedHeaders() error : " + e + "\n");
+       }
+       resolve(headerObj)
+     }), null, false);
+  });
 
-    mms.streamHeaders(msgURI, createStreamListener(aRawString => {
-      let re = '/\r?\n\s+/g';
-      let str = aRawString.replace(re, " ");
-      let lines = str.split(/\r?\n/);
-      for (let line of lines) {
-        let i = line.indexOf(":");
-        if (i < 0)
-          continue;
-        let k = line.substring(0, i).toLowerCase();
-        let v = line.substring(i + 1).trim();
-        if (!(k in headerObj))
-          headerObj[k] = [];
-        headerObj[k].push(v);
-      }
-    }), null, false);
-
-    return headerObj;
 }
 
 function enigGenKeyObserver() {}
