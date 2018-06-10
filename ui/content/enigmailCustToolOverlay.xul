@@ -20,6 +20,6 @@
     <link rel="stylesheet" href="chrome://enigmail/skin/enigmail.css" type="text/css"/>
 
     <!-- Variant for macOS -->
-    <script type="application/x-javascript" src="chrome://enigmail/content/ui/enigmailCustToolOverlay.js"/>
+    <script type="application/x-javascript" src="chrome://enigmail/content/enigmailCustToolOverlay.js"/>
 
 </overlay>
