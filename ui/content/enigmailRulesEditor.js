@@ -15,6 +15,8 @@
 EnigInitCommon("enigmailRulesEditor");
 
 const Cu = Components.utils;
+const Ci = Components.interfaces;
+
 Cu.import("resource://enigmail/rules.jsm"); /*global EnigmailRules: false */
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 
@@ -25,6 +27,9 @@ var gSearchInput = null;
 var gNumRows = null;
 
 function enigmailDlgOnLoad() {
+  let domWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+  domWindowUtils.loadSheetUsingURIString("chrome://enigmail/skin/enigmail.css", 1);
+
   var enigmailSvc = GetEnigmailSvc();
   if (!enigmailSvc)
     return;

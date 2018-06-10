@@ -17,6 +17,9 @@ Cu.import("resource://enigmail/locale.jsm"); /*global EnigmailLocale: false */
 var gInputArgs;
 
 function onLoad() {
+  let domWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+  domWindowUtils.loadSheetUsingURIString("chrome://enigmail/skin/enigmail.css", 1);
+
   gInputArgs = window.arguments[0];
 
   if (gInputArgs.dlgMode !== "input") {

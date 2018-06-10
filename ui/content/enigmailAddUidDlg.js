@@ -6,13 +6,20 @@
 
 /* global Components: false */
 
-
 "use strict";
+
+const Ci = Components.interfaces;
+
 Components.utils.import("resource://enigmail/core.jsm"); /* global EnigmailCore: false */
 Components.utils.import("resource://enigmail/keyEditor.jsm"); /* global EnigmailKeyEditor: false */
 Components.utils.import("resource://enigmail/locale.jsm"); /* global EnigmailLocale: false */
 Components.utils.import("resource://enigmail/data.jsm"); /* global EnigmailData: false */
 Components.utils.import("resource://enigmail/dialog.jsm"); /* global EnigmailDialog: false */
+
+function onLoad() {
+  let domWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+  domWindowUtils.loadSheetUsingURIString("chrome://enigmail/skin/enigmail.css", 1);
+}
 
 function onAccept() {
   var name = document.getElementById("addUid_name");

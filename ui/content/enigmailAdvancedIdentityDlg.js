@@ -4,11 +4,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/* global EnigInitCommon: false */
+/* global Components: false, EnigInitCommon: false */
 /* global ENIG_HEADERMODE_KEYID: false, ENIG_HEADERMODE_URL: false */
 
 
 "use strict";
+
+const Ci = Components.interfaces;
 
 EnigInitCommon("enigmailAdvancedIdentityDlg");
 
@@ -18,6 +20,9 @@ var gOpenPgpHeaderKeyId;
 var gOpenPgpSendKeyWithMsg;
 
 function onLoad() {
+  let domWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+  domWindowUtils.loadSheetUsingURIString("chrome://enigmail/skin/enigmail.css", 1);
+
   gOpenPgpUrlName = document.getElementById("openpgpHeaderMode.url.name");
   gOpenPgpHeaderKeyId = document.getElementById("openpgpHeaderMode.keyId");
   gOpenPgpHeaderUrl = document.getElementById("openpgpHeaderMode.url");

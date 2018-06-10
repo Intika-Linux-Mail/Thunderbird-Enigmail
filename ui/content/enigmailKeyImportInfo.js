@@ -6,6 +6,9 @@
 
 "use strict";
 
+const Ci = Components.interfaces;
+
+
 Components.utils.import("resource://enigmail/locale.jsm"); /* global EnigmailLocale: false */
 Components.utils.import("resource://enigmail/windows.jsm"); /* global EnigmailWindows: false */
 Components.utils.import("resource://enigmail/keyRing.jsm"); /* global EnigmailKeyRing: false */
@@ -15,6 +18,9 @@ Components.utils.import("resource://enigmail/data.jsm"); /* global EnigmailData:
 Components.utils.import("resource://enigmail/os.jsm"); /* global EnigmailOS: false */
 
 function onLoad() {
+  let domWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+  domWindowUtils.loadSheetUsingURIString("chrome://enigmail/skin/enigmail.css", 1);
+
   var dlg = document.getElementById("enigmailKeyImportInfo");
 
   let i, keys;

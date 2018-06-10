@@ -26,6 +26,9 @@ const Ci = Components.interfaces;
 const Cc = Components.classes;
 
 function onLoad() {
+  let domWindowUtils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+  domWindowUtils.loadSheetUsingURIString("chrome://enigmail/skin/enigmail.css", 1);
+
   window.arguments[1].refresh = false;
 
   gKeyId = window.arguments[0].keyId;
