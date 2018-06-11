@@ -189,7 +189,7 @@ function displayUpgradeInfo() {
 
 
 var EnigmailConfigure = {
-  configureEnigmail: function(win, startingPreferences) {
+  configureEnigmail: async function(win, startingPreferences) {
     EnigmailLog.DEBUG("configure.jsm: configureEnigmail()\n");
 
     if (!EnigmailStdlib.hasConfiguredAccounts()) {
@@ -211,7 +211,7 @@ var EnigmailConfigure = {
     if (oldVer === "") {
       EnigmailPrefs.setPref("configuredVersion", EnigmailApp.getVersion());
 
-      let headerValue = EnigmailAutocryptSetup.getMsgHeader();
+      let headerValue = await EnigmailAutocryptSetup.getMsgHeader();
 
       if(headerValue.value == 1){
         if (EnigmailDialog.confirmDlg(null,
