@@ -108,6 +108,7 @@ const overlays = {
   //
   // Overlay for Customize Toolbar (Windows, Linux)
   "chrome://global/content/customizeToolbar.xul": ["enigmailCustToolOverlay.xul"],
+  "chrome://messenger/content/customizeToolbar.xul": ["enigmailCustToolOverlay.xul"],
 
   //
   // // Overlay for Account Manager
