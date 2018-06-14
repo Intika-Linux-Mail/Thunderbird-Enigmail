@@ -4,6 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
+/*eslint no-loop-func: 0*/
+
 /**
  *  Module for dealing with received Autocrypt headers, level 0
  *  See details at https://github.com/mailencrypt/autocrypt
@@ -23,7 +25,7 @@ Cu.import("chrome://enigmail/content/modules/windows.jsm"); /* global EnigmailWi
 Cu.import("chrome://enigmail/content/modules/dialog.jsm"); /* global EnigmailDialog: false*/
 Cu.import("chrome://enigmail/content/modules/autocrypt.jsm"); /* global EnigmailAutocrypt: false*/
 Cu.import("chrome://enigmail/content/modules/keyRing.jsm"); /* global EnigmailKeyRing: false*/
-Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+Cu.import("resource://gre/modules/XPCOMUtils.jsm"); /* global XPCOMUtils: false*/
 
 // Interfaces
 const nsIFolderLookupService = Ci.nsIFolderLookupService;
@@ -45,7 +47,6 @@ var EnigmailAutocryptSetup = {
    * @return Object with Headers(Optional), value : For each case assigned value,
    */
   getMsgHeader: function() {
-
     return new Promise(async (resolve, reject) => {
       EnigmailLog.DEBUG("autocryptSetup.jsm: getMsgHeader()\n");
 
@@ -53,7 +54,7 @@ var EnigmailAutocryptSetup = {
       let folderService = Cc["@mozilla.org/mail/folder-lookup;1"].getService(nsIFolderLookupService);
       let returnMsgValue = {
         value: 3
-      }
+      };
 
       var accounts = msgAccountManager.accounts;
 
@@ -63,7 +64,6 @@ var EnigmailAutocryptSetup = {
       // Ierating through each account
 
       for (var i = 0; i < accounts.length; i++) {
-
         var account = accounts.queryElementAt(i, nsIMsgAccount);
         var accountMsgServer = account.incomingServer;
         gFolderURIs.push(accountMsgServer.serverURI);
@@ -81,7 +81,6 @@ var EnigmailAutocryptSetup = {
         // Iterating through each non empty Folder Database in the Account
 
         for (var k = 0; k < msgObject.length; k++) {
-
           let msgDatabase = msgObject[k].msgDatabase;
           let msgFolder = msgObject[k].msgFolder;
 
@@ -249,13 +248,13 @@ function createStreamListener(k) {
       try {
         k(this._data);
       } catch (e) {
-        console.log("Error inside stream listener:\n" + e + "\n");
+        EnigmailLog.DEBUG("autocryptSetup.jsm: createStreamListener() : " + e + "\n");
       }
     },
 
     // nsIStreamListener
     onDataAvailable: function(aRequest, aContext, aInputStream, aOffset, aCount) {
-      if (this._stream == null) {
+      if (this._stream === null) {
         this._stream = Cc["@mozilla.org/scriptableinputstream;1"].createInstance(Ci.nsIScriptableInputStream);
         this._stream.init(aInputStream);
       }
@@ -290,7 +289,7 @@ function getMsgFolders(rootFolder) {
 
   for (var p = 0; p < msgFolders.length; p++) {
     let msgDatabase = msgFolders[p].msgDatabase;
-    if (msgDatabase != null) {
+    if (msgDatabase !== null) {
       let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
       if (msgEnumerator.hasMoreElements()) {
         let msgObject = {
@@ -303,7 +302,7 @@ function getMsgFolders(rootFolder) {
   }
 
   return msgFoldersDatabase;
-};
+}
 
 // Util Function for Extracting manually added Headers
 function streamListener(callback)
@@ -357,12 +356,11 @@ function streamListener(callback)
         return this;
 
       throw Components.results.NS_NOINTERFACE;
-      return 0;
     }
   };
 
   return newStreamListener;
-};
+}
 
 function getStreamedMessage(msgFolder, msgHeader) {
   return new Promise((resolve, reject) => {
@@ -389,20 +387,20 @@ async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, m
     } else if (returnMsgValue.header.date < msgHeader.date) {
       returnMsgValue.header = msgHeader;
     }
-  } else if (headerObj['autocrypt'] && msgAuthor == accountMsgServer.username) {
+  } else if (headerObj.autocrypt && msgAuthor == accountMsgServer.username) {
     if (autocryptHeaders.length == 0) {
       let addHeader = {
         'fromAddr': msgAuthor,
-        'msgData': [headerObj['autocrypt']],
-        'date': headerObj['date'][0]
-      }
+        'msgData': [headerObj.autocrypt],
+        'date': headerObj.date[0]
+      };
       autocryptHeaders.push(addHeader);
     } else {
       let fromHeaderExist = 0;
       for (let j = 0; j < autocryptHeaders.length; j++) {
         if (autocryptHeaders[j].fromAddr == msgAuthor) {
-          if (!autocryptHeaders[j].msgData.includes(headerObj['autocrypt'])) {
-            autocryptHeaders[j].msgData.push(headerObj['autocrypt']);
+          if (!autocryptHeaders[j].msgData.includes(headerObj.autocrypt)) {
+            autocryptHeaders[j].msgData.push(headerObj.autocrypt);
           }
           fromHeaderExist++;
           break;
@@ -411,9 +409,9 @@ async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, m
       if (fromHeaderExist == 0) {
         let addHeader = {
           'fromAddr': msgAuthor,
-          'msgData': [headerObj['autocrypt']],
-          'date': headerObj['date'][0]
-        }
+          'msgData': [headerObj.autocrypt],
+          'date': headerObj.date[0]
+        };
         autocryptHeaders.push(addHeader);
       }
     }
@@ -422,8 +420,8 @@ async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, m
   return {
     'returnMsgValue': returnMsgValue,
     'autocryptHeaders': autocryptHeaders
-  }
-};
+  };
+}
 
 function getStreamedHeaders(msgURI, mms) {
 
@@ -445,14 +443,14 @@ function getStreamedHeaders(msgURI, mms) {
               headerObj[k] = [];
             headerObj[k].push(v);
           }
-          if (headerObj['autocrypt']) {
+          if (headerObj.autocrypt) {
             /** This function does not stream headers correctly for long headers. Doing manually for Autocrypt.
             * TODO : Change this Function.
             */
             let autocryptString = aRawString.substring(aRawString.indexOf("Autocrypt: ") + 11, aRawString.indexOf(':', aRawString.indexOf("Autocrypt: ") + 12));
             let autocryptStrings = autocryptString.split('\n');
             let finalAutocryptString = autocryptString.substring(0,autocryptString.length - autocryptStrings[autocryptStrings.length - 1].length);
-            headerObj['autocrypt'] = finalAutocryptString;
+            headerObj.autocrypt = finalAutocryptString;
           }
         } catch (e) {
           reject({});
@@ -466,9 +464,9 @@ function getStreamedHeaders(msgURI, mms) {
     }
   });
 
-};
+}
 
-function enigGenKeyObserver() {};
+function enigGenKeyObserver() {}
 
 enigGenKeyObserver.prototype = {
   keyId: null,
