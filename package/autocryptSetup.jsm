@@ -61,6 +61,12 @@ var EnigmailAutocryptSetup = {
       let autocryptHeaders = [];
       let autocryptSetupMessage = {};
 
+      // If no account is configured
+      if(accounts.length == 0){
+        returnMsgValue.value = 4;
+        resolve(returnMsgValue);
+      }
+
       // Ierating through each account
 
       for (var i = 0; i < accounts.length; i++) {
@@ -376,7 +382,7 @@ function getStreamedMessage(msgFolder, msgHeader) {
 
 async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, msgFolder, returnMsgValue, autocryptHeaders) {
   if (headerObj['autocrypt-setup-message'] && msgHeader.author == msgHeader.recipients) {
-
+    /**
     // To extract Attachement for Autocrypt Setup Message
 
     returnMsgValue.attachment = await getStreamedMessage(msgFolder, msgHeader);
@@ -387,6 +393,7 @@ async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, m
     } else if (returnMsgValue.header.date < msgHeader.date) {
       returnMsgValue.header = msgHeader;
     }
+    */
   } else if (headerObj.autocrypt && msgAuthor == accountMsgServer.username) {
     if (autocryptHeaders.length == 0) {
       let addHeader = {

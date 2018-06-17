@@ -234,6 +234,11 @@ var EnigmailConfigure = {
         EnigmailAutocryptSetup.startKeyGen(headerValue);
       }
 
+      else if(headerValue.value == 4){
+        // Code to be Added for Thunderbird where no accounts are added.
+      }
+
+
 
       if (EnigmailPrefs.getPref("juniorMode") === 0 || (!isPepInstallable())) {
         // start wizard if pEp Junior Mode is forced off or if pep cannot
