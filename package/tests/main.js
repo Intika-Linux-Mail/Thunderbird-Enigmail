@@ -22,6 +22,7 @@ function execTest(filename) {
 }
 
 execTest("autocrypt-test.js");
+execTest("autocryptSetup-test.js");
 execTest("armor-test.js");
 execTest("data-test.js");
 execTest("system-test.js");

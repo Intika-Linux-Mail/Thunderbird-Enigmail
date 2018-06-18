@@ -233,9 +233,11 @@ var EnigmailAutocryptSetup = {
       generateObserver = new enigGenKeyObserver();
 
     try {
-      EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+      let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+      return keygenRequest;
     } catch (ex) {
       EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen() error : " + ex);
+      return null;
     }
   }
 };
