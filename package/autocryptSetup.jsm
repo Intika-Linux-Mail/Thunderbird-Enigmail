@@ -159,6 +159,7 @@ var EnigmailAutocryptSetup = {
    */
 
   performAutocryptSetup: function(headerValue) {
+
     EnigmailLog.DEBUG("autocryptSetup.js: performAutocryptSetup()");
     if (headerValue.attachment.contentType.search(/^application\/autocrypt-setup$/i) === 0) {
 
@@ -202,43 +203,45 @@ var EnigmailAutocryptSetup = {
    *
    */
 
-  processAutocryptHeader: function(headerValue) {
+  processAutocryptHeader: function(headerValue, win = null) {
     EnigmailLog.DEBUG("autocryptSetup.js: processAutocryptHeader()");
-    for (let i = 0; i < headerValue.autocryptheaders.length; i++) {
-      for (let j = 0; j < headerValue.autocryptheaders[i].msgData.length; j++) {
-        let success = EnigmailAutocrypt.processAutocryptHeader(headerValue.autocryptheaders[i].fromAddr, [headerValue.autocryptheaders[i].msgData[j]], headerValue.autocryptheaders[i].date);
-        let check = 0;
-        success.then((value) => {
-          if (value != 0) {
-            EnigmailDialog.alert(null, EnigmailLocale.getString("acStartup.acHeaderFound.failure"));
-            check++;
+
+    return new Promise(async (resolve, reject) => {
+      for (let i = 0; i < headerValue.autocryptheaders.length; i++) {
+        for (let j = 0; j < headerValue.autocryptheaders[i].msgData.length; j++) {
+          let success = await EnigmailAutocrypt.processAutocryptHeader(headerValue.autocryptheaders[i].fromAddr, [headerValue.autocryptheaders[i].msgData[j]], headerValue.autocryptheaders[i].date);
+          if (success != 0) {
+            EnigmailDialog.alert(win, EnigmailLocale.getString("acStartup.acHeaderFound.failure"));
+            resolve(1);
           }
-        });
-        if (check != 0) {
-          return;
         }
       }
-    }
-    EnigmailDialog.alert(null, EnigmailLocale.getString("acStartup.acHeaderFound.success"));
+      EnigmailDialog.alert(win, EnigmailLocale.getString("acStartup.acHeaderFound.success"));
+      resolve(0);
+    });
   },
 
-  startKeyGen: function(headerValue) {
-    EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen()");
-    let userName = headerValue.userName,
-      userEmail = headerValue.userEmail,
-      expiry = 1825,
-      keyLength = 4096,
-      keyType = "RSA",
-      passphrase = "",
-      generateObserver = new enigGenKeyObserver();
+  startKeyGen: async function(headerValue) {
 
-    try {
-      let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
-      return keygenRequest;
-    } catch (ex) {
-      EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen() error : " + ex);
-      return null;
-    }
+    return new Promise(async (resolve, reject) => {
+      EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen()");
+      let userName = headerValue.userName,
+        userEmail = headerValue.userEmail,
+        expiry = 1825,
+        keyLength = 4096,
+        keyType = "RSA",
+        passphrase = "",
+        generateObserver = new enigGenKeyObserver();
+
+      try {
+        let keygenRequest = await EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+        keygenRequest.wait();
+        resolve(0);
+      } catch (ex) {
+        EnigmailLog.DEBUG("autocryptSetup.js: startKeyGen() error : " + ex);
+        resolve(1);
+      }
+    });
   }
 };
 
@@ -384,7 +387,6 @@ function getStreamedMessage(msgFolder, msgHeader) {
 
 async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, msgFolder, returnMsgValue, autocryptHeaders) {
   if (headerObj['autocrypt-setup-message'] && msgHeader.author == msgHeader.recipients) {
-    /**
     // To extract Attachement for Autocrypt Setup Message
 
     returnMsgValue.attachment = await getStreamedMessage(msgFolder, msgHeader);
@@ -395,7 +397,6 @@ async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, m
     } else if (returnMsgValue.header.date < msgHeader.date) {
       returnMsgValue.header = msgHeader;
     }
-    */
   } else if (headerObj.autocrypt && msgAuthor == accountMsgServer.username) {
     if (autocryptHeaders.length == 0) {
       let addHeader = {
