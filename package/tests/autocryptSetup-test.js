@@ -10,8 +10,9 @@
 "use strict";
 
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global TestHelper: false, addMacPaths: false, withEnigmail: false, withTestGpgHome: false, Cu: false*/
+TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
 
-testing("autocryptSetup.jsm"); /*global EnigmailAutocryptSetup: false, enigGenKeyObserver: false */
+testing("autocryptSetup.jsm"); /*global EnigmailAutocryptSetup: false, enigGenKeyObserver: false, getMsgFolders: false, getStreamedMessage: false, getStreamedHeaders: false */
 
 component("enigmail/keyRing.jsm"); /*global EnigmailKeyRing: false */
 component("enigmail/autocrypt.jsm"); /*global EnigmailAutocrypt: false */
@@ -84,56 +85,111 @@ test(function processAutocryptHeaderTest() {
   inspector.enterNestedEventLoop(0);
 });
 
-//testing: performAutocryptSetup
-test(withTestGpgHome(withEnigmail(function performAutocryptSetupTest() {
+// //testing: performAutocryptSetup
+// test(withTestGpgHome(withEnigmail(function performAutocryptSetupTest() {
+//   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+//
+//   EnigmailKeyRing.clearCache();
+//   setupTestAccounts();
+//
+//   let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
+//   let accounts = msgAccountManager.accounts;
+//   let account = accounts.queryElementAt(0, Ci.nsIMsgAccount);
+//   let accountIdentity = account.defaultIdentity;
+//
+//   let userName = accountIdentity.fullName,
+//     userEmail = accountIdentity.email,
+//     expiry = 1825,
+//     keyLength = 4096,
+//     keyType = "RSA",
+//     passphrase = "",
+//     generateObserver = new enigGenKeyObserver();
+//   let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+//
+//   keygenRequest.wait();
+//
+//   let keys = EnigmailKeyRing.getAllSecretKeys();
+//
+//   consol.log(keys);
+//
+//   // let keyID = accountIdentity.getCharAttribute("pgpkeyId");
+//   //
+//   let key = EnigmailKeyRing.getKeyById("A990681AD2748F08");
+//
+//   let key1 = EnigmailKeyRing.getSecretKeyByUserId(accountIdentity.email);
+//
+//   consol.log(key, key1);
+//
+//   consol.log(accountIdentity);
+//   //
+//   // let valid = EnigmailAutocrypt.getOpenPGPKeyForEmail(accountIdentity.email);
+//   //
+//   // consol.log(keyID, key, valid);
+//
+//   EnigmailAutocrypt.createSetupMessage(accountIdentity).then((value) => {
+//     Assert.notEqual(value, null);
+//     consol.log(value);
+//     inspector.exitNestedEventLoop();
+//   }).catch(err => {
+//     consol.log('err',err);
+//     inspector.exitNestedEventLoop();
+//   });
+//
+//   inspector.enterNestedEventLoop(0);
+//
+// })));
+
+//testing: getStreamedMessage
+test(withTestGpgHome(withEnigmail(function getStreamedMessageTest() {
   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
 
-  EnigmailKeyRing.clearCache();
-  setupTestAccounts();
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
 
-  let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
-  let accounts = msgAccountManager.accounts;
-  let account = accounts.queryElementAt(0, Ci.nsIMsgAccount);
-  let accountIdentity = account.defaultIdentity;
+  const rootFolder = MailHelper.getRootFolder();
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+  MailHelper.loadEmailToMailFolder("resources/encrypted-email-with-attachment.eml", sourceFolder);
 
-  let userName = accountIdentity.fullName,
-    userEmail = accountIdentity.email,
-    expiry = 1825,
-    keyLength = 4096,
-    keyType = "RSA",
-    passphrase = "",
-    generateObserver = new enigGenKeyObserver();
-  let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+  let msgheader = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
 
-  keygenRequest.wait();
-
-  let keys = EnigmailKeyRing.getAllSecretKeys();
-
-  consol.log(keys);
-
-  // let keyID = accountIdentity.getCharAttribute("pgpkeyId");
-  //
-  let key = EnigmailKeyRing.getKeyById("A990681AD2748F08");
-
-  let key1 = EnigmailKeyRing.getSecretKeyByUserId(accountIdentity.email);
-
-  consol.log(key, key1);
-
-  consol.log(accountIdentity);
-  //
-  // let valid = EnigmailAutocrypt.getOpenPGPKeyForEmail(accountIdentity.email);
-  //
-  // consol.log(keyID, key, valid);
-
-  EnigmailAutocrypt.createSetupMessage(accountIdentity).then((value) => {
-    Assert.notEqual(value, null);
+  getStreamedMessage(sourceFolder, msgheader).then((value) => {
     consol.log(value);
+    Assert.notEqual(value, null);
+    Assert.equal(value.displayName, 'attachment.txt.pgp');
     inspector.exitNestedEventLoop();
   }).catch(err => {
-    consol.log('err',err);
-    inspector.exitNestedEventLoop();
+     inspector.exitNestedEventLoop();
   });
 
   inspector.enterNestedEventLoop(0);
 
+
+})));
+
+//testing: getStreamedHeaders
+test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+  const rootFolder = MailHelper.getRootFolder();
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+  MailHelper.loadEmailToMailFolder("resources/encrypted-email.eml", sourceFolder);
+
+  let msgheader = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
+  let msgURI = sourceFolder.getUriForMsg(msgheader);
+  let messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger);
+
+  let mms = messenger.messageServiceFromURI(msgURI).QueryInterface(Ci.nsIMsgMessageService);
+
+  getStreamedHeaders(msgURI, mms).then((value) => {
+    Assert.notEqual(value, null);
+    Assert.equal(value.subject[0],"Encrypted email");
+    Assert.equal(value.date[0],"Tue, 09 Jun 2015 16:43:45 -0500");
+    inspector.exitNestedEventLoop();
+  }).catch(err => {
+
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
 })));
