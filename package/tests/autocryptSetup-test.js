@@ -85,59 +85,25 @@ test(function processAutocryptHeaderTest() {
   inspector.enterNestedEventLoop(0);
 });
 
-// //testing: performAutocryptSetup
-// test(withTestGpgHome(withEnigmail(function performAutocryptSetupTest() {
-//   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
-//
-//   EnigmailKeyRing.clearCache();
-//   setupTestAccounts();
-//
-//   let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
-//   let accounts = msgAccountManager.accounts;
-//   let account = accounts.queryElementAt(0, Ci.nsIMsgAccount);
-//   let accountIdentity = account.defaultIdentity;
-//
-//   let userName = accountIdentity.fullName,
-//     userEmail = accountIdentity.email,
-//     expiry = 1825,
-//     keyLength = 4096,
-//     keyType = "RSA",
-//     passphrase = "",
-//     generateObserver = new enigGenKeyObserver();
-//   let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
-//
-//   keygenRequest.wait();
-//
-//   let keys = EnigmailKeyRing.getAllSecretKeys();
-//
-//   consol.log(keys);
-//
-//   // let keyID = accountIdentity.getCharAttribute("pgpkeyId");
-//   //
-//   let key = EnigmailKeyRing.getKeyById("A990681AD2748F08");
-//
-//   let key1 = EnigmailKeyRing.getSecretKeyByUserId(accountIdentity.email);
-//
-//   consol.log(key, key1);
-//
-//   consol.log(accountIdentity);
-//   //
-//   // let valid = EnigmailAutocrypt.getOpenPGPKeyForEmail(accountIdentity.email);
-//   //
-//   // consol.log(keyID, key, valid);
-//
-//   EnigmailAutocrypt.createSetupMessage(accountIdentity).then((value) => {
-//     Assert.notEqual(value, null);
-//     consol.log(value);
-//     inspector.exitNestedEventLoop();
-//   }).catch(err => {
-//     consol.log('err',err);
-//     inspector.exitNestedEventLoop();
-//   });
-//
-//   inspector.enterNestedEventLoop(0);
-//
-// })));
+//testing: getMsgFolders
+test(withTestGpgHome(withEnigmail(function getMsgFoldersTest() {
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+
+  const database1 = getMsgFolders(sourceFolder);
+
+  Assert.equal(database1.length, 0);
+
+  MailHelper.loadEmailToMailFolder("resources/encrypted-email.eml", sourceFolder);
+
+  Assert.equal(sourceFolder.getTotalMessages(false), 1);
+
+  const database2 = getMsgFolders(MailHelper.getRootFolder());
+
+  Assert.equal(database2.length, 1);
+
+})));
 
 //testing: getStreamedMessage
 test(withTestGpgHome(withEnigmail(function getStreamedMessageTest() {
@@ -152,7 +118,6 @@ test(withTestGpgHome(withEnigmail(function getStreamedMessageTest() {
   let msgheader = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
 
   getStreamedMessage(sourceFolder, msgheader).then((value) => {
-    consol.log(value);
     Assert.notEqual(value, null);
     Assert.equal(value.displayName, 'attachment.txt.pgp');
     inspector.exitNestedEventLoop();

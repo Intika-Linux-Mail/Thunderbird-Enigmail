@@ -154,7 +154,7 @@ var EnigmailAutocryptSetup = {
   /**
    * Process the Autocrypt Setup Message
    *
-   * @param headerValue:      Object - containing header and attachment of the latest Autocrypt Setup Message
+   * @param headerValue: Object - containing header and attachment of the latest Autocrypt Setup Message
    *
    */
 
@@ -298,13 +298,13 @@ function getMsgFolders(rootFolder) {
 
   let msgFoldersDatabase = [];
 
-  for (var p = 0; p < msgFolders.length; p++) {
-    let msgDatabase = msgFolders[p].msgDatabase;
-    if (msgDatabase !== null) {
+  for (let i = 0; i < msgFolders.length; i++) {
+    if (msgFolders[i].getTotalMessages(false)) {
+      let msgDatabase = msgFolders[i].msgDatabase.QueryInterface(Ci.nsIMsgDatabase);
       let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
       if (msgEnumerator.hasMoreElements()) {
         let msgObject = {
-          'msgFolder': msgFolders[p],
+          'msgFolder': msgFolders[i],
           'msgDatabase': msgDatabase
         };
         msgFoldersDatabase.push(msgObject);
