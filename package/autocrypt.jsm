@@ -300,7 +300,7 @@ var EnigmailAutocrypt = {
           return checkDatabaseStructure(conn);
         },
         function onError(error) {
-          EnigmailLog.DEBUG("autocrypt.jsm: getOpenPGPKeyForEmail: could not open database\n");
+          EnigmailLog.DEBUG("autocrypt.jsm: getOpenPGPKeyForEmail: could not open database [" + error + "]\n");
           reject("getOpenPGPKeyForEmail1 error " + error);
           return;
         }
