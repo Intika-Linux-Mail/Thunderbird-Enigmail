@@ -218,7 +218,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
     let returnValue = await checkHeaders(value, msgHeader2, msgAuthor, accountMsgServer, setupFolder, returnMsgValue, autocryptHeaders);
     Assert.notEqual(returnValue, null);
     Assert.equal(returnValue.returnMsgValue.value, 1);
-    Assert.equal(returnMsgValue.header.author, msgAuthor);
+    Assert.equal(returnMsgValue.header.author, 'nobody');
     Assert.notEqual(returnMsgValue.attachment, null);
     inspector.exitNestedEventLoop();
   }).catch(err => {
@@ -246,6 +246,59 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
     Assert.notEqual(returnValue, null);
     Assert.equal(returnValue.autocryptHeaders.length, 1);
     Assert.equal(returnValue.autocryptHeaders[0].fromAddr, msgAuthor2);
+    inspector.exitNestedEventLoop();
+  }).catch(err => {
+    Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+})));
+
+//testing: getMsgHeader
+test(withTestGpgHome(withEnigmail(function getMsgHeaderTest() {
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  const rootFolder = MailHelper.getRootFolder();
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+  MailHelper.loadEmailToMailFolder("resources/encrypted-email.eml", sourceFolder);
+
+  EnigmailAutocryptSetup.getMsgHeader().then((returnMsgValue) => {
+    Assert.equal(returnMsgValue.value, 3);
+    inspector.exitNestedEventLoop();
+  }).catch(err => {
+    Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+  const autocryptFolder = MailHelper.createMailFolder("autocrypt-box");
+  MailHelper.loadEmailToMailFolder("resources/encrypted-email-with-autocrypt.eml", autocryptFolder);
+
+
+  EnigmailAutocryptSetup.getMsgHeader().then((returnMsgValue) => {
+    Assert.equal(returnMsgValue.value, 2);
+    inspector.exitNestedEventLoop();
+  }).catch(err => {
+    Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+  const setupFolder = MailHelper.createMailFolder("setup-box");
+  MailHelper.loadEmailToMailFolder("resources/autocrypt-setup-message.eml", setupFolder);
+
+  EnigmailAutocryptSetup.getMsgHeader().then((returnMsgValue) => {
+    Assert.equal(returnMsgValue.value, 1);
     inspector.exitNestedEventLoop();
   }).catch(err => {
     Assert.ok(false);

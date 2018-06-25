@@ -110,12 +110,11 @@ var EnigmailAutocryptSetup = {
 
             let headerObj = await getStreamedHeaders(msgURI, mms);
 
-            let checkHeaderValues = checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, msgFolder, returnMsgValue, autocryptHeaders);
+            let checkHeaderValues = await checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, msgFolder, returnMsgValue, autocryptHeaders);
 
-            checkHeaderValues.then((value) => {
-              autocryptHeaders = value.autocryptHeaders;
-              returnMsgValue = value.returnMsgValue;
-            });
+
+            autocryptHeaders = checkHeaderValues.autocryptHeaders;
+            returnMsgValue = checkHeaderValues.returnMsgValue;
 
             const currDateInSeconds = new Date().getTime() / 1000;
             const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
@@ -158,13 +157,13 @@ var EnigmailAutocryptSetup = {
    *
    */
 
-  performAutocryptSetup: function(headerValue) {
+  performAutocryptSetup: function(headerValue, passwordWindow = null, confirmWindow = null) {
 
     EnigmailLog.DEBUG("autocryptSetup.js: performAutocryptSetup()");
     if (headerValue.attachment.contentType.search(/^application\/autocrypt-setup$/i) === 0) {
 
       EnigmailAutocrypt.getSetupMessageData(headerValue.attachment.url).then(res => {
-        let passwd = EnigmailWindows.autocryptSetupPasswd(null, "input", res.passphraseFormat, res.passphraseHint);
+        let passwd = EnigmailWindows.autocryptSetupPasswd(passwordWindow, "input", res.passphraseFormat, res.passphraseHint);
 
         if ((!passwd) || passwd == "") {
           throw "noPasswd";
@@ -180,16 +179,16 @@ var EnigmailAutocryptSetup = {
 
         switch (err) {
           case "getSetupMessageData":
-            EnigmailDialog.alert(null, EnigmailLocale.getString("autocrypt.importSetupKey.invalidMessage"));
+            EnigmailDialog.alert(confirmWindow, EnigmailLocale.getString("autocrypt.importSetupKey.invalidMessage"));
             break;
           case "wrongPasswd":
-            if (EnigmailDialog.confirmDlg(null, EnigmailLocale.getString("autocrypt.importSetupKey.wrongPasswd"), EnigmailLocale.getString("dlg.button.retry"),
+            if (EnigmailDialog.confirmDlg(confirmWindow, EnigmailLocale.getString("autocrypt.importSetupKey.wrongPasswd"), EnigmailLocale.getString("dlg.button.retry"),
                 EnigmailLocale.getString("dlg.button.cancel"))) {
               EnigmailAutocryptSetup.performAutocryptSetup(headerValue);
             }
             break;
           case "keyImportFailed":
-            EnigmailDialog.alert(null, EnigmailLocale.getString("autocrypt.importSetupKey.invalidKey"));
+            EnigmailDialog.alert(confirmWindow, EnigmailLocale.getString("autocrypt.importSetupKey.invalidKey"));
             break;
         }
       });
@@ -385,52 +384,56 @@ function getStreamedMessage(msgFolder, msgHeader) {
   });
 }
 
-async function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, msgFolder, returnMsgValue, autocryptHeaders) {
-  if (headerObj['autocrypt-setup-message'] && msgHeader.author == msgHeader.recipients) {
-    // To extract Attachement for Autocrypt Setup Message
+function checkHeaders(headerObj, msgHeader, msgAuthor, accountMsgServer, msgFolder, returnMsgValue, autocryptHeaders) {
+  return new Promise(async (resolve, reject) => {
+    if (headerObj['autocrypt-setup-message'] && msgHeader.author == msgHeader.recipients) {
 
-    returnMsgValue.attachment = await getStreamedMessage(msgFolder, msgHeader);
+      // To extract Attachement for Autocrypt Setup Message
 
-    if (!returnMsgValue.header) {
-      returnMsgValue.value = 1;
-      returnMsgValue.header = msgHeader;
-    } else if (returnMsgValue.header.date < msgHeader.date) {
-      returnMsgValue.header = msgHeader;
-    }
-  } else if (headerObj.autocrypt && msgAuthor == accountMsgServer.username) {
-    if (autocryptHeaders.length == 0) {
-      let addHeader = {
-        'fromAddr': msgAuthor,
-        'msgData': [headerObj.autocrypt],
-        'date': headerObj.date[0]
-      };
-      autocryptHeaders.push(addHeader);
-    } else {
-      let fromHeaderExist = 0;
-      for (let j = 0; j < autocryptHeaders.length; j++) {
-        if (autocryptHeaders[j].fromAddr == msgAuthor) {
-          if (!autocryptHeaders[j].msgData.includes(headerObj.autocrypt)) {
-            autocryptHeaders[j].msgData.push(headerObj.autocrypt);
-          }
-          fromHeaderExist++;
-          break;
-        }
+      returnMsgValue.attachment = await getStreamedMessage(msgFolder, msgHeader);
+
+      if (!returnMsgValue.header) {
+        returnMsgValue.value = 1;
+        returnMsgValue.header = msgHeader;
+      } else if (returnMsgValue.header.date < msgHeader.date) {
+        returnMsgValue.header = msgHeader;
       }
-      if (fromHeaderExist == 0) {
+
+    } else if (headerObj.autocrypt && msgAuthor == accountMsgServer.username) {
+      if (autocryptHeaders.length == 0) {
         let addHeader = {
           'fromAddr': msgAuthor,
           'msgData': [headerObj.autocrypt],
           'date': headerObj.date[0]
         };
         autocryptHeaders.push(addHeader);
+      } else {
+        let fromHeaderExist = 0;
+        for (let j = 0; j < autocryptHeaders.length; j++) {
+          if (autocryptHeaders[j].fromAddr == msgAuthor) {
+            if (!autocryptHeaders[j].msgData.includes(headerObj.autocrypt)) {
+              autocryptHeaders[j].msgData.push(headerObj.autocrypt);
+            }
+            fromHeaderExist++;
+            break;
+          }
+        }
+        if (fromHeaderExist == 0) {
+          let addHeader = {
+            'fromAddr': msgAuthor,
+            'msgData': [headerObj.autocrypt],
+            'date': headerObj.date[0]
+          };
+          autocryptHeaders.push(addHeader);
+        }
       }
     }
-  }
 
-  return {
-    'returnMsgValue': returnMsgValue,
-    'autocryptHeaders': autocryptHeaders
-  };
+    resolve({
+      'returnMsgValue': returnMsgValue,
+      'autocryptHeaders': autocryptHeaders
+    });
+  });
 }
 
 function getStreamedHeaders(msgURI, mms) {
