@@ -415,19 +415,14 @@ function insertXul(srcUrl, window, document, callback) {
       // bring the node to be inserted into the document
       let nn = document.importNode(node, true);
 
-      if (nn.hasAttribute("insertatstart")) {
-        target.insertBefore(nn, target.firstChild);
-      }
+      // try to insert according to insertafter/before
+      if (insertX(nn, 'insertafter',
+          pn => pn.parentNode.insertBefore(nn, pn.nextSibling)) ||
+        insertX(nn, 'insertbefore',
+          pn => pn.parentNode.insertBefore(nn, pn))) {}
+      // just append
       else {
-        // try to insert according to insertafter/before
-        if (insertX(nn, 'insertafter',
-            pn => pn.parentNode.insertBefore(nn, pn.nextSibling)) ||
-          insertX(nn, 'insertbefore',
-            pn => pn.parentNode.insertBefore(nn, pn))) {}
-        // just append
-        else {
-          target.appendChild(nn);
-        }
+        target.appendChild(nn);
       }
       return nn;
     }
