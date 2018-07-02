@@ -228,6 +228,99 @@ function processFinalState_test() {
 
 }
 
+function setFinalSendMode_test() {
+  // test functionality of setFinalSendMode
+
+  Enigmail.msg.determineSendFlags = () => {
+
+  };
+
+  Enigmail.msg.setFinalSendMode('final-encryptDefault');
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_UNDEF);
+
+  Enigmail.msg.setFinalSendMode('final-encryptYes');
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.setFinalSendMode('final-encryptNo');
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.setFinalSendMode('final-signDefault');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_UNDEF);
+
+  Enigmail.msg.setFinalSendMode('final-signYes');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.setFinalSendMode('final-signNo');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.setFinalSendMode('final-pgpmimeDefault');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_UNDEF);
+
+  Enigmail.msg.setFinalSendMode('final-pgpmimeYes');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.setFinalSendMode('final-pgpmimeNo');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.setFinalSendMode('final-useSmime');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_FORCE_SMIME);
+
+  Enigmail.msg.statusSigned = EnigmailConstants.ENIG_FINAL_FORCENO;
+  Enigmail.msg.setFinalSendMode('toggle-final-sign');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.statusSigned = EnigmailConstants.ENIG_FINAL_FORCENO;
+  Enigmail.msg.setFinalSendMode('toggle-final-sign');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.statusSigned = EnigmailConstants.ENIG_FINAL_FORCEYES;
+  Enigmail.msg.setFinalSendMode('toggle-final-sign');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.statusSigned = EnigmailConstants.ENIG_FINAL_CONFLICT;
+  Enigmail.msg.setFinalSendMode('toggle-final-sign');
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.juniorMode = false;
+
+  Enigmail.msg.statusEncrypted = EnigmailConstants.ENIG_FINAL_FORCENO;
+  Enigmail.msg.setFinalSendMode('toggle-final-encrypt');
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.statusEncrypted = EnigmailConstants.ENIG_FINAL_FORCEYES;
+  Enigmail.msg.setFinalSendMode('toggle-final-encrypt');
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.statusEncrypted = EnigmailConstants.ENIG_FINAL_CONFLICT;
+  Enigmail.msg.setFinalSendMode('toggle-final-encrypt');
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.statusPGPMime = EnigmailConstants.ENIG_FINAL_FORCENO;
+  Enigmail.msg.setFinalSendMode('toggle-final-mime');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_ALWAYS);
+
+  Enigmail.msg.statusPGPMime= EnigmailConstants.ENIG_FINAL_FORCEYES;
+  Enigmail.msg.setFinalSendMode('toggle-final-mime');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_NEVER);
+
+  Enigmail.msg.statusPGPMime = EnigmailConstants.ENIG_FINAL_CONFLICT;
+  Enigmail.msg.setFinalSendMode('toggle-final-mime');
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_NEVER);
+  Assert.equal(Enigmail.msg.sendModeDirty, true);
+
+}
+
+function signingNoLongerDependsOnEnc_test() {
+  Enigmail.msg.finalSignDependsOnEncrypt = true;
+  Enigmail.msg.juniorMode = true;
+  Enigmail.msg.signingNoLongerDependsOnEnc();
+  Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, true);
+
+  Enigmail.msg.juniorMode = false;
+  Enigmail.msg.signingNoLongerDependsOnEnc();
+  Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, false);
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -239,4 +332,7 @@ function run_test() {
 
   trustAllKeys_test();
   processFinalState_test();
+  setFinalSendMode_test();
+  signingNoLongerDependsOnEnc_test();
+
 }
