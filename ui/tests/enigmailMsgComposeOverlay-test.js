@@ -10,6 +10,11 @@ var window;
 var document;
 
 var gSMFields;
+var EnigmailPrefs = {
+  getPref : (prop) => {
+    return 1;
+  }
+};
 
 function trustAllKeys_test() {
   // test functionality of trustAllKeys
@@ -457,6 +462,7 @@ function tryEnablingSMime_test() {
   Assert.equal(gSMFields.requireEncryptMessage, false);
   Assert.equal(gSMFields.signMessage, true);
 
+
   encFinally = EnigmailConstants.ENIG_FINAL_FORCENO;
   signFinally = EnigmailConstants.ENIG_FINAL_FORCEYES;
   Enigmail.msg.autoPgpEncryption = true;
@@ -464,6 +470,40 @@ function tryEnablingSMime_test() {
   Assert.equal(ret.encFinally, EnigmailConstants.ENIG_FINAL_FORCENO);
   Assert.equal(ret.signFinally, EnigmailConstants.ENIG_FINAL_FORCEYES);
   Assert.equal(Enigmail.msg.statusPGPMime, EnigmailConstants.ENIG_FINAL_SMIME);
+  Assert.equal(gSMFields.requireEncryptMessage, false);
+  Assert.equal(gSMFields.signMessage, false);
+
+
+  EnigmailPrefs = {
+    getPref : (prop) => {
+      //Function Overriding
+      return 0;
+    }
+  };
+
+  Enigmail.msg.isSmimeEncryptionPossible = () => {
+    //Function Overriding
+    return true;
+  };
+
+  encFinally = EnigmailConstants.ENIG_FINAL_FORCEYES;
+  signFinally = EnigmailConstants.ENIG_FINAL_FORCEYES;
+  Enigmail.msg.autoPgpEncryption = false;
+  Enigmail.msg.mimePreferOpenPGP = null;
+  ret = Enigmail.msg.tryEnablingSMime(encFinally, signFinally);
+  Assert.equal(ret.encFinally, EnigmailConstants.ENIG_FINAL_FORCEYES);
+  Assert.equal(ret.signFinally, EnigmailConstants.ENIG_FINAL_FORCEYES);
+  Assert.equal(Enigmail.msg.statusPGPMime, EnigmailConstants.ENIG_FINAL_SMIME);
+  Assert.equal(gSMFields.requireEncryptMessage, true);
+  Assert.equal(gSMFields.signMessage, true);
+
+  Enigmail.msg.statusPGPMime = null;
+  Enigmail.msg.autoPgpEncryption = true;
+  Enigmail.msg.mimePreferOpenPGP = null;
+  ret = Enigmail.msg.tryEnablingSMime(encFinally, signFinally);
+  Assert.equal(ret.encFinally, EnigmailConstants.ENIG_FINAL_FORCEYES);
+  Assert.equal(ret.signFinally, EnigmailConstants.ENIG_FINAL_FORCEYES);
+  Assert.equal(Enigmail.msg.statusPGPMime, null);
   Assert.equal(gSMFields.requireEncryptMessage, false);
   Assert.equal(gSMFields.signMessage, false);
 
