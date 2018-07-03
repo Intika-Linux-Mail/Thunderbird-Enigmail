@@ -9,7 +9,7 @@
 var window;
 var document;
 
-var gSMFields = false;
+var gSMFields;
 
 function trustAllKeys_test() {
   // test functionality of trustAllKeys
@@ -321,6 +321,44 @@ function signingNoLongerDependsOnEnc_test() {
   Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, false);
 }
 
+
+function toggleSMimeEncrypt_test() {
+
+  gSMFields = {
+    requireEncryptMessage : true
+  };
+  Enigmail.msg.toggleSMimeEncrypt();
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_ALWAYS);
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_FORCE_SMIME);
+
+  gSMFields = {
+    requireEncryptMessage : false,
+    signMessage : false
+  };
+  Enigmail.msg.toggleSMimeEncrypt();
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_NEVER);
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_UNDEF);
+
+}
+
+function toggleSMimeSign_test() {
+  gSMFields = {
+    signMessage : true
+  };
+  Enigmail.msg.toggleSMimeSign();
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_ALWAYS);
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_FORCE_SMIME);
+
+  gSMFields = {
+    requireEncryptMessage : false,
+    signMessage : false
+  };
+  Enigmail.msg.toggleSMimeSign();
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_NEVER);
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_UNDEF);
+
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -334,5 +372,6 @@ function run_test() {
   processFinalState_test();
   setFinalSendMode_test();
   signingNoLongerDependsOnEnc_test();
-
+  toggleSMimeEncrypt_test();
+  toggleSMimeSign_test();
 }
