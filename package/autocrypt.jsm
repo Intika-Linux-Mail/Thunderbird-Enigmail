@@ -71,6 +71,7 @@ var EnigmailAutocrypt = {
       }
       catch (ex) {
         reject("processAutocryptHeader error " + ex);
+        return;
       }
       let foundTypes = {};
       let paramArr = [];
@@ -293,8 +294,9 @@ var EnigmailAutocrypt = {
           return checkDatabaseStructure(conn);
         },
         function onError(error) {
-          EnigmailLog.DEBUG("autocrypt.jsm: getOpenPGPKeyForEmail: could not open database\n");
+          EnigmailLog.DEBUG("autocrypt.jsm: getOpenPGPKeyForEmail: could not open database [" + error + "]\n");
           reject("getOpenPGPKeyForEmail1 error " + error);
+          return;
         }
       ).then(
         function _f() {
@@ -307,6 +309,7 @@ var EnigmailAutocrypt = {
 
           if (resultObj.data.length === 0) {
             resolve(null);
+            return;
           }
           else {
             let retArr = [];
@@ -322,12 +325,14 @@ var EnigmailAutocrypt = {
             }
 
             resolve(retArr);
+            return;
           }
         }
       ).
       catch((err) => {
         conn.close();
         reject("getOpenPGPKeyForEmail2 error " + err);
+        return;
       });
     });
   },
@@ -413,6 +418,7 @@ var EnigmailAutocrypt = {
       }).catch(e => {
         EnigmailLog.DEBUG("autocrypt.jsm: createSetupMessage: error " + e + "\n");
         reject(2);
+        return;
       });
     });
   },
@@ -449,6 +455,7 @@ var EnigmailAutocrypt = {
         }
         else {
           reject(99);
+          return;
         }
       });
     });
@@ -495,6 +502,7 @@ var EnigmailAutocrypt = {
         }
         else {
           reject("getSetupMessageData");
+          return;
         }
       });
 
@@ -545,15 +553,18 @@ var EnigmailAutocrypt = {
             }
             else {
               reject("keyImportFailed");
+              return;
             }
           });
         }
         else {
           reject("keyImportFailed");
+          return;
         }
       }).
       catch(err => {
         reject("wrongPasswd");
+        return;
       });
     });
   },
