@@ -174,7 +174,7 @@ var EnigmailAutocrypt = {
 
       let conn;
 
-      _openAutocryptDb().then(
+      openAutocryptDb().then(
         function onConnection(connection) {
           conn = connection;
           return checkDatabaseStructure(conn);
@@ -287,7 +287,7 @@ var EnigmailAutocrypt = {
     let conn;
 
     return new Promise((resolve, reject) => {
-      _openAutocryptDb().then(
+      openAutocryptDb().then(
         function onConnection(connection) {
           conn = connection;
           return checkDatabaseStructure(conn);
@@ -609,39 +609,39 @@ var EnigmailAutocrypt = {
  * @param waitms:  Integer - number of milliseconds to wait before trying again in case of NS_ERROR_STORAGE_BUSY
  * @param maxtime: Integer - unix epoch (in milliseconds) of the point at which we should give up.
  */
-function  _openAutocryptDb_inner(resolve, reject, waitms, maxtime) {
+function _openAutocryptDb_inner(resolve, reject, waitms, maxtime) {
   EnigmailLog.DEBUG("autocrypt.jsm: _openAutocryptDb_inner()\n");
   Sqlite.openConnection({
     path: "enigmail.sqlite",
     sharedMemoryCache: false
   }).
-    then(connection => {
-      resolve(connection);
-    }).
-    catch(error => {
-      let now = Date.now();
-      if (now > maxtime) {
-        reject(error);
-        return;
-      }
-      EnigmailTimer.setTimeout(function() {
-        _openAutocryptDb_inner(resolve, reject, waitms, maxtime);
-      }, waitms);
-    });
-};
+  then(connection => {
+    resolve(connection);
+  }).
+  catch(error => {
+    let now = Date.now();
+    if (now > maxtime) {
+      reject(error);
+      return;
+    }
+    EnigmailTimer.setTimeout(function() {
+      _openAutocryptDb_inner(resolve, reject, waitms, maxtime);
+    }, waitms);
+  });
+}
 
 /**
  * Provide an sqlite conection object asynchronously, retrying if needed
  *
  * @return Promise (connection) - the Sqlite database object
  */
-function _openAutocryptDb() {
-  EnigmailLog.DEBUG("autocrypt.jsm: _openAutocryptDb()\n");
+function openAutocryptDb() {
+  EnigmailLog.DEBUG("autocrypt.jsm: openAutocryptDb()\n");
   return new Promise((resolve, reject) => {
     _openAutocryptDb_inner(resolve, reject, 100, Date.now() + 10000);
   });
-};
-  
+}
+
 
 /**
  * Ensure that the database structure matches the latest version
