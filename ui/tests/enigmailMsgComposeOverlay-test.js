@@ -16,23 +16,12 @@ var EnigmailPrefs = {
   }
 };
 
-function trustAllKeys_test() {
-  // test functionality of trustAllKeys
-  Enigmail.msg.trustAllKeys = true;
-  Enigmail.msg.tempTrustAllKeys();
-  Assert.equal(Enigmail.msg.trustAllKeys, false, "check trustAllKeys is false");
-
-  Enigmail.msg.tempTrustAllKeys();
-  Assert.equal(Enigmail.msg.trustAllKeys, true, "check trustAllKeys is true");
-
-}
-
 function processFinalState_test() {
   // Encryption Status and Reason
 
   Enigmail.msg.isEnigmailEnabled = () => {
-      //Function Overriding
-      return false;
+    //Function Overriding
+    return false;
   };
 
   Enigmail.msg.isSmimeEnabled = () => {
@@ -230,6 +219,17 @@ function processFinalState_test() {
   Enigmail.msg.sendMode = EnigmailConstants.SEND_PGP_MIME;
   Enigmail.msg.processFinalState();
   Assert.equal(Enigmail.msg.statusPGPMime, EnigmailConstants.ENIG_FINAL_YES);
+
+}
+
+function trustAllKeys_test() {
+  // test functionality of trustAllKeys
+  Enigmail.msg.trustAllKeys = true;
+  Enigmail.msg.tempTrustAllKeys();
+  Assert.equal(Enigmail.msg.trustAllKeys, false, "check trustAllKeys is false");
+
+  Enigmail.msg.tempTrustAllKeys();
+  Assert.equal(Enigmail.msg.trustAllKeys, true, "check trustAllKeys is true");
 
 }
 
@@ -509,6 +509,167 @@ function tryEnablingSMime_test() {
 
 }
 
+function setSendMode_test() {
+  Enigmail.msg.processFinalState = () => {
+    return null;
+  };
+
+  Enigmail.msg.updateStatusBar = () => {
+    return null;
+  };
+
+  Enigmail.msg.sendMode = EnigmailConstants.SEND_SIGNED;
+  Enigmail.msg.setSendMode('sign');
+  Assert.equal(Enigmail.msg.sendMode, EnigmailConstants.SEND_SIGNED);
+
+  Enigmail.msg.sendMode = EnigmailConstants.SEND_ENCRYPTED;
+  Enigmail.msg.setSendMode('sign');
+  Assert.equal(Enigmail.msg.sendMode, 3);
+
+  Enigmail.msg.sendMode = EnigmailConstants.SEND_ENCRYPTED;
+  Enigmail.msg.setSendMode('encrypt');
+  Assert.equal(Enigmail.msg.sendMode, EnigmailConstants.SEND_ENCRYPTED);
+
+  Enigmail.msg.sendMode = EnigmailConstants.SEND_SIGNED;
+  Enigmail.msg.setSendMode('encrypt');
+  Assert.equal(Enigmail.msg.sendMode, 3);
+
+}
+
+
+function getAccDefault_test() {
+
+  Enigmail.msg.isSmimeEnabled = () => {
+    return true;
+  };
+
+  Enigmail.msg.isEnigmailEnabled = () => {
+    return true;
+  };
+
+  Enigmail.msg.identity = {};
+
+  Enigmail.msg.identity.getBoolAttribute = (key) => {
+    return false;
+  };
+
+  Enigmail.msg.identity.getIntAttribute = (key) => {
+    return 0;
+  };
+
+  let ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, false);
+
+  Enigmail.msg.identity.getIntAttribute = (key) => {
+    return 1;
+  };
+
+  ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.identity.getBoolAttribute = (key) => {
+    return true;
+  };
+
+  Enigmail.msg.identity.getIntAttribute = (key) => {
+    return 1;
+  };
+
+  Enigmail.msg.pgpmimeForced = EnigmailConstants.ENIG_FORCE_SMIME;
+
+  ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.pgpmimeForced = EnigmailConstants.ENIG_FORCE_ALWAYS;
+
+  ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, true);
+
+  ret = Enigmail.msg.getAccDefault('encrypt');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.pgpmimeForced = null;
+  ret = Enigmail.msg.getAccDefault('encrypt');
+  Assert.equal(ret, true);
+
+  ret = Enigmail.msg.getAccDefault('sign-pgp');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.identity.getBoolAttribute = (key) => {
+    return false;
+  };
+
+  ret = Enigmail.msg.getAccDefault('pgpMimeMode');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault("signIfNotEnc");
+  Assert.equal(ret, false);
+
+  Enigmail.msg.identity.getBoolAttribute = (key) => {
+    return true;
+  };
+
+  ret = Enigmail.msg.getAccDefault("signIfEnc");
+  Assert.equal(ret, true);
+
+  ret = Enigmail.msg.getAccDefault('attachPgpKey');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.isEnigmailEnabled = () => {
+    return false;
+  };
+
+  ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.identity.getBoolAttribute = (key) => {
+    return false;
+  };
+
+  ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, false);
+
+  Enigmail.msg.identity.getIntAttribute = (key) => {
+    return 0;
+  };
+
+  ret = Enigmail.msg.getAccDefault('encrypt');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('random');
+  Assert.equal(ret, false);
+
+  Enigmail.msg.isSmimeEnabled = () => {
+    return false;
+  };
+
+  ret = Enigmail.msg.getAccDefault('sign');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('encrypt');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('signIfNotEnc');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('signIfEnc');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('pgpMimeMode');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('attachPgpKey');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('sign-pgp');
+  Assert.equal(ret, false);
+
+  ret = Enigmail.msg.getAccDefault('random');
+  Assert.equal(ret, null);
+
+}
+
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -518,6 +679,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/constants.jsm");
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
+  getAccDefault_test();
   trustAllKeys_test();
   processFinalState_test();
   setFinalSendMode_test();
@@ -525,4 +687,5 @@ function run_test() {
   toggleSMimeEncrypt_test();
   toggleSMimeSign_test();
   tryEnablingSMime_test();
+  setSendMode_test();
 }
