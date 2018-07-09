@@ -27,6 +27,8 @@ Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
 Cu.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 Cu.import("resource:///modules/jsmime.jsm"); /*global jsmime: false*/
 Cu.import("resource://enigmail/singletons.jsm"); /*global EnigmailSingletons: false */
+Cu.import("resource://enigmail/funcs.jsm"); /*global EnigmailFuncs: false */
+Cu.import("resource://enigmail/mimeDecrypt.jsm"); /*global EnigmailMimeDecrypt: false */
 
 
 var EXPORTED_SYMBOLS = ["EnigmailPEPDecrypt"];
@@ -222,7 +224,13 @@ PEPDecryptor.prototype = {
     let spec = this.uri ? this.uri.spec : null;
 
     if (!EnigmailMime.isRegularMimeStructure(this.mimePartNumber, spec) || this.ignoreMessage) {
-      this.mimeSvc.onStopRequest(null, null, 0);
+      if (this.uri.spec.search(/[&?]header=enigmailConvert/) < 0) {
+        this.decryptedData = EnigmailMimeDecrypt.emptyAttachment();
+      }
+      else {
+        throw "pEpDecrypt.jsm: Cannot decrypt messages with mixed (encrypted/non-encrypted) content";
+      }
+      this.returnData();
       return;
     }
 
@@ -290,6 +298,11 @@ PEPDecryptor.prototype = {
             this.addWrapperToDecryptedResult();
           }
         }
+      }
+
+      let prefix = EnigmailMimeDecrypt.pretendAttachment(this.mimePartNumber, this.uri);
+      if (prefix.length > 0) {
+        this.decryptedData = prefix + this.decryptedData;
       }
 
       if (!this.backgroundJob) {
