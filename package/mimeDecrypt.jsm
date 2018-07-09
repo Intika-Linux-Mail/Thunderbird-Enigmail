@@ -81,7 +81,7 @@ var EnigmailMimeDecrypt = {
    * @param {String} decryptingMimePartNum: requested MIME part number
    * @param {Object} uri: nsIURI object of the decrypted message
    *
-   * @return {String}: prefix for message data 
+   * @return {String}: prefix for message data
    */
   pretendAttachment: function(decryptingMimePartNum, uri) {
     if (decryptingMimePartNum === "1" || !uri) return "";
@@ -437,14 +437,8 @@ MimeDecryptHandler.prototype = {
 
     let spec = this.uri ? this.uri.spec : null;
     EnigmailLog.DEBUG(`mimeDecrypt.jsm: checking MIME structure for ${this.mimePartNumber} / ${spec}\n`);
-<<<<<<< HEAD
-    if (!EnigmailMime.isRegularMimeStructure(this.mimePartNumber, spec)) {
-      this.returnData("");
-=======
-
     if (!EnigmailMime.isRegularMimeStructure(this.mimePartNumber, spec, false)) {
       this.returnData(EnigmailMimeDecrypt.emptyAttachment());
->>>>>>> cb1e0ff... wrap a mixed content message properly into a message/rfc822 MIME part
       return;
     }
 
@@ -540,11 +534,9 @@ MimeDecryptHandler.prototype = {
       this.exitCode = 0;
       this.displayStatus();
       this.returnData(LAST_MSG.lastMessageData);
-    }
-<<<<<<< HEAD
+    } << << << < HEAD
 
-=======
->>>>>>> cb1e0ff... wrap a mixed content message properly into a message/rfc822 MIME part
+      === === = >>> >>> > cb1e0ff...wrap a mixed content message properly into a message / rfc822 MIME part
   },
 
   displayStatus: function() {
