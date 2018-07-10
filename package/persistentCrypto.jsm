@@ -669,8 +669,8 @@ CryptMessageIntoFolder.prototype = {
    *   - application/pgp-encrypted Attachment with name "PGPMIME Version Identification"
    *   - application/octet-stream Attachment with name "encrypted.asc" having the encrypted content in base64
    * - see:
-   *   - http://www.mozilla-enigmail.org/forum/viewtopic.php?f=4&t=425
-   *  - http://sourceforge.net/p/enigmail/forum/support/thread/4add2b69/
+   *   - https://www.enigmail.net/forum/viewtopic.php?f=4&t=425
+   *  - https://sourceforge.net/p/enigmail/forum/support/thread/4add2b69/
    */
 
   isBrokenByExchange: function(mime) {
