@@ -13,7 +13,7 @@ var EXPORTED_SYMBOLS = ["EnigmailTrust"];
 Components.utils.import("resource://enigmail/locale.jsm"); /*global EnigmailLocale: false */
 
 // trust flags according to GPG documentation:
-// - http://www.gnupg.org/documentation/manuals/gnupg.pdf
+// - https://www.gnupg.org/documentation/manuals/gnupg.pdf
 // - sources: doc/DETAILS
 // In the order of trustworthy:
 //  ---------------------------------------------------------
