@@ -39,7 +39,7 @@ const ENC_TYPE_MSG = 0;
 const ENC_TYPE_ATTACH_BINARY = 1;
 const ENC_TYPE_ATTACH_ASCII = 2;
 
-const GPG_COMMENT_OPT = "Using GnuPG with %s - http://www.enigmail.net/";
+const GPG_COMMENT_OPT = "Using GnuPG with %s - https://www.enigmail.net/";
 
 
 var EnigmailEncryption = {
