@@ -546,9 +546,7 @@ MimeDecryptHandler.prototype = {
       this.exitCode = 0;
       this.displayStatus();
       this.returnData(LAST_MSG.lastMessageData);
-    } << << << < HEAD
-
-      === === = >>> >>> > cb1e0ff...wrap a mixed content message properly into a message / rfc822 MIME part
+    }
   },
 
   displayStatus: function() {
