@@ -62,7 +62,7 @@ var EnigmailAutocryptSetup = {
       let autocryptSetupMessage = {};
 
       // If no account is configured
-      if(accounts.length == 0){
+      if(accounts.length == 0 || accounts.length == 1){
         returnMsgValue.value = 4;
         resolve(returnMsgValue);
       }
@@ -161,7 +161,6 @@ var EnigmailAutocryptSetup = {
 
     EnigmailLog.DEBUG("autocryptSetup.js: performAutocryptSetup()");
     if (headerValue.attachment.contentType.search(/^application\/autocrypt-setup$/i) === 0) {
-
       EnigmailAutocrypt.getSetupMessageData(headerValue.attachment.url).then(res => {
         let passwd = EnigmailWindows.autocryptSetupPasswd(passwordWindow, "input", res.passphraseFormat, res.passphraseHint);
 
@@ -172,7 +171,7 @@ var EnigmailAutocryptSetup = {
         return EnigmailAutocrypt.handleBackupMessage(passwd, res.attachmentData, headerValue.header.author);
       }).
       then(res => {
-        EnigmailDialog.info(null, EnigmailLocale.getString("autocrypt.importSetupKey.success", headerValue.header.author));
+        EnigmailDialog.info(confirmWindow, EnigmailLocale.getString("autocrypt.importSetupKey.success", headerValue.header.author));
       }).
       catch(err => {
         EnigmailLog.DEBUG("autocryptSetup.js: performAutocryptSetup got cancel status=" + err + "\n");

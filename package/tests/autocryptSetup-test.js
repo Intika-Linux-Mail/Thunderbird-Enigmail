@@ -44,6 +44,26 @@ function copyMailToFolder(emlPath, folder) {
   });
 }
 
+//To run this test, First you have to remove all the existing Accounts
+test(withTestGpgHome(withEnigmail(function getMsgHeader_noAccount_Test() {
+
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(ci.nsIMsgAccountManager);
+  var accounts = msgAccountManager.accounts;
+
+  EnigmailAutocryptSetup.getMsgHeader().then((returnMsgValue) => {
+    Assert.equal(returnMsgValue.value, 4);
+    inspector.exitNestedEventLoop();
+  }).catch(err => {
+    Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+  setupTestAccounts();
+})));
+
 //testing: startKeyGen
 test(withTestGpgHome(withEnigmail(function keyGenTest() {
 
@@ -260,7 +280,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
   let messenger3 = Components.classes["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger);
   let mms3 = messenger3.messageServiceFromURI(msgURI3).QueryInterface(Ci.nsIMsgMessageService);
 
-  let msgAuthor2 = "dummy";
+  let msgAuthor2 = "nobody";
 
   getStreamedHeaders(msgURI3, mms3).then(async (value) => {
     let returnValue = await checkHeaders(value, msgHeader3, msgAuthor2, accountMsgServer, autocryptFolder, returnMsgValue, autocryptHeaders);
@@ -281,6 +301,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
 
 //testing: getMsgHeader
 test(withTestGpgHome(withEnigmail(function getMsgHeaderTest() {
+
   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
 
   const rootFolder = MailHelper.getRootFolder();
