@@ -49,9 +49,6 @@ test(withTestGpgHome(withEnigmail(function getMsgHeader_noAccount_Test() {
 
   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
 
-  let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(ci.nsIMsgAccountManager);
-  var accounts = msgAccountManager.accounts;
-
   EnigmailAutocryptSetup.getMsgHeader().then((returnMsgValue) => {
     Assert.equal(returnMsgValue.value, 4);
     inspector.exitNestedEventLoop();
@@ -91,6 +88,29 @@ test(withTestGpgHome(withEnigmail(function keyGenTest() {
   inspector.enterNestedEventLoop(0);
 })));
 
+//testing: startKeyGen_error_Test
+test(withTestGpgHome(withEnigmail(function keyGen_error_Test() {
+
+  EnigmailKeyRing.clearCache();
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  let headerValue = {
+    userName: undefined,
+    userEmail: undefined
+  };
+
+  EnigmailKeyRing.clearCache();
+  EnigmailAutocryptSetup.startKeyGen(headerValue).then((value) => {
+    Assert.equal(value, 1);
+    inspector.exitNestedEventLoop();
+  }).catch(res => {
+    Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+})));
+
 //testing: processAutocryptHeader
 test(function processAutocryptHeaderTest() {
   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
@@ -120,6 +140,33 @@ test(function processAutocryptHeaderTest() {
     inspector.exitNestedEventLoop();
   }).catch(res => {
     Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+});
+
+//testing: processAutocryptHeader for Error
+test(function processAutocryptHeader_error_Test() {
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  let date = new Date();
+  date.setTime(Date.now() - 5 * 86400 * 1000); // 5 days ago
+  const sentDate = date.toUTCString();
+
+  let headerValue = {
+    autocryptheaders: [{
+      date: sentDate,
+      fromAddr: '',
+      msgData: [autocryptHeader]
+    }]
+  };
+
+  var window = JSUnit.createStubWindow();
+  EnigmailKeyRing.clearCache();
+
+  EnigmailAutocryptSetup.processAutocryptHeader(headerValue, window).then((value)=> {
+    Assert.equal(value, 1);
     inspector.exitNestedEventLoop();
   });
 
@@ -195,6 +242,32 @@ test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
     inspector.exitNestedEventLoop();
   }).catch(err => {
     Assert.ok(false);
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+})));
+
+//testing: getStreamedHeaders Error
+test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+  const rootFolder = MailHelper.getRootFolder();
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+  copyMailToFolder("resources/encrypted-email.eml", sourceFolder);
+
+  let msgheader = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
+  let msgURI = sourceFolder.getUriForMsg(msgheader);
+  let messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger);
+
+  let mms = undefined;
+
+  getStreamedHeaders(msgURI, mms).then((value) => {
+    inspector.exitNestedEventLoop();
+  }).catch(err => {
+    Assert.equal(Object.keys(err).length, 0);
     inspector.exitNestedEventLoop();
   });
 
@@ -407,6 +480,64 @@ test(withTestGpgHome(withEnigmail(function performAutocryptSetupTest() {
   let keys = EnigmailKeyRing.getKeyById("B3A85460D9D9CC47");
   Assert.notEqual(keys, null);
   Assert.equal(keys.keyId, "B3A85460D9D9CC47");
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+})));
+
+//testing: performAutocryptSetup
+test(withTestGpgHome(withEnigmail(function performAutocryptSetup_wrongPassword_Test() {
+  EnigmailKeyRing.clearCache();
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+
+  const rootFolder = MailHelper.getRootFolder();
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+  copyMailToFolder("resources/autocrypt-setup-message-2.eml", sourceFolder);
+
+  let msgheader = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
+  let msgURI = sourceFolder.getUriForMsg(msgheader);
+  let messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger);
+
+  getStreamedMessage(sourceFolder, msgheader).then((value)=> {
+    Assert.notEqual(value, null);
+    let headervalue = {
+      'header' : msgheader,
+      'attachment' : value
+    };
+
+    var passwordWindow = JSUnit.createStubWindow();
+    var confirmWindow = JSUnit.createStubWindow();
+
+    passwordWindow.document = JSUnit.createDOMDocument();
+    confirmWindow.document = JSUnit.createDOMDocument();
+
+    var confirmWindowDocument = passwordWindow.document;
+    var passwordWindowDocument = confirmWindow.document;
+
+    passwordWindow.openDialog = function(arg1, arg2, arg3, arg4) {
+      const pass = "6460-5183-7821-0632-0177-4451-8821-9031-7888";
+      arg4.password = pass;
+      return arg4.password;
+    };
+
+    confirmWindow.openDialog = function() {
+      inspector.exitNestedEventLoop();
+      return null;
+    };
+
+    EnigmailAutocryptSetup.performAutocryptSetup(headervalue, passwordWindow, confirmWindow);
+
+  }).catch(err => {
+    inspector.exitNestedEventLoop();
+  });
+
+  inspector.enterNestedEventLoop(0);
+
+
+  let keys = EnigmailKeyRing.getKeyById("B3A85460D9D9CC47");
+  Assert.equal(keys, null);
 
   MailHelper.cleanMailFolder(MailHelper.getRootFolder());
 
