@@ -669,6 +669,53 @@ function getAccDefault_test() {
 
 }
 
+function toggleAccountAttr_test(){
+
+  let attr_name = 'random';
+  Enigmail.msg.identity.getBoolAttribute = function(){
+    return true;
+  };
+
+  Enigmail.msg.identity.setBoolAttribute = function(attrName, oldValue){
+    Assert.equal(attrName, attr_name);
+    Assert.equal(oldValue, false);
+  };
+
+  Enigmail.msg.toggleAccountAttr(attr_name);
+
+}
+
+function toggleAttribute_test(){
+
+  let attr_name = 'random';
+  EnigmailPrefs.getPref = function(){
+    return true;
+  };
+
+  EnigmailPrefs.setPref = function(attrName, oldValue){
+    Assert.equal(attrName, attr_name);
+    Assert.equal(oldValue, false);
+  };
+
+  Enigmail.msg.toggleAttribute(attr_name);
+
+}
+
+function fixMessageSubject_test(){
+  let check = "";
+  document.getElementById = function(){
+    return {
+      value : "Re: Re: Hello",
+      oninput : function(){
+        Assert.ok(true);
+      }
+    };
+  };
+
+  Enigmail.msg.fixMessageSubject();
+
+}
+
 
 function run_test() {
   window = JSUnit.createStubWindow();
@@ -688,4 +735,8 @@ function run_test() {
   toggleSMimeSign_test();
   tryEnablingSMime_test();
   setSendMode_test();
+  toggleAccountAttr_test();
+  toggleAttribute_test();
+  fixMessageSubject_test();
+
 }
