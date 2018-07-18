@@ -955,6 +955,47 @@ function getSmimeSigningEnabled_test(){
 
 }
 
+function setOwnKeyStatus_test(){
+
+  EnigmailLocale.getString = function(){
+    return "xyz";
+  };
+
+  Enigmail.msg.allowAttachOwnKey = function(){
+    return 0;
+  };
+
+  document.getElementById = function(str){
+    return {
+      setAttribute : function(){
+        Assert.ok(true);
+      },
+      removeAttribute : function(){
+        Assert.ok(true);
+      }
+    };
+  };
+
+  Enigmail.msg.setOwnKeyStatus();
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, "xyz");
+
+  EnigmailLocale.getString = function(){
+    return "pqr";
+  };
+
+  Enigmail.msg.allowAttachOwnKey = function(){
+    return 1;
+  };
+
+  Enigmail.msg.attachOwnKeyObj.appendAttachment = true;
+  Enigmail.msg.setOwnKeyStatus();
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, "pqr");
+
+  Enigmail.msg.attachOwnKeyObj.appendAttachment = false;
+  Enigmail.msg.setOwnKeyStatus();
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, "pqr");
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -983,4 +1024,5 @@ function run_test() {
   getEncryptionEnabled_test();
   getSigningEnabled_test();
   getSmimeSigningEnabled_test();
+  setOwnKeyStatus_test();
 }
