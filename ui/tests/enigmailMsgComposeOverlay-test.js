@@ -24,6 +24,10 @@ function toggleSignMessage(){
   Assert.ok(true);
 }
 
+var getCurrentIdentity = function(){
+
+};
+
 function processFinalState_test() {
   // Encryption Status and Reason
 
@@ -816,6 +820,141 @@ function toggleSmimeToolbar_test(){
   Enigmail.msg.toggleSmimeToolbar(event);
 }
 
+function getEncryptionEnabled_test(){
+
+  Enigmail.msg.juniorMode = true;
+  let ret = Enigmail.msg.getEncryptionEnabled();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "xyz";
+      }
+    };
+  };
+
+  Enigmail.msg.juniorMode = false;
+  ret = Enigmail.msg.getEncryptionEnabled();
+  Assert.equal(ret, true);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "";
+      }
+    };
+  };
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return true;
+  };
+  ret = Enigmail.msg.getEncryptionEnabled();
+  Assert.equal(ret, true);
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return false;
+  };
+  ret = Enigmail.msg.getEncryptionEnabled();
+  Assert.equal(ret, false);
+}
+
+function isSmimeEnabled_test() {
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "";
+      }
+    };
+  };
+
+  var ret = Enigmail.msg.isSmimeEnabled();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "xyz";
+      }
+    };
+  };
+
+  ret = Enigmail.msg.isSmimeEnabled();
+  Assert.equal(ret, true);
+}
+
+function getSigningEnabled_test(){
+
+  Enigmail.msg.juniorMode = true;
+  let ret = Enigmail.msg.getSigningEnabled();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "xyz";
+      }
+    };
+  };
+
+  Enigmail.msg.juniorMode = false;
+  ret = Enigmail.msg.getSigningEnabled();
+  Assert.equal(ret, true);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "";
+      }
+    };
+  };
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return true;
+  };
+  ret = Enigmail.msg.getSigningEnabled();
+  Assert.equal(ret, true);
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return false;
+  };
+  ret = Enigmail.msg.getSigningEnabled();
+  Assert.equal(ret, false);
+}
+
+function getSmimeSigningEnabled_test(){
+  Enigmail.msg.juniorMode = true;
+  let ret = Enigmail.msg.getSmimeSigningEnabled();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return false;
+      }
+    };
+  };
+
+  ret = Enigmail.msg.getSmimeSigningEnabled();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return true;
+      },
+      getBoolAttribute : function(){
+        return false;
+      }
+    };
+  };
+
+  ret = Enigmail.msg.getSmimeSigningEnabled();
+  Assert.equal(ret, false);
+
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -825,6 +964,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/constants.jsm");
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
+  isSmimeEnabled_test();
   getAccDefault_test();
   trustAllKeys_test();
   processFinalState_test();
@@ -840,5 +980,7 @@ function run_test() {
   notifyUser_test();
   setIdentityCallback_test();
   toggleSmimeToolbar_test();
-
+  getEncryptionEnabled_test();
+  getSigningEnabled_test();
+  getSmimeSigningEnabled_test();
 }
