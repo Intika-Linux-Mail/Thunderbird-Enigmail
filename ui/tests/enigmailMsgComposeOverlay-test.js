@@ -16,6 +16,14 @@ var EnigmailPrefs = {
   }
 };
 
+function toggleEncryptMessage(){
+  Assert.ok(true);
+}
+
+function toggleSignMessage(){
+  Assert.ok(true);
+}
+
 function processFinalState_test() {
   // Encryption Status and Reason
 
@@ -716,6 +724,97 @@ function fixMessageSubject_test(){
 
 }
 
+function notifyUser_test(){
+  let msgText = "Hello",
+    messageId = "12",
+    detailsText = "Text";
+
+  document.getElementById = function(){
+    return {
+      appendNotification : function(msg_text, message_id, str, prio, button_arr){
+        Assert.equal(msgText, msgText);
+        Assert.equal(message_id, messageId);
+        Assert.equal(str, null);
+        Assert.equal(prio, 1);
+        Assert.equal(button_arr.length, 1);
+      },
+      PRIORITY_CRITICAL_MEDIUM : 1,
+      PRIORITY_INFO_MEDIUM : 3,
+      PRIORITY_WARNING_MEDIUM : 2
+    };
+  };
+  Enigmail.msg.notifyUser(1, msgText, messageId, detailsText);
+
+  document.getElementById = function(){
+    return {
+      appendNotification : function(msg_text, message_id, str, prio, button_arr){
+        Assert.equal(msgText, msgText);
+        Assert.equal(message_id, messageId);
+        Assert.equal(str, null);
+        Assert.equal(prio, 2);
+        Assert.equal(button_arr.length, 1);
+      },
+      PRIORITY_CRITICAL_MEDIUM : 1,
+      PRIORITY_INFO_MEDIUM : 3,
+      PRIORITY_WARNING_MEDIUM : 2
+    };
+  };
+  Enigmail.msg.notifyUser(2, msgText, messageId, detailsText);
+
+  document.getElementById = function(){
+    return {
+      appendNotification : function(msg_text, message_id, str, prio, button_arr){
+        Assert.equal(msgText, msgText);
+        Assert.equal(message_id, messageId);
+        Assert.equal(str, null);
+        Assert.equal(prio, 3);
+        Assert.equal(button_arr.length, 1);
+      },
+      PRIORITY_CRITICAL_MEDIUM : 1,
+      PRIORITY_INFO_MEDIUM : 3,
+      PRIORITY_WARNING_MEDIUM : 2
+    };
+  };
+  Enigmail.msg.notifyUser(3, msgText, messageId, detailsText);
+}
+
+function setIdentityCallback_test(){
+  Enigmail.msg.setIdentityDefaults = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.setIdentityCallback('xyz');
+}
+
+function toggleSmimeToolbar_test(){
+  Enigmail.msg.toggleSMimeEncrypt = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.toggleSMimeSign = function(){
+    Assert.ok(true);
+  };
+
+  let event  = {
+    'target' : {
+      'id' : "menu_securitySign2"
+    },
+    stopPropagation : function(){
+      Assert.ok(true);
+    }
+  };
+  Enigmail.msg.toggleSmimeToolbar(event);
+
+  event  = {
+    'target' : {
+      'id' : "menu_securityEncryptRequire2"
+    },
+    stopPropagation : function(){
+      Assert.ok(true);
+    }
+  };
+  Enigmail.msg.toggleSmimeToolbar(event);
+}
 
 function run_test() {
   window = JSUnit.createStubWindow();
@@ -738,5 +837,8 @@ function run_test() {
   toggleAccountAttr_test();
   toggleAttribute_test();
   fixMessageSubject_test();
+  notifyUser_test();
+  setIdentityCallback_test();
+  toggleSmimeToolbar_test();
 
 }
