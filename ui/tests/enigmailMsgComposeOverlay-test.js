@@ -16,6 +16,10 @@ var EnigmailPrefs = {
   }
 };
 
+var EnigmailTimer = {
+  setTimeout : function(){}
+};
+
 function toggleEncryptMessage(){
   Assert.ok(true);
 }
@@ -25,6 +29,10 @@ function toggleSignMessage(){
 }
 
 var getCurrentIdentity = function(){
+
+};
+
+var EnigmailFuncs = {
 
 };
 
@@ -957,10 +965,6 @@ function getSmimeSigningEnabled_test(){
 
 function setOwnKeyStatus_test(){
 
-  EnigmailLocale.getString = function(){
-    return "xyz";
-  };
-
   Enigmail.msg.allowAttachOwnKey = function(){
     return 0;
   };
@@ -977,11 +981,7 @@ function setOwnKeyStatus_test(){
   };
 
   Enigmail.msg.setOwnKeyStatus();
-  Assert.equal(Enigmail.msg.statusAttachOwnKey, "xyz");
-
-  EnigmailLocale.getString = function(){
-    return "pqr";
-  };
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, EnigmailLocale.getString("attachOwnKeyDisabled"));
 
   Enigmail.msg.allowAttachOwnKey = function(){
     return 1;
@@ -989,11 +989,11 @@ function setOwnKeyStatus_test(){
 
   Enigmail.msg.attachOwnKeyObj.appendAttachment = true;
   Enigmail.msg.setOwnKeyStatus();
-  Assert.equal(Enigmail.msg.statusAttachOwnKey, "pqr");
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, EnigmailLocale.getString("attachOwnKeyYes"));
 
   Enigmail.msg.attachOwnKeyObj.appendAttachment = false;
   Enigmail.msg.setOwnKeyStatus();
-  Assert.equal(Enigmail.msg.statusAttachOwnKey, "pqr");
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, EnigmailLocale.getString("attachOwnKeyNo"));
 }
 
 function processAccountSpecificDefaultOptions_test(){
@@ -1009,14 +1009,10 @@ function processAccountSpecificDefaultOptions_test(){
     return false;
   };
 
-  EnigmailLocale.getString = function(){
-    return "xyz";
-  };
-
   Enigmail.msg.processAccountSpecificDefaultOptions();
 
   Assert.equal(Enigmail.msg.sendMode, 1);
-  Assert.equal(Enigmail.msg.reasonSigned, "xyz");
+  Assert.equal(Enigmail.msg.reasonSigned, EnigmailLocale.getString("reasonEnabledByDefault"));
   Assert.equal(Enigmail.msg.sendPgpMime, "");
 
   Enigmail.msg.isEnigmailEnabled = function(){
@@ -1034,8 +1030,8 @@ function processAccountSpecificDefaultOptions_test(){
   Enigmail.msg.processAccountSpecificDefaultOptions();
 
   Assert.equal(Enigmail.msg.sendMode, 3);
-  Assert.equal(Enigmail.msg.reasonSigned, "xyz");
-  Assert.equal(Enigmail.msg.reasonEncrypted, "xyz");
+  Assert.equal(Enigmail.msg.reasonSigned, EnigmailLocale.getString("reasonEnabledByDefault"));
+  Assert.equal(Enigmail.msg.reasonEncrypted, EnigmailLocale.getString("reasonEnabledByDefault"));
   Assert.equal(Enigmail.msg.sendPgpMime, true);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.appendAttachment, true);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedObj, null);
@@ -1049,7 +1045,7 @@ function processAccountSpecificDefaultOptions_test(){
   Enigmail.msg.processAccountSpecificDefaultOptions();
 
   Assert.equal(Enigmail.msg.sendMode, 1);
-  Assert.equal(Enigmail.msg.reasonSigned, "xyz");
+  Assert.equal(Enigmail.msg.reasonSigned, EnigmailLocale.getString("reasonEnabledByDefault"));
   Assert.equal(Enigmail.msg.sendPgpMime, false);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.appendAttachment, false);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedObj, null);
@@ -1063,7 +1059,7 @@ function processAccountSpecificDefaultOptions_test(){
   Enigmail.msg.processAccountSpecificDefaultOptions();
 
   Assert.equal(Enigmail.msg.sendMode, 0);
-  Assert.equal(Enigmail.msg.reasonSigned, "xyz");
+  Assert.equal(Enigmail.msg.reasonSigned, EnigmailLocale.getString("reasonEnabledByDefault"));
   Assert.equal(Enigmail.msg.sendPgpMime, false);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.appendAttachment, false);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedObj, null);
@@ -1085,12 +1081,154 @@ function processAccountSpecificDefaultOptions_test(){
 
   Assert.equal(Enigmail.msg.sendMode, 2);
   Assert.equal(Enigmail.msg.reasonSigned, "");
-  Assert.equal(Enigmail.msg.reasonEncrypted, "xyz");
+  Assert.equal(Enigmail.msg.reasonEncrypted, EnigmailLocale.getString("reasonEnabledByDefault"));
   Assert.equal(Enigmail.msg.sendPgpMime, true);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.appendAttachment, true);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedObj, null);
   Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedKey, null);
   Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, true);
+
+}
+
+function delayedProcessFinalState_test(){
+
+  Enigmail.msg.processFinalState = function(){
+    Assert.ok(true);
+  };
+  Enigmail.msg.updateStatusBar = function(){
+    Assert.ok(true);
+  };
+
+  EnigmailTimer.setTimeout = function(callback, val){
+    Assert.equal(val, 100);
+    callback();
+  };
+
+  Enigmail.msg.delayedProcessFinalState();
+
+}
+
+function handleClick_test(){
+
+  let event = {
+    button : 2,
+    preventDefault : function(){
+      Assert.ok(true);
+    }
+  };
+
+  Enigmail.msg.doPgpButton = function(str){
+    Assert.ok(true);
+  };
+
+  let modifyType = "xyz";
+
+  Enigmail.msg.handleClick(event, modifyType);
+
+  event = {
+    button : 0,
+    preventDefault : function(){
+      Assert.ok(true);
+    }
+  };
+
+  Enigmail.msg.doPgpButton = function(str){
+    Assert.equal(str, "xyz");
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.handleClick(event, modifyType);
+}
+
+function setIdentityDefaults_test(){
+
+  Enigmail.msg.processAccountSpecificDefaultOptions = function(){};
+
+  Enigmail.msg.determineSendFlags = function(){};
+
+  Enigmail.msg.processFinalState = function(){};
+
+  Enigmail.msg.updateStatusBar = function(){};
+
+  EnigmailFuncs = {
+    getSignMsg : function(){
+      Assert.ok(true);
+    }
+  };
+
+  Enigmail.msg.isEnigmailEnabled = function() {
+    return true;
+  };
+
+  Enigmail.msg.juniorMode = false;
+  Enigmail.msg.sendModeDirty = true;
+
+  getCurrentIdentity = function(){
+    return {
+      getIntAttribute : function(){
+        return true;
+      }
+    };
+  };
+
+  Enigmail.msg.setIdentityDefaults();
+
+  Enigmail.msg.isEnigmailEnabled = function() {
+    return false;
+  };
+
+  Enigmail.msg.setIdentityDefaults();
+
+  Assert.equal(Enigmail.msg.statusEncryptedStr, EnigmailLocale.getString("encryptNo"));
+  Assert.equal(Enigmail.msg.statusSignedStr, EnigmailLocale.getString("signNo", [""]));
+  Assert.equal(Enigmail.msg.statusPGPMimeStr, EnigmailLocale.getString("pgpmimeNormal"));
+  Assert.equal(Enigmail.msg.statusInlinePGPStr, EnigmailLocale.getString("inlinePGPNormal"));
+  Assert.equal(Enigmail.msg.statusSMimeStr, EnigmailLocale.getString("smimeNormal"));
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, EnigmailLocale.getString("attachOwnKeyNo"));
+
+  Enigmail.msg.juniorMode = true;
+
+  Enigmail.msg.pepEnabled = function(){
+    return false;
+  };
+
+  document = {
+    getElementById : function(){
+      return {
+        setAttribute : function(str1, bool){
+          Assert.equal(bool, "false");
+        }
+      };
+    }
+  };
+
+  Enigmail.msg.setIdentityDefaults();
+
+  Enigmail.msg.pepEnabled = function(){
+    return true;
+  };
+
+  document = {
+    getElementById : function(){
+      return {
+        setAttribute : function(str1, bool){
+          Assert.equal(bool, "true");
+        }
+      };
+    }
+  };
+
+  Enigmail.msg.setIdentityDefaults();
+
+  Enigmail.msg.sendModeDirty = false;
+  Enigmail.msg.setIdentityDefaults();
+
+  Enigmail.msg.statusEncryptedStr = "";
+  Enigmail.msg.statusSignedStr = "";
+  Enigmail.msg.statusPGPMimeStr = "";
+  Enigmail.msg.statusInlinePGPStr = "";
+  Enigmail.msg.statusSMimeStr = "";
+  Enigmail.msg.statusAttachOwnKey = "";
 
 }
 
@@ -1117,11 +1255,14 @@ function run_test() {
   toggleAttribute_test();
   fixMessageSubject_test();
   notifyUser_test();
-  setIdentityCallback_test();
   toggleSmimeToolbar_test();
   getEncryptionEnabled_test();
   getSigningEnabled_test();
   getSmimeSigningEnabled_test();
   setOwnKeyStatus_test();
   processAccountSpecificDefaultOptions_test();
+  delayedProcessFinalState_test();
+  handleClick_test();
+  setIdentityDefaults_test();
+  setIdentityCallback_test();
 }
