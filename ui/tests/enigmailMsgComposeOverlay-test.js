@@ -1505,6 +1505,61 @@ function getOriginalPepMsgRating_test(){
   Assert.equal(Enigmail.msg.origPepRating, 0);
 }
 
+function setDraftStatus_test(){
+
+  Enigmail.msg.encryptForced = 1;
+  Enigmail.msg.signForced = 2;
+  Enigmail.msg.pgpmimeForced = 3;
+  Enigmail.msg.protectHeaders = 4;
+  Enigmail.msg.attachOwnKeyObj = {
+    appendAttachment : 1
+  };
+
+  Enigmail.msg.setAdditionalHeader = function(str, draftStatus){
+    Assert.equal(str, "X-Enigmail-Draft-Status");
+    Assert.equal(draftStatus, "N12311");
+  };
+
+  Enigmail.msg.setDraftStatus(1);
+
+
+  Enigmail.msg.pgpmimeForced = 0;
+  Enigmail.msg.protectHeaders = 4;
+  Enigmail.msg.attachOwnKeyObj = {
+    appendAttachment : null
+  };
+
+  Enigmail.msg.setAdditionalHeader = function(str, draftStatus){
+    Assert.equal(str, "X-Enigmail-Draft-Status");
+    Assert.equal(draftStatus, "N12000");
+  };
+
+  Enigmail.msg.setDraftStatus(0);
+}
+
+function fireSendFlags_test(){
+
+  Enigmail.msg.determineSendFlags = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.fireSearchKeys = function(){
+    Assert.ok(true);
+  };
+
+  EnigmailTimer.setTimeout = function(callback, time){
+    callback();
+    Assert.ok(true);
+    return null;
+  };
+
+  Enigmail.msg.determineSendFlagId = false;
+
+  Enigmail.msg.fireSendFlags();
+
+  Assert.equal(Enigmail.msg.determineSendFlagId, null);
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -1540,6 +1595,8 @@ function run_test() {
   setIdentityCallback_test();
   getOriginalMsgUri_test();
   getMsgHdr_test();
+  fireSendFlags_test();
   initialSendFlags_test();
   getOriginalPepMsgRating_test();
+  setDraftStatus_test();
 }
