@@ -9,6 +9,12 @@
 var window;
 var document;
 
+var EnigmailApp;
+var getCurrentAccountKey;
+var MailServices;
+var CommandUpdate_MsgCompose;
+var top;
+
 var gSMFields;
 var EnigmailPrefs = {
   getPref : (prop) => {
@@ -1560,6 +1566,271 @@ function fireSendFlags_test(){
   Assert.equal(Enigmail.msg.determineSendFlagId, null);
 }
 
+function getMailPref_test(){
+  EnigmailPrefs.getPrefRoot = function(){
+    return {
+      getPrefType : function(){
+        return true;
+      },
+      getBoolPref : function(str){
+        Assert.ok(true);
+        Assert.equal(str, 'xyz');
+      },
+      PREF_BOOL : true
+    };
+  };
+
+  Enigmail.msg.getMailPref('xyz');
+
+  EnigmailPrefs.getPrefRoot = function(){
+    return {
+      getPrefType : function(){
+        return true;
+      },
+      getIntPref : function(str){
+        Assert.ok(true);
+        Assert.equal(str, 'xyz');
+      },
+      PREF_INT : 1
+    };
+  };
+
+  Enigmail.msg.getMailPref('xyz');
+
+  EnigmailPrefs.getPrefRoot = function(){
+    return {
+      getPrefType : function(){
+        return true;
+      },
+      getCharPref : function(str){
+        Assert.ok(true);
+        Assert.equal(str, 'xyz');
+      },
+      PREF_STRING : 'str'
+    };
+  };
+
+  Enigmail.msg.getMailPref('xyz');
+
+}
+
+function setAdditionalHeader_test(){
+  gMsgCompose = {
+    compFields : {
+      setHeader : function(){
+        Assert.ok(true);
+      }
+    }
+  };
+
+  Enigmail.msg.setAdditionalHeader('hdr', 'val');
+
+  gMsgCompose = {
+    compFields : {
+      otherRandomHeaders : 'hello'
+    }
+  };
+
+  Enigmail.msg.setAdditionalHeader('hdr', 'val');
+
+  Assert.equal(gMsgCompose.compFields.otherRandomHeaders, 'hellohdr: val\r\n');
+}
+
+function unsetAdditionalHeader_test(){
+  gMsgCompose = {
+    compFields : {
+      deleteHeader : function(){
+        Assert.ok(true);
+      }
+    }
+  };
+
+  Enigmail.msg.unsetAdditionalHeader('hdr');
+
+  gMsgCompose = {
+    compFields : {
+      otherRandomHeaders : 'hello'
+    }
+  };
+
+  Enigmail.msg.unsetAdditionalHeader('hdr: hello\r\n');
+
+  Assert.equal(gMsgCompose.compFields.otherRandomHeaders, 'hello');
+}
+
+function modifyCompFields_test(){
+  getCurrentIdentity = function(){
+    Assert.ok(true);
+    return true;
+  };
+
+  EnigmailApp = {
+    getVersion : function(){
+      Assert.ok(true);
+    }
+  };
+
+  Enigmail.msg.setAdditionalHeader = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    Assert.ok(true);
+  };
+
+  EnigmailPrefs.getPref = function(){
+    Assert.ok(true);
+    return true;
+  };
+
+  Enigmail.msg.modifyCompFields();
+}
+
+function getCurrentIncomingServer_test(){
+  getCurrentAccountKey = function(){
+    return true;
+  };
+
+  MailServices = {
+    accounts : {
+      getAccount : function(currentAccountKey){
+        Assert.equal(currentAccountKey, true);
+        return {
+          incomingServer : true
+        };
+      }
+    }
+  };
+
+  let ret = Enigmail.msg.getCurrentIncomingServer();
+  Assert.equal(ret, true);
+}
+
+function fireSearchKeys_test(){
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return true;
+  };
+
+  Enigmail.msg.searchKeysTimeout = true;
+
+  Enigmail.msg.fireSearchKeys();
+  Assert.equal(Enigmail.msg.searchKeysTimeout, true);
+
+  Enigmail.msg.searchKeysTimeout = false;
+
+  Enigmail.msg.findMissingKeys = function(){
+    Assert.ok(true);
+  };
+
+  EnigmailTimer.setTimeout = function(callback, time){
+    Assert.ok(true);
+    Assert(time, 5000);
+    callback();
+    Assert.equal(Enigmail.msg.searchKeysTimeout, null);
+    return false;
+  };
+
+  Enigmail.msg.fireSearchKeys();
+  Assert.equal(Enigmail.msg.searchKeysTimeout, false);
+}
+
+function focusChange_test() {
+  CommandUpdate_MsgCompose = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.lastFocusedWindow = true;
+
+  top = {
+    document : {
+      commandDispatcher : {
+        focusedWindow : true
+      }
+    }
+  };
+
+  Enigmail.msg.focusChange();
+  Assert.equal(Enigmail.msg.lastFocusedWindow, true);
+
+  Enigmail.msg.lastFocusedWindow = false;
+
+  Enigmail.msg.fireSendFlags = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.focusChange();
+  Assert.equal(Enigmail.msg.lastFocusedWindow, true);
+
+}
+
+function addressOnChange_test(){
+
+  Enigmail.msg.addrOnChangeTimer = false;
+  Enigmail.msg.fireSendFlags = function(){
+    Assert.ok(true);
+  };
+  EnigmailTimer.setTimeout = function(callback, time){
+    Assert.equal(time, 250);
+    callback();
+    Assert.equal(Enigmail.msg.addrOnChangeTimer, null);
+    return true;
+  };
+
+  Enigmail.msg.addressOnChange();
+
+  Assert.equal(Enigmail.msg.addrOnChangeTimer, true);
+}
+
+function editorGetContentAs_test(){
+  Enigmail.msg.editor = {
+    outputToString : function(mimeType, flags){
+      Assert.equal(mimeType, 'mime');
+      Assert.equal(flags, 'flags');
+      return true;
+    }
+  };
+
+  let ret = Enigmail.msg.editorGetContentAs('mime', 'flags');
+  Assert.equal(ret, true);
+
+  Enigmail.msg.editor = false;
+  ret = Enigmail.msg.editorGetContentAs('mime', 'flags');
+  Assert.equal(ret, null);
+
+}
+
+function editorGetCharset_test(){
+
+  Enigmail.msg.editor = {
+    documentCharacterSet: 'xyz'
+  };
+
+  Enigmail.msg.editorGetCharset();
+  Assert.equal(Enigmail.msg.editor.documentCharacterSet, 'xyz');
+}
+
+function editorSelectAll_test(){
+  Enigmail.msg.editor = {
+    selectAll : function(){
+      Assert.ok(true);
+    }
+  };
+  Enigmail.msg.editorSelectAll();
+}
+
+function displayPartialEncryptedWarning_test(){
+
+  Enigmail.msg.notifyUser = function(priority, msgText, messageId, detailsText){
+    Assert.equal(priority, 1);
+    Assert.equal(detailsText, EnigmailLocale.getString("msgCompose.partiallyEncrypted.inlinePGP"));
+    Assert.equal(msgText, EnigmailLocale.getString("msgCompose.partiallyEncrypted.short"));
+    Assert.equal(messageId, "notifyPartialDecrypt");
+  };
+
+  Enigmail.msg.displayPartialEncryptedWarning();
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -1598,5 +1869,17 @@ function run_test() {
   fireSendFlags_test();
   initialSendFlags_test();
   getOriginalPepMsgRating_test();
+  setAdditionalHeader_test();
+  unsetAdditionalHeader_test();
   setDraftStatus_test();
+  getMailPref_test();
+  modifyCompFields_test();
+  getCurrentIncomingServer_test();
+  fireSearchKeys_test();
+  focusChange_test();
+  addressOnChange_test();
+  editorGetContentAs_test();
+  editorGetCharset_test();
+  editorSelectAll_test();
+  displayPartialEncryptedWarning_test();
 }
