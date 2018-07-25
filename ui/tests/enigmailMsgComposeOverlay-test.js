@@ -14,6 +14,7 @@ var getCurrentAccountKey;
 var MailServices;
 var CommandUpdate_MsgCompose;
 var top;
+var EnigmailDialog;
 
 var gSMFields;
 var EnigmailPrefs = {
@@ -1831,6 +1832,42 @@ function displayPartialEncryptedWarning_test(){
   Enigmail.msg.displayPartialEncryptedWarning();
 }
 
+function setChecked_test(){
+  document = {
+    getElementById : function(){
+      return {
+        setAttribute : function(str, bool){
+          Assert.ok(true);
+          Assert.ok(str, "checked");
+          Assert.ok(bool, "true");
+        },
+        removeAttribute : function(str){
+          Assert.ok(true);
+          Assert.ok(str, "checked");
+        }
+      };
+    }
+  };
+
+  Enigmail.msg.setChecked('id', true);
+
+  Enigmail.msg.setChecked('id', false);
+
+}
+
+function pepEnabled_test(){
+  getCurrentIdentity = function(){
+    return {
+      getBoolAttribute : function(str){
+        Assert.ok(true);
+        Assert.ok(str, "enablePEP");
+      }
+    };
+  };
+
+  Enigmail.msg.pepEnabled();
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -1840,6 +1877,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/constants.jsm");
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
+  pepEnabled_test();
   isSmimeEnabled_test();
   getAccDefault_test();
   trustAllKeys_test();
@@ -1882,4 +1920,5 @@ function run_test() {
   editorGetCharset_test();
   editorSelectAll_test();
   displayPartialEncryptedWarning_test();
+  setChecked_test();
 }
