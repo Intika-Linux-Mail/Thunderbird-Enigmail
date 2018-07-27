@@ -375,7 +375,7 @@ var EnigmailAutocrypt = {
         return;
       }
 
-      let keyData = EnigmailKeyRing.extractSecretKey(true, "0x" + key.fpr, {}, {});
+      let keyData = key.getSecretKey(true).keyData;
 
       if (!keyData || keyData.length === 0) {
         EnigmailLog.DEBUG("autocrypt.jsm: createSetupMessage: no key found for " + identity.email + "\n");

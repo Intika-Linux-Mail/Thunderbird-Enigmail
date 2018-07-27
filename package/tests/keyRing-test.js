@@ -308,6 +308,7 @@ test(withTestGpgHome(withEnigmail(function shouldImportFromTextAndGetKeyDetails(
 
 })));
 
+<<<<<<< HEAD
 test(function shouldCreateKeyListObject() {
   // from: "P:\Program Files (x86)\GNU\GnuPG\pub\gpg2.exe" --charset utf-8 --display-charset utf-8 --batch --no-tty --status-fd 2 --with-fingerprint --fixed-list-mode --with-colons --list-keys
   let keyInfo = [
@@ -356,6 +357,23 @@ test(function shouldCreateKeyListObject() {
   Assert.equal(key, null);
   Assert.notEqual(details.msg, null);
 });
+=======
+
+test(withTestGpgHome(withEnigmail(function shouldExportKey() {
+  const publicKey = do_get_file("resources/dev-strike.asc", false);
+  const secretKey = do_get_file("resources/dev-strike.sec", false);
+  EnigmailKeyRing.importKeyFromFile(publicKey, {}, {});
+  EnigmailKeyRing.importKeyFromFile(secretKey, {}, {});
+  EnigmailKeyRing.getAllKeys();
+
+  let pub = EnigmailKeyRing.extractKey(false, "0x781617319CE311C4", null, {}, {}).replace(/\r\n/g, "\n");
+  Assert.equal(pub.substr(-50), "/H0OOI1K\n=CVNK\n-----END PGP PUBLIC KEY BLOCK-----\n");
+
+  let pubAndSec = EnigmailKeyRing.extractKey(true, "strike.devtest@gmail.com", null, {}, {}).replace(/\r\n/g, "\n");
+  Assert.equal(pubAndSec.substr(-37), "\n-----END PGP PRIVATE KEY BLOCK-----\n");
+  Assert.equal(pubAndSec.split(/\n/).length, 160);
+})));
+>>>>>>> fb9c249... moved exporting of secret keys to gnupg-key.js and keyObj
 
 
 const KeyRingHelper = {
