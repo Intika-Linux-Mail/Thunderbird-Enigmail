@@ -69,6 +69,7 @@ test(function checkDirectory() {
 
   md.remove(false);
 
+  let env = Cc["@mozilla.org/process/environment;1"].getService(Ci.nsIEnvironment);
   if (env.get("USER") !== "root") {
     md.initWithPath("/does/not/exist");
     Assert.equal(1, EnigmailFiles.ensureWritableDirectory(md, 0x1C0));
