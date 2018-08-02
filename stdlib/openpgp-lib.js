@@ -21518,15 +21518,17 @@
         },
 
         /**
-         * Writes a packet header version 4 with the given tag_type and length to a
-         * string
+         * Writes a packet header with the given tag_type and length to a string
          *
          * @param {Integer} tag_type Tag type
          * @param {Integer} length Length of the payload
          * @return {String} String of the header
          */
         writeHeader: function writeHeader(tag_type, length) {
-          /* we're only generating v4 packet headers here */
+          /* write old-style headers for compatibility if possible */
+          if (tag_type < 16)
+            return this.writeOldHeader(tag_type, length);
+          /* otherwise write new-style headers */
           return _util2.default.concatUint8Array([new Uint8Array([0xC0 | tag_type]), this.writeSimpleLength(length)]);
         },
 
