@@ -18,6 +18,7 @@ var EnigmailDialog = {};
 var AddAttachment;
 var AddAttachments;
 var EnigmailMsgCompFields = {};
+var EnigmailPEPAdapter = {};
 
 var gSMFields;
 var EnigmailPrefs = {
@@ -1895,6 +1896,229 @@ function resetUpdatedFields_test(){
 
 }
 
+function sendAborted_test(){
+
+  EnigmailDialog = {
+    info : function(){
+      Assert.ok(true);
+    }
+  };
+  Enigmail.msg.sendAborted(window, null);
+
+  let errorMsgObj = {
+    value : 'INV_RECP 10 key10\nINV_SGNR 1 key1\nINV_RECP 4 key4\nINV_SGNR 5 key5'
+  };
+
+  EnigmailDialog.info = function(window, val){
+      Assert.equal(val, "Send operation aborted.\n\nNot enough trust for key 'key10'\nKey 'key1' not found\nKey 'key4' revoked\nKey 'key5' expired\n\nINV_RECP 10 key10\nINV_SGNR 1 key1\nINV_RECP 4 key4\nINV_SGNR 5 key5");
+  };
+
+  Enigmail.msg.sendAborted(window, errorMsgObj);
+
+  errorMsgObj = {
+    value : 'INV_RECP 10 key10'
+  };
+
+  EnigmailDialog.info = function(window, val){
+    Assert.equal(val, "Send operation aborted.\n\nNot enough trust for key 'key10'\n\nINV_RECP 10 key10");
+  };
+
+  Enigmail.msg.sendAborted(window, errorMsgObj);
+
+  errorMsgObj = {
+    value : 'INV_RECP 10 key10\nI_SGNR 1 key1\nINV_RECP 4 key4\nINV_SGNR 5 key5'
+  };
+
+  EnigmailDialog.info = function(window, val){
+    Assert.equal(val, "Send operation aborted.\n\nNot enough trust for key 'key10'\nKey 'key4' revoked\nKey 'key5' expired\n\nINV_RECP 10 key10\nI_SGNR 1 key1\nINV_RECP 4 key4\nINV_SGNR 5 key5");
+  };
+
+  Enigmail.msg.sendAborted(window, errorMsgObj);
+
+  errorMsgObj = {
+    value : 'INV_RECP10key10'
+  };
+
+  EnigmailDialog.info = function(window, val){
+    Assert.equal(val, "Send operation aborted.\n\nINV_RECP10key10");
+  };
+
+  Enigmail.msg.sendAborted(window, errorMsgObj);
+
+}
+
+function checkProtectHeaders_test(){
+
+  let ret = Enigmail.msg.checkProtectHeaders(0x0080);
+  Assert.equal(ret, true);
+
+  ret = Enigmail.msg.checkProtectHeaders(0x0082);
+  Assert.equal(ret, true);
+
+  ret = Enigmail.msg.checkProtectHeaders(0x0002);
+  Assert.equal(ret, true);
+
+  Enigmail.msg.protectHeaders = true;
+
+  ret = Enigmail.msg.checkProtectHeaders(0x0082);
+  Assert.equal(ret, true);
+
+  Enigmail.msg.protectHeaders = false;
+
+  EnigmailDialog.msgBox = function(){
+    return -1;
+  };
+
+  EnigmailPrefs.getPref = function(){
+    return 1;
+  };
+
+  ret = Enigmail.msg.checkProtectHeaders(0x0082);
+  Assert.equal(ret, false);
+
+  Enigmail.msg.protectHeaders = false;
+
+  EnigmailDialog.msgBox = function(){
+    Assert.ok(true);
+    return 0;
+  };
+
+  Enigmail.msg.displayProtectHeadersStatus = function(){
+    Assert.ok(true);
+  };
+
+  EnigmailPrefs.setPref = function(prop, val){
+    Assert.equal(val, 2);
+  };
+
+  ret = Enigmail.msg.checkProtectHeaders(0x0082);
+  Assert.equal(ret, true);
+  Assert.equal(Enigmail.msg.protectHeaders, true);
+
+  Enigmail.msg.protectHeaders = false;
+  
+  EnigmailDialog.msgBox = function(){
+    return -2;
+  };
+
+  Enigmail.msg.displayProtectHeadersStatus = function(){
+    Assert.ok(true);
+  };
+
+  EnigmailPrefs.setPref = function(prop, val){
+    Assert.equal(val, 0);
+  };
+
+  ret = Enigmail.msg.checkProtectHeaders(0x00082);
+  Assert.equal(ret, true);
+  Assert.equal(Enigmail.msg.protectHeaders, false);
+
+}
+
+function attachPepKey_test(){
+
+  Enigmail.msg.identity = {
+    getBoolAttribute : function(){
+      Assert.ok(true);
+      return true;
+    }
+  };
+
+  EnigmailPEPAdapter.getOwnIdentityForEmail = function(){
+    Assert.ok(true);
+    return null;
+  };
+
+  Enigmail.msg.attachPepKey();
+
+  EnigmailPEPAdapter.getOwnIdentityForEmail = function(){
+    Assert.ok(true);
+    return {
+      fpr : "001"
+    };
+  };
+
+  Enigmail.msg.attachOwnKeyObj.attachedKey = "0x002";
+
+  Enigmail.msg.removeAttachedKey = function(){
+    Assert.ok(true);
+    Enigmail.msg.attachOwnKeyObj.attachedKey = null;
+  };
+
+  Enigmail.msg.extractAndAttachKey = function(){
+    Assert.ok(true);
+    return {
+      name : ''
+    };
+  };
+
+  gMsgCompose.compFields.addAttachment = function(attachedObj){
+    Assert.ok(true);
+    Assert.equal(attachedObj.name, "pEpkey.asc");
+  };
+
+  Enigmail.msg.attachPepKey();
+  Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedObj.name, "pEpkey.asc");
+  Assert.equal(Enigmail.msg.attachOwnKeyObj.attachedKey, "0x001");
+}
+
+function createEnigmailSecurityFields_test(){
+
+  gMsgCompose.compFields.securityInfo = '';
+  EnigmailMsgCompFields.createObject = function(){
+    Assert.ok(true);
+    return 'secureInformation';
+  };
+
+  Enigmail.msg.createEnigmailSecurityFields();
+  Assert.equal(gMsgCompose.compFields.securityInfo, 'secureInformation');
+
+}
+
+function getPepMessageRating_test(){
+
+  Enigmail.msg.pepEnabled = function(){
+    return false;
+  };
+
+  Enigmail.msg.setPepPrivacyLabel = function(val){
+    Assert.ok(true);
+    Assert.equal(val, 0);
+  };
+
+  Enigmail.msg.getPepMessageRating();
+
+  Enigmail.msg.pepEnabled = function(){
+    return true;
+  };
+
+  Enigmail.msg.compileFromAndTo = function(){
+    return null;
+  };
+
+  Enigmail.msg.setPepPrivacyLabel = function(val){
+    Assert.equal(val, 0);
+  };
+
+  Enigmail.msg.getPepMessageRating();
+  Assert.equal(Enigmail.msg.determineSendFlagId, null);
+
+  Enigmail.msg.compileFromAndTo = function(){
+    return 'arrOfAddr';
+  };
+
+  EnigmailPEPAdapter.getOutgoingMessageRating = function(){
+    return 5;
+  };
+
+  Enigmail.msg.setPepPrivacyLabel = function(val){
+    Assert.equal(val, 5);
+  };
+
+  Enigmail.msg.getPepMessageRating();
+  Assert.equal(Enigmail.msg.determineSendFlagId, null);
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -1953,4 +2177,9 @@ function run_test() {
   addAttachment_test();
   enableUndoEncryption_test();
   resetUpdatedFields_test();
+  sendAborted_test();
+  checkProtectHeaders_test();
+  attachPepKey_test();
+  createEnigmailSecurityFields_test();
+  getPepMessageRating_test();
 }
