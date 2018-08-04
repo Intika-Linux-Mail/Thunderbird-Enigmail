@@ -2489,6 +2489,212 @@ function displaySecuritySettings_test(){
   Assert.equal(Enigmail.msg.dirty, 2);
 }
 
+function onPepHandshakeButton_test(){
+
+  Enigmail.msg.pepEnabled = function(){
+    return false;
+  };
+
+  Enigmail.msg.pepDisabledError = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.onPepHandshakeButton();
+
+  let event = {
+    stopPropagation : function(){
+      Assert.ok(true);
+    }
+  };
+
+  document.getElementById = function(){
+    return "false";
+  };
+
+  EnigmailDialog.info = function(window, prop){
+    Assert.equal(prop, EnigmailLocale.getString("handshakeDlg.error.noProtection"));
+  };
+
+  Enigmail.msg.onPepHandshakeButton();
+
+  Enigmail.msg.compileFromAndTo = function(){
+    Assert.ok(true);
+    return {
+      toAddrList : []
+    };
+  };
+
+  EnigmailFuncs.stripEmail = function(){
+    Assert.ok(true);
+    return {};
+  };
+
+  EnigmailDialog.info = function(window, val){
+    Assert.equal(val, EnigmailLocale.getString("handshakeDlg.error.noPeers"));
+  };
+
+  Enigmail.msg.onPepHandshakeButton();
+
+  Enigmail.msg.compileFromAndTo = function(){
+    Assert.ok(true);
+    return {
+      toAddrList : ["user1@enigmail.net", "user2@enigmail.net"]
+    };
+  };
+
+  EnigmailFuncs.stripEmail = function(){
+    Assert.ok(true);
+    return "user1@enigmail.net,user2@enigmail.net";
+  };
+
+  getCurrentIdentity = function(){
+    return {
+      email : 'user@enigmail.net'
+    };
+  };
+
+  Enigmail.msg.getPepMessageRating.bind = function(){
+    return true;
+  };
+
+  window.openDialog = function(windowURL, str1, prop, param){
+    Assert.equal(param.myself, 'user@enigmail.net');
+    Assert.equal(param.addresses.length, 2);
+    Assert.equal(param.direction, 1);
+    Assert.equal(param.onComplete, true);
+  };
+
+  Enigmail.msg.onPepHandshakeButton();
+
+}
+
+function pepMenuPopup_test(){
+
+  document.getElementById = function(prop){
+    if(prop === "enigmail_compose_pep_encrypt"){
+      return {
+        setAttribute : function(prop, val){
+          if(prop === "checked"){
+            Assert.equal(val, "false");
+          }
+          else{
+            Assert.equal(prop, "disabled");
+            Assert.equal(val, "true");
+          }
+        },
+        removeAttribute : function(prop){
+          Assert.equal(prop, "disabled");
+        }
+      };
+    }
+    else if(prop === "enigmail_composeMenu_pep_handshake"){
+      return {
+        setAttribute : function(prop, val){
+          Assert.ok(prop, "disabled");
+          Assert.ok(val, "true");
+        },
+        removeAttribute : function(prop){
+          Assert.equal(prop, "disabled");
+        }
+      };
+    }
+    else if(prop === "enigmail-bc-pepEncrypt"){
+      return {
+        getAttribute : function(){
+          Assert.ok(true);
+          return "false";
+        }
+      };
+    }
+
+    return {};
+  };
+
+  Enigmail.msg.pepEnabled = function(){
+    return true;
+  };
+
+  Enigmail.msg.pepMenuPopup();
+
+  Enigmail.msg.pepEnabled = function(){
+    return false;
+  };
+
+  Enigmail.msg.pepMenuPopup();
+
+}
+
+function pepDisabledError_test(){
+
+  EnigmailDialog.alert = function(window, val){
+    Assert.equal(val, EnigmailLocale.getString("pep.alert.disabledForIdentity"));
+  };
+
+  Enigmail.msg.pepDisabledError();
+
+}
+
+function onPepEncryptMenu_test(){
+
+  Enigmail.msg.pepEnabled = function(){
+    Assert.ok(true);
+    return false;
+  };
+
+  Enigmail.msg.pepDisabledError = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.onPepEncryptMenu();
+
+  Enigmail.msg.pepEnabled = function(){
+    Assert.ok(true);
+    return true;
+  };
+
+  Enigmail.msg.getPepMessageRating = function(){
+    Assert.ok(true);
+  };
+
+  document.getElementById = function(){
+    return {
+      setAttribute : function(prop, val){
+        Assert.equal(prop, "encrypt");
+        Assert.equal(val, "false");
+      },
+      getAttribute : function () {
+        return "true";
+      }
+    };
+  };
+
+  Enigmail.msg.onPepEncryptMenu();
+
+  document.getElementById = function(){
+    return {
+      setAttribute : function(prop, val){
+        Assert.equal(prop, "encrypt");
+        Assert.equal(val, "true");
+      },
+      getAttribute : function () {
+        return "false";
+      }
+    };
+  };
+
+  Enigmail.msg.onPepEncryptMenu();
+
+}
+
+function onPepEncryptButton_test(){
+
+  Enigmail.msg.onPepEncryptMenu = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.onPepEncryptButton();
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -2499,6 +2705,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
   pepEnabled_test();
+  pepDisabledError_test();
   isSmimeEncryptionPossible_test();
   isSmimeEnabled_test();
   getAccDefault_test();
@@ -2558,4 +2765,8 @@ function run_test() {
   isSendConfirmationRequired_test();
   preferPgpOverSmime_test();
   displaySecuritySettings_test();
+  onPepHandshakeButton_test();
+  pepMenuPopup_test();
+  onPepEncryptMenu_test();
+  onPepEncryptButton_test();
 }
