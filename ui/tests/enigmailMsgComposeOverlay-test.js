@@ -19,6 +19,7 @@ var AddAttachment;
 var AddAttachments;
 var EnigmailMsgCompFields = {};
 var EnigmailPEPAdapter = {};
+var Recipients2CompFields = {};
 
 var gSMFields;
 var EnigmailPrefs = {
@@ -2119,6 +2120,375 @@ function getPepMessageRating_test(){
   Assert.equal(Enigmail.msg.determineSendFlagId, null);
 }
 
+function compileFromAndTo_test(){
+  Enigmail.msg.composeBodyReady = {};
+
+  gMsgCompose.expandMailingLists = function(){
+    Assert.ok(true);
+  };
+
+  Recipients2CompFields = function(){
+    Assert.ok(true);
+  };
+
+  gMsgCompose.compFields = {
+    to : ['user1@enigmail.net','user2@enigmail.net'],
+    cc : ['user3@enigmail.net','user4@enigmail.net'],
+    bcc : ['user5@enigmail.net','user6@enigmail.net']
+  };
+
+  getCurrentIdentity = function(){
+    Assert.ok(true);
+    return {
+      email : 'user@enigmail.net',
+      fullName : 'User Name'
+    };
+  };
+
+  EnigmailFuncs.parseEmails = function(emailAddr){
+    Assert.ok(true);
+    return [
+      {
+        email : emailAddr[0]
+      }, {
+        email : emailAddr[1]
+      }
+    ];
+  };
+
+  let ret = Enigmail.msg.compileFromAndTo();
+  Assert.equal(ret.from.email, 'user@enigmail.net');
+  Assert.equal(ret.from.name, 'User Name');
+  Assert.equal(ret.toAddrList.length, 6);
+
+  gMsgCompose.compFields = {
+    to : ['user1@enigmail.net','user2@enigmail.net'],
+    cc : ['user3@enigmail.net','user4@enigmail.net'],
+    bcc : ['user5@enigmail.net','user6.enigmail.net']
+  };
+
+  ret = Enigmail.msg.compileFromAndTo();
+  Assert.equal(ret, null);
+
+}
+
+function setPepPrivacyLabel_test(){
+  document.getElementById = function(){
+    return {
+      getAttribute : function(){
+        return "false";
+      },
+      setAttribute : function(prop, val){
+        if(prop === "value"){
+          Assert.equal(val, EnigmailLocale.getString("msgCompose.pepSendUnsecure"));
+        }
+        else if(prop === "class"){
+          Assert.equal(val, "enigmail-statusbar-pep-unsecure");
+        }
+      }
+    };
+  };
+
+  EnigmailPEPAdapter.calculateColorFromRating = function(){
+    return "green";
+  };
+
+  Enigmail.msg.setPepPrivacyLabel(1);
+
+  document.getElementById = function(){
+    return {
+      getAttribute : function(){
+        return "true";
+      },
+      setAttribute : function(prop, val){
+        if(prop === "value"){
+          Assert.equal(val, EnigmailLocale.getString("msgCompose.pepSendUnknown"));
+        }
+        else if(prop === "class"){
+          Assert.equal(val, "enigmail-statusbar-pep-unsecure");
+        }
+      }
+    };
+  };
+
+  Enigmail.msg.setPepPrivacyLabel(0);
+
+  document.getElementById = function(){
+    return {
+      getAttribute : function(){
+        return "true";
+      },
+      setAttribute : function(prop, val){
+        if(prop === "value"){
+          Assert.equal(val, EnigmailLocale.getString("msgCompose.pepSendTrusted"));
+        }
+        else if(prop === "class"){
+          Assert.equal(val, "enigmail-statusbar-pep-trusted");
+        }
+      }
+    };
+  };
+
+  Enigmail.msg.setPepPrivacyLabel(1);
+
+  EnigmailPEPAdapter.calculateColorFromRating = function(){
+    return "yellow";
+  };
+
+  document.getElementById = function(){
+    return {
+      getAttribute : function(){
+        return "true";
+      },
+      setAttribute : function(prop, val){
+        if(prop === "value"){
+          Assert.equal(val, EnigmailLocale.getString("msgCompose.pepSendSecure"));
+        }
+        else if(prop === "class"){
+          Assert.equal(val, "enigmail-statusbar-pep-secure");
+        }
+      }
+    };
+  };
+
+  Enigmail.msg.setPepPrivacyLabel(1);
+}
+
+function isSendConfirmationRequired_test(){
+  EnigmailPrefs.getPref = function(){
+    return 0;
+  };
+
+  Enigmail.msg.statusPGPMime = EnigmailConstants.ENIG_FINAL_SMIME;
+
+  let ret = Enigmail.msg.isSendConfirmationRequired(0x0002);
+  Assert.equal(ret, false);
+
+  EnigmailPrefs.getPref = function(){
+    return 1;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0002);
+  Assert.equal(ret, true);
+
+  EnigmailPrefs.getPref = function(){
+    return 2;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0002);
+  Assert.equal(ret, true);
+
+  EnigmailPrefs.getPref = function(){
+    return 2;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, false);
+
+  EnigmailPrefs.getPref = function(){
+    return 3;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, true);
+
+  EnigmailPrefs.getPref = function(){
+    return 3;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0002);
+  Assert.equal(ret, false);
+
+  EnigmailPrefs.getPref = function(){
+    return 4;
+  };
+
+  Enigmail.msg.sendMode = 0x0001;
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0002);
+  Assert.equal(ret, true);
+
+  Enigmail.msg.sendMode = 0x0002;
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0002);
+  Assert.equal(ret, false);
+
+  Enigmail.msg.statusPGPMime = null;
+  Enigmail.msg.statusEncrypted = EnigmailConstants.ENIG_FINAL_YES;
+
+  EnigmailDialog.confirmDlg = function(){
+    return false;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, null);
+
+  Enigmail.msg.statusPGPMime = null;
+  Enigmail.msg.statusEncrypted = EnigmailConstants.ENIG_FINAL_YES;
+
+  EnigmailDialog.confirmDlg = function(){
+    return true;
+  };
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, true);
+
+  Enigmail.msg.statusEncrypted = EnigmailConstants.ENIG_FINAL_FORCEYES;
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, true);
+
+  Enigmail.msg.statusEncrypted = null;
+  Enigmail.msg.statusEncryptedInStatusBar = EnigmailConstants.ENIG_FINAL_YES;
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, true);
+
+  Enigmail.msg.statusEncrypted = null;
+  Enigmail.msg.statusEncryptedInStatusBar = EnigmailConstants.ENIG_FINAL_FORCEYES;
+
+  ret = Enigmail.msg.isSendConfirmationRequired(0x0001);
+  Assert.equal(ret, true);
+
+}
+
+function isSmimeEncryptionPossible_test(){
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "";
+      }
+    };
+  };
+
+  let ret = Enigmail.msg.isSmimeEncryptionPossible();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "string";
+      }
+    };
+  };
+
+  gMsgCompose.compFields = {
+    hasRecipients : false
+  };
+
+  ret = Enigmail.msg.isSmimeEncryptionPossible();
+  Assert.equal(ret, false);
+
+  getCurrentIdentity = function(){
+    return {
+      getUnicharAttribute : function(){
+        return "string";
+      }
+    };
+  };
+
+  gMsgCompose.compFields = {
+    hasRecipients : true
+  };
+
+  ret = Enigmail.msg.isSmimeEncryptionPossible();
+  Assert.equal(ret, true);
+
+}
+
+function preferPgpOverSmime_test(){
+  gMsgCompose.compFields.securityInfo = Components.classes["@mozilla.org/messenger-smime/composefields;1"].createInstance();
+
+  let ret = Enigmail.msg.preferPgpOverSmime(0x0001);
+  Assert.equal(ret, 1);
+
+  gMsgCompose.compFields.securityInfo.requireEncryptMessage = 1;
+
+  Enigmail.msg.mimePreferOpenPGP = 2;
+
+  ret = Enigmail.msg.preferPgpOverSmime(0x0203);
+  Assert.equal(ret, 0);
+
+  gMsgCompose.compFields.securityInfo.requireEncryptMessage = 0;
+  gMsgCompose.compFields.securityInfo.signMessage = 1;
+
+  ret = Enigmail.msg.preferPgpOverSmime(0x0203);
+  Assert.equal(ret, 0);
+
+  gMsgCompose.compFields.securityInfo.signMessage = 0;
+
+  ret = Enigmail.msg.preferPgpOverSmime(0x0203);
+  Assert.equal(ret, 1);
+
+  gMsgCompose.compFields.securityInfo.signMessage = 1;
+
+  ret = Enigmail.msg.preferPgpOverSmime(0x0003);
+  Assert.equal(ret, 2);
+
+}
+
+function displaySecuritySettings_test(){
+
+  Enigmail.msg.processFinalState = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.updateStatusBar = function(){
+    Assert.ok(true);
+  };
+
+  window.openDialog = function(windowURL, str1, prop, param){
+    param.resetDefaults = true;
+  };
+
+  Enigmail.msg.encryptForced = null;
+  Enigmail.msg.signForced = null;
+  Enigmail.msg.pgpmimeForced = null;
+  Enigmail.msg.finalSignDependsOnEncrypt = null;
+
+  Enigmail.msg.displaySecuritySettings();
+  Assert.equal(Enigmail.msg.encryptForced, null);
+  Assert.equal(Enigmail.msg.signForced, null);
+  Assert.equal(Enigmail.msg.pgpmimeForced, null);
+  Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, null);
+
+  window.openDialog = function(windowURL, str1, prop, param){
+    param.resetDefaults = true;
+    param.success = true;
+  };
+
+  Enigmail.msg.displaySecuritySettings();
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, true);
+
+  window.openDialog = function(windowURL, str1, prop, param){
+    param.resetDefaults = false;
+    param.success = true;
+    param.sign = 1;
+    param.encrypt = 2;
+    param.pgpmime = 3;
+  };
+
+  Enigmail.msg.signForced = null;
+
+  Enigmail.msg.displaySecuritySettings();
+  Assert.equal(Enigmail.msg.dirty, 2);
+  Assert.equal(Enigmail.msg.signForced, 1);
+  Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, false);
+  Assert.equal(Enigmail.msg.encryptForced, 2);
+  Assert.equal(Enigmail.msg.pgpmimeForced, 3);
+
+  Enigmail.msg.signForced = 1;
+  Enigmail.msg.encryptForced = 1;
+  Enigmail.msg.dirty = null;
+
+  Enigmail.msg.displaySecuritySettings();
+  Assert.equal(Enigmail.msg.dirty, 2);
+}
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -2129,6 +2499,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
   pepEnabled_test();
+  isSmimeEncryptionPossible_test();
   isSmimeEnabled_test();
   getAccDefault_test();
   trustAllKeys_test();
@@ -2181,5 +2552,10 @@ function run_test() {
   checkProtectHeaders_test();
   attachPepKey_test();
   createEnigmailSecurityFields_test();
+  compileFromAndTo_test();
+  setPepPrivacyLabel_test();
   getPepMessageRating_test();
+  isSendConfirmationRequired_test();
+  preferPgpOverSmime_test();
+  displaySecuritySettings_test();
 }
