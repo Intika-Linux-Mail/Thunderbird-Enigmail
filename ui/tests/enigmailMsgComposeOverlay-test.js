@@ -20,6 +20,9 @@ var AddAttachments;
 var EnigmailMsgCompFields = {};
 var EnigmailPEPAdapter = {};
 var Recipients2CompFields = {};
+var MailUtils = {};
+var GetResourceFromUri = {};
+var EnigmailCore = {};
 
 var gSMFields;
 var EnigmailPrefs = {
@@ -49,6 +52,9 @@ var getCurrentIdentity = function(){
 var EnigmailFuncs = {
 
 };
+
+//const cu = Components.utils;
+//let consol = (cu.import("resource://gre/modules/Console.jsm", {})).console;
 
 function processFinalState_test() {
   // Encryption Status and Reason
@@ -2695,6 +2701,432 @@ function onPepEncryptButton_test(){
   Enigmail.msg.onPepEncryptButton();
 }
 
+function getForceRecipientDlg_test(){
+  EnigmailPrefs.getPref = function(prop){
+    if(prop === "assignKeysByRules"){
+      return true;
+    }
+    else if(prop === "assignKeysByEmailAddr"){
+      return false;
+    }
+    else if(prop === "assignKeysManuallyIfMissing"){
+      return false;
+    }
+
+    return false;
+  };
+
+  let ret = Enigmail.msg.getForceRecipientDlg();
+  Assert.equal(ret, true);
+
+  EnigmailPrefs.getPref = function(prop){
+    if(prop === "assignKeysByRules"){
+      return true;
+    }
+    else if(prop === "assignKeysByEmailAddr"){
+      return true;
+    }
+    else if(prop === "assignKeysManuallyIfMissing"){
+      return false;
+    }
+
+    return false;
+  };
+
+  ret = Enigmail.msg.getForceRecipientDlg();
+  Assert.equal(ret, false);
+}
+
+function addRecipients_test(){
+  let recList = [
+    "user1@enigmail.net,",
+    "user2@enigmail.net,"
+  ];
+
+  let addrList = [];
+
+  EnigmailFuncs.stripEmail = function(val){
+    return val;
+  };
+
+  Enigmail.msg.addRecipients(addrList, recList);
+  Assert.equal(addrList.length, 2);
+  Assert.equal(addrList[0], 'user1@enigmail.net');
+  Assert.equal(addrList[1], 'user2@enigmail.net');
+
+}
+
+function editorInsertAsQuotation_test(){
+
+  Enigmail.msg.editor = null;
+  let ret = Enigmail.msg.editorInsertAsQuotation();
+  Assert.equal(ret, 0);
+
+  Enigmail.msg.editor = {};
+  ret = Enigmail.msg.editorInsertAsQuotation();
+  Assert.equal(ret, 0);
+
+  // Enigmail.msg.editor = Components.classes["@mozilla.org/editor/texteditor;1"].createInstance();
+  // ret = Enigmail.msg.editorInsertAsQuotation(null);
+  // Assert.equal(ret, 1);
+}
+
+function allowAttachOwnKey_test(){
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return false;
+  };
+  let ret = Enigmail.msg.allowAttachOwnKey();
+  Assert.equal(ret, -1);
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return true;
+  };
+
+  Enigmail.msg.identity.getIntAttribute = function(){
+    return 0;
+  };
+  ret = Enigmail.msg.allowAttachOwnKey();
+  Assert.equal(ret, 0);
+
+  Enigmail.msg.identity.getIntAttribute = function(){
+    return 2;
+  };
+
+  Enigmail.msg.identity.getCharAttribute = function(){
+    return 'xyz';
+  };
+  ret = Enigmail.msg.allowAttachOwnKey();
+  Assert.equal(ret, 0);
+
+  Enigmail.msg.identity.getCharAttribute = function(){
+    return '02';
+  };
+  ret = Enigmail.msg.allowAttachOwnKey();
+  Assert.equal(ret, 1);
+
+}
+
+function displaySMimeToolbar_test(){
+  document.getElementById = function() {
+    return {
+      removeAttribute : function(){
+        Assert.ok(true);
+      }
+    };
+  };
+
+  Enigmail.msg.statusPGPMime = EnigmailConstants.ENIG_FINAL_SMIME;
+  Enigmail.msg.displaySMimeToolbar();
+
+  Enigmail.msg.statusPGPMime = EnigmailConstants.ENIG_FINAL_FORCESMIME;
+  Enigmail.msg.displaySMimeToolbar();
+
+  Enigmail.msg.statusPGPMime = null;
+  document.getElementById = function() {
+    return {
+      setAttribute : function(){
+        Assert.ok(true);
+      }
+    };
+  };
+
+  Enigmail.msg.displaySMimeToolbar();
+
+}
+
+function replaceEditorText_test(){
+  Enigmail.msg.editorSelectAll = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.editorInsertText = function(val){
+    Assert.ok(true);
+    if(val === "Enigmail" || val === "text"){
+      Assert.ok(true);
+    }
+    else{
+      Assert.ok(false);
+    }
+  };
+
+  Enigmail.msg.editor.textLength = 4;
+
+  Enigmail.msg.replaceEditorText("text");
+
+  Enigmail.msg.editor.textLength = 0;
+  Enigmail.msg.editorInsertText = function(val){
+    Assert.ok(true);
+    if(val === " " || val === "text"){
+      Assert.ok(true);
+    }
+    else{
+      Assert.ok(false);
+    }
+  };
+}
+
+function getMsgFolderFromUri_test(){
+
+  MailUtils.getFolderForURI = function(uri, checkFolderAttributes){
+    return uri;
+  };
+
+  let ret = Enigmail.msg.getMsgFolderFromUri('uri', 'attr');
+  Assert.equal(ret, 'uri');
+
+  GetResourceFromUri = function(){
+    return {
+      QueryInterface : function(){
+        return {
+          name : 'Folder Name',
+          isServer : false
+        };
+      }
+    };
+  };
+
+  MailUtils = undefined;
+
+  ret = Enigmail.msg.getMsgFolderFromUri('uri', 'attr');
+  Assert.equal(ret, null);
+
+  ret = Enigmail.msg.getMsgFolderFromUri('uri', null);
+  Assert.equal(ret.name, 'Folder Name');
+
+}
+
+function isEnigmailEnabled_test(){
+
+  Enigmail.msg.juniorMode = true;
+  let ret = Enigmail.msg.isEnigmailEnabled();
+  Assert.equal(ret, false);
+
+  Enigmail.msg.juniorMode = false;
+  Enigmail.msg.identity = {
+    getBoolAttribute : function(){
+      Assert.ok(true);
+      return true;
+    }
+  };
+  ret = Enigmail.msg.isEnigmailEnabled();
+  Assert.equal(ret, true);
+
+}
+
+function isAutocryptEnabled_test(){
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return false;
+  };
+
+  let ret = Enigmail.msg.isAutocryptEnabled();
+  Assert.equal(ret, false);
+
+  Enigmail.msg.isEnigmailEnabled = function(){
+    return true;
+  };
+
+  Enigmail.msg.getCurrentIncomingServer = function(){
+    return {
+      getBoolValue : function(){
+        return true;
+      }
+    };
+  };
+
+  ret = Enigmail.msg.isAutocryptEnabled();
+  Assert.equal(ret, true);
+
+  Enigmail.msg.getCurrentIncomingServer = function(){
+    return {
+      getBoolValue : function(){
+        return false;
+      }
+    };
+  };
+
+  ret = Enigmail.msg.isAutocryptEnabled();
+  Assert.equal(ret, false);
+
+  Enigmail.msg.getCurrentIncomingServer = function(){
+    return null;
+  };
+
+  ret = Enigmail.msg.isAutocryptEnabled();
+  Assert.equal(ret, false);
+
+}
+
+function goAccountManager_test(){
+
+  EnigmailCore.getService = function(){
+    Assert.ok(true);
+  };
+
+  getCurrentIdentity = function(){
+    return 'id';
+  };
+
+  EnigmailFuncs.getAccountForIdentity = function(){
+    return 'account';
+  };
+
+  window.openDialog = function(xulPath, str1, prop, param){
+    Assert.equal(param.identity, 'id');
+    Assert.equal(param.account, 'account');
+  };
+
+  Enigmail.msg.setIdentityDefaults = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.goAccountManager();
+}
+
+function displayProtectHeadersStatus_test(){
+  document.getElementById = function(){
+    return {
+      setAttribute : function(prop, val){
+        if(prop === "checked"){
+          Assert.equal(val, "true");
+        }
+        else if(prop === "tooltiptext"){
+          Assert.equal(val, EnigmailLocale.getString("msgCompose.protectSubject.tooltip"));
+        }
+      }
+    };
+  };
+
+  this.protectHeaders = [];
+
+  Enigmail.msg.displayProtectHeadersStatus();
+
+  document.getElementById = function(){
+    return {
+      setAttribute : function(prop, val){
+        Assert.equal(val, EnigmailLocale.getString("msgCompose.noSubjectProtection.tooltip"));
+        Assert.equal(prop, "tooltiptext");
+      },
+      removeAttribute : function(prop){
+        Assert.equal(prop, "checked");
+      }
+    };
+  };
+
+  this.protectHeaders = null;
+
+  Enigmail.msg.displayProtectHeadersStatus();
+}
+
+function msgComposeReset_test(){
+  Enigmail.msg.setIdentityDefaults = function(){
+    Assert.ok(false);
+  };
+
+  Enigmail.msg.msgComposeReset(true);
+  Assert.equal(Enigmail.msg.dirty, 0);
+  Assert.equal(Enigmail.msg.processed, null);
+  Assert.equal(Enigmail.msg.timeoutId, null);
+  Assert.equal(Enigmail.msg.modifiedAttach, null);
+  Assert.equal(Enigmail.msg.sendMode, 0);
+  Assert.equal(Enigmail.msg.sendModeDirty, false);
+  Assert.equal(Enigmail.msg.reasonEncrypted, "");
+  Assert.equal(Enigmail.msg.reasonSigned, "");
+  Assert.equal(Enigmail.msg.encryptByRules, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.signByRules, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.pgpmimeByRules, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.signForced, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.encryptForced, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.pgpmimeForced, EnigmailConstants.ENIG_UNDEF);
+  Assert.equal(Enigmail.msg.finalSignDependsOnEncrypt, false);
+  Assert.equal(Enigmail.msg.statusSigned, EnigmailConstants.ENIG_FINAL_UNDEF);
+  Assert.equal(Enigmail.msg.statusEncrypted, EnigmailConstants.ENIG_FINAL_UNDEF);
+  Assert.equal(Enigmail.msg.statusPGPMime, EnigmailConstants.ENIG_FINAL_UNDEF);
+  Assert.equal(Enigmail.msg.statusEncryptedStr, "???");
+  Assert.equal(Enigmail.msg.statusSignedStr, "???");
+  Assert.equal(Enigmail.msg.statusPGPMimeStr, "???");
+  Assert.equal(Enigmail.msg.statusInlinePGPStr, "???");
+  Assert.equal(Enigmail.msg.statusAttachOwnKey, "???");
+  Assert.equal(Enigmail.msg.enableRules, true);
+  Assert.equal(Enigmail.msg.identity, null);
+  Assert.equal(Enigmail.msg.sendProcess, false);
+  Assert.equal(Enigmail.msg.trustAllKeys, false);
+  Assert.equal(Enigmail.msg.mimePreferOpenPGP, 0);
+  Assert.equal(Enigmail.msg.origPepRating, null);
+  Assert.equal(Enigmail.msg.keyLookupDone.length, 0);
+
+  Enigmail.msg.setIdentityDefaults = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.msgComposeReset(false);
+}
+
+function initRadioMenu_test(){
+
+  EnigmailPrefs.getPref = function(prefName){
+    Assert.equal(prefName, 'prefName');
+    return 1;
+  };
+
+  document.getElementById = function(){
+    Assert.ok(false);
+  };
+
+  Enigmail.msg.initRadioMenu('prefName', ['option1']);
+
+  EnigmailPrefs.getPref = function(prefName){
+    Assert.equal(prefName, 'prefName');
+    return 1;
+  };
+
+  document.getElementById = function(val){
+    Assert.equal(val, 'enigmail_option2');
+    return {
+      setAttribute : function(prop, val){
+        Assert.equal(prop, "checked");
+        Assert.equal(val, "true");
+      }
+    };
+  };
+
+  Enigmail.msg.initRadioMenu('prefName', ['option1', 'option2']);
+}
+
+function toggleAttachOwnKey_test(){
+
+  EnigmailCore.getService = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.attachOwnKeyObj.appendAttachment = true;
+
+  Enigmail.msg.setOwnKeyStatus = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.toggleAttachOwnKey();
+  Assert.equal(Enigmail.msg.attachOwnKeyObj.appendAttachment, false);
+
+}
+
+function toggleProtectHeaders_test(){
+  EnigmailCore.getService = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.protectHeaders = true;
+
+  Enigmail.msg.displayProtectHeadersStatus = function(){
+    Assert.ok(true);
+  };
+
+  Enigmail.msg.toggleProtectHeaders();
+  Assert.equal(Enigmail.msg.protectHeaders, false);
+}
+
+
 function run_test() {
   window = JSUnit.createStubWindow();
   window.document = JSUnit.createDOMDocument();
@@ -2705,6 +3137,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
   pepEnabled_test();
+  isEnigmailEnabled_test();
   pepDisabledError_test();
   isSmimeEncryptionPossible_test();
   isSmimeEnabled_test();
@@ -2725,6 +3158,7 @@ function run_test() {
   getEncryptionEnabled_test();
   getSigningEnabled_test();
   getSmimeSigningEnabled_test();
+  allowAttachOwnKey_test();
   setOwnKeyStatus_test();
   processAccountSpecificDefaultOptions_test();
   delayedProcessFinalState_test();
@@ -2769,4 +3203,16 @@ function run_test() {
   pepMenuPopup_test();
   onPepEncryptMenu_test();
   onPepEncryptButton_test();
+  getForceRecipientDlg_test();
+  addRecipients_test();
+  editorInsertAsQuotation_test();
+  displaySMimeToolbar_test();
+  replaceEditorText_test();
+  getMsgFolderFromUri_test();
+  goAccountManager_test();
+  displayProtectHeadersStatus_test();
+  msgComposeReset_test();
+  initRadioMenu_test();
+  toggleAttachOwnKey_test();
+  toggleProtectHeaders_test();
 }
