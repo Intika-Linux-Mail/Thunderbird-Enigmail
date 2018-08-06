@@ -2329,7 +2329,7 @@ KeyObject.prototype = {
  * Get a minimal stripped key containing only:
  * - The public key
  * - the primary UID + its self-signature
- * - the newest valild encryption key + its signature packet
+ * - any valid signing-capable or encryption-capable subkeys + their signature packets
  *
  * @param armoredKey - String: Key data (in OpenPGP armored format)
  * @param emailAddress - String: e-mail address that we want to match a user ID to
@@ -2350,25 +2350,18 @@ function getStrippedKey(armoredKey, emailAddress) {
     let uid = key.getPrimaryUser();
     if (!uid || !uid.user) return null;
 
-    let foundSubKey = null;
-    let foundCreationDate = new Date(0);
-
-    // go backwards through the subkeys as the newest key is usually
-    // later in the list
-    for (let i = key.subKeys.length - 1; i >= 0; i--) {
-      if (key.subKeys[i].subKey.created > foundCreationDate &&
-        key.subKeys[i].isValidEncryptionKey(key.primaryKey)) {
-        foundCreationDate = key.subKeys[i].subKey.created;
-        foundSubKey = key.subKeys[i];
-      }
-    }
-
-    if (!foundSubKey) return null;
-
     let p = new openpgp.packet.List();
     p.push(key.primaryKey);
     p.concat(uid.user.toPacketlist());
-    p.concat(foundSubKey.toPacketlist());
+
+    // go through the subkeys and pull out only valid encryption-capable and
+    // signing-capable subkeys.
+    for (let i = 0; i < key.subKeys.length; i++) {
+      if (key.subKeys[i].isValidEncryptionKey(key.primaryKey) ||
+          key.subKeys[i].isValidSigningKey(key.primaryKey)) {
+        p.concat(key.subKeys[i].toPacketlist());
+      }
+    }
 
     return p.write();
   }
