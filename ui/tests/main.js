@@ -21,4 +21,8 @@ function execTest(filename) {
 
 
 // the subprocess tests
-execTest("enigmailMsgComposeOverlay-test.js");
+execTest("enigmailMsgComposeOverlay-test-a_e.js");
+execTest("enigmailMsgComposeOverlay-test-f_h.js");
+execTest("enigmailMsgComposeOverlay-test-i_r.js");
+execTest("enigmailMsgComposeOverlay-test-s_t.js");
+execTest("enigmailMsgComposeOverlay-test-u_z.js");
