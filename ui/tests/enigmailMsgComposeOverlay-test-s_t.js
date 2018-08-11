@@ -872,7 +872,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
   //Overriding Problem
-  //TODO Use testHelper
+  //TODO Use testHelper.js
   setIdentityDefaults_test();
 
   sendAborted_test();

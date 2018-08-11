@@ -1042,7 +1042,7 @@ function run_test() {
   do_load_module("chrome://enigmail/content/modules/locale.jsm");
 
   //Overriding Problem
-  //TODO Use testHelper
+  //TODO Use testHelper.js
   isEnigmailEnabled_test();
   isSmimeEnabled_test();
   processFinalState_test();
