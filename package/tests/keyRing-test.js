@@ -290,7 +290,7 @@ test(withTestGpgHome(withEnigmail(function shouldImportFromTextAndGetKeyDetails(
   // uses the key listing from shouldGetKeyValidityErrors
   let key = EnigmailKeyRing.getKeyById("D535623BB60E9E71");
 
-  let pubKey = key.getMinimalPubKey();
+  let pubKey = key.getMinimalPubKey("strike.devtest@gmail.com");
 
   Assert.equal(pubKey.exitCode, 0);
 

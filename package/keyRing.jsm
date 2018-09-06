@@ -1934,7 +1934,7 @@ function KeyObject(lineArr) {
   this.userIds = [];
   this.subKeys = [];
   this.fpr = "";
-  this.minimalKeyBlock = null;
+  this.minimalKeyBlock = {};
   this.photoAvailable = false;
   this.secretAvailable = false;
   this._sigList = null;
@@ -2222,7 +2222,9 @@ KeyObject.prototype = {
 
   /**
    * Export the minimum key for the public key object:
-   * public key, primary user ID, newest encryption subkey
+   * public key, user ID matching the given emailAddress, newest encryption subkey
+   *
+   * @param emailAddress - String: e-mail address that we want to match a user ID to
    *
    * @return Object:
    *    - exitCode (0 = success)
@@ -2230,8 +2232,8 @@ KeyObject.prototype = {
    *    - keyData: BASE64-encded string of key data
    */
 
-  getMinimalPubKey: function() {
-    EnigmailLog.DEBUG("keyRing.jsm: KeyObject.getMinimalPubKey: " + this.keyId + "\n");
+  getMinimalPubKey: function(emailAddress) {
+    EnigmailLog.DEBUG("keyRing.jsm: KeyObject.getMinimalPubKey: " + this.keyId + " <" + emailAddress +">\n");
 
     let retObj = {
       exitCode: 0,
@@ -2243,7 +2245,7 @@ KeyObject.prototype = {
     // TODO: remove ECC special case once OpenPGP.js supports it
     let isECC = (this.algoSym.search(/(ECDH|ECDSA|EDDSA)/) >= 0);
 
-    if (!this.minimalKeyBlock) {
+    if (!this.minimalKeyBlock[emailAddress]) {
       let args = EnigmailGpg.getStandardArgs(true);
 
       if (!isECC) {
@@ -2277,26 +2279,26 @@ KeyObject.prototype = {
       }
 
       if (exportOK) {
-        this.minimalKeyBlock = null;
+        this.minimalKeyBlock[emailAddress] = null;
 
         if (isECC) {
-          this.minimalKeyBlock = btoa(keyBlock);
+          this.minimalKeyBlock[emailAddress] = btoa(keyBlock);
         }
         else {
-          let minKey = getStrippedKey(keyBlock);
+          let minKey = getStrippedKey(keyBlock, emailAddress);
           if (minKey) {
-            this.minimalKeyBlock = btoa(String.fromCharCode.apply(null, minKey));
+            this.minimalKeyBlock[emailAddress] = btoa(String.fromCharCode.apply(null, minKey));
           }
         }
 
-        if (!this.minimalKeyBlock) {
+        if (!this.minimalKeyBlock[emailAddress]) {
           retObj.exitCode = 1;
           retObj.errorMsg = "No valid (sub-)key";
         }
       }
     }
 
-    retObj.keyData = this.minimalKeyBlock;
+    retObj.keyData = this.minimalKeyBlock[emailAddress];
     return retObj;
   },
 
@@ -2330,11 +2332,12 @@ KeyObject.prototype = {
  * - the newest valild encryption key + its signature packet
  *
  * @param armoredKey - String: Key data (in OpenPGP armored format)
+ * @param emailAddress - String: e-mail address that we want to match a user ID to
  *
  * @return Uint8Array, or null
  */
 
-function getStrippedKey(armoredKey) {
+function getStrippedKey(armoredKey, emailAddress) {
   EnigmailLog.DEBUG("keyRing.jsm: KeyObject.getStrippedKey()\n");
 
   try {
