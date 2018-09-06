@@ -2325,10 +2325,64 @@ KeyObject.prototype = {
   }
 };
 
+
+function _getBestUserId(key, emailAddress) {
+  let bestUser = [];
+  for (let i = 0; i < key.users.length; i++) {
+    if (!key.users[i].userId || !key.users[i].selfCertifications) {
+      continue;
+    }
+    for (let j = 0; j < key.users[i].selfCertifications.length; j++) {
+      bestUser.push({
+        user: key.users[i],
+        selfCertificate: key.users[i].selfCertifications[j]
+      });
+    }
+  }
+  /* prefer matching e-mail addresses, then primary user IDs, 
+     then most-recent signatures: */
+  bestUser = bestUser.sort(function(a,b) {
+    if ((a.user.userId.userid == emailAddress ||
+         a.user.userId.userid.endsWith(' <'+emailAddress+'>')) &&
+        !(b.user.userId.userid == emailAddress ||
+          b.user.userId.userid.endsWith(' <'+emailAddress+'>'))) {
+      return -1;
+    }
+    else if ((b.user.userId.userid == emailAddress ||
+              b.user.userId.userid.endsWith(' <'+emailAddress+'>')) &&
+             !(a.user.userId.userid == emailAddress ||
+               a.user.userId.userid.endsWith(' <'+emailAddress+'>'))) {
+      return 1;
+    }
+    else if (a.selfCertificate.isPrimaryUserID > b.selfCertificate.isPrimaryUserID) {
+      return -1;
+    }
+    else if (a.selfCertificate.isPrimaryUserID < b.selfCertificate.isPrimaryUserID) {
+      return 1;
+    }
+    else if (a.selfCertificate.created > b.selfCertificate.created) {
+      return -1;
+    }
+    else if (a.selfCertificate.created < b.selfCertificate.created) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  });
+  /* return first valid certification: */
+  for (var k = 0; k < bestUser.length; k++) {
+    if (bestUser[k].user.isValidSelfCertificate(key.primaryKey, bestUser[k].selfCertificate)) {
+      return bestUser[k];
+    }
+  }
+  return null;
+}
+
 /**
  * Get a minimal stripped key containing only:
  * - The public key
- * - the primary UID + its self-signature
+ * - the matching UID (or primary UID, if no match) + its self-signature
  * - any valid signing-capable or encryption-capable subkeys + their signature packets
  *
  * @param armoredKey - String: Key data (in OpenPGP armored format)
@@ -2347,7 +2401,7 @@ function getStrippedKey(armoredKey, emailAddress) {
     if (!msg || msg.keys.length === 0) return null;
 
     let key = msg.keys[0];
-    let uid = key.getPrimaryUser();
+    let uid = _getBestUserId(key, emailAddress);
     if (!uid || !uid.user) return null;
 
     let p = new openpgp.packet.List();
