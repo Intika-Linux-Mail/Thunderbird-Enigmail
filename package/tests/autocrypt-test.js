@@ -102,6 +102,7 @@ test(function prepareDb() {
       dump("dropped table\n");
       do_test_finished();
     }).catch(err => {
+      connection.close();
       do_test_finished();
     });
   });
