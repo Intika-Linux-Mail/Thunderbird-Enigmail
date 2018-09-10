@@ -4678,7 +4678,7 @@ Enigmail.msg = {
       let srv = this.getCurrentIncomingServer();
       let prefMutual = (srv.getIntValue("acPreferEncrypt") > 0 ? "; prefer-encrypt=mutual" : "");
 
-      let k = key.getMinimalPubKey();
+      let k = key.getMinimalPubKey(this.identity.email);
       if (k.exitCode === 0) {
         let keyData = k.keyData.replace(/(.{72})/g, " $1\r\n");
         this.setAdditionalHeader('Autocrypt', 'addr=' + fromMail + prefMutual + '; keydata=\r\n' + keyData);

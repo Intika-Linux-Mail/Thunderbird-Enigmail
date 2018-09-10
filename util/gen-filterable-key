@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+
+# Generate an OpenPGP certificate with a couple user IDs, a User
+# Attribute, a bunch of expired subkeys, and a bunch of modern
+# subkeys, and some third-party certifications.
+
+# export it as a couple of javascript objects:
+#    input: OpenPGP TPK, and
+#   output: dictionary from e-mail address to minimized Autocrypt keydata object
+
+# Author: Daniel Kahn Gillmor <dkg@fifthhorseman.net>
+
+export LANG=C.UTF-8
+export GNUPGHOME=$(mktemp -d)
+cleanup() {
+    rm -rf "$GNUPGHOME"
+}
+trap cleanup EXIT
+skey=rsa3072
+ekey=rsa3072
+
+# make primary
+gpg --pinentry-mode loopback --passphrase '' --batch --yes --status-file "$GNUPGHOME/alice.txt" --faked-system-time 20170101T000000 --quick-gen-key 'Alice <alice@example.org>' "$skey" cert never
+afpr=$(awk -F' ' '($2 == "KEY_CREATED") { print $4 }' < "$GNUPGHOME/alice.txt" )
+# make third-party certifier
+gpg --pinentry-mode loopback --passphrase '' --batch --yes --status-file "$GNUPGHOME/bob.txt" --faked-system-time 20170101T000000 --quick-gen-key 'Bob <bob@example.org>' "$skey" cert never
+
+# add second user ID
+gpg --batch --yes --faked-system-time 20170102T000000 --quick-add-uid "$afpr" "Alice <alice@example.net>"
+# add a batch of expired subkeys
+for k in "sign.$skey" "encr.$ekey" "auth.$skey"; do
+    gpg --pinentry-mode loopback --passphrase '' --batch --yes --faked-system-time 20170103T000000 --quick-add-key "$afpr" "${k##*.}" "${k%%.*}" 1y
+done
+# this is janky automation to add the User ID.  might not work in non-english locales:
+printf 'addphoto\ntest.jpg\ny\nsave\n' >"$GNUPGHOME/commands"
+gpg --batch --yes --faked-system-time 20170115T000000  --no-tty --command-file "$GNUPGHOME/commands"  --edit-key "$afpr"
+# add third-party certification
+gpg --batch --yes --faked-system-time 20170201T000000 --local-user bob --quick-sign-key "$afpr"
+# add some non-expired subkeys
+for k in "sign.$skey" "encr.$ekey" "auth.$skey"; do
+    gpg --pinentry-mode loopback --passphrase '' --batch --yes --faked-system-time 20180201T000000 --quick-add-key "$afpr" "${k##*.}" "${k%%.*}" never
+done
+# show the user what we've ended up with:
+gpg --batch --no-tty --list-keys
+
+# generate output:
+gpg --batch --armor --export "$afpr" > ../package/tests/resources/filterable-key.asc
+printf '  const output = { \n'
+for address in alice@example.org alice@example.net; do
+    printf '    "%s":\n' "$address"
+    gpg --batch --export-options export-minimal,no-export-attributes --export-filter keep-uid="mbox=$address" --export-filter drop-subkey='usage!~e && usage!~s' --export "$afpr" | base64 | sed -e 's/^/      "/' -e 's/$/" +/'
+    printf '      "",\n'
+done
+printf '  };\n'

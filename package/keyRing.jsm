@@ -1934,7 +1934,7 @@ function KeyObject(lineArr) {
   this.userIds = [];
   this.subKeys = [];
   this.fpr = "";
-  this.minimalKeyBlock = null;
+  this.minimalKeyBlock = {};
   this.photoAvailable = false;
   this.secretAvailable = false;
   this._sigList = null;
@@ -2222,7 +2222,9 @@ KeyObject.prototype = {
 
   /**
    * Export the minimum key for the public key object:
-   * public key, primary user ID, newest encryption subkey
+   * public key, user ID matching the given emailAddress, newest encryption subkey
+   *
+   * @param emailAddress - String: e-mail address that we want to match a user ID to
    *
    * @return Object:
    *    - exitCode (0 = success)
@@ -2230,8 +2232,8 @@ KeyObject.prototype = {
    *    - keyData: BASE64-encded string of key data
    */
 
-  getMinimalPubKey: function() {
-    EnigmailLog.DEBUG("keyRing.jsm: KeyObject.getMinimalPubKey: " + this.keyId + "\n");
+  getMinimalPubKey: function(emailAddress) {
+    EnigmailLog.DEBUG("keyRing.jsm: KeyObject.getMinimalPubKey: " + this.keyId + " <" + emailAddress +">\n");
 
     let retObj = {
       exitCode: 0,
@@ -2243,7 +2245,7 @@ KeyObject.prototype = {
     // TODO: remove ECC special case once OpenPGP.js supports it
     let isECC = (this.algoSym.search(/(ECDH|ECDSA|EDDSA)/) >= 0);
 
-    if (!this.minimalKeyBlock) {
+    if (!this.minimalKeyBlock[emailAddress]) {
       let args = EnigmailGpg.getStandardArgs(true);
 
       if (!isECC) {
@@ -2277,26 +2279,26 @@ KeyObject.prototype = {
       }
 
       if (exportOK) {
-        this.minimalKeyBlock = null;
+        this.minimalKeyBlock[emailAddress] = null;
 
         if (isECC) {
-          this.minimalKeyBlock = btoa(keyBlock);
+          this.minimalKeyBlock[emailAddress] = btoa(keyBlock);
         }
         else {
-          let minKey = getStrippedKey(keyBlock);
+          let minKey = getStrippedKey(keyBlock, emailAddress);
           if (minKey) {
-            this.minimalKeyBlock = btoa(String.fromCharCode.apply(null, minKey));
+            this.minimalKeyBlock[emailAddress] = btoa(String.fromCharCode.apply(null, minKey));
           }
         }
 
-        if (!this.minimalKeyBlock) {
+        if (!this.minimalKeyBlock[emailAddress]) {
           retObj.exitCode = 1;
           retObj.errorMsg = "No valid (sub-)key";
         }
       }
     }
 
-    retObj.keyData = this.minimalKeyBlock;
+    retObj.keyData = this.minimalKeyBlock[emailAddress];
     return retObj;
   },
 
@@ -2323,18 +2325,73 @@ KeyObject.prototype = {
   }
 };
 
+
+function _getBestUserId(key, emailAddress) {
+  let bestUser = [];
+  for (let i = 0; i < key.users.length; i++) {
+    if (!key.users[i].userId || !key.users[i].selfCertifications) {
+      continue;
+    }
+    for (let j = 0; j < key.users[i].selfCertifications.length; j++) {
+      bestUser.push({
+        user: key.users[i],
+        selfCertificate: key.users[i].selfCertifications[j]
+      });
+    }
+  }
+  /* prefer matching e-mail addresses, then primary user IDs, 
+     then most-recent signatures: */
+  bestUser = bestUser.sort(function(a,b) {
+    if ((a.user.userId.userid == emailAddress ||
+         a.user.userId.userid.endsWith(' <'+emailAddress+'>')) &&
+        !(b.user.userId.userid == emailAddress ||
+          b.user.userId.userid.endsWith(' <'+emailAddress+'>'))) {
+      return -1;
+    }
+    else if ((b.user.userId.userid == emailAddress ||
+              b.user.userId.userid.endsWith(' <'+emailAddress+'>')) &&
+             !(a.user.userId.userid == emailAddress ||
+               a.user.userId.userid.endsWith(' <'+emailAddress+'>'))) {
+      return 1;
+    }
+    else if (a.selfCertificate.isPrimaryUserID > b.selfCertificate.isPrimaryUserID) {
+      return -1;
+    }
+    else if (a.selfCertificate.isPrimaryUserID < b.selfCertificate.isPrimaryUserID) {
+      return 1;
+    }
+    else if (a.selfCertificate.created > b.selfCertificate.created) {
+      return -1;
+    }
+    else if (a.selfCertificate.created < b.selfCertificate.created) {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  });
+  /* return first valid certification: */
+  for (var k = 0; k < bestUser.length; k++) {
+    if (bestUser[k].user.isValidSelfCertificate(key.primaryKey, bestUser[k].selfCertificate)) {
+      return bestUser[k];
+    }
+  }
+  return null;
+}
+
 /**
  * Get a minimal stripped key containing only:
  * - The public key
- * - the primary UID + its self-signature
- * - the newest valild encryption key + its signature packet
+ * - the matching UID (or primary UID, if no match) + its self-signature
+ * - any valid signing-capable or encryption-capable subkeys + their signature packets
  *
  * @param armoredKey - String: Key data (in OpenPGP armored format)
+ * @param emailAddress - String: e-mail address that we want to match a user ID to
  *
  * @return Uint8Array, or null
  */
 
-function getStrippedKey(armoredKey) {
+function getStrippedKey(armoredKey, emailAddress) {
   EnigmailLog.DEBUG("keyRing.jsm: KeyObject.getStrippedKey()\n");
 
   try {
@@ -2344,28 +2401,21 @@ function getStrippedKey(armoredKey) {
     if (!msg || msg.keys.length === 0) return null;
 
     let key = msg.keys[0];
-    let uid = key.getPrimaryUser();
+    let uid = _getBestUserId(key, emailAddress);
     if (!uid || !uid.user) return null;
-
-    let foundSubKey = null;
-    let foundCreationDate = new Date(0);
-
-    // go backwards through the subkeys as the newest key is usually
-    // later in the list
-    for (let i = key.subKeys.length - 1; i >= 0; i--) {
-      if (key.subKeys[i].subKey.created > foundCreationDate &&
-        key.subKeys[i].isValidEncryptionKey(key.primaryKey)) {
-        foundCreationDate = key.subKeys[i].subKey.created;
-        foundSubKey = key.subKeys[i];
-      }
-    }
-
-    if (!foundSubKey) return null;
 
     let p = new openpgp.packet.List();
     p.push(key.primaryKey);
     p.concat(uid.user.toPacketlist());
-    p.concat(foundSubKey.toPacketlist());
+
+    // go through the subkeys and pull out only valid encryption-capable and
+    // signing-capable subkeys.
+    for (let i = 0; i < key.subKeys.length; i++) {
+      if (key.subKeys[i].isValidEncryptionKey(key.primaryKey) ||
+          key.subKeys[i].isValidSigningKey(key.primaryKey)) {
+        p.concat(key.subKeys[i].toPacketlist());
+      }
+    }
 
     return p.write();
   }
