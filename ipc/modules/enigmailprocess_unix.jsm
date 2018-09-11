@@ -123,7 +123,7 @@ var SubprocessUnix = {
 
         // FIXME: We really want access(path, X_OK) here, but OS.File does not
         // support it.
-        return !info.isDir && (info.unixMode & 0x49);
+        return !info.isDir && (info.unixMode & 0o111);
       }
       catch (e) {
         return false;
