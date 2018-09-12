@@ -9,13 +9,14 @@
 #  Helper tool to read or write data to/from stdin/stdout
 #
 #  Usage:
-#  IpcCat {write|read|dump|getenv} arg
+#  IpcCat {write|read|dump|getenv|quick} arg
 #
 #  Parameters:
 #    write:  read from stdin and write to file <arg>
 #    read:   read from file <arg> and write to stdout
 #    dump:   read from stdin; write to stdout
 #    getenv: print value of environment variable <arg>
+#    quick:  print Hello and exit
 #
 #  Exit codes:
 #    0:    success

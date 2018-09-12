@@ -272,6 +272,10 @@ function run_test() {
   p.wait();
   Assert.equal(gTestLines.join(""), gResultData, "variable comparison");
 
+  /////////////////////////////////////////////////////////////////
+  // Test many concurrent runs
+  /////////////////////////////////////////////////////////////////
+
   do_print("mass test");
 
   for (let i = 0; i < 1000; i++) {
