@@ -273,6 +273,35 @@ function run_test() {
   Assert.equal(gTestLines.join(""), gResultData, "variable comparison");
 
   /////////////////////////////////////////////////////////////////
+  // Test caesar cipher
+  /////////////////////////////////////////////////////////////////
+
+  do_print("caesar cipher on stdin/stdout");
+
+  gResultData = "";
+  try {
+    p = subprocess.call({
+      command: pl.path,
+      arguments: [cmd.path, 'caesar', '0', '1'],
+      environment: envList,
+      stdin: 'monkey',
+      stdout: function(data) {
+        gResultData += data;
+      },
+      done: function(result) {
+        Assert.equal(0, result.exitCode, "exit code");
+        Assert.equal("zbaxrl", gResultData, "transformed data");
+      },
+      mergeStderr: false
+    });
+  } catch (ex) {
+    Assert.ok(false, "error: " + ex);
+  }
+
+  p.wait();
+
+
+  /////////////////////////////////////////////////////////////////
   // Test many concurrent runs
   /////////////////////////////////////////////////////////////////
 
