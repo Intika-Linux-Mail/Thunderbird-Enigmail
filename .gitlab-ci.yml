@@ -34,7 +34,7 @@ test:
     - printf 'user_pref("app.update.enabled", false);\n' >> "$TBPROFILE/prefs.js"
     - printf 'user_pref("extensions.enigmail.logDirectory", "%s");\n' $(pwd)/tmp >> "$TBPROFILE/prefs.js"
     - curl -s -o "$TBPROFILE/extensions/jsunit@enigmail.net.xpi" https://www.enigmail.net/jsunit/jsunit-0.1.6.xpi
-    - export TBDOWNLOAD=http://archive.mozilla.org/pub/thunderbird/releases/60.0/linux-x86_64/en-US/thunderbird-60.0.tar.bz2
+    - export TBDOWNLOAD=https://archive.mozilla.org/pub/thunderbird/releases/60.0/linux-x86_64/en-US/thunderbird-60.0.tar.bz2
     - curl -s -o thunderbird.tar.bz2 $TBDOWNLOAD
     - tar -xjvf thunderbird.tar.bz2
     - thunderbird/thunderbird --version
