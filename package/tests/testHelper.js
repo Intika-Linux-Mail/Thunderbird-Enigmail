@@ -11,6 +11,8 @@
 const osUtils = {};
 Components.utils.import("resource://gre/modules/osfile.jsm", osUtils);
 Components.utils.import("resource://gre/modules/FileUtils.jsm", osUtils);
+Components.utils.import("resource://enigmail/rng.jsm"); /*global EnigmailRNG: false */
+Components.utils.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
 
 var TestHelper = {
   loadDirectly: function(name) {
@@ -54,7 +56,7 @@ var TestHelper = {
 
   initalizeGpgHome: function() {
     component("enigmail/files.jsm");
-    var homedir = osUtils.OS.Path.join(EnigmailFiles.getTempDir(), ".gnupgTest");
+    var homedir = osUtils.OS.Path.join(EnigmailFiles.getTempDir(), ".gnupgTest" + EnigmailRNG.generateRandomString(8));
     var workingDirectory = new osUtils.FileUtils.File(homedir);
     if (!workingDirectory.exists()) {
       workingDirectory.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, 448);
@@ -88,7 +90,9 @@ var TestHelper = {
     var environment = Components.classes["@mozilla.org/process/environment;1"].getService(Components.interfaces.nsIEnvironment);
 
     environment.set("GNUPGHOME", workingDirectory.path);
-    return homedir;
+    if (EnigmailCore.getEnvList() !== null)
+      EnigmailCore.setEnvVariable("GNUPGHOME", workingDirectory.path);
+   return homedir;
   },
 
   removeGpgHome: function(homedir) {
