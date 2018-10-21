@@ -205,7 +205,7 @@ function execute(request, listener, subproc) {
       done: function(result) {
         try {
           if (result.exitCode === 0 && request.isDownload) {
-            if (typeof(request.keyId) === "string") {
+            if (typeof (request.keyId) === "string") {
               EnigmailKeyRing.updateKeys([request.keyId]);
             }
             else
@@ -215,8 +215,7 @@ function execute(request, listener, subproc) {
             exitCode = result.exitCode;
           }
           listener.done(exitCode);
-        }
-        catch (ex) {
+        } catch (ex) {
           EnigmailLog.ERROR("keyserver.jsm: execute: subprocess.call failed at finish with '" + ex.message + "'\n");
         }
       },
@@ -231,8 +230,7 @@ function execute(request, listener, subproc) {
       },
       mergeStderr: false
     });
-  }
-  catch (ex) {
+  } catch (ex) {
     EnigmailLog.ERROR("keyserver.jsm: execute: subprocess.call failed with '" + ex.message + "'\n");
     throw ex;
   }
@@ -428,7 +426,7 @@ function accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
     }
   }
 
-  xmlReq.open(method, url);
+  xmlReq.open(method, url, true, "no-user", "");
   xmlReq.send(payLoad);
 
   // return the same API as subprocess
@@ -551,8 +549,7 @@ function keyServerUpDownload(win, keys, access, hideProgess, callbackFunc, resul
           }
           return;
         }
-      }
-      catch (ex) {
+      } catch (ex) {
         EnigmailLog.DEBUG(ex + "\n");
         return;
       }
@@ -699,8 +696,7 @@ function performWkdUpload(keyList, win, observer) {
       observer.onProgress(100);
       observer.onFinished(0);
     });
-  }
-  catch (ex) {
+  } catch (ex) {
     EnigmailLog.DEBUG(ex);
   }
 }

@@ -56,9 +56,9 @@ var EnigmailWkdLookup = {
       }
 
       Promise.all(emails.map(
-          function(mailAddr) {
-            return self.determineLastAttempt(mailAddr.trim().toLowerCase());
-          }))
+        function(mailAddr) {
+          return self.determineLastAttempt(mailAddr.trim().toLowerCase());
+        }))
         .then(function(checks) {
           let toCheck = [];
 
@@ -157,8 +157,7 @@ var EnigmailWkdLookup = {
     let domain = email.substr(at + 1);
     let user = email.substr(0, at);
 
-    var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].
-    createInstance(Ci.nsIScriptableUnicodeConverter);
+    var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
     converter.charset = "UTF-8";
     var data = converter.convertToByteArray(user, {});
 
@@ -183,23 +182,22 @@ var EnigmailWkdLookup = {
         try {
           let keyData = EnigmailData.arrayBufferToString(oReq.response);
           resolve(keyData);
-        }
-        catch (ex) {
+        } catch (ex) {
           EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey: error " + ex.toString() + "\n");
           resolve(null);
         }
       });
 
       oReq.addEventListener("error", (e) => {
-          EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey: error for " + email + "\n");
-          EnigmailLog.DEBUG("   got error: " + e + "\n");
-          resolve(null);
-        },
+        EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey: error for " + email + "\n");
+        EnigmailLog.DEBUG("   got error: " + e + "\n");
+        resolve(null);
+      },
         false);
 
       oReq.overrideMimeType("application/octet-stream");
       oReq.responseType = "arraybuffer";
-      oReq.open("GET", EnigmailWkdLookup.getWkdUrlFromEmail(email));
+      oReq.open("GET", EnigmailWkdLookup.getWkdUrlFromEmail(email), true, "no-user", "");
 
       oReq.send();
     });
@@ -291,8 +289,7 @@ function importDownloadedKeys(keysArr) {
   for (let k in keysArr) {
     try {
       keyData += EnigmailOpenPGP.enigmailFuncs.bytesToArmor(EnigmailOpenPGP.openpgp.enums.armor.public_key, keysArr[k]);
-    }
-    catch (ex) {
+    } catch (ex) {
       EnigmailLog.DEBUG("wkdLookup.jsm: importDownloadedKeys: exeption=" + ex + "\n");
     }
   }
