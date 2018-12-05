@@ -376,7 +376,7 @@ var EnigmailKeyRing = {
   importKeyFromFile: function(inputFile, errorMsgObj, importedKeysObj) {
     EnigmailLog.DEBUG("keyRing.jsm: EnigmailKeyRing.importKeyFromFile: fileName=" + inputFile.path + "\n");
     var command = EnigmailGpg.agentPath;
-    var args = EnigmailGpg.getStandardArgs(false).concat(["--no-verbose", "--status-fd", "2", "--no-auto-check-trustdb", "--import"]);
+    var args = EnigmailGpg.getStandardArgs(false).concat(["--no-tty", "--batch", "--no-verbose", "--status-fd", "2", "--no-auto-check-trustdb", "--import"]);
     importedKeysObj.value = "";
 
     var fileName = EnigmailFiles.getEscapedFilename((inputFile.QueryInterface(Ci.nsIFile)).path);
