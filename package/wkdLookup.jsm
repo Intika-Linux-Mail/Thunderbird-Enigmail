@@ -1,4 +1,4 @@
-/*global Components: false*/
+/* global Components: false, btoa: false */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
@@ -16,7 +16,6 @@ const Cc = Components.classes;
 const Ci = Components.interfaces;
 const Cu = Components.utils;
 
-Cu.importGlobalProperties(["XMLHttpRequest"]);
 Cu.import("resource://gre/modules/Sqlite.jsm"); /* global Sqlite: false */
 Cu.import("resource://enigmail/log.jsm"); /* global EnigmailLog: false*/
 Cu.import("resource://enigmail/funcs.jsm"); /* global EnigmailFuncs: false*/
@@ -171,36 +170,45 @@ var EnigmailWkdLookup = {
     return url;
   },
 
-  downloadWkdKey: function(email) {
+  downloadWkdKey: async function(email) {
     EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey(" + email + ")\n");
 
-    return new Promise((resolve, reject) => {
-      let oReq = new XMLHttpRequest();
+    let url = await EnigmailWkdLookup.getDownloadUrlFromEmail(email);
 
-      oReq.addEventListener("load", function _f() {
-        EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey: data for " + email + "\n");
-        try {
-          let keyData = EnigmailData.arrayBufferToString(oReq.response);
-          resolve(keyData);
-        } catch (ex) {
-          EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey: error " + ex.toString() + "\n");
-          resolve(null);
-        }
-      });
-
-      oReq.addEventListener("error", (e) => {
-        EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey: error for " + email + "\n");
-        EnigmailLog.DEBUG("   got error: " + e + "\n");
-        resolve(null);
-      },
-        false);
-
-      oReq.overrideMimeType("application/octet-stream");
-      oReq.responseType = "arraybuffer";
-      oReq.open("GET", EnigmailWkdLookup.getWkdUrlFromEmail(email), true, "no-user", "");
-
-      oReq.send();
+    let hdrs = new Headers({
+      'Authorization': 'Basic ' + btoa("no-user:")
     });
+    hdrs.append('Content-Type', 'application/octet-stream');
+
+    let myRequest = new Request(url, {
+      method: 'GET',
+      headers: hdrs,
+      mode: 'cors',
+      //redirect: 'error',
+      redirect: 'follow',
+      cache: 'default'
+    });
+
+    let response;
+    try {
+      EnigmailLog.DEBUG("wkdLookup.jsm: downloadKey: requesting " + url + "\n");
+      response = await fetch(myRequest);
+      if (!response.ok) {
+        return null;
+      }
+    } catch (ex) {
+      EnigmailLog.DEBUG("wkdLookup.jsm: downloadKey: error " + ex.toString() + "\n");
+      return null;
+    }
+
+    try {
+      let keyData = EnigmailData.arrayBufferToString(await response.arrayBuffer());
+      EnigmailLog.DEBUG("wkdLookup.jsm: downloadKey: got data for " + email + "\n");
+      return keyData;
+    } catch (ex) {
+      EnigmailLog.DEBUG("wkdLookup.jsm: downloadKey: error " + ex.toString() + "\n");
+      return null;
+    }
   }
 };
 
