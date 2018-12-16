@@ -26,6 +26,7 @@ Cu.import("resource://enigmail/openpgp.jsm"); /*global EnigmailOpenPGP: false */
 Cu.import("resource://enigmail/key.jsm"); /*global EnigmailKey: false */
 Cu.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 
+var window = null;
 var EnigmailWkdLookup = {
 
   /**
@@ -142,6 +143,36 @@ var EnigmailWkdLookup = {
   },
 
   /**
+   * get the download URL for an email address for WKD or domain-specific locations
+   *
+   * @param {String} email: email address
+   *
+   * @return URL
+   */
+
+  getDownloadUrlFromEmail: async function(email) {
+    email = email.toLowerCase().trim();
+
+    let at = email.indexOf("@");
+
+    let domain = email.substr(at + 1);
+    let user = email.substr(0, at);
+
+    var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
+    converter.charset = "UTF-8";
+    var data = converter.convertToByteArray(user, {});
+
+    var ch = Components.classes["@mozilla.org/security/hash;1"].createInstance(Components.interfaces.nsICryptoHash);
+    ch.init(ch.SHA1);
+    ch.update(data, data.length);
+    let gotHash = ch.finish(false);
+    let encodedHash = EnigmailZBase32.encode(gotHash);
+
+    let url = "https://" + domain + "/.well-known/openpgpkey/hu/" + encodedHash;
+    return url;
+  },
+
+  /**
    * get the WKD URL for an email address
    *
    * @param email: String - email address
@@ -173,14 +204,18 @@ var EnigmailWkdLookup = {
   downloadWkdKey: async function(email) {
     EnigmailLog.DEBUG("wkdLookup.jsm: downloadWkdKey(" + email + ")\n");
 
+    if (!window) {
+      let appShellSvc = Cc["@mozilla.org/appshell/appShellService;1"].getService(Ci.nsIAppShellService);
+      window = appShellSvc.hiddenDOMWindow;
+    }
+
     let url = await EnigmailWkdLookup.getDownloadUrlFromEmail(email);
 
-    let hdrs = new Headers({
-      'Authorization': 'Basic ' + btoa("no-user:")
-    });
+    let hdrs = new window.Headers();
+    hdrs.append('Authorization', 'Basic ' + btoa("no-user:"));
     hdrs.append('Content-Type', 'application/octet-stream');
 
-    let myRequest = new Request(url, {
+    let myRequest = new window.Request(url, {
       method: 'GET',
       headers: hdrs,
       mode: 'cors',
@@ -192,7 +227,7 @@ var EnigmailWkdLookup = {
     let response;
     try {
       EnigmailLog.DEBUG("wkdLookup.jsm: downloadKey: requesting " + url + "\n");
-      response = await fetch(myRequest);
+      response = await window.fetch(myRequest);
       if (!response.ok) {
         return null;
       }
