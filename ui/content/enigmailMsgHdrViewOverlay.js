@@ -548,7 +548,8 @@ Enigmail.hdrView = {
       EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: tryImportAutocryptHeader: got " +
         foundKeys.length + " autocrypt keys\n");
       if (foundKeys.length > 0) {
-        gDBView.reloadMessageWithAllParts();
+        let k = EnigmailKeyRing.getKeyById(Enigmail.msg.securityInfo.keyId);
+        if (k) gDBView.reloadMessageWithAllParts();
       }
     });
   },
