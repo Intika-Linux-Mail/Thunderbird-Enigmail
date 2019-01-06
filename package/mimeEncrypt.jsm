@@ -30,6 +30,7 @@ Cu.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 Cu.import("resource://enigmail/msgCompFields.jsm"); /*global EnigmailMsgCompFields: false */
 Cu.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
 Cu.import("resource://enigmail/pEpAdapter.jsm"); /*global EnigmailPEPAdapter: false */
+const EnigmailLocale = Cu.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 
 const PGPMIME_JS_ENCRYPT_CONTRACTID = "@mozilla.org/messengercompose/composesecure;1";
 const PGPMIME_JS_ENCRYPT_CID = Components.ID("{1b040e64-e704-42b9-b05a-942e569afffc}");
@@ -676,6 +677,7 @@ PgpMimeEncrypt.prototype = {
   processPepEncryption: function() {
     EnigmailLog.DEBUG("mimeEncrypt.js: processPepEncryption:\n");
 
+    let requireEncryption = (this.sendFlags & EnigmailConstants.SEND_ENCRYPTED);
     let self = this;
     let resultObj = null;
     let originalSubject = null;
@@ -753,8 +755,13 @@ PgpMimeEncrypt.prototype = {
       }
     }
 
-    if (resultObj !== null) {
+    if (resultObj !== null && Array.isArray(resultObj) && typeof(resultObj[0]) === "string") {
       this.outQueue = EnigmailPEPAdapter.stripMsgHeadersFromEncryption(resultObj);
+    }
+    else if (requireEncryption) {
+      if (!EnigmailDialog.confirmDlg(this.win, EnigmailLocale.getString("signFailed"), EnigmailLocale.getString("msgCompose.button.sendUnencrypted"))) {
+        throw Cr.NS_ERROR_FAILURE;
+      }
     }
 
     if (this.outQueue === "") {
