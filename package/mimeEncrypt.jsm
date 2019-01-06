@@ -30,7 +30,7 @@ Cu.import("resource://enigmail/data.jsm"); /*global EnigmailData: false */
 Cu.import("resource://enigmail/msgCompFields.jsm"); /*global EnigmailMsgCompFields: false */
 Cu.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
 Cu.import("resource://enigmail/pEpAdapter.jsm"); /*global EnigmailPEPAdapter: false */
-const EnigmailLocale = Cu.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
+const EnigmailLocale = Cu.import("resource://enigmail/locale.jsm").EnigmailLocale;
 
 const PGPMIME_JS_ENCRYPT_CONTRACTID = "@mozilla.org/messengercompose/composesecure;1";
 const PGPMIME_JS_ENCRYPT_CID = Components.ID("{1b040e64-e704-42b9-b05a-942e569afffc}");
