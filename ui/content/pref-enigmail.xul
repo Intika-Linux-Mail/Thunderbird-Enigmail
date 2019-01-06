@@ -193,14 +193,6 @@
                 <description tooltip="maxIdleMinutes.tooltip" id="maxIdleMinutesTailLabel">&enigmail.maxIdleMinutesTail.label;</description>
               </hbox>
 
-              <checkbox id="enigmail_noPassphrase"
-                      label="&enigmail.userNoPassphrase.label;"
-                      tooltip="userNoPassphrase.tooltip"
-                      pref="true"
-                      preftype="bool"
-                      prefstring="extensions.enigmail.noPassphrase"
-                      prefattribute="checked"/>
-
             </groupbox>
           </hbox>
 
