@@ -390,6 +390,27 @@ var EnigmailFuncs = {
   },
 
   /**
+   * Determine the total number of certificates in the X.509 certificates store
+   *
+   * @return {Number}: number of Certificates
+   */
+  getNumOfX509Certs: function() {
+
+    let certDb = Cc["@mozilla.org/security/x509certdb;1"].getService(Ci.nsIX509CertDB);
+    let certs = certDb.getCerts();
+
+    let e = certs.getEnumerator();
+    let nCerts = 0;
+
+    while (e.hasMoreElements()) {
+      nCerts++;
+      e.getNext();
+    }
+
+    return nCerts;
+  },
+
+  /**
    * Get the nsIMsgAccount associated with a given nsIMsgIdentity
    */
   getAccountForIdentity: function(identity) {
