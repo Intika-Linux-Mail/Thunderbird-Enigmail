@@ -114,6 +114,14 @@ function handleErrorCode(c, errorNumber) {
         c.retStatusObj.statusMsg = EnigmailLocale.getString("errorHandling.gpgAgentError") + "\n\n" + EnigmailLocale.getString("errorHandling.readFaq");
         c.isError = true;
         break;
+      case 32870: // error: no tty
+        if (sourceSystem === GPG_SOURCE_SYSTEM.GPG_ERR_SOURCE_PINENTRY) {
+          c.statusFlags |= EnigmailConstants.DISPLAY_MESSAGE;
+          c.retStatusObj.extendedStatus += "disp:get_passphrase ";
+          c.retStatusObj.statusMsg = EnigmailLocale.getString("errorHandling.pinentryError") + "\n\n" + EnigmailLocale.getString("errorHandling.readFaq");
+          c.isError = true;
+        }
+        break;
       case 85: // no pinentry
       case 86: // pinentry error
         c.statusFlags |= EnigmailConstants.DISPLAY_MESSAGE;
