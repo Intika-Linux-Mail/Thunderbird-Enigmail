@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{847b3a00-7ab1-11d4-8f02-006008948af5}</em:id>
-    <em:version>2.0.9</em:version>
+    <em:version>2.0.10a1</em:version>
     <em:type>2</em:type> <!-- type = extension -->
     <em:bootstrap>true</em:bootstrap>
 
@@ -19,24 +19,14 @@
         <em:maxVersion>60.*</em:maxVersion>
       </Description>
     </em:targetApplication>
-    <em:targetApplication>
-      <!-- Seamonkey -->
+    <!--em:targetApplication>
+      < ! - - Seamonkey is no longer supported - - >
       <Description>
         <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
         <em:minVersion>2.49</em:minVersion>
         <em:maxVersion>2.57</em:maxVersion>
       </Description>
-    </em:targetApplication>
-    <!-- em:targetApplication>
-      < ! - - Spicebird - - >
-      <Description>
-        <em:id>{ee53ece0-255c-4cc6-8a7e-81a8b6e5ba2c}</em:id>
-        <em:minVersion>0.7</em:minVersion>
-        <em:maxVersion>0.8</em:maxVersion>
-      </Description>
     </em:targetApplication -->
-
-<!-- targetPlatform not required (anymore) -->
 
     <!-- Front End MetaData -->
     <em:name>Enigmail</em:name>
