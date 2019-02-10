@@ -34,7 +34,7 @@
 
 <!ENTITY enigmail.preferences.label       "Enigmail-Einstellungen">
 
-<!ENTITY enigmail.passwordSettings.label   "Passphrase Ablaufzeit">
+<!ENTITY enigmail.passwordSettings.label   "Passphrasen-Ablaufzeit">
 <!ENTITY enigmail.userNoPassphrase.label   "Nie nach einer Passphrase fragen">
 <!ENTITY enigmail.userNoPassphrase.tooltip "Aktivieren, wenn Ihr OpenPGP-Schlüssel nicht durch eine Passphrase geschützt ist.">
 <!ENTITY enigmail.expertUserMenus.label    "Experten-Optionen und -Menüs anzeigen">
