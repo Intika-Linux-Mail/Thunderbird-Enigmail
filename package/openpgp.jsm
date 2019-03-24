@@ -21,8 +21,8 @@ const Cu = Components.utils;
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 
-var window;
-var document;
+var window = null;
+var document = null;
 
 const {
   Services
@@ -72,7 +72,7 @@ function initialize() {
 
 var EnigmailOpenPGP = {
   get openpgp() {
-    if (!window) {
+    if (!(window && window.openpgp)) {
       initialize();
     }
 
