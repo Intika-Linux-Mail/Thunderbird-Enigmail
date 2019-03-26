@@ -7,6 +7,8 @@ DEPTH		= ..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = generated
+
 PREFFILES = prefs/defaultPrefs.js
 
 MODFILES = \
@@ -106,11 +108,28 @@ ENIG_BUILD_DATE=$(shell TZ=UTC date $(DATE_FMT) -d "@$(SOURCE_DATE_EPOCH)" 2>/de
                         TZ=UTC date -r "$(SOURCE_DATE_EPOCH)" $(DATE_FMT) || \
                         TZ=UTC date $(DATE_FMT) )
 
-all: deploy
+CREATE_GEN = $(shell mkdir -p $(GENDIR))
+GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
 
-deploy: $(PREFFILES) $(MODFILES)
+ifeq ($(ENABLE_POSTBOX),yes)
+TARGET_PGM = POSTBOX
+else
+TARGET_PGM = THUNDERBIRD
+endif
+
+
+$(GENDIR)/%.jsm: %.jsm
+	$(PYTHON) ../util/Preprocessor.py -D $(TARGET_PGM) -o $@ $< 
+
+all: build deploy
+
+build: $(GENFILES)
+
+deploy: $(PREFFILES) $(GENFILES)
 	$(DEPTH)/util/install -m 644 $(DIST)/modules/preferences $(PREFFILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/modules $(MODFILES)
+	$(DEPTH)/util/install -m 644 $(DIST)/modules $(GENFILES)
+	$(DEPTH)/util/install -m 644 $(DIST) bootstrap.js
+	$(PYTHON) ../util/Preprocessor.py -D $(TARGET_PGM) -o $(DIST)/install.rdf install.rdf
 	echo '"use strict";' > $(DIST)/modules/buildDate.jsm
 	echo 'var EXPORTED_SYMBOLS = ["EnigmailBuildDate"];' >> $(DIST)/modules/buildDate.jsm
 	echo 'const EnigmailBuildDate = "$(ENIG_BUILD_DATE)";' >> $(DIST)/modules/buildDate.jsm
@@ -119,4 +138,6 @@ deploy: $(PREFFILES) $(MODFILES)
 clean:
 	$(DEPTH)/util/install -u $(DIST)/modules/preferences $(PREFFILES)
 	$(DEPTH)/util/install -u $(DIST)/modules $(MODFILES)
+	$(DEPTH)/util/install -u $(DIST)/bootstrap.js
+	rm -rf $(GENDIR)
 

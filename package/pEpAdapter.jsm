@@ -139,11 +139,13 @@ var EnigmailPEPAdapter = {
    * @return: Boolean: true - pEp is available / false - pEp is not usable
    */
   usingPep: function() {
+#ifndef POSTBOX
     if (!this.getPepJuniorMode()) return false;
 
     if ((gPepVersion !== null) && gPepVersion.api.length > 0) {
       return true;
     }
+#endif
 
     return false;
   },
@@ -154,6 +156,7 @@ var EnigmailPEPAdapter = {
    * @return Object: nsIFile if found, null otherwise
    */
   getPepMiniDesktopAdapterBinaryFile: function() {
+#ifndef POSTBOX
     EnigmailLog.DEBUG("pEpAdapter: getPepMiniDesktopAdapterBinaryFile()\n");
     let execFile = EnigmailFiles.resolvePathWithEnv(PEP_SERVER_EXECUTABLE);
     if (!execFile || !execFile.exists() || !execFile.isExecutable()) {
@@ -167,6 +170,9 @@ var EnigmailPEPAdapter = {
       }
     }
     return execFile;
+#else
+    return null;
+#endif    
   },
 
   /**
@@ -177,6 +183,7 @@ var EnigmailPEPAdapter = {
    * @return Boolean - true if pEp is available / false otherwise
    */
   isPepAvailable: function(attemptInstall = true) {
+#ifndef POSTBOX
     if (gPepAvailable === null) {
       EnigmailLog.DEBUG("pEpAdapter: isPepAvailable()\n");
 
@@ -235,6 +242,9 @@ var EnigmailPEPAdapter = {
 
     EnigmailLog.DEBUG("pEpAdapter.jsm: isPepAvailable() = " + gPepAvailable + "\n");
     return gPepAvailable;
+#else
+    return false;
+#endif
   },
 
   /**
@@ -307,6 +317,7 @@ var EnigmailPEPAdapter = {
    */
   getPepJuniorMode: function() {
 
+#ifndef POSTBOX
     let mode = EnigmailPrefs.getPref("juniorMode");
     if (mode === 0) return false;
 
@@ -314,6 +325,7 @@ var EnigmailPEPAdapter = {
     if (mode === 2 || (!this.isAccountCryptEnabled())) {
       return this.isPepAvailable(true);
     }
+#endif
 
     return false;
   },
@@ -389,6 +401,7 @@ var EnigmailPEPAdapter = {
     let deferred = PromiseUtils.defer();
     let self = this;
 
+#ifndef POSTBOX
     EnigmailpEp.registerLogHandler(EnigmailLog.DEBUG);
 
     if (gJmObservers === null) {
@@ -518,6 +531,9 @@ var EnigmailPEPAdapter = {
     } catch (ex) {
       deferred.resolve();
     }
+#else
+      deferred.resolve();
+#endif    
 
     return deferred.promise;
   },

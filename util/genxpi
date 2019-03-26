@@ -28,8 +28,8 @@ cd "$distDir"
 targetDir=`pwd`
 cd "$cwd"
 
-cp ${srcDir}/package/install.rdf ${targetDir}/install.rdf
-cp ${srcDir}/package/bootstrap.js ${targetDir}/bootstrap.js
+#cp ${srcDir}/package/install.rdf ${targetDir}/install.rdf
+#cp ${srcDir}/package/bootstrap.js ${targetDir}/bootstrap.js
 
 # Prepare chrome.manifest
 cat  ${srcDir}/package/chrome.manifest \

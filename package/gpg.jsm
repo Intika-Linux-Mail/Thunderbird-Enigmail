@@ -29,7 +29,11 @@ Cu.import("resource://enigmail/lazy.jsm"); /*global EnigmailLazy: false */
 const getGpgAgent = EnigmailLazy.loader("enigmail/gpgAgent.jsm", "EnigmailGpgAgent");
 const getDialog = EnigmailLazy.loader("enigmail/dialog.jsm", "EnigmailDialog");
 
+#ifndef POSTBOX
 const MINIMUM_GPG_VERSION = "2.0.14";
+#else
+const MINIMUM_GPG_VERSION = "2.2.0";
+#endif
 const GPG_BATCH_OPT_LIST = ["--batch", "--no-tty", "--no-verbose", "--status-fd", "2"];
 
 function pushTrimmedStr(arr, str, splitStr) {

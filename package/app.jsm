@@ -20,6 +20,8 @@ const getEnigmailLog = EnigmailLazy.loader("enigmail/log.jsm", "EnigmailLog");
 const DIR_SERV_CONTRACTID = "@mozilla.org/file/directory_service;1";
 const ENIG_EXTENSION_GUID = "{847b3a00-7ab1-11d4-8f02-006008948af5}";
 const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
+const POSTBOX_ID = "postbox@postbox-inc.com";
+
 const XPCOM_APPINFO = "@mozilla.org/xre/app-info;1";
 
 var EnigmailApp = {
@@ -50,6 +52,11 @@ var EnigmailApp = {
   isSuite: function() {
     // return true if Seamonkey, false otherwise
     return Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).ID == SEAMONKEY_ID;
+  },
+
+  isPostbox: function() {
+    // return true if Postbox, false otherwise
+    return Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).ID == POSTBOX_ID;
   },
 
   /**

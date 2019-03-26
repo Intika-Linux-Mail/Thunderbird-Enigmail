@@ -11,6 +11,8 @@
 
     <!-- Target Applications this extension can install into,
          with minimum and maximum supported versions. -->
+
+#ifndef POSTBOX
     <em:targetApplication>
       <!-- Thunderbird -->
       <Description>
@@ -19,6 +21,16 @@
         <em:maxVersion>52.*</em:maxVersion>
       </Description>
     </em:targetApplication>
+#else
+    <em:targetApplication>
+      <!-- Postbox -->
+      <Description>
+        <em:id>postbox@postbox-inc.com</em:id>
+        <em:minVersion>6.1</em:minVersion>
+        <em:maxVersion>6.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+#endif
 
     <!-- Front End MetaData -->
     <em:name>Enigmail</em:name>

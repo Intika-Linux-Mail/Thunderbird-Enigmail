@@ -501,6 +501,7 @@ var EnigmailInstallPep = {
    */
 
   startInstaller: function(progressListener, manualInstall = false) {
+#ifndef POSTBOX    
     EnigmailLog.DEBUG("installPep.jsm: startInstaller()\n");
 
     if (!manualInstall) {
@@ -519,6 +520,9 @@ var EnigmailInstallPep = {
       i.cleanupOnOs();
     });
     return i;
+#else
+    return null;
+#endif
   },
 
   /**
@@ -532,6 +536,7 @@ var EnigmailInstallPep = {
   isPepInstallerAvailable: function(manualInstall = false) {
     EnigmailLog.DEBUG("installPep.jsm: isPepInstallerAvailable()\n");
 
+#ifndef POSTBOX
     if (!manualInstall) {
       // don't download anything if auto-download is disabled
       if (!EnigmailPrefs.getPref("pEpAutoDownload")) return false;
@@ -552,6 +557,9 @@ var EnigmailInstallPep = {
     inspector.enterNestedEventLoop(0);
 
     return (urlObj ? urlObj.url !== null && urlObj.url !== "" : false);
+#else
+    return false;
+#endif
   },
 
   /**
@@ -566,6 +574,7 @@ var EnigmailInstallPep = {
   isPepUpdateAvailable: function(manualInstall = false, currentPepVersion) {
     EnigmailLog.DEBUG("installPep.jsm: isPepUpdateAvailable()\n");
 
+#ifndef POSTBOX
     if (!manualInstall) {
       // don't download anything if auto-download is disabled
       if (!EnigmailPrefs.getPref("pEpAutoDownload")) return false;
@@ -593,6 +602,7 @@ var EnigmailInstallPep = {
       if (vc.compare(currentPepVersion, urlObj.pepVersion) < 0 &&
         vc.compare(urlObj.pepVersion, PEP_MAX_VERSION) < 0) return true;
     }
+#endif
 
     return false;
   }
