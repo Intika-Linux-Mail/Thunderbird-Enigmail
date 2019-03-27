@@ -84,13 +84,13 @@ const overlays = {
   ],
 
   "chrome://messenger/content/messengercompose/messengercompose.xul": [{
-    // Overlay for Thunderbird (and other non-SeaMonkey apps)
+    // Overlay for Thunderbird 
     url: "enigmailMsgComposeOverlay.xul",
-    application: "!{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+    application: "!postbox@postbox-inc.com"
   }, {
-    // Overlay for SeaMonkey
-    url: "enigmailMsgComposeOverlay-sm.xul",
-    application: "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+    // Overlay for Postbox
+    url: "enigmailMsgComposeOverlay-pbx.xul",
+    application: "postbox@postbox-inc.com"
   }],
 
   "chrome://messenger/content/FilterEditor.xul": ["enigmailFilterEditorOverlay.xul"],
