@@ -757,9 +757,9 @@
 <!ENTITY enigmail.setupWiz.pgImportSettings.title    "">
 <!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail giver mulighed for at overføre alle dens indstillinger, herunder din OpenPGP
 nøgler til en ny computer. Dette sker i to trin:
-<Html: ol>
-<html: li> Eksporter dine data fra din gamle computer ved hjælp af backupguiden fra Enigmail præferencerne</html:li>
-<html: li> Importer dataene til din nye computer ved hjælp af denne guiden.</html:li>
+<html:ol>
+<html:li> Eksporter dine data fra din gamle computer ved hjælp af backupguiden fra Enigmail præferencerne</html:li>
+<html:li> Importer dataene til din nye computer ved hjælp af denne guiden.</html:li>
 </html:ol>">
 <!ENTITY enigmail.setupWiz.pgImportSettings.fileName "">
 <!ENTITY enigmail.setupWiz.pgImportSettings.importing "">
