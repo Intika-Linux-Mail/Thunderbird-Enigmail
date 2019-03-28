@@ -1,17 +1,15 @@
 image: node:10-stretch
 
-build:
-  script:
+build_lint:
+  before_script:
     - apt update -y -qq
     - apt install zip -y -qq
+    - npm install -g eslint
     - ./configure
     - make
-
-lint:
-  before_script:
-    - npm install -g eslint
   script:
     - ./configure
+    - make
     - make eslint
 
 check:
