@@ -112,14 +112,14 @@ CREATE_GEN = $(shell mkdir -p $(GENDIR))
 GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
 
 ifeq ($(ENABLE_POSTBOX),yes)
-TARGET_PGM = POSTBOX
+INCLUDE = $(DEPTH)/include/postbox.h
 else
-TARGET_PGM = THUNDERBIRD
+INCLUDE = $(DEPTH)/include/thunderbird.h
 endif
 
 
 $(GENDIR)/%.jsm: %.jsm
-	$(PYTHON) ../util/Preprocessor.py -D $(TARGET_PGM) -o $@ $< 
+	$(PYTHON) ../util/Preprocessor.py -I $(INCLUDE) -o $@ $< 
 
 all: build deploy
 
@@ -129,7 +129,7 @@ deploy: $(PREFFILES) $(GENFILES)
 	$(DEPTH)/util/install -m 644 $(DIST)/modules/preferences $(PREFFILES)
 	$(DEPTH)/util/install -m 644 $(DIST)/modules $(GENFILES)
 	$(DEPTH)/util/install -m 644 $(DIST) bootstrap.js
-	$(PYTHON) ../util/Preprocessor.py -D $(TARGET_PGM) -o $(DIST)/install.rdf install.rdf
+	$(PYTHON) ../util/Preprocessor.py -I $(INCLUDE) -o $(DIST)/install.rdf install.rdf
 	echo '"use strict";' > $(DIST)/modules/buildDate.jsm
 	echo 'var EXPORTED_SYMBOLS = ["EnigmailBuildDate"];' >> $(DIST)/modules/buildDate.jsm
 	echo 'const EnigmailBuildDate = "$(ENIG_BUILD_DATE)";' >> $(DIST)/modules/buildDate.jsm

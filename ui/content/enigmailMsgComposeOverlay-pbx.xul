@@ -270,6 +270,7 @@
             id="enigmail-toolbar-text-button"
             label="&enigmail.composetoolbar.desc;"
             buttontype="thunderbird"
+            hidden="true"
             oncommand="Enigmail.msg.doPgpButton('displaySecuritySettings')">
       <label id="enigmail-toolbar-text" value="&enigmail.composetoolbar.desc;"/>
     </toolbarbutton>
@@ -280,7 +281,7 @@
             buttontype="thunderbird"
             tooltip="aTooltipSet"
             type="menu-button"
-            observes="enigmail-bc-pepEncrypt"
+            hidden="true"
             oncommand="Enigmail.msg.onPepEncryptButton()"
             label="&enigmail.pepEnableProtection.label;">
       <menupopup>
