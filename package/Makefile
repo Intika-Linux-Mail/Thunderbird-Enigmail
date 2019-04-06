@@ -114,7 +114,7 @@ GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
 ifeq ($(ENABLE_POSTBOX),yes)
 INCLUDE = $(DEPTH)/include/postbox.h
 else
-INCLUDE = $(DEPTH)/include/thunderbird.h
+INCLUDE = $(DEPTH)/include/tbird.h
 endif
 
 
