@@ -27,63 +27,6 @@
 
 
 
-/***************************************************
- *  Icons for compose toolbar: encryption
- ***************************************************/
-
-#button-enigmail-encrypt
-{
-  list-style-image : url("chrome://enigmail/skin/encrypt-inactive-18.svg");
-}
-
-#button-enigmail-encrypt[disabled] {
-  list-style-image : url("chrome://enigmail/skin/encrypt-disabled-18.svg");
-}
-
-#button-enigmail-encrypt[encrypted="activeNone"]
-{
-  list-style-image : url("chrome://enigmail/skin/encrypt-active-18.svg");
-}
-
-#button-enigmail-encrypt[encrypted="forceYes"]
-{
-  list-style-image : url("chrome://enigmail/skin/encrypt-active-18.svg");
-}
-
-#button-enigmail-encrypt[encrypted="forceNo"]
-{
-  list-style-image : url("chrome://enigmail/skin/encrypt-inactive-18.svg");
-}
-
-
-
-/***************************************************
- *  Icons for compose toolbar: signing
- ***************************************************/
-
-#button-enigmail-sign
-{
-  list-style-image : url("chrome://enigmail/skin/sign-inactive-18.svg");
-}
-
-#button-enigmail-sign[disabled] {
-  list-style-image : url("chrome://enigmail/skin/sign-disabled-18.svg");
-}
-
-#button-enigmail-sign[signed="activeNone"]
-{
-  list-style-image : url("chrome://enigmail/skin/sign-active-18.svg");
-}
-
-#button-enigmail-sign[signed="forceYes"]
-{
-  list-style-image : url("chrome://enigmail/skin/sign-active-18.svg");
-}
-
-#button-enigmail-sign[signed="forceNo"]
-{
-  list-style-image : url("chrome://enigmail/skin/sign-inactive-18.svg");
-}
 
 /***************************************************
  *  Icons for compose toolbar: attach own key

@@ -39,7 +39,11 @@
   </popup>
 
   <!-- Menu content for all apps -->
+#ifndef POSTBOX
   <menubar id="mail-menubar">
+#else
+  <menubar id="enigmailHdrWrapper">
+#endif
     <menu id="menu_Enigmail"
           label="&enigmail.label;"
           enigmaillabel="&enigmail.label;"

@@ -1938,7 +1938,7 @@ Enigmail.msg = {
         break;
       case EnigmailConstants.ENIG_FINAL_YES:
         doEncrypt = true;
-        encSymbol = "activeNone";
+        encSymbol = "forceYes";
         encStr = EnigmailLocale.getString("encryptMessageAuto");
         break;
       case EnigmailConstants.ENIG_FINAL_CONFLICT:
@@ -1994,7 +1994,7 @@ Enigmail.msg = {
         break;
       case EnigmailConstants.ENIG_FINAL_YES:
         doSign = true;
-        signSymbol = "activeNone";
+        signSymbol = "forceYes";
         signStr = EnigmailLocale.getString("signMessageAuto");
         signReasonStr = EnigmailLocale.getString("signOnWithReason", [this.reasonSigned]);
         break;
@@ -5203,14 +5203,17 @@ Enigmail.msg = {
   fireSendFlags: function() {
     try {
       EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.fireSendFlags\n");
-      if (!this.determineSendFlagId) {
-        let self = this;
+      let self = Enigmail.msg;
+
+      if (!self.determineSendFlagId) {
         this.determineSendFlagId = EnigmailTimer.setTimeout(
           function _sendFlagWrapper() {
             try {
               self.determineSendFlags();
               self.fireSearchKeys();
-            } catch (x) {}
+            } catch (x) {
+              EnigmailLog.writeException("enigmailMsgComposeOverlay.js: fireSendFlags", x);
+            }
             self.determineSendFlagId = null;
           },
           0);

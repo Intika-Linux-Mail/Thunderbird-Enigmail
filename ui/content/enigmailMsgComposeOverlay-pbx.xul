@@ -163,29 +163,43 @@
 
             <menupopup onpopupshowing="EnigmailFuncs.collapseAdvanced(this, 'hidden', Enigmail.msg.setMenuSettings(''))">
 
+              <menuitem id="enigmail_prefs"
+               label="&enigmail.preferences.label;"
+               accesskey="&enigmail.prefs.accesskey;"
+               oncommand="EnigmailWindows.openPrefWindow(window, true, null);" />
+
               <menuitem id="enigmail_accountSettings"
                 label="&enigmail.pgpAccountSettings.label;"
                 accesskey="&enigmail.pgpAccountSettings.accesskey;"
                 oncommand="Enigmail.msg.goAccountManager();" />
 
-              <menuitem id="enigmail_defaultSendOpts"
-                label="&enigmail.sendOptionsMenu.label;"
-                accesskey="&enigmail.sendOptionsMenu.accesskey;"
-                oncommand="EnigmailWindows.openPrefWindow(window, true, 'sendingTab');" />
-
-              <menuitem id="enigmail_defaultKeySelOpts"
-                label="&enigmail.defaultKeySelOpts.label;"
-                accesskey="&enigmail.defaultKeySelOpts.accesskey;"
-                advanced="true"
-                oncommand="EnigmailWindows.openPrefWindow(window, true, 'keySelTab');" />
-
             </menupopup>
           </menu>
 
-          <menuitem id="enigmail_help"
-              label="&enigmail.help.label;"
-              accesskey="&enigmail.help.accesskey;"
-              oncommand="EnigmailWindows.openHelpWindow('compose');" />
+          <menu id="enigmail_debugMenu"
+               label="&enigmail.debugMenu.label;"
+               advanced="true"
+               hidden="false"
+               accesskey="&enigmail.debugMenu.accesskey;">
+
+            <menupopup>
+              <menuitem id="enigmail_console"
+                   label="&enigmail.viewconsole.label;"
+                   accesskey="&enigmail.viewconsole.accesskey;"
+                   oncommand="EnigmailWindows.openConsoleWindow();" />
+
+              <menuitem id="enigmail_debug_log"
+                   label="&enigmail.viewlog.label;"
+                   accesskey="&enigmail.viewlog.accesskey;"
+                   oncommand="EnigmailWindows.openDebugLog(window);" />
+            </menupopup>
+          </menu>
+          
+          <menuitem id="enigmail_about"
+               label="&enigmail.about.label;"
+               accesskey="&enigmail.about.accesskey;"
+               enigmailtype="enigmail"
+               oncommand="EnigmailWindows.openAboutWindow();" />
 
         </menupopup>
       </menu>
@@ -263,16 +277,6 @@
             tooltip="aTooltipSet"
             observes="enigmail-bc-protectHdr"
             oncommand="Enigmail.msg.toggleProtectHeaders()">
-    </toolbarbutton>
-
-    <!-- status info button -->
-    <toolbarbutton class="toolbarbutton-1"
-            id="enigmail-toolbar-text-button"
-            label="&enigmail.composetoolbar.desc;"
-            buttontype="thunderbird"
-            hidden="true"
-            oncommand="Enigmail.msg.doPgpButton('displaySecuritySettings')">
-      <label id="enigmail-toolbar-text" value="&enigmail.composetoolbar.desc;"/>
     </toolbarbutton>
 
     <!-- encryption button for pEp -->

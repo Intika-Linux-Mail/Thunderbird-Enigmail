@@ -678,7 +678,7 @@ var EnigmailWindows = {
    */
   openMailTab: function(aURL, windowName) {
 
-    if (!EnigmailApp.isSuite()) {
+    if (!EnigmailApp.isPostbox()) {
       let tabs = EnigmailStdlib.getMail3Pane().document.getElementById("tabmail");
 
       for (let i = 0; i < tabs.tabInfo.length; i++) {

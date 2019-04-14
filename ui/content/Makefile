@@ -6,6 +6,12 @@ DEPTH  = ../..
 
 include $(DEPTH)/config/autoconf.mk
 
+ifeq ($(ENABLE_POSTBOX),yes)
+INCLUDE = $(DEPTH)/include/postbox.h
+else
+INCLUDE = $(DEPTH)/include/tbird.h
+endif
+
 UIFILES = \
 	autocryptInitiateBackup.xul \
 	autocryptInitiateBackup.js \
@@ -131,4 +137,4 @@ UIFILES = \
 all: deploy
 
 deploy: $(UIFILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content $(UIFILES)
+	$(DEPTH)/util/preprocess-wrapper $(PYTHON) $(INCLUDE) $(DIST)/chrome/content $(UIFILES)

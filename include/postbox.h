@@ -1,1 +1,1 @@
-#define POSTBOX 1
+#define POSTBOX

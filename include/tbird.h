@@ -1,1 +1,1 @@
-#define THUNDERBIRD 1
+#define THUNDERBIRD
