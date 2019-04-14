@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ $# -lt 4 ]; then
+  echo "Usage: $0 pythonExec includefile outputdir inputfiles"
+  exit 1
+fi
+
+PREPROC=$(dirname $0)/Preprocessor.py
+PY="$1"
+INC="$2"
+OUTDIR="$3"
+
+shift 3
+
+mkdir -p "$OUTDIR"
+
+while [ $# -gt 0 ]; do
+  OF=$(basename $1)
+  $PY $PREPROC -I $INC -o "$OUTDIR/$OF" "$1"
+  shift
+done
+

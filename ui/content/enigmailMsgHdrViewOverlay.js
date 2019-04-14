@@ -37,6 +37,7 @@ Components.utils.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: 
 Components.utils.import("resource://enigmail/msgRead.jsm"); /*global EnigmailMsgRead: false */
 Components.utils.import("resource://enigmail/singletons.jsm"); /*global EnigmailSingletons: false */
 Components.utils.import("resource://enigmail/autocrypt.jsm"); /*global EnigmailAutocrypt: false */
+Components.utils.import("resource://enigmail/app.jsm"); /*global EnigmailApp: false */
 
 if (!Enigmail) var Enigmail = {};
 
@@ -47,14 +48,6 @@ Enigmail.hdrView = {
   lastEncryptedMsgKey: null,
   lastEncryptedUri: null,
   pEpStatus: null,
-
-  dummyBox: {
-    setAttribute: function() {},
-    removeAttribute: function() {},
-    getAttribute: function() {
-      return "";
-    }
-  },
 
   hdrViewLoad: function() {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: this.hdrViewLoad\n");
@@ -622,6 +615,22 @@ Enigmail.hdrView = {
       this.displayExtendedStatus(false);
     }
 
+    if (EnigmailApp.isPostbox()) {
+      let doc = document.getElementById("messagepane").contentDocument;
+      let sigNodes = doc.getElementsByClassName("hdr-signed-button");
+      if (sigNodes && sigNodes.length > 0) {
+        var gSignedUINode = sigNodes[0];
+      }
+
+      let encNodes = doc.getElementsByClassName("hdr-encrypted-button");
+      if (encNodes && encNodes.length > 0) {
+        var gEncryptedUINode = encNodes[0];
+      }
+
+      var gSMIMEContainer = document.getElementById("expandedEnigmailStatusText");
+    }
+
+    /* eslint block-scoped-var: 0*/
     if (typeof(gSMIMEContainer) !== "object")
       return;
     if (!gSMIMEContainer)
@@ -690,6 +699,8 @@ Enigmail.hdrView = {
       EnigmailLog.writeException("displayStatusBar", ex);
     }
   },
+
+  /* eslint block-scoped-var: 1*/
 
   dispSecurityContext: function() {
 

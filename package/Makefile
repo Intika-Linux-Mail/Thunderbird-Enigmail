@@ -119,7 +119,7 @@ endif
 
 
 $(GENDIR)/%.jsm: %.jsm
-	$(PYTHON) ../util/Preprocessor.py -I $(INCLUDE) -o $@ $< 
+	$(PYTHON) $(DEPTH)/util/Preprocessor.py -I $(INCLUDE) -o $@ $< 
 
 all: build deploy
 

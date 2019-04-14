@@ -29,7 +29,7 @@ const SECONDS_TO_WAIT_FOR_CONNECTION = -1;
 function createCheckTorURIChannel() {
   EnigmailLog.DEBUG("socks5proxy.jsm: createCheckTorURIChannel()\n");
   const ioservice = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
-  return ioservice.newChannel2(CHECK_TOR_URI, "UTF-8", null, null, null, null, null, null);
+  return ioservice.newChannel(CHECK_TOR_URI, "UTF-8", null, null, null, null, null, null);
 }
 
 function protocolProxyService() {
