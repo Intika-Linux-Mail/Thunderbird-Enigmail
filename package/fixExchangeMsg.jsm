@@ -18,6 +18,7 @@ Cu.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
 Cu.import("resource://enigmail/funcs.jsm"); /*global EnigmailFuncs: false */
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
+Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 
 const EC = EnigmailCore;
 
@@ -82,11 +83,10 @@ var EnigmailFixExchangeMsg = {
 
     return new Promise(
       function(resolve, reject) {
-        let u = {};
-        self.msgSvc.GetUrlForUri(self.hdr.folder.getUriForMsg(self.hdr), u, null);
+        let u = EnigmailPbxCompat.getUrlFromUriSpec(self.hdr.folder.getUriForMsg(self.hdr));
 
-        let op = (u.value.spec.indexOf("?") > 0 ? "&" : "?");
-        let url = u.value.spec; // + op + 'part=' + part+"&header=enigmailConvert";
+        let op = (u.spec.indexOf("?") > 0 ? "&" : "?");
+        let url = u.spec; // + op + 'part=' + part+"&header=enigmailConvert";
 
         EnigmailLog.DEBUG("fixExchangeMsg.jsm: getting data from URL " + url + "\n");
 

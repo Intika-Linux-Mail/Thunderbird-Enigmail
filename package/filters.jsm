@@ -28,6 +28,7 @@ Cu.import("resource://enigmail/data.jsm"); /* global EnigmailData: false */
 Cu.import("resource:///modules/jsmime.jsm"); /*global jsmime: false*/
 Cu.import("resource://gre/modules/NetUtil.jsm"); /*global NetUtil: false*/
 Cu.import("resource://enigmail/mime.jsm"); /* global EnigmailMime: false */
+Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 
 
 const getDialog = EnigmailLazy.loader("enigmail/dialog.jsm", "EnigmailDialog");
@@ -481,13 +482,14 @@ function getRequireMessageProcessing(aMsgHdr) {
 
   EnigmailLog.DEBUG("filters.jsm: getRequireMessageProcessing: author: " + aMsgHdr.author + "\n");
 
-  let messenger = Cc["@mozilla.org/messenger;1"].getService(Ci.nsIMessenger);
-  let msgSvc = messenger.messageServiceFromURI(aMsgHdr.folder.getUriForMsg(aMsgHdr));
-  let u = {};
-  msgSvc.GetUrlForUri(aMsgHdr.folder.getUriForMsg(aMsgHdr), u, null);
+  let u = EnigmailPbxCompat.getUrlFromUriSpec(aMsgHdr.folder.getUriForMsg(aMsgHdr));
 
-  let op = (u.value.spec.indexOf("?") > 0 ? "&" : "?");
-  let url = u.value.spec + op + "header=enigmailFilter";
+  if (! u) {
+    return null;
+  }
+  
+  let op = (u.spec.indexOf("?") > 0 ? "&" : "?");
+  let url = u.spec + op + "header=enigmailFilter";
 
   return {
     url: url,

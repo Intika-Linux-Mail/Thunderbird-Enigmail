@@ -33,6 +33,7 @@ Cu.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: fals
 Cu.import("resource:///modules/jsmime.jsm"); /*global jsmime: false*/
 Cu.import("resource://enigmail/stdlib.jsm"); /*global EnigmailStdlib: false*/
 Cu.import("resource://enigmail/encryption.jsm"); /*global EnigmailEncryption: false*/
+Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 Cu.import("resource://gre/modules/NetUtil.jsm"); /*global NetUtil: false*/
 
 /*global MimeBody: false, MimeUnknown: false, MimeMessageAttachment: false */
@@ -748,13 +749,10 @@ CryptMessageIntoFolder.prototype = {
       function(resolve, reject) {
         var m = Cc["@mozilla.org/messenger/mimeheaders;1"].createInstance(Ci.nsIMimeHeaders);
 
-        var messenger = Cc["@mozilla.org/messenger;1"].getService(Ci.nsIMessenger);
-        let msgSvc = messenger.messageServiceFromURI(self.hdr.folder.getUriForMsg(self.hdr));
-        let u = {};
-        msgSvc.GetUrlForUri(self.hdr.folder.getUriForMsg(self.hdr), u, null);
+        let u = EnigmailPbxCompat.getUrlFromUriSpec(self.hdr.folder.getUriForMsg(self.hdr));
 
-        let op = (u.value.spec.indexOf("?") > 0 ? "&" : "?");
-        let url = u.value.spec + op + 'part=' + part + "&header=enigmailConvert";
+        let op = (u.spec.indexOf("?") > 0 ? "&" : "?");
+        let url = u.spec + op + 'part=' + part + "&header=enigmailConvert";
 
         EnigmailLog.DEBUG("persistentCrypto.jsm: getting data from URL " + url + "\n");
 

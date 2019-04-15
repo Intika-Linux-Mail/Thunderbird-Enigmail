@@ -68,6 +68,7 @@ MODFILES = \
            overlays.jsm \
            passwordCheck.jsm \
            passwords.jsm \
+           pbxCompat.jsm \
            pEp.jsm \
            pEpAdapter.jsm \
            pEpDecrypt.jsm \

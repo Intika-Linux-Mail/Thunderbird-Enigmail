@@ -21,6 +21,7 @@ const Cu = Components.utils;
 Cu.import("resource://enigmail/prefs.jsm"); /*global EnigmailPrefs: false */
 Cu.import("resource://enigmail/app.jsm"); /*global EnigmailApp: false */
 Cu.import("resource://enigmail/versioning.jsm"); /*global EnigmailVersioning: false */
+Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 
 const ExtraHeaders = ["autocrypt", "openpgp"];
 
@@ -80,29 +81,7 @@ var EnigmailMsgRead = {
    * @return Object: nsIURL or nsIMsgMailNewsUrl object
    */
   getUrlFromUriSpec: function(uriSpec) {
-    try {
-      if (!uriSpec)
-        return null;
-
-      let messenger = Cc["@mozilla.org/messenger;1"].getService(Ci.nsIMessenger);
-      let msgService = messenger.messageServiceFromURI(uriSpec);
-
-      let urlObj = {};
-      msgService.GetUrlForUri(uriSpec, urlObj, null);
-
-      let url = urlObj.value;
-
-      if (url.scheme == "file") {
-        return url;
-      }
-      else {
-        return url.QueryInterface(Ci.nsIMsgMailNewsUrl);
-      }
-
-    }
-    catch (ex) {
-      return null;
-    }
+    return EnigmailPbxCompat.getUrlFromUriSpec(uriSpec);
   },
 
   /**

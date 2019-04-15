@@ -116,6 +116,7 @@ zip -9 --must-match\
     modules/overlays.jsm \
     modules/passwordCheck.jsm \
     modules/passwords.jsm \
+    modules/pbxCompat.jsm \
     modules/pEp.jsm \
     modules/pEpAdapter.jsm \
     modules/pEpDecrypt.jsm \

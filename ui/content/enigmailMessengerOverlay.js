@@ -842,7 +842,7 @@ Enigmail.msg = {
     if (bodyElement.firstChild) {
       let node = bodyElement.firstChild;
       while (node) {
-        if (node.nodeName == "DIV") {
+        if (node.nodeName.toUpperCase() === "DIV") {
           foundIndex = node.textContent.indexOf(findStr);
 
           if (foundIndex >= 0) {

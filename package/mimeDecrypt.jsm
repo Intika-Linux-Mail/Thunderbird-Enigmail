@@ -29,6 +29,7 @@ Cu.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: false */
 Cu.import("resource://enigmail/uris.jsm"); /*global EnigmailURIs: false */
 Cu.import("resource://enigmail/constants.jsm"); /*global EnigmailConstants: false */
 Cu.import("resource://enigmail/singletons.jsm"); /*global EnigmailSingletons: false */
+Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 
 const APPSHELL_MEDIATOR_CONTRACTID = "@mozilla.org/appshell/window-mediator;1";
 const PGPMIME_JS_DECRYPTOR_CONTRACTID = "@mozilla.org/mime/pgp-mime-js-decrypt;1";
@@ -379,9 +380,7 @@ MimeDecryptHandler.prototype = {
           let manUrl = {};
 
           if (EnigmailVerify.getManualUri()) {
-            let msgSvc = messenger.messageServiceFromURI(EnigmailVerify.getManualUri());
-
-            msgSvc.GetUrlForUri(EnigmailVerify.getManualUri(), manUrl, null);
+            manUrl.value = EnigmailPbxCompat.getUrlFromUriSpec(EnigmailVerify.getManualUri());
           }
           else {
             manUrl.value = {
@@ -401,9 +400,7 @@ MimeDecryptHandler.prototype = {
         }
 
         if (this.msgUriSpec) {
-          let msgSvc = messenger.messageServiceFromURI(this.msgUriSpec);
-
-          msgSvc.GetUrlForUri(this.msgUriSpec, url, null);
+          url.value = EnigmailPbxCompat.getUrlFromUriSpec(this.msgUriSpec);
         }
 
         if (this.uri.spec.search(/[&?]header=[^&]+/) > 0 &&

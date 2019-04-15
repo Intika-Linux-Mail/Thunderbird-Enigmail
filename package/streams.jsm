@@ -18,6 +18,7 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm"); /*global XPCOMUtils: false *
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 Cu.import("resource://enigmail/timer.jsm"); /*global EnigmailTimer: false */
 Cu.import("resource://gre/modules/Services.jsm"); /* global Services: false */
+Cu.import("resource://gre/modules/NetUtil.jsm"); /* global NetUtil: false */
 
 const NS_STRING_INPUT_STREAM_CONTRACTID = "@mozilla.org/io/string-input-stream;1";
 const NS_INPUT_STREAM_CHNL_CONTRACTID = "@mozilla.org/network/input-stream-channel;1";
@@ -33,19 +34,11 @@ var EnigmailStreams = {
    * @return: channel
    */
   createChannel: function(url) {
-    let ioServ = Cc[IOSERVICE_CONTRACTID].getService(Ci.nsIIOService);
-
-    let channel;
-    if ("newChannel2" in ioServ) {
-      // TB >= 48
-      let loadingPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
-      channel = ioServ.newChannel2(url, null, null, null, loadingPrincipal, null, 0, Ci.nsIContentPolicy.TYPE_DOCUMENT);
-    }
-    else {
-      channel = ioServ.newChannel(url, null, null);
-    }
-
-    return channel;
+    let c = NetUtil.newChannel({
+      uri: url,
+      loadUsingSystemPrincipal: true
+    });
+    return c;
   },
 
   /**
@@ -56,18 +49,7 @@ var EnigmailStreams = {
    * @return: channel
    */
   createChannelFromURI: function(uri) {
-    let ioServ = Cc[IOSERVICE_CONTRACTID].getService(Ci.nsIIOService);
-
-    let channel;
-    if ("newChannelFromURI2" in ioServ) {
-      // TB >= 48
-      let loadingPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
-      channel = ioServ.newChannelFromURI2(uri, null, loadingPrincipal, null, 0, Ci.nsIContentPolicy.TYPE_DOCUMENT);
-    }
-    else {
-      channel = ioServ.newChannelFromURI(uri);
-    }
-    return channel;
+    return this.createChannel(uri);
   },
   /**
    * create an nsIStreamListener object to read String data from an nsIInputStream
