@@ -806,11 +806,26 @@ Enigmail.msg = {
 
       // inline-PGP messages
       if (!isAuto || EnigmailPrefs.getPref("autoDecrypt")) {
-        this.messageParse(event, false, contentEncoding, msgUriSpec);
+        if (!EnigmailApp.isPostbox()) {
+          this.messageParse(event, false, contentEncoding, msgUriSpec);
+        } else {
+          for (let i = 0; i < this.getPostboxNumContainers(); i++) {
+            this.messageParse(event, false, contentEncoding, msgUriSpec, i);
+          }
+        }
       }
     } catch (ex) {
       EnigmailLog.writeException("enigmailMessengerOverlay.js: messageDecryptCb", ex);
     }
+  },
+
+  getPostboxNumContainers: function() {
+    if (EnigmailApp.isPostbox()) {
+      let contentDocument = document.getElementById('messagepane').contentDocument;
+      let messageContainers = contentDocument.getElementsByClassName('message-container');
+      return messageContainers.length;
+    } else
+      return -1;
   },
 
   // display header about reparing buggy MS-Exchange messages
@@ -826,10 +841,10 @@ Enigmail.msg = {
     Enigmail.hdrView.headerPane.updateSecurityStatus("", 0, 0, "", "", "", "", "", uri, "", "1");
   },
 
-  messageParse: function(interactive, importOnly, contentEncoding, msgUriSpec) {
+  messageParse: function(interactive, importOnly, contentEncoding, msgUriSpec, pbMessageIndex = '0') {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: messageParse: " + interactive + "\n");
 
-    var bodyElement = this.getBodyElement();
+    var bodyElement = this.getBodyElement(pbMessageIndex);
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: bodyElement=" + bodyElement + "\n");
 
     if (!bodyElement) return;
@@ -961,19 +976,28 @@ Enigmail.msg = {
 
     Enigmail.msg.messageParseCallback(msgText, contentEncoding, charset, interactive,
       importOnly, urlSpec, "", retry, head, tail,
-      msgUriSpec);
+      msgUriSpec, pbMessageIndex);
   },
 
-  getBodyElement: function() {
-    let msgFrame = EnigmailWindows.getFrame(window, "messagepane");
-    let bodyElement = msgFrame.document.getElementsByTagName("body")[0];
+  getBodyElement: function(pbMessageIndex) {
+    let bodyElement = null;
+    if (!EnigmailApp.isPostbox()) {
+      // TB
+      let msgFrame = EnigmailWindows.getFrame(window, "messagepane");
+      bodyElement = msgFrame.document.getElementsByTagName("body")[0];
+    } else {
+      // Postbox
+      let messagePaneDocument = document.getElementById('messagepane').contentDocument;
+      let iframe = messagePaneDocument.getElementById('flyingpigs' + pbMessageIndex);
+      bodyElement = iframe.contentDocument.getElementsByTagName("body")[0];
+    }
     return bodyElement;
   },
 
 
   messageParseCallback: function(msgText, contentEncoding, charset, interactive,
     importOnly, messageUrl, signature, retry,
-    head, tail, msgUriSpec) {
+    head, tail, msgUriSpec, pbMessageIndex) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: messageParseCallback: " + interactive + ", " + interactive + ", importOnly=" + importOnly + ", charset=" + charset + ", msgUrl=" +
       messageUrl +
       ", retry=" + retry + ", signature='" + signature + "'\n");
@@ -1114,7 +1138,7 @@ Enigmail.msg = {
         Enigmail.msg.messageParseCallback(msgText, contentEncoding, charset,
           interactive, importOnly, messageUrl,
           signature, retry + 1,
-          head, tail, msgUriSpec);
+          head, tail, msgUriSpec, pbMessageIndex);
         return;
       } else if (retry == 2) {
         // Try to verify signature by accessing raw message text directly
@@ -1128,7 +1152,7 @@ Enigmail.msg = {
         msgText = EnigmailData.convertToUnicode(msgText, "UTF-8");
         Enigmail.msg.messageParseCallback(msgText, contentEncoding, charset, interactive,
           importOnly, messageUrl, null, retry + 1,
-          head, tail, msgUriSpec);
+          head, tail, msgUriSpec, pbMessageIndex);
         return;
       }
     }
@@ -1234,7 +1258,7 @@ Enigmail.msg = {
 
     Enigmail.msg.noShowReload = true;
     var node;
-    var bodyElement = Enigmail.msg.getBodyElement();
+    var bodyElement = Enigmail.msg.getBodyElement(pbMessageIndex);
 
     if (bodyElement.firstChild) {
       node = bodyElement.firstChild;
@@ -1371,7 +1395,7 @@ Enigmail.msg = {
   movePEPsubject: function() {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: movePEPsubject:\n");
 
-    let bodyElement = this.getBodyElement();
+    let bodyElement = this.getBodyElement('0');
 
     if (bodyElement.textContent.search(/^\r?\n?Subject: [^\r\n]+\r?\n\r?\n/i) === 0 &&
       ("subject" in currentHeaderData) &&
