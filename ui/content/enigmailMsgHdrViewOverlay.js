@@ -73,6 +73,12 @@ Enigmail.hdrView = {
       encryptedHdrElement.setAttribute("onclick", "Enigmail.msg.viewSecurityInfo(event, true);");
     }
 
+    if (EnigmailApp.isPostbox()) {
+      document.getElementById("messagepane").addEventListener('click', Enigmail.hdrView.EnigmailPbSmimeMessagePaneOnClick,
+        true);
+      /* global pbSmimeMessagePaneOnClick: false */
+      document.getElementById("messagepane").removeEventListener('click', pbSmimeMessagePaneOnClick, true);
+    }
     this.statusBar = document.getElementById("enigmail-status-bar");
     this.enigmailBox = document.getElementById("enigmailBox");
     this.pEpBox = document.getElementById("enigmail-pEp-bc");
@@ -86,6 +92,15 @@ Enigmail.hdrView = {
     if (attCtx) {
       attCtx.addEventListener("popupshowing", this.onShowAttachmentContextMenu.bind(Enigmail.hdrView), false);
     }
+  },
+
+  EnigmailPbSmimeMessagePaneOnClick: function(event) {
+    let targetClassName = event.originalTarget.className;
+    if (/hdr-signed-button/.test(targetClassName) || /hdr-encrypted-button/.test(targetClassName)) {
+      Enigmail.msg.viewSecurityInfo(event, true);
+      event.preventDefault();
+    }
+
   },
 
   displayAddressPopup: function(event) {

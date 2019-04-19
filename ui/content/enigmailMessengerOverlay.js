@@ -237,7 +237,36 @@ Enigmail.msg = {
 
   viewOpenpgpInfo: function() {
     if (Enigmail.msg.securityInfo) {
-      EnigmailDialog.info(window, EnigmailLocale.getString("securityInfo") + Enigmail.msg.securityInfo.statusInfo);
+      let op2Label = null;
+      let dlgOp2 = 0;
+
+      if (EnigmailApp.isPostbox()) {
+        if (document.getElementById("enigmail_importKey").getAttribute("hidden") !== "true") {
+          op2Label = EnigmailLocale.getString("detailsDlg.importKey");
+          dlgOp2 = 1;
+        } else if (this.securityInfo.keyId) {
+          op2Label = EnigmailLocale.getString("expiry.OpenKeyProperties");
+          dlgOp2 = 2;
+        }
+      }
+
+      let args = {
+        msgtext: EnigmailLocale.getString("securityInfo") + Enigmail.msg.securityInfo.statusInfo,
+        dialogTitle: EnigmailLocale.getString("securityInfo"),
+        iconType: 1,
+        button2: op2Label
+      };
+      let r = EnigmailDialog.msgBox(window, args);
+      if (r === 1) {
+        switch (dlgOp2) {
+          case 1:
+            Enigmail.msg.handleUnknownKey();
+            break;
+          case 2:
+            Enigmail.hdrView.dispKeyDetails();
+            break;
+        }
+      }
     }
   },
 
@@ -1893,6 +1922,14 @@ Enigmail.msg = {
         let att = attList.getItemAtIndex(i);
         att.addEventListener("click", clickFunc, true);
       }
+    }
+
+    if (EnigmailApp.isPostbox()) {
+      let ctx = document.getElementById("attachmentItemContext");
+      let m = document.createElement("menuitem");
+      m.setAttribute("label", "Test");
+      m.setAttribute("oncommand", "Enigmail.msg.handleAttachmentSel('importKey');");
+      ctx.appendChild(m);
     }
   },
 

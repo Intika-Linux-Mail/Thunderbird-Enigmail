@@ -57,11 +57,11 @@ const overlays = {
   // main mail reading window
   "chrome://messenger/content/messenger.xul": [
     "columnOverlay.xul", {
-      // Overlay for Thunderbird (and other non-SeaMonkey apps)
+      // Overlay for Thunderbird
       url: "messengerOverlay-tbird.xul",
       application: "!postbox@postbox-inc.com"
     }, {
-      // Overlay for SeaMonkey
+      // Overlay for Postbox
       url: "messengerOverlay-pbx.xul",
       application: "postbox@postbox-inc.com"
     },
@@ -71,13 +71,13 @@ const overlays = {
 
   // single message reader window
   "chrome://messenger/content/messageWindow.xul": [{
-      // Overlay for Thunderbird (and other non-SeaMonkey apps)
+      // Overlay for Thunderbird
       url: "messengerOverlay-tbird.xul",
-      application: "!{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+      application: "!postbox@postbox-inc.com"
     }, {
-      // Overlay for SeaMonkey
-      url: "messengerOverlay-sm.xul",
-      application: "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+      // Overlay for Postbox
+      url: "messengerOverlay-pbx.xul",
+      application: "postbox@postbox-inc.com"
     },
     "enigmailMessengerOverlay.xul",
     "enigmailMsgHdrViewOverlay.xul"
