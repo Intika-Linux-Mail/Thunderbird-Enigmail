@@ -356,8 +356,13 @@
   </vbox>
 
 
+#ifndef POSTBOX
   <!-- Thunderbird -->
   <popup id="attachmentItemContext" onpopupshowing="return Enigmail.hdrView.onShowAttachmentContextMenu();">
+#else
+  <!-- Postbox -->
+  <popup id="msgPaneAttachmentContextMenu">
+#endif
     <menuseparator/>
     <menuitem id="enigmail_ctxImportKey"
       label="&enigmail.ctxImportKey.label;"

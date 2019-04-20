@@ -74,7 +74,7 @@ Enigmail.hdrView = {
     }
 
     if (EnigmailApp.isPostbox()) {
-      document.getElementById("messagepane").addEventListener('click', Enigmail.hdrView.EnigmailPbSmimeMessagePaneOnClick,
+      document.getElementById("messagepane").addEventListener('click', Enigmail.hdrView.postboxSmimeMessagePaneOnClick,
         true);
       /* global pbSmimeMessagePaneOnClick: false */
       document.getElementById("messagepane").removeEventListener('click', pbSmimeMessagePaneOnClick, true);
@@ -88,19 +88,27 @@ Enigmail.hdrView = {
       addrPopup.addEventListener("popupshowing", Enigmail.hdrView.displayAddressPopup.bind(addrPopup), false);
     }
 
+    // Thunderbird
     let attCtx = document.getElementById("attachmentItemContext");
     if (attCtx) {
       attCtx.addEventListener("popupshowing", this.onShowAttachmentContextMenu.bind(Enigmail.hdrView), false);
     }
+
+    // Postbox
+    attCtx = document.getElementById("msgPaneAttachmentContextMenu");
+    if (attCtx) {
+      attCtx.addEventListener("popupshowing", function _f(event) {
+        Enigmail.hdrView.onShowAttachmentContextMenu(event);
+      }, false);
+    }
   },
 
-  EnigmailPbSmimeMessagePaneOnClick: function(event) {
+  postboxSmimeMessagePaneOnClick: function(event) {
     let targetClassName = event.originalTarget.className;
     if (/hdr-signed-button/.test(targetClassName) || /hdr-encrypted-button/.test(targetClassName)) {
       Enigmail.msg.viewSecurityInfo(event, true);
       event.preventDefault();
     }
-
   },
 
   displayAddressPopup: function(event) {
@@ -967,17 +975,19 @@ Enigmail.hdrView = {
     }
   },
 
-  onShowAttachmentContextMenu: function() {
+  onShowAttachmentContextMenu: function(event) {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: this.onShowAttachmentContextMenu\n");
 
-    // Thunderbird
-    var contextMenu = document.getElementById('attachmentItemContext');
-    var selectedAttachments = contextMenu.attachments;
-
-    if (!contextMenu) {
-      // SeaMonkey
-      contextMenu = document.getElementById('attachmentListContext');
-      selectedAttachments = attachmentList.selectedItems;
+    let contextMenu, selectedAttachments;
+    if (EnigmailApp.isPostbox()) {
+      // Postbox
+      /* global gatherSelectedAttachmentsForMessage: false */
+      selectedAttachments = gatherSelectedAttachmentsForMessage(event.target.target);
+      contextMenu = event.target;
+    } else {
+      // Thunderbird
+      contextMenu = document.getElementById('attachmentItemContext');
+      selectedAttachments = contextMenu.attachments;
     }
 
     var decryptOpenMenu = document.getElementById('enigmail_ctxDecryptOpen');

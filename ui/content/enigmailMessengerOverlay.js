@@ -1923,34 +1923,28 @@ Enigmail.msg = {
         att.addEventListener("click", clickFunc, true);
       }
     }
-
-    if (EnigmailApp.isPostbox()) {
-      let ctx = document.getElementById("attachmentItemContext");
-      let m = document.createElement("menuitem");
-      m.setAttribute("label", "Test");
-      m.setAttribute("oncommand", "Enigmail.msg.handleAttachmentSel('importKey');");
-      ctx.appendChild(m);
-    }
   },
 
   // handle a selected attachment (decrypt & open or save)
   handleAttachmentSel: function(actionType) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: handleAttachmentSel: actionType=" + actionType + "\n");
-    var selectedAttachments;
-    var anAttachment;
+    let selectedAttachments, anAttachment, contextMenu;
 
-    // Thunderbird
-    var contextMenu = document.getElementById('attachmentItemContext');
-
-    if (contextMenu) {
-      // Thunderbird
-      selectedAttachments = contextMenu.attachments;
+    if (EnigmailApp.isPostbox()) {
+      // Postbox
+      contextMenu = document.getElementById('msgPaneAttachmentContextMenu');
+      /* global gatherSelectedAttachmentsForMessage: false */
+      selectedAttachments = gatherSelectedAttachmentsForMessage(contextMenu.target);
       anAttachment = selectedAttachments[0];
     } else {
-      // SeaMonkey
-      contextMenu = document.getElementById('attachmentListContext');
-      selectedAttachments = document.getElementById('attachmentList').selectedItems;
-      anAttachment = selectedAttachments[0].attachment;
+      // Thunderbird
+      contextMenu = document.getElementById('attachmentItemContext');
+
+      if (contextMenu) {
+        // Thunderbird
+        selectedAttachments = contextMenu.attachments;
+        anAttachment = selectedAttachments[0];
+      }
     }
 
     switch (actionType) {
