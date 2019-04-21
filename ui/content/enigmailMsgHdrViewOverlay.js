@@ -493,18 +493,24 @@ Enigmail.hdrView = {
       EnigmailWks.getWksClientPathAsync(window, function _res(wksClientPath) {
         if (!wksClientPath) return;
 
-        view.setStatusText(EnigmailLocale.getString("wksConfirmationReq"));
-        view.enigmailBox.removeAttribute("collapsed");
-        let confirm = document.getElementById("enigmail_confirmKey");
-        confirm.setAttribute("label", EnigmailLocale.getString("wksConfirmationReq.button.label"));
-        confirm.removeAttribute("hidden");
-        document.getElementById("enigmail_importKey").setAttribute("hidden", "true");
-        view.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
-        if (!Enigmail.msg.securityInfo) {
-          Enigmail.msg.securityInfo = {};
+        if (!EnigmailApp.isPostbox()) {
+          view.setStatusText(EnigmailLocale.getString("wksConfirmationReq"));
+          view.enigmailBox.removeAttribute("collapsed");
+          let confirm = document.getElementById("enigmail_confirmKey");
+          confirm.setAttribute("label", EnigmailLocale.getString("wksConfirmationReq.button.label"));
+          confirm.removeAttribute("hidden");
+          document.getElementById("enigmail_importKey").setAttribute("hidden", "true");
+          view.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
+          if (!Enigmail.msg.securityInfo) {
+            Enigmail.msg.securityInfo = {};
+          }
+          Enigmail.msg.securityInfo.xtraStatus = "wks-request";
+          Enigmail.hdrView.displayWksMessage();
+        } else {
+          Enigmail.hdrView.displayPostboxStatusBar(EnigmailLocale.getString("wksConfirmationReq"),
+            EnigmailLocale.getString("wksConfirmationReq.button.label"),
+            "wks-request");
         }
-        Enigmail.msg.securityInfo.xtraStatus = "wks-request";
-        Enigmail.hdrView.displayWksMessage();
       });
     } else {
       EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: checkWksConfirmRequest failed condition\n");
@@ -565,36 +571,44 @@ Enigmail.hdrView = {
     }
     Enigmail.msg.securityInfo.xtraStatus = "autocrypt-setup";
 
-    let view = Enigmail.hdrView;
+    if (!EnigmailApp.isPostbox()) {
+      let view = Enigmail.hdrView;
 
-    view.setStatusText(EnigmailLocale.getString("autocryptSetupReq"));
-    view.enigmailBox.removeAttribute("collapsed");
-    let confirm = document.getElementById("enigmail_confirmKey");
-    confirm.setAttribute("label", EnigmailLocale.getString("autocryptSetupReq.button.label"));
-    confirm.removeAttribute("hidden");
+      view.setStatusText(EnigmailLocale.getString("autocryptSetupReq"));
+      view.enigmailBox.removeAttribute("collapsed");
+      let confirm = document.getElementById("enigmail_confirmKey");
+      confirm.setAttribute("label", EnigmailLocale.getString("autocryptSetupReq.button.label"));
+      confirm.removeAttribute("hidden");
 
-    document.getElementById("enigmail_importKey").setAttribute("hidden", "true");
-    view.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
-    this.displayAutocryptMessage(true);
+      document.getElementById("enigmail_importKey").setAttribute("hidden", "true");
+      view.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
+
+      this.displayAutocryptMessage(true);
+    } else {
+      this.displayPostboxStatusBar(EnigmailLocale.getString("autocryptSetupReq"), EnigmailLocale.getString("autocryptSetupReq.button.label"),
+        "autocrypt-setup");
+    }
   },
 
   displayAutocryptMessage: function(allowImport) {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: displayAutocryptMessage()\n");
 
-    let enigMsgPane = document.getElementById("enigmailMsgDisplay");
-    let bodyElement = document.getElementById("messagepane");
-    bodyElement.setAttribute("collapsed", true);
+    if (!EnigmailApp.isPostbox()) {
+      let enigMsgPane = document.getElementById("enigmailMsgDisplay");
+      let bodyElement = document.getElementById("messagepane");
+      bodyElement.setAttribute("collapsed", true);
 
-    let txt = EnigmailLocale.getString("autocryptSetupReq.setupMsg.desc") + "\n\n";
-    if (allowImport) {
-      txt += EnigmailLocale.getString("autocryptSetupReq.message.import");
-    } else {
-      txt += EnigmailLocale.getString("autocryptSetupReq.message.sent");
+      let txt = EnigmailLocale.getString("autocryptSetupReq.setupMsg.desc") + "\n\n";
+      if (allowImport) {
+        txt += EnigmailLocale.getString("autocryptSetupReq.message.import");
+      } else {
+        txt += EnigmailLocale.getString("autocryptSetupReq.message.sent");
+      }
+      txt += "\n\n" + EnigmailLocale.getString("autocryptSetupReq.setupMsg.backup");
+
+      enigMsgPane.textContent = txt;
+      enigMsgPane.removeAttribute("collapsed");
     }
-    txt += "\n\n" + EnigmailLocale.getString("autocryptSetupReq.setupMsg.backup");
-
-    enigMsgPane.textContent = txt;
-    enigMsgPane.removeAttribute("collapsed");
 
   },
 
@@ -1127,6 +1141,33 @@ Enigmail.hdrView = {
     }
   },
 
+  displayPostboxStatusBar: function(description, actionLabel, actionType) {
+    /* global pbGetMessageContainerForHdr: false */
+    let messageContainer = pbGetMessageContainerForHdr(null);
+
+    let doc = document.getElementById("messagepane").contentDocument;
+    let div = doc.createElement('div');
+    div.className = 'junkcontentbox';
+    div.setAttribute('value', description);
+    div.setAttribute('label', actionLabel);
+    div.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (event.originalTarget.className === "load-remote-button") {
+        switch (actionType) {
+          case "autocrypt-setup":
+          case "wks-request":
+            Enigmail.msg.confirmKeyRequest();
+            break;
+          case "keyImp":
+            Enigmail.msg.handleUnknownKey();
+            break;
+        }
+      }
+    }, true);
+    let insertionNode = messageContainer.getElementsByClassName('message-progress-container')[0];
+    div = insertionNode.parentNode.insertBefore(div, insertionNode);
+  },
+
   displayPepStatus: function(rating, keyIDs, uri, persons) {
 
     if (typeof(keyIDs) === "string") {
@@ -1551,38 +1592,6 @@ Enigmail.hdrView = {
       if ("date" in hdr) {
         msg.date = Date.parse(hdr.date) * 1000;
       }
-
-      /*
-            Temporarily disabled.  This may be abused.
-
-            if ("newsgroups" in hdr) {
-              updateHdrBox("newsgroups", hdr.newsgroups);
-            }
-
-            if ("followup-to" in hdr) {
-              updateHdrBox("followup-to", hdr["followup-to"]);
-            }
-
-            if ("from" in hdr) {
-              gExpandedHeaderView.from.outputFunction(gExpandedHeaderView.from, hdr.from);
-              msg.setStringProperty("Enigmail-From", hdr.from);
-            }
-
-            if ("to" in hdr) {
-              gExpandedHeaderView.to.outputFunction(gExpandedHeaderView.to, hdr.to);
-              msg.setStringProperty("Enigmail-To", hdr.to);
-            }
-
-            if ("cc" in hdr) {
-              gExpandedHeaderView.cc.outputFunction(gExpandedHeaderView.cc, hdr.cc);
-              msg.setStringProperty("Enigmail-Cc", hdr.cc);
-            }
-
-            if ("reply-to" in hdr) {
-              gExpandedHeaderView["reply-to"].outputFunction(gExpandedHeaderView["reply-to"], hdr["reply-to"]);
-              msg.setStringProperty("Enigmail-ReplyTo", hdr["reply-to"]);
-            }
-      */
     },
 
     handleSMimeMessage: function(uri) {
