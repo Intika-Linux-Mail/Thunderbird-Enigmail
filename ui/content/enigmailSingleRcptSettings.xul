@@ -128,7 +128,11 @@
               </menulist>
             </hbox>
           </row>
+#ifndef POSTBOX          
           <row>
+#else
+          <row collapsed="true">
+#endif
             <hbox align="center">
               <label value="&enigmail.pgpMime.label;" control="pgpmime"/>
             </hbox>

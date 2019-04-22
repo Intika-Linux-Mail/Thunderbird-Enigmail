@@ -94,14 +94,6 @@
                 name="enigmailPgpProtocol"
                 oncommand="Enigmail.msg.setFinalSendMode('final-pgpmimeYes');"/>
 
-          <menuitem id="enigmail_compose_inline_item"
-                accesskey="&enigmail.useInline.accesskey;"
-                label="&enigmail.useInline.label;"
-                name="enigmailPgpProtocol"
-                checked="false"
-                type="radio"
-                oncommand="Enigmail.msg.setFinalSendMode('final-pgpmimeNo');"/>
-
           <menuitem id="enigmail_compose_smime_item"
                 accesskey="&enigmail.useSmime.accesskey;"
                 label="&enigmail.useSmime.label;"

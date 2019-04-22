@@ -71,6 +71,7 @@
               <checkbox id="enigmail_pgpMimeMode"
                         checked="false"
                         observes="enigmail_bcEnablePgp"
+                        collapsed="true"
                         label="&enigmail.usePGPMimeAlways.label;"/>
 
               <separator/>
@@ -82,7 +83,7 @@
                           observes="enigmail_bcEnablePgp"
                           label="&enigmail.finallySignNotEncrypted.label;"/>
                 <checkbox id="enigmail_sign_encrypted"
-                          checked="false"
+                          checked="true"
                           observes="enigmail_bcEnablePgp"
                           label="&enigmail.finallySignEncrypted.label;"/>
               </hbox>

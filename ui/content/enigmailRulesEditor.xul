@@ -51,8 +51,13 @@
             <treecol style="width:70px" id="encrypt" flex="0" label="&enigmail.encrypt.label;" persist="width"/>
             <splitter class="tree-splitter"/>
             <treecol style="width:70px" id="sign" flex="0" label="&enigmail.sign.label;" persist="width"/>
+#ifndef POSTBOX
             <splitter class="tree-splitter"/>
             <treecol style="width:70px" id="pgpMime" flex="0" label="&enigmail.pgpMime.label;" persist="width"/>
+#else
+            <splitter class="tree-splitter" hidden="true"/>
+            <treecol style="width:70px" id="pgpMime" flex="0" label="&enigmail.pgpMime.label;" hidden="true"/>
+#endif
           </treecols>
           <treechildren id="rulesTreeChildren" properties=""/>
         </tree>
