@@ -1161,6 +1161,9 @@ Enigmail.hdrView = {
           case "keyImp":
             Enigmail.msg.handleUnknownKey();
             break;
+          case "repairMessage":
+            Enigmail.msg.fixBuggyExchangeMail();
+            break;
         }
       }
     }, true);
@@ -1537,6 +1540,13 @@ Enigmail.hdrView = {
         // display header for broken MS-Exchange message
         let ebeb = document.getElementById("enigmailBrokenExchangeBox");
         ebeb.removeAttribute("collapsed");
+
+        if (EnigmailApp.isPostbox()) {
+          let btn = document.getElementById("enigmailFixBrokenMessageButton");
+          Enigmail.hdrView.displayPostboxStatusBar(
+            EnigmailLocale.getString("brokenExchangeMessage"), btn.label,
+            "repairMessage");
+        }
       }
 
       return;

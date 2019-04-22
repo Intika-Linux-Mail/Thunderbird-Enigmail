@@ -17,6 +17,7 @@ Cu.import("resource:///modules/MailUtils.js"); /*global MailUtils: false */
 Cu.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
 Cu.import("resource://enigmail/funcs.jsm"); /*global EnigmailFuncs: false */
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
+Cu.import("resource://enigmail/app.jsm"); /*global EnigmailApp: false */
 Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
 Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 
@@ -133,8 +134,7 @@ var EnigmailFixExchangeMsg = {
             if (body) {
               resolve(hdrObj.headers + "\r\n" + body);
               return;
-            }
-            else {
+            } else {
               reject(2);
               return;
             }
@@ -145,8 +145,7 @@ var EnigmailFixExchangeMsg = {
         try {
           let channel = EnigmailStreams.createChannel(url);
           channel.asyncOpen(s, null);
-        }
-        catch (e) {
+        } catch (e) {
           EnigmailLog.DEBUG("fixExchangeMsg.jsm: getMessageBody: exception " + e + "\n");
         }
       }
@@ -179,8 +178,7 @@ var EnigmailFixExchangeMsg = {
           if (hdrLines[i].search(/^[ \t]+?/) === 0) {
             contentTypeLine += hdrLines[i];
             i++;
-          }
-          else {
+          } else {
             // we got the complete content-type header
             contentTypeLine = contentTypeLine.replace(/[\r\n]/g, "");
             let h = EnigmailFuncs.getHeaderData(contentTypeLine);
@@ -188,8 +186,7 @@ var EnigmailFixExchangeMsg = {
             break;
           }
         }
-      }
-      else {
+      } else {
         r.headers += hdrLines[i] + "\r\n";
       }
     }
@@ -371,7 +368,11 @@ var EnigmailFixExchangeMsg = {
     };
 
     let copySvc = Cc["@mozilla.org/messenger/messagecopyservice;1"].getService(Ci.nsIMsgCopyService);
-    copySvc.CopyFileMessage(fileSpec, this.destFolder, null, false, this.hdr.flags, null, copyListener, null);
+    if (!EnigmailApp.isPostbox()) {
+      copySvc.CopyFileMessage(fileSpec, this.destFolder, null, false, this.hdr.flags, null, copyListener, null);
+    } else {
+      copySvc.CopyFileMessage(fileSpec, this.destFolder, this.hdr.flags, null, copyListener, null);
+    }
 
   }
 };
