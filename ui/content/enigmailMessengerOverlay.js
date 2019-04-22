@@ -1018,7 +1018,9 @@ Enigmail.msg = {
       // Postbox
       let messagePaneDocument = document.getElementById('messagepane').contentDocument;
       let iframe = messagePaneDocument.getElementById('flyingpigs' + pbMessageIndex);
-      bodyElement = iframe.contentDocument.getElementsByTagName("body")[0];
+      if (iframe) {
+        bodyElement = iframe.contentDocument.getElementsByTagName("body")[0];
+      } else return null;
     }
     return bodyElement;
   },
@@ -1288,6 +1290,9 @@ Enigmail.msg = {
     Enigmail.msg.noShowReload = true;
     var node;
     var bodyElement = Enigmail.msg.getBodyElement(pbMessageIndex);
+    if (!bodyElement) {
+      return;
+    }
 
     if (bodyElement.firstChild) {
       node = bodyElement.firstChild;
@@ -1425,6 +1430,7 @@ Enigmail.msg = {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: movePEPsubject:\n");
 
     let bodyElement = this.getBodyElement('0');
+    if (!bodyElement) return;
 
     if (bodyElement.textContent.search(/^\r?\n?Subject: [^\r\n]+\r?\n\r?\n/i) === 0 &&
       ("subject" in currentHeaderData) &&
