@@ -112,6 +112,7 @@ var EnigmailPersistentCrypto = {
     promise.then(processNext);
 
     promise.catch(function(err) {
+      EnigmailLog.DEBUG(`persistentCrypto.jsm: got error ${err}\n`);
       processNext(null);
     });
   },
@@ -139,7 +140,7 @@ var EnigmailPersistentCrypto = {
 
         try {
           msgHdrToMimeMessage(hdr, crypt, crypt.messageParseCallback, true, {
-            examineEncryptedParts: false,
+            examineEncryptedParts: true,
             partsOnDemand: false
           });
         }
@@ -338,8 +339,6 @@ CryptMessageIntoFolder.prototype = {
           var fileSpec = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
           fileSpec.initWithPath(tempFile.path);
 
-          const copySvc = Cc["@mozilla.org/messenger/messagecopyservice;1"].getService(Ci.nsIMsgCopyService);
-
           var copyListener = {
             QueryInterface: function(iid) {
               if (iid.equals(Ci.nsIMsgCopyServiceListener) || iid.equals(Ci.nsISupports)) {
@@ -405,8 +404,8 @@ CryptMessageIntoFolder.prototype = {
           }
           catch (ex) {}
 
-          copySvc.CopyFileMessage(fileSpec, MailUtils.getFolderForURI(self.destFolder, false), self.hdr,
-            false, 0, "", copyListener, null);
+          EnigmailPbxCompat.copyFileToMailFolder(fileSpec, MailUtils.getFolderForURI(self.destFolder, false), self.hdr,
+            null, copyListener, null);
         }
       ).catch(
         function catchErr(errorMsg) {

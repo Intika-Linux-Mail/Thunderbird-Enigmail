@@ -56,5 +56,26 @@ var EnigmailPbxCompat = {
     } catch (ex) {
       return null;
     }
+  },
+
+  /**
+   * Copy a file to a mail folder.
+   *   in nsIFile aFile,
+   *   in nsIMsgFolder dstFolder,
+   *   in unsigned long aMsgFlags,
+   *   in ACString aMsgKeywords,
+   *   in nsIMsgCopyServiceListener listener,
+   *   in nsIMsgWindow msgWindow 
+   */
+  copyFileToMailFolder: function(file, destFolder, msgFlags, msgKeywords, listener, msgWindow) {
+    let copySvc = Cc["@mozilla.org/messenger/messagecopyservice;1"].getService(Ci.nsIMsgCopyService);
+
+#ifdef POSTBOX
+    // Postbox
+    return copySvc.CopyFileMessage(file, destFolder, msgFlags, msgKeywords, listener, msgWindow);
+#else
+    // TB
+    return copySvc.CopyFileMessage(file, destFolder, null, false, msgFlags, msgKeywords, listener, msgWindow);
+#endif
   }
 };

@@ -17,7 +17,6 @@ Cu.import("resource:///modules/MailUtils.js"); /*global MailUtils: false */
 Cu.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
 Cu.import("resource://enigmail/funcs.jsm"); /*global EnigmailFuncs: false */
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
-Cu.import("resource://enigmail/app.jsm"); /*global EnigmailApp: false */
 Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
 Cu.import("resource://enigmail/pbxCompat.jsm"); /*global EnigmailPbxCompat: false */
 
@@ -348,7 +347,7 @@ var EnigmailFixExchangeMsg = {
       OnStopCopy: function(statusCode) {
         if (statusCode !== 0) {
           EnigmailLog.DEBUG("fixExchangeMsg.jsm: error copying message: " + statusCode + "\n");
-          tempFile.remove(false);
+          removeFileFailsafe(tempFile);
           self.reject(3);
           return;
         }
@@ -361,18 +360,20 @@ var EnigmailFixExchangeMsg = {
         self.hdr.folder.deleteMessages(msgArray, null, true, false, null, false);
         EnigmailLog.DEBUG("fixExchangeMsg.jsm: deleted original message\n");
 
-        tempFile.remove(false);
+        removeFileFailsafe(tempFile);
         self.resolve(this.msgKey);
         return;
       }
     };
 
-    let copySvc = Cc["@mozilla.org/messenger/messagecopyservice;1"].getService(Ci.nsIMsgCopyService);
-    if (!EnigmailApp.isPostbox()) {
-      copySvc.CopyFileMessage(fileSpec, this.destFolder, null, false, this.hdr.flags, null, copyListener, null);
-    } else {
-      copySvc.CopyFileMessage(fileSpec, this.destFolder, this.hdr.flags, null, copyListener, null);
-    }
-
+    EnigmailPbxCompat.copyFileToMailFolder(fileSpec, this.destFolder, this.hdr.flags, null, copyListener, null);
   }
 };
+
+function removeFileFailsafe(file) {
+  try {
+    file.remove(false);
+  } catch (ex) {
+    EnigmailLog.DEBUG("fixExchangeMsg.jsm: removeFileFailsafe: " + ex.toString() + "\n");
+  }
+}

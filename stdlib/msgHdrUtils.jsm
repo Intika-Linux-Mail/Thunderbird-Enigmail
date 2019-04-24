@@ -50,6 +50,7 @@ Cu.import("resource:///modules/mailServices.js");
 
 Cu.import("resource://enigmail/stdlib/misc.jsm");
 Cu.import("resource://enigmail/log.jsm");
+Cu.import("resource://enigmail/pbxCompat.jsm"); /* global EnigmailPbxCompat */
 
 // Adding a messenger lazy getter to the MailServices even though it's not a service
 XPCOMUtils.defineLazyGetter(MailServices, "messenger", function() {
@@ -427,13 +428,12 @@ function msgHdrsModifyRaw(aMsgHdrs, aTransformer) {
       msgHdr, tempFile
     } = obj;
 
-    MailServices.copy.CopyFileMessage(
+    EnigmailPbxCompat.copyFileToMailFolder(
       tempFile,
       msgHdr.folder,
-      null,
-      false,
       msgHdr.flags,
-      msgHdr.getStringProperty("keywords"), {
+      msgHdr.getStringProperty("keywords"), 
+      {
         QueryInterface: XPCOMUtils.generateQI([Ci.nsIMsgCopyServiceListener]),
 
         OnStartCopy: function() {},

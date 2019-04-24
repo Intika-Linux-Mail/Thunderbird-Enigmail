@@ -1147,7 +1147,7 @@ Enigmail.hdrView = {
 
     let doc = document.getElementById("messagepane").contentDocument;
     let div = doc.createElement('div');
-    div.className = 'junkcontentbox';
+    div.className = 'securitycontentbox';
     div.setAttribute('value', description);
     div.setAttribute('label', actionLabel);
     div.addEventListener("click", (event) => {
