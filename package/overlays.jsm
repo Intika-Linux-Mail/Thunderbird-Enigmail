@@ -103,7 +103,10 @@ const overlays = {
   "chrome://enigmail/content/editSingleAccount.xul": ["enigmailEditIdentity.xul"],
   //
   // // Overlay for privacy preferences in Thunderbird
-  "chrome://messenger/content/preferences/preferences.xul": ["enigmailPrivacyOverlay.xul"],
+  "chrome://messenger/content/preferences/preferences.xul": [{
+    url: "enigmailPrivacyOverlay.xul",
+    application: "!postbox@postbox-inc.com"
+  }],
 
   //
   // Overlay for Customize Toolbar (Windows, Linux)
@@ -231,12 +234,10 @@ var EnigmailOverlays = {
             domWindow.removeEventListener("load", loadUi, false);
             loadUiForWindow(domWindow);
           }, false);
-        }
-        else {
+        } else {
           loadUiForWindow(domWindow);
         }
-      }
-      catch (ex) {
+      } catch (ex) {
         DEBUG_LOG("overlays.jsm: startup: error " + ex.message + "\n");
       }
     }
@@ -376,8 +377,7 @@ function insertXul(srcUrl, window, document, callback) {
         for (let i = index + 1; i < currentset.length; i++) {
           if (currentset[i].search(/^(separator|spacer|spring)$/) < 0) {
             before = $(currentset[i]);
-          }
-          else {
+          } else {
             before = getToolbarElem(toolbar, currentset, i);
           }
           if (before) break;
@@ -449,14 +449,12 @@ function insertXul(srcUrl, window, document, callback) {
 
         if (xul[i].hasAttribute("id")) {
           target = $(xul[i].id);
-        }
-        else if (xul[i].hasAttribute("overlay_target")) {
+        } else if (xul[i].hasAttribute("overlay_target")) {
           target = $$(xul[i].getAttribute("overlay_target"));
           if (target && !target.hasAttribute("id")) {
             target.id = MY_ADDON_ID + "_overlay_" + i;
           }
-        }
-        else {
+        } else {
           target = rootNode;
         }
 
@@ -490,8 +488,7 @@ function insertXul(srcUrl, window, document, callback) {
               addToolbarButton(palette, c[0], toolbarId);
             }
           }
-        }
-        else if (!target) {
+        } else if (!target) {
           DEBUG_LOG("overlays.jsm: injectDOM: no target for " + xul[i].tagName + ", not inserting\n");
           continue;
         }
@@ -504,8 +501,7 @@ function insertXul(srcUrl, window, document, callback) {
           let nn = addNode(target, n);
         }
       }
-    }
-    catch (ex) {
+    } catch (ex) {
       ERROR_LOG("overlays.jsm: injectDOM: failed to inject xul " + ex.message + "\n");
     }
   }
@@ -587,8 +583,7 @@ function insertXul(srcUrl, window, document, callback) {
   let sec = Cc['@mozilla.org/scriptsecuritymanager;1'].getService(Ci.nsIScriptSecurityManager);
   try {
     xmlReq.channel.owner = sec.getSystemPrincipal();
-  }
-  catch (ex) {
+  } catch (ex) {
     ERROR_LOG("Failed to set system principal\n");
   }
 
@@ -628,8 +623,7 @@ function loadOverlays(window, overlayDefsArr) {
                 loadOverlay(window, overlayDefs, index + 1);
                 return;
               }
-            }
-            else if (overlayDef.application.indexOf(getAppId()) < 0) {
+            } else if (overlayDef.application.indexOf(getAppId()) < 0) {
               DEBUG_LOG("overlays.jsm: loadOverlay: skipping " + url + "\n");
               loadOverlay(window, overlayDefs, index + 1);
               return;
@@ -641,8 +635,7 @@ function loadOverlays(window, overlayDefsArr) {
           };
 
           insertXul(url, window, document, observer);
-        }
-        else {
+        } else {
           DEBUG_LOG("overlays.jsm: loadOverlay: completed\n");
 
           let e = new Event("load-" + MY_ADDON_ID);
@@ -651,8 +644,7 @@ function loadOverlays(window, overlayDefsArr) {
 
           resolve(index);
         }
-      }
-      catch (ex) {
+      } catch (ex) {
         ERROR_LOG("overlays.jsm: could not overlay for " + window.document.location.href + ":\n" + ex.message + "\n");
         reject(index);
       }
@@ -686,8 +678,7 @@ function loadCss(url, targetWindow) {
       node = node.nextSibling;
     }
     if (node) node.appendChild(e);
-  }
-  catch (ex) {
+  } catch (ex) {
     ERROR_LOG("Error while loading CSS " + url + ":\n" + ex.message + "\n");
   }
 }
@@ -697,8 +688,7 @@ function loadScript(url, targetWindow) {
 
   try {
     loader.loadSubScript(url, targetWindow);
-  }
-  catch (ex) {
+  } catch (ex) {
     ERROR_LOG("Error while loading script " + url + ":\n" + ex.message + "\n");
   }
 }
