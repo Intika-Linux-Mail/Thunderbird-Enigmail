@@ -2435,7 +2435,9 @@ Enigmail.msg = {
         this.confirmWksRequest();
         break;
       case "autocrypt-setup":
-        this.performAutocryptSetup();
+        EnigmailTimer.setTimeout(() => {
+          Enigmail.msg.performAutocryptSetup();
+        }, 200);
         break;
     }
   },
