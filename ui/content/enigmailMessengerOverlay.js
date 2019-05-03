@@ -886,6 +886,13 @@ Enigmail.msg = {
     if (bodyElement.firstChild) {
       let node = bodyElement.firstChild;
       while (node) {
+        if (node.firstChild &&
+          node.firstChild.nodeName.toUpperCase() == "LEGEND" &&
+          node.firstChild.className == "mimeAttachmentHeaderName") {
+          // we reached the area where inline attachments are displayed
+          // --> don't try to decrypt displayed inline attachments
+          break;
+        }
         if (node.nodeName.toUpperCase() === "DIV") {
           foundIndex = node.textContent.indexOf(findStr);
 
@@ -1300,18 +1307,12 @@ Enigmail.msg = {
       var findStr = "-----BEGIN PGP";
 
       while (node) {
-        if (node.nodeName == "DIV") {
-          foundIndex = node.textContent.indexOf(findStr);
-
-          if (foundIndex >= 0) {
-            if (node.textContent.indexOf(findStr + " LICENSE AUTHORIZATION") == foundIndex)
-              foundIndex = -1;
-          }
-          if (foundIndex >= 0) {
-            node.innerHTML = EnigmailFuncs.formatPlaintextMsg(EnigmailData.convertToUnicode(messageContent, charset));
-            Enigmail.msg.movePEPsubject();
-            return;
-          }
+        if (node.nodeName.toUpperCase() == "DIV") {
+          // for safety reasons, we replace the complete visible message with 
+          // the decrypted or signed part (bug 983)
+          node.innerHTML = EnigmailFuncs.formatPlaintextMsg(EnigmailData.convertToUnicode(messageContent, charset));
+          Enigmail.msg.movePEPsubject();
+          return;
         }
         node = node.nextSibling;
       }
@@ -1321,17 +1322,9 @@ Enigmail.msg = {
       foundIndex = -1;
       while (node) {
         if (node.nodeName == "PRE") {
-          foundIndex = node.textContent.indexOf(findStr);
-
-          if (foundIndex >= 0) {
-            if (node.textContent.indexOf(findStr + " LICENSE AUTHORIZATION") == foundIndex)
-              foundIndex = -1;
-          }
-          if (foundIndex >= 0) {
-            node.innerHTML = EnigmailFuncs.formatPlaintextMsg(EnigmailData.convertToUnicode(messageContent, charset));
-            Enigmail.msg.movePEPsubject();
-            return;
-          }
+          node.innerHTML = EnigmailFuncs.formatPlaintextMsg(EnigmailData.convertToUnicode(messageContent, charset));
+          Enigmail.msg.movePEPsubject();
+          return;
         }
         node = node.nextSibling;
       }
