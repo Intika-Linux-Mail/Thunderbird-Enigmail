@@ -151,7 +151,7 @@ var EnigmailWkdLookup = {
    * @return URL
    */
 
-  getDownloadUrlFromEmail: async function(email) {
+  getDownloadUrlFromEmail: function(email) {
     email = email.toLowerCase().trim();
 
     let at = email.indexOf("@");
