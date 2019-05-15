@@ -24,6 +24,7 @@ let {
   EnigmailLocale
 } = Cu.import("resource://enigmail/locale.jsm");
 
+const EnigmailApp = Cu.import("resource://enigmail/app.jsm").EnigmailApp;
 /**
  * filter action for creating a decrypted version of the mail and
  * deleting the original mail at the same time
@@ -151,20 +152,24 @@ function addFilterIfNotExists(filterObj) {
 
 var EnigmailFiltersWrapper = {
   onStartup: function() {
-    let {
-      EnigmailFilters
-    } = Cu.import("resource://enigmail/filters.jsm");
-    gEnigmailFilters = EnigmailFilters;
+    if (!EnigmailApp.isPostbox()) {
+      let {
+        EnigmailFilters
+      } = Cu.import("resource://enigmail/filters.jsm");
+      gEnigmailFilters = EnigmailFilters;
 
-    addFilterIfNotExists(filterActionMoveDecrypt);
-    addFilterIfNotExists(filterActionCopyDecrypt);
-    addFilterIfNotExists(filterActionEncrypt);
+      addFilterIfNotExists(filterActionMoveDecrypt);
+      addFilterIfNotExists(filterActionCopyDecrypt);
+      addFilterIfNotExists(filterActionEncrypt);
 
-    gEnigmailFilters.onStartup();
+      gEnigmailFilters.onStartup();
+    }
   },
 
   onShutdown: function() {
-    gEnigmailFilters.onShutdown();
-    gEnigmailFilters = null;
+    if (gEnigmailFilters) {
+      gEnigmailFilters.onShutdown();
+      gEnigmailFilters = null;
+    }
   }
 };

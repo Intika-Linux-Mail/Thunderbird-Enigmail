@@ -36,6 +36,7 @@ check:
 eslint:
 	static_analysis/eslint ipc
 	static_analysis/eslint package/generated
+	static_analysis/eslint package/tests
 	static_analysis/eslint ui
 
 unit:

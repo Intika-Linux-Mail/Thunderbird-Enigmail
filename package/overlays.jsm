@@ -93,8 +93,9 @@ const overlays = {
     application: "postbox@postbox-inc.com"
   }],
 
-  "chrome://messenger/content/FilterEditor.xul": ["enigmailFilterEditorOverlay.xul"],
-  "chrome://messenger/content/FilterListDialog.xul": ["enigmailFilterListOverlay.xul"],
+  //"chrome://messenger/content/FilterEditor.xul": ["enigmailFilterEditorOverlay.xul"],
+  //"chrome://messenger/content/FilterListDialog.xul": ["enigmailFilterListOverlay.xul"],
+  
   "chrome://messenger/content/am-identity-edit.xul": [
     "enigmailAmIdEditOverlay.xul",
     "enigmailEditIdentity.xul"
