@@ -137,7 +137,8 @@ var EnigmailKey = {
    *          - id (key ID)
    *          - fpr
    *          - name (the UID of the key)
-   *          - state (one of "old" [existing key], "new" [new key], "invalid" [key cannot not be imported])
+   *          - isSecret (boolean)
+   *          - revoke? (boolean, true if contains a revocation cert, undefined is the same as false)
    */
   getKeyListFromKeyBlock: function(keyBlockStr, errorMsgObj, interactive = true) {
     EnigmailLog.DEBUG("key.jsm: getKeyListFromKeyBlock()\n");
