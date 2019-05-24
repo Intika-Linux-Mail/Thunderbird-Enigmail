@@ -274,7 +274,7 @@ function getGpgKeyData(armorKeyString) {
 
   EnigmailLog.DEBUG("key.jsm: getGpgKeyData()\n");
   let command = EnigmailGpg.agentPath;
-  let args = EnigmailGpg.getStandardArgs(false).concat(["--no-tty", "--batch", "--no-verbose", "--dry-run", "--with-fingerprint", "--with-colons", "--import-options", "import-show", "--dry-run", "--import"]);
+  let args = EnigmailGpg.getStandardArgs(false).concat(["--no-tty", "--batch", "--no-verbose", "--with-fingerprint", "--with-colons", "--import-options", "import-show", "--dry-run", "--import"]);
 
   let statusFlagsObj = {};
   let statusMsgObj = {};
