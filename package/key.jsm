@@ -137,7 +137,8 @@ var EnigmailKey = {
    *          - id (key ID)
    *          - fpr
    *          - name (the UID of the key)
-   *          - state (one of "old" [existing key], "new" [new key], "invalid" [key cannot not be imported])
+   *          - isSecret (boolean)
+   *          - revoke? (boolean, true if contains a revocation cert, undefined is the same as false)
    */
   getKeyListFromKeyBlock: function(keyBlockStr, errorMsgObj, interactive = true) {
     EnigmailLog.DEBUG("key.jsm: getKeyListFromKeyBlock()\n");
@@ -273,7 +274,7 @@ function getGpgKeyData(armorKeyString) {
 
   EnigmailLog.DEBUG("key.jsm: getGpgKeyData()\n");
   let command = EnigmailGpg.agentPath;
-  let args = EnigmailGpg.getStandardArgs(false).concat(["--no-tty", "--batch", "--no-verbose", "--dry-run", "--with-fingerprint", "--with-colons", "--import-options", "show-only", "--import"]);
+  let args = EnigmailGpg.getStandardArgs(false).concat(["--no-tty", "--batch", "--no-verbose", "--dry-run", "--with-fingerprint", "--with-colons", "--import-options", "import-show", "--dry-run", "--import"]);
 
   let statusFlagsObj = {};
   let statusMsgObj = {};
