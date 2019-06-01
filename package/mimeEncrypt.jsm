@@ -293,21 +293,9 @@ PgpMimeEncrypt.prototype = {
       }
     };
 
-    // visible headers list
-    let vH = [
-      'from',
-      'to',
-      'subject',
-      'cc'
-    ];
-
     for (let i in h) {
       if (this.msgCompFields[i] && this.msgCompFields[i].length > 0) {
         allHdr += jsmime.headeremitter.emitStructuredHeader(h[i].field, h[i].parser(this.msgCompFields[i]), {});
-      }
-
-      if (vH.indexOf(i) >= 0 && this.msgCompFields[i].length > 0) {
-        visibleHdr += jsmime.headeremitter.emitStructuredHeader(h[i].field, h[i].parser(this.msgCompFields[i]), {});
       }
     }
 
@@ -332,7 +320,7 @@ PgpMimeEncrypt.prototype = {
       allHdr + '\r\n' +
       "--" + this.encHeader + "\r\n";
 
-    if (this.cryptoMode == MIME_ENCRYPTED && this.enigmailFlags.sendFlags & EnigmailConstants.ENCRYPT_HEADERS) {
+    if (this.cryptoMode == MIME_ENCRYPTED && this.enigmailFlags.sendFlags & EnigmailConstants.ENCRYPT_HEADERS && visibleHdr) {
       w += 'Content-Type: text/rfc822-headers; protected-headers="v1"\r\n' +
         'Content-Disposition: inline\r\n\r\n' +
         visibleHdr +
