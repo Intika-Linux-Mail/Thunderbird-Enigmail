@@ -194,7 +194,8 @@
 <!ENTITY enigmail.undoencryption.label         "Undo Encryption">
 <!ENTITY enigmail.attachkey.label              "Attach Public Key ...">
 <!ENTITY enigmail.attachmykey.label            "Attach My Public Key">
-<!ENTITY enigmail.protectHeaders.label         "Protect Subject">
+<!ENTITY enigmail.attachmykey.short.label      "Attach Key">
+<!ENTITY enigmail.protectHeaders.label         "Hide Subject">
 
 <!ENTITY enigmail.composemenu.accesskey        "n">
 
@@ -213,7 +214,7 @@
 <!ENTITY enigmail.tempTrustAllKeys.accesskey   "T">
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
-<!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.attachmykey.accesskey        "K">
 
 
 <!-- account specific options -->

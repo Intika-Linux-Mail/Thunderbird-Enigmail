@@ -236,7 +236,7 @@
     <!-- 'Encrypt message' button -->
     <toolbarbutton class="toolbarbutton-1"
             id="button-enigmail-encrypt"
-            label="&enigmail.encryptedsend.label;"
+            label="&enigmail.encrypt.label;"
             buttontype="thunderbird"
             tooltip="aTooltipSet"
             observes="enigmail-bc-encrypt"
@@ -246,7 +246,7 @@
     <!-- 'Sign message' button -->
     <toolbarbutton class="toolbarbutton-1"
             id="button-enigmail-sign"
-            label="&enigmail.signedsend.label;"
+            label="&enigmail.sign.label;"
             buttontype="thunderbird"
             tooltip="aTooltipSet"
             observes="enigmail-bc-sign"
@@ -255,7 +255,7 @@
     <!-- 'Attach my key' button -->
     <toolbarbutton class="toolbarbutton-1"
             id="button-enigmail-attach"
-            label="&enigmail.attachmykey.label;"
+            label="&enigmail.attachmykey.short.label;"
             buttontype="thunderbird"
             tooltip="aTooltipSet"
             observes="enigmail-bc-attach"
