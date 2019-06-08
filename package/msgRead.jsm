@@ -267,5 +267,22 @@ var EnigmailMsgRead = {
       EnigmailMsgRead.cleanupOldPref();
     }
     catch (ex) {}
+  },
+
+  searchQuotedPgp: function(node) {
+    if (node.nodeName.toLowerCase() === "blockquote" &&
+      node.textContent.indexOf("-----BEGIN PGP ") >= 0) {
+      return true;
+    }
+
+    if (node.firstChild && this.searchQuotedPgp(node.firstChild)) {
+      return true;
+    }
+
+    if (node.nextSibling && this.searchQuotedPgp(node.nextSibling)) {
+      return true;
+    }
+
+    return false;
   }
 };
