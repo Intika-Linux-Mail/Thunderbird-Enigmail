@@ -900,7 +900,11 @@ Enigmail.msg = {
             if (node.textContent.indexOf(findStr + " LICENSE AUTHORIZATION") == foundIndex)
               foundIndex = -1;
           }
-          if (foundIndex >= 0) {
+          if (foundIndex === 0) {
+            bodyElement = node;
+            break;
+          }
+          if (foundIndex > 0 && node.textContent.substr(foundIndex - 1, 1).search(/[\r\n]/) === 0) {
             bodyElement = node;
             break;
           }
@@ -909,7 +913,7 @@ Enigmail.msg = {
       }
     }
 
-    if (foundIndex >= 0) {
+    if (foundIndex >= 0 && (!this.hasInlineQuote(topElement))) {
       if (Enigmail.msg.savedHeaders["content-type"].search(/^text\/html/i) === 0) {
         let p = Components.classes["@mozilla.org/parserutils;1"].createInstance(Components.interfaces.nsIParserUtils);
         const de = Components.interfaces.nsIDocumentEncoder;
@@ -1030,6 +1034,13 @@ Enigmail.msg = {
     return bodyElement;
   },
 
+  hasInlineQuote: function(node) {
+    if (node.innerHTML.search(/<blockquote.*-----BEGIN PGP /i) < 0) {
+      return false;
+    }
+
+    return EnigmailMsgRead.searchQuotedPgp(node);
+  },
 
   messageParseCallback: function(msgText, contentEncoding, charset, interactive,
     importOnly, messageUrl, signature, retry,
