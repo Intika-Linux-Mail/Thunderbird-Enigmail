@@ -18,8 +18,7 @@ Cu.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
 Cu.import("resource://enigmail/funcs.jsm"); /*global EnigmailFuncs: false */
 Cu.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
-
-const EC = EnigmailCore;
+Cu.import("resource://enigmail/mime.jsm"); /* global EnigmailMime: false */
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -63,7 +62,11 @@ var EnigmailFixExchangeMsg = {
         p.then(
           function resolved(fixedMsgData) {
             EnigmailLog.DEBUG("fixExchangeMsg.jsm: fixExchangeMessage: got fixedMsgData\n");
-            self.copyToTargetFolder(fixedMsgData);
+            if (self.checkMessageStructure(fixedMsgData)) {
+              self.copyToTargetFolder(fixedMsgData);
+            } else {
+              reject();
+            }
           });
         p.catch(
           function rejected(reason) {
@@ -133,8 +136,7 @@ var EnigmailFixExchangeMsg = {
             if (body) {
               resolve(hdrObj.headers + "\r\n" + body);
               return;
-            }
-            else {
+            } else {
               reject(2);
               return;
             }
@@ -145,8 +147,7 @@ var EnigmailFixExchangeMsg = {
         try {
           let channel = EnigmailStreams.createChannel(url);
           channel.asyncOpen(s, null);
-        }
-        catch (e) {
+        } catch (e) {
           EnigmailLog.DEBUG("fixExchangeMsg.jsm: getMessageBody: exception " + e + "\n");
         }
       }
@@ -179,8 +180,7 @@ var EnigmailFixExchangeMsg = {
           if (hdrLines[i].search(/^[ \t]+?/) === 0) {
             contentTypeLine += hdrLines[i];
             i++;
-          }
-          else {
+          } else {
             // we got the complete content-type header
             contentTypeLine = contentTypeLine.replace(/[\r\n]/g, "");
             let h = EnigmailFuncs.getHeaderData(contentTypeLine);
@@ -188,8 +188,7 @@ var EnigmailFixExchangeMsg = {
             break;
           }
         }
-      }
-      else {
+      } else {
         r.headers += hdrLines[i] + "\r\n";
       }
     }
@@ -309,6 +308,33 @@ var EnigmailFixExchangeMsg = {
     replace(/^Content-Type: +application\/pgp-encrypted/im,
         "Content-Type: application/octet-stream") +
       "--" + boundary + "--\r\n";
+  },
+
+  checkMessageStructure: function(msgData) {
+    let msgTree = EnigmailMime.getMimeTree(msgData, true);
+
+    try {
+
+      // check message structure
+      let ok =
+        msgTree.headers.get("content-type").type.toLowerCase() === "multipart/encrypted" &&
+        msgTree.headers.get("content-type").get("protocol").toLowerCase() === "application/pgp-encrypted" &&
+        msgTree.subParts.length === 2 &&
+        msgTree.subParts[0].headers.get("content-type").type.toLowerCase() === "application/pgp-encrypted" &&
+        msgTree.subParts[1].headers.get("content-type").type.toLowerCase() === "application/octet-stream";
+
+
+      if (ok) {
+        // check for existence of PGP Armor
+        let body = msgTree.subParts[1].body;
+        let p0 = body.search(/^-----BEGIN PGP MESSAGE-----$/m);
+        let p1 = body.search(/^-----END PGP MESSAGE-----$/m);
+
+        ok = (p0 >= 0 && p1 > p0 + 4);
+      }
+      return ok;
+    } catch (x) {}
+    return false;
   },
 
   copyToTargetFolder: function(msgData) {
