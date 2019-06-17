@@ -429,6 +429,9 @@ Enigmail.msg = {
     let menu = document.querySelector("#appMenu-mainView > vbox");
     if (!menu) return;
 
+    // don't try to add Enigmail menu more than once
+    if (document.getElementById("appmenu-Enigmail")) return;
+
     let tsk = document.getElementById("appmenu_tasksMenu");
     let e = document.createXULElement("toolbarbutton");
     e.setAttribute("label", "xxEnigmail");
@@ -436,6 +439,7 @@ Enigmail.msg = {
     e.setAttribute("class", "subviewbutton subviewbutton-nav subviewbutton-iconic");
     e.setAttribute("closemenu", "none");
     e.setAttribute("oncommand", "Enigmail.msg.displayAppmenu('appMenu-enigmailView', this)");
+    e.setAttribute("overlay_source", "enigmail");
     menu.insertBefore(e, tsk);
   },
 
@@ -448,6 +452,19 @@ Enigmail.msg = {
   displayMainMenu: function(menuPopup) {
 
     let usePep = EnigmailPEPAdapter.usingPep();
+    let obj = menuPopup.firstChild;
+
+    while (obj) {
+      if (obj.getAttribute("enigmailtype") == "enigmail" || obj.getAttribute("advanced") == "true") {
+        if (usePep) {
+          obj.setAttribute("hidden", "true");
+        } else {
+          obj.removeAttribute("hidden");
+        }
+      }
+
+      obj = obj.nextSibling;
+    }
 
     if (!usePep) {
       EnigmailFuncs.collapseAdvanced(menuPopup, 'hidden', Enigmail.msg.updateOptionsDisplay());
