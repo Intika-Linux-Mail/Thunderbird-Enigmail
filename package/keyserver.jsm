@@ -1098,6 +1098,8 @@ function getAccessType(keyserver) {
     case "ldap":
     case "ldaps":
       return accessGnuPG;
+    case "vks":
+      return accessVksServer;
   }
 
   if (srv.host.search(/keys.openpgp.org$/i) >= 0) {
@@ -1113,11 +1115,11 @@ function getAccessType(keyserver) {
 
 
 /**
- Object to handle Hagrid (keys.openpgp.org) requests
+ Object to handle VKS requests (for example keys.openpgp.org)
  */
 const accessVksServer = {
   /**
-   * Create the payload of hkp requests (upload only)
+   * Create the payload of VKS requests (currently upload only)
    *
    */
   buildJsonPayload: function(actionFlag, searchTerms, locale) {
