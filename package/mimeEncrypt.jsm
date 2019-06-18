@@ -852,6 +852,7 @@ function LOCAL_DEBUG(str) {
 }
 
 function initModule() {
+  EnigmailLog.DEBUG("mimeEncrypt.jsm: initModule()\n");
   var env = Cc["@mozilla.org/process/environment;1"].getService(Ci.nsIEnvironment);
   var nspr_log_modules = env.get("NSPR_LOG_MODULES");
   var matches = nspr_log_modules.match(/mimeEncrypt:(\d+)/);

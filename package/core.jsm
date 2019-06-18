@@ -74,7 +74,7 @@ var EnigmailCore = {
 
     // Wait for TB Startup to be complete to initialize window overlays
     let enigmailOverlays = getEnigmailOverlays();
-    Services.obs.addObserver(enigmailOverlays.mailStartupDone, "mail-startup-done", false);
+    Services.obs.addObserver(onMailStartupDone, "mail-startup-done", false);
 
     getEnigmailSqlite().checkDatabaseStructure();
     getEnigmailPrefs().startup(reason);
@@ -82,19 +82,13 @@ var EnigmailCore = {
     let self = this;
     this.factories = [];
 
-    function continueStartup() {
-      getEnigmailLog().DEBUG("core.jsm: startup.continueStartup()\n");
+    function continueStartup(type) {
+      getEnigmailLog().DEBUG(`core.jsm: startup.continueStartup(${type})\n`);
 
       try {
         let mimeEncrypt = getEnigmailMimeEncrypt();
-        mimeEncrypt.startup(reason);        
+        mimeEncrypt.startup(reason);
         enigmailOverlays.startupCore(reason);
-        let cLineReg = getEnigmailCommandLine().categoryRegistry;
-        let catMan = Cc["@mozilla.org/categorymanager;1"].getService(Ci.nsICategoryManager);
-        catMan.addCategoryEntry(cLineReg.category,
-          cLineReg.entry,
-          cLineReg.serviceName,
-          false, true);
         self.factories.push(new Factory(getEnigmailProtocolHandler()));
         self.factories.push(new Factory(getEnigmailCommandLine().Handler));
         self.factories.push(new Factory(mimeEncrypt.Handler));
@@ -106,7 +100,11 @@ var EnigmailCore = {
     getEnigmailVerify().registerContentTypeHandler();
     getEnigmailWksMimeHandler().registerContentTypeHandler();
     getEnigmailFiltersWrapper().onStartup();
-    getEnigmailPEPAdapter().initialize().then(continueStartup).catch(continueStartup);
+    getEnigmailPEPAdapter().initialize().then(r => {
+      continueStartup(0);
+    }).catch(r => {
+      continueStartup(1);
+    });
   },
 
   shutdown: function(reason) {
@@ -486,4 +484,10 @@ class Factory {
   unregister() {
     Cm.unregisterFactory(this.component.prototype.classID, this);
   }
+}
+
+
+function onMailStartupDone() {
+  getEnigmailLog().DEBUG("core.jsm: onMailStartupDone()\n");
+  getEnigmailOverlays().mailStartupDone();
 }

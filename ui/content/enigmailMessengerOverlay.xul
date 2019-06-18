@@ -26,7 +26,7 @@
 
   <link href="chrome://enigmail/skin/enigmail.css" rel="stylesheet" type="text/css"/>
 
-  <broadcasterset id="otherActionsButtonBroadcasters">
+  <broadcasterset insertafter="mailKeys">
     <broadcaster id="enigmailBcDisplayClass" class="headerValue"/>
     <broadcaster id="enigmail-pEp-bc" collapsed="true"/>
   </broadcasterset>
@@ -254,6 +254,7 @@
       </vbox>
     </panelview>
   </panelmultiview>
+
   <!-- Menu content for all apps -->
   <menubar id="mail-menubar">
     <menu id="menu_Enigmail"

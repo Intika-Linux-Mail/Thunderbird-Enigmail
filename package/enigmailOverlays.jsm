@@ -117,12 +117,8 @@ const overlays = {
   "chrome://messenger/content/AccountManager.xul": ["accountManagerOverlay.xul"]
 };
 
-const {
-  EnigmailLog
-} = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm", {});
-const {
-  Overlays
-} = ChromeUtils.import("chrome://enigmail/content/modules/overlays.jsm", {});
+const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
+const Overlays = ChromeUtils.import("chrome://enigmail/content/modules/overlays.jsm").Overlays;
 
 function DEBUG_LOG(str) {
   EnigmailLog.DEBUG(str);
@@ -231,6 +227,7 @@ var EnigmailOverlays = {
    * and then add Enigmail UI
    */
   mailStartupDone: function() {
+    DEBUG_LOG(`enigmailOverlays.jsm: mailStartupDone()\n`);
     gMailStartupDone = true;
 
     if (gCoreStartup) {
@@ -243,7 +240,7 @@ var EnigmailOverlays = {
    * and then add Enigmail UI
    */
   startupCore: function(reason) {
-    DEBUG_LOG(`overlay.jsm: initiating startup (${reason})\n`);
+    DEBUG_LOG(`enigmailOverlays.jsm: startupCore(${reason})\n`);
 
     gCoreStartup = true;
 
