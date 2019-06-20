@@ -222,36 +222,6 @@ var EnigmailOverlays = {
     }
   },
 
-  /**
-   * callback from mail-startup-done event. Wait for Enigmail-core-startup to be also done
-   * and then add Enigmail UI
-   */
-  mailStartupDone: function() {
-    DEBUG_LOG(`enigmailOverlays.jsm: mailStartupDone()\n`);
-    gMailStartupDone = true;
-
-    if (gCoreStartup) {
-      EnigmailOverlays.startup();
-    }
-  },
-
-  /**
-   * callback from Enigmail-core-startup event. Wait for mail-startup-done to be also done
-   * and then add Enigmail UI
-   */
-  startupCore: function(reason) {
-    DEBUG_LOG(`enigmailOverlays.jsm: startupCore(${reason})\n`);
-
-    gCoreStartup = true;
-
-    if (reason !== APP_STARTUP) {
-      gMailStartupDone = true;
-    }
-
-    if (gMailStartupDone) {
-      EnigmailOverlays.startup();
-    }
-  },
 
   /**
    * Called by bootstrap.js upon shutdown of the addon

@@ -16,6 +16,7 @@ Cm.QueryInterface(Ci.nsIComponentRegistrar);
 
 const subprocess = ChromeUtils.import("chrome://enigmail/content/modules/subprocess.jsm").subprocess;
 const EnigmailLazy = ChromeUtils.import("chrome://enigmail/content/modules/lazy.jsm").EnigmailLazy;
+const EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
 
 // load all modules lazily to avoid possible cross-reference errors
 const getEnigmailConsole = EnigmailLazy.loader("enigmail/pipeConsole.jsm", "EnigmailConsole");
@@ -40,6 +41,7 @@ const getEnigmailPEPAdapter = EnigmailLazy.loader("enigmail/pEpAdapter.jsm", "En
 const getEnigmailOverlays = EnigmailLazy.loader("enigmail/enigmailOverlays.jsm", "EnigmailOverlays");
 const getEnigmailSqlite = EnigmailLazy.loader("enigmail/sqliteDb.jsm", "EnigmailSqliteDb");
 const getEnigmailGnuPGUpdate = EnigmailLazy.loader("enigmail/gnupgUpdate.jsm", "EnigmailGnuPGUpdate");
+const getEnigmailTimer = EnigmailLazy.loader("enigmail/timer.jsm", "EnigmailTimer");
 const Services = ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 var EXPORTED_SYMBOLS = ["EnigmailCore"];
@@ -66,45 +68,29 @@ var EnigmailCore = {
   },
 
   startup: function(reason) {
+    let self = this;
+    this.initDone = false;
+
     let env = getEnvironment();
     initializeLogDirectory();
     initializeLogging(env);
 
+
     getEnigmailLog().DEBUG("core.jsm: startup()\n");
 
-    // Wait for TB Startup to be complete to initialize window overlays
-    let enigmailOverlays = getEnigmailOverlays();
-    Services.obs.addObserver(onMailStartupDone, "mail-startup-done", false);
+    if (reason === EnigmailConstants.APP_STARTUP) {
+      getEnigmailLog().DEBUG("core.jsm: startup: adding observer\n");
+      Services.obs.addObserver(function _f() {
+        self.onMailStartupDone(reason);
+      }, "mail-startup-done", false);
 
-    getEnigmailSqlite().checkDatabaseStructure();
-    getEnigmailPrefs().startup(reason);
-
-    let self = this;
-    this.factories = [];
-
-    function continueStartup(type) {
-      getEnigmailLog().DEBUG(`core.jsm: startup.continueStartup(${type})\n`);
-
-      try {
-        let mimeEncrypt = getEnigmailMimeEncrypt();
-        mimeEncrypt.startup(reason);
-        enigmailOverlays.startupCore(reason);
-        self.factories.push(new Factory(getEnigmailProtocolHandler()));
-        self.factories.push(new Factory(getEnigmailCommandLine().Handler));
-        self.factories.push(new Factory(mimeEncrypt.Handler));
-      } catch (ex) {
-        getEnigmailLog().DEBUG("core.jsm: startup.continueStartup: error " + ex.message + "\n" + ex.stack + "\n");
-      }
+      // if mail-startup-done does not fire within 3 seconds, initialize anyhow
+      getEnigmailTimer().setTimeout(function _f() {
+        self.onMailStartupDone(reason);
+      }, 3000);
+    } else {
+      this.onMailStartupDone(reason);
     }
-
-    getEnigmailVerify().registerContentTypeHandler();
-    getEnigmailWksMimeHandler().registerContentTypeHandler();
-    getEnigmailFiltersWrapper().onStartup();
-    getEnigmailPEPAdapter().initialize().then(r => {
-      continueStartup(0);
-    }).catch(r => {
-      continueStartup(1);
-    });
   },
 
   shutdown: function(reason) {
@@ -136,6 +122,41 @@ var EnigmailCore = {
 
   init: function(enigmailVersion) {
     this.version = enigmailVersion;
+  },
+
+  onMailStartupDone: function(reason) {
+    getEnigmailLog().DEBUG("core.jsm: onMailStartupDone()\n");
+    if (this.initDone) return;
+
+    this.initDone = true;
+    getEnigmailSqlite().checkDatabaseStructure();
+    getEnigmailPrefs().startup(reason);
+
+    let self = this;
+    this.factories = [];
+
+    function continueStartup(type) {
+      getEnigmailLog().DEBUG(`core.jsm: startup.continueStartup(${type})\n`);
+
+      try {
+        let mimeEncrypt = getEnigmailMimeEncrypt();
+        mimeEncrypt.startup(reason);
+        getEnigmailOverlays().startup();
+        self.factories.push(new Factory(getEnigmailProtocolHandler()));
+        self.factories.push(new Factory(mimeEncrypt.Handler));
+      } catch (ex) {
+        getEnigmailLog().DEBUG("core.jsm: startup.continueStartup: error " + ex.message + "\n" + ex.stack + "\n");
+      }
+    }
+
+    getEnigmailVerify().registerContentTypeHandler();
+    getEnigmailWksMimeHandler().registerContentTypeHandler();
+    getEnigmailFiltersWrapper().onStartup();
+    getEnigmailPEPAdapter().initialize().then(r => {
+      continueStartup(0);
+    }).catch(r => {
+      continueStartup(1);
+    });
   },
 
   /**
@@ -484,10 +505,4 @@ class Factory {
   unregister() {
     Cm.unregisterFactory(this.component.prototype.classID, this);
   }
-}
-
-
-function onMailStartupDone() {
-  getEnigmailLog().DEBUG("core.jsm: onMailStartupDone()\n");
-  getEnigmailOverlays().mailStartupDone();
 }
