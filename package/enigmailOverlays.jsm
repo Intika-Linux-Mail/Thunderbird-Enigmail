@@ -214,8 +214,19 @@ var EnigmailOverlays = {
         let domWindow = windows.getNext().QueryInterface(Ci.nsIDOMWindow);
 
         DEBUG_LOG("enigmailOverlays.jsm: startup: found window: " + domWindow.document.location.href + "\n");
+        
+        if (domWindow.document.location.href === "about:blank" ||
+            domWindow.document.readyState !== "complete") {
+          // a window is available, but it's not yet fully loaded
+          // ==> add an event listener to fire when the window is completely loaded
 
-        loadUiForWindow(domWindow);
+          domWindow.addEventListener("load", function loadUi() {
+            domWindow.removeEventListener("load", loadUi, false);
+            loadUiForWindow(domWindow);
+          }, false);
+        } else {
+          loadUiForWindow(domWindow);
+        }
       } catch (ex) {
         DEBUG_LOG("enigmailOverlays.jsm: startup: error " + ex.message + "\n");
       }
