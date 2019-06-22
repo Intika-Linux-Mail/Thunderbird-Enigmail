@@ -6,10 +6,6 @@
 
 "use strict";
 
-/* global Components: false */
-
-
-
 var EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
 var EnigmailKeyEditor = ChromeUtils.import("chrome://enigmail/content/modules/keyEditor.jsm").EnigmailKeyEditor;
 var EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
@@ -41,10 +37,8 @@ function appendUid(uidList, uidObj, uidNum) {
   if (uidType === "uat") {
     if (uidObj.userId.indexOf("1 ") === 0) {
       uidTxt = EnigmailLocale.getString("userAtt.photo");
-    }
-    else return;
-  }
-  else {
+    } else return;
+  } else {
     uidTxt = uidObj.userId;
     if (!gEnigmailUid) {
       gEnigmailUid = uidTxt;
@@ -100,26 +94,22 @@ function uidSelectCb() {
 
   if (uidList.selectedCount > 0) {
     selValue = uidList.selectedItem.value;
-  }
-  else {
+  } else {
     selValue = "uid:1";
   }
   if (window.arguments[0].ownKey) {
     var uidType = selValue.substr(0, 3);
     if (uidType == "uat" || uidType == "rat" || uidType == "rid" || selValue.substr(4) == "1") {
       document.getElementById("setPrimary").setAttribute("disabled", "true");
-    }
-    else {
+    } else {
       document.getElementById("setPrimary").removeAttribute("disabled");
     }
     if (selValue.substr(4) == "1") {
       document.getElementById("revokeUid").setAttribute("disabled", "true");
-    }
-    else {
+    } else {
       if (uidType == "rid" || uidType == "rat") {
         document.getElementById("revokeUid").setAttribute("disabled", "true");
-      }
-      else {
+      } else {
         document.getElementById("revokeUid").removeAttribute("disabled");
       }
     }
@@ -157,8 +147,7 @@ function setPrimaryUid() {
           EnigmailDialog.info(window, EnigmailLocale.getString("changePrimUidOK"));
           window.arguments[1].refresh = true;
           reloadUidList();
-        }
-        else
+        } else
           EnigmailDialog.alert(window, EnigmailLocale.getString("changePrimUidFailed") + "\n\n" + errorMsg);
       });
   }
@@ -179,8 +168,7 @@ function revokeUid() {
           EnigmailDialog.info(window, EnigmailLocale.getString("revokeUidOK", uidList.selectedItem.label));
           window.arguments[1].refresh = true;
           reloadUidList();
-        }
-        else
+        } else
           EnigmailDialog.alert(window, EnigmailLocale.getString("revokeUidFailed", uidList.selectedItem.label) + "\n\n" + errorMsg);
       });
   }

@@ -1,4 +1,3 @@
-/*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -72,8 +71,7 @@ Enigmail.hlp = {
       let addresses = [];
       try {
         addresses = EnigmailFuncs.stripEmail(emailsOrKeys).split(',');
-      }
-      catch (ex) {}
+      } catch (ex) {}
 
       // resolve GnuPG groups
       let gpgGroups = EnigmailGpg.getGpgGroups();
@@ -94,8 +92,7 @@ Enigmail.hlp = {
 
       // resolve all the email addresses if possible:
       keyMissing = EnigmailKeyRing.getValidKeysForAllRecipients(addresses, minTrustLevel, details, resultingArray);
-    }
-    catch (ex) {
+    } catch (ex) {
       EnigmailLog.DEBUG("enigmailMsgComposeHelper.js: doValidKeysForAllRecipients(): return null (exception: " + ex.message + "\n" + ex.stack + ")\n");
       return null;
     }
@@ -148,8 +145,7 @@ Enigmail.hlp = {
       if (m && m.length == 3) {
         try {
           invalidAddr.push(EnigmailFuncs.stripEmail(m[2].toLowerCase()));
-        }
-        catch (ex) {}
+        } catch (ex) {}
       }
     }
     return invalidAddr.join(" ");

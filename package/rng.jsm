@@ -1,4 +1,3 @@
-/*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,7 +8,7 @@
 
 const EXPORTED_SYMBOLS = ["EnigmailRNG"];
 
-Components.utils.importGlobalProperties(["crypto"]); /* global crypto: false */
+Components.utils.importGlobalProperties(["crypto"]);
 
 /**
  * Create a string of random characters of the set A-Z a-z 0-9 with numChars length,

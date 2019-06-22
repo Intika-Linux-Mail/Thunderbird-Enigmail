@@ -6,11 +6,10 @@
 
 // Uses: chrome://enigmail/content/ui/enigmailCommon.js
 
-/* global Components: false, EnigmailLog: false */
+/* global EnigmailLog: false */
 
 
 "use strict";
-
 
 
 function onLoad() {

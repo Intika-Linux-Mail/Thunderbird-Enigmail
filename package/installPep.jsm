@@ -1,4 +1,3 @@
-/*global Components: false, escape: false, unescape: false, Uint8Array: false */
 /* eslint no-invalid-this: 0 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public

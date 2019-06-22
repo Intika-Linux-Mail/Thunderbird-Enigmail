@@ -6,7 +6,6 @@
 
 // Uses: chrome://enigmail/content/ui/enigmailCommon.js
 
-/* global Components */
 /* global EnigInitCommon, EnigGetString, GetEnigmailSvc, EnigAlert, EnigConfirm, EnigHelpWindow */
 
 "use strict";

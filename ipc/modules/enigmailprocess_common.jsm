@@ -5,10 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 "use strict";
 
-/* eslint-disable mozilla/balanced-listeners */
-
 /* exported BaseProcess, PromiseWorker */
-/* global Components: false, ChromeWorker: false,  */
+/* global ChromeWorker: false,  */
 
 var {
   classes: Cc,

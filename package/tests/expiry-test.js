@@ -1,6 +1,5 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, resetting: false, JSUnit: false, do_test_pending: false */
-/*global do_test_finished: false, component: false, Cc: false, Ci: false, setupTestAccounts: false */
-/*jshint -W097 */
+/*global do_test_finished: false, component: false, setupTestAccounts: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +13,7 @@ do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global withE
 testing("keyUsability.jsm"); /*global EnigmailKeyUsability: false, EnigmailLocale: false, EnigmailPrefs: false */
 const EnigmailKeyRing = component("enigmail/keyRing.jsm").EnigmailKeyRing;
 
-/*global Math: false, Date: false, uniqueKeyList: false, DAY: false */
+/*global uniqueKeyList: false, DAY: false */
 
 setupTestAccounts();
 

@@ -1,4 +1,3 @@
-/*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,8 +6,6 @@
 
 
 "use strict";
-
-
 
 var EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 var EnigmailConsole = ChromeUtils.import("chrome://enigmail/content/modules/pipeConsole.jsm").EnigmailConsole;
@@ -91,8 +88,7 @@ function getSelectionStr() {
     var sel = contentFrame.getSelection();
     return sel.toString();
 
-  }
-  catch (ex) {
+  } catch (ex) {
     return "";
   }
 }

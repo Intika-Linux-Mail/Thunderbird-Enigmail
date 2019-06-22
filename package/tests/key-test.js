@@ -1,6 +1,5 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, */
-/*global Components: false, resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false, component: false, Cc: false, Ci: false */
-/*jshint -W097 */
+/*global resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false, component: false*/
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +12,7 @@
 /*global EnigmailFiles: false */
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global withEnigmail: false, withTestGpgHome: false, gKeyListObj: true */
 
-testing("key.jsm"); /*global EnigmailKey: false,  EnigmailFiles: false, EnigmailOpenPGP: false */
+testing("key.jsm"); /*global EnigmailKey: false,  EnigmailOpenPGP: false */
 //EnigmailOpenPGP.initialize(); // make sure OpenPGP is initialized and available
 
 test(function shouldGetKeyDetails() {

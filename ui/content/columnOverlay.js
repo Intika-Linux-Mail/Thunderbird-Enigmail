@@ -7,7 +7,7 @@
 
 "use strict";
 
-/* global Components: false, gDBView: false */
+/* global gDBView: false */
 
 var EnigmailPEPAdapter = ChromeUtils.import("chrome://enigmail/content/modules/pEpAdapter.jsm").EnigmailPEPAdapter;
 var EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
@@ -54,8 +54,7 @@ Enigmail.columnHandler = {
           newProp = "enigmailPepTrusted";
           break;
       }
-    }
-    else {
+    } else {
       let statusFlags = hdr.getUint32Property("enigmail");
       if ((statusFlags & EnigmailConstants.GOOD_SIGNATURE) &&
         (statusFlags & EnigmailConstants.DECRYPTION_OKAY))
@@ -97,8 +96,7 @@ Enigmail.columnHandler = {
     observe: function(aMsgFolder, aTopic, aData) {
       try {
         gDBView.addColumnHandler("enigmailStatusCol", Enigmail.columnHandler);
-      }
-      catch (ex) {}
+      } catch (ex) {}
     }
   },
 

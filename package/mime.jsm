@@ -1,5 +1,3 @@
-/*global Components: false, escape: false, btoa: false*/
-/*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,9 +7,6 @@
 "use strict";
 
 var EXPORTED_SYMBOLS = ["EnigmailMime"];
-
-
-
 
 const jsmime = ChromeUtils.import("resource:///modules/jsmime.jsm").jsmime;
 const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;

@@ -1,5 +1,3 @@
-/*global Components: false, Number: false, Math: false, Date: false, JSON: false */
-/*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,10 +8,6 @@
 "use strict";
 
 var EXPORTED_SYMBOLS = ["EnigmailKeyUsability"];
-
-
-
-
 
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 const EnigmailPrefs = ChromeUtils.import("chrome://enigmail/content/modules/prefs.jsm").EnigmailPrefs;

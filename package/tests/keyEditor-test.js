@@ -1,6 +1,5 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false, withTestGpgHome:false */
-/*global Ec: false, Cc: false, Ci: false, do_print: false, EnigmailCore: false, EnigmailKeyEditor: false, Components: false, component: false, EnigmailPrefs: false, EnigmailExecution: false */
-/*jshint -W097 */
+/*global Ec: false, do_print: false, EnigmailCore: false, EnigmailKeyEditor: false, component: false, EnigmailPrefs: false, EnigmailExecution: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +10,7 @@
 
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global withEnigmail: false */
 
-testing("keyEditor.jsm"); /*global editKey: false, EnigmailKeyRing: False */
+testing("keyEditor.jsm"); /*global editKey: false, EnigmailKeyRing: false */
 var EnigmailTime = component("enigmail/time.jsm").EnigmailTime;
 
 test(withTestGpgHome(withEnigmail(function shouldEditKey() {

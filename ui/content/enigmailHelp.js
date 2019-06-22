@@ -9,10 +9,6 @@
 "use strict";
 
 /* global EnigmailLog: false */
-/* global Components: false */
-
-
-
 /* global EnigInitCommon: false, EnigGetWindowOptions: false, EnigGetFrame: false, EnigGetHttpUri: false, EnigOpenUrlExternally: false */
 
 // Initialize enigmailCommon

@@ -7,8 +7,6 @@
 
 "use strict";
 
-/* global Components: false */
-
 /* from EnigmailCommon.js: */
 /* global EnigSetActive: false, ENIG_KEY_EXPIRED: false, ENIG_KEY_NOT_VALID: false */
 

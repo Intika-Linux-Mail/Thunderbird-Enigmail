@@ -1,4 +1,3 @@
-/*global EnigInitCommon EnigGetString EnigmailLog */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,7 +6,8 @@
 
 // Uses: chrome://enigmail/content/ui/enigmailCommon.js
 
-/* global Components: false, EnigInitCommon: false, EnigSetPref: false, EnigGetPref: false */
+/* global EnigSetPref: false, EnigGetPref: false */
+/*global EnigInitCommon: false, EnigGetString: false, EnigmailLog: false */
 
 
 "use strict";

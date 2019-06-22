@@ -1,5 +1,5 @@
-/*global do_load_module: false, do_get_cwd: false, Components: false, Assert: false,  CustomAssert: false, JSUnit: false*/
-/*global dump: false, Cc: false, Ci: false*/
+/*global do_load_module: false, do_get_cwd: false, Assert: false,  CustomAssert: false, JSUnit: false*/
+/*global dump: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this

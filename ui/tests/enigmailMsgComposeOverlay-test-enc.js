@@ -1,4 +1,4 @@
-/*global Enigmail: false, Assert: false, do_load_module: false, JSUnit: false, Components: false, do_get_cwd: false*/
+/*global Enigmail: false, Assert: false, do_load_module: false, JSUnit: false, do_get_cwd: false*/
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this

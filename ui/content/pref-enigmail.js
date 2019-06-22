@@ -5,7 +5,6 @@
  */
 
 // Uses: chrome://enigmail/content/ui/enigmailCommon.js
-/*global Components */
 
 /* global EnigmailLog: false, EnigmailLocale: false, EnigmailGpgAgent: false, EnigmailPrefs: false, EnigmailDialog: false */
 

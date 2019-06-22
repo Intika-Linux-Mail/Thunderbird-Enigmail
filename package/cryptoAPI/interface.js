@@ -10,8 +10,6 @@
  * CryptoAPI - abstract interface
  */
 
-/*global Components: false, Cc: false, Ci: false, Cu: false */
-
 var inspector;
 
 class CryptoAPI {

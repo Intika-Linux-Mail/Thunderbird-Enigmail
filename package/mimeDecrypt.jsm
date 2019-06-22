@@ -1,4 +1,3 @@
-/*global Components: false */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
@@ -11,8 +10,6 @@ var EXPORTED_SYMBOLS = ["EnigmailMimeDecrypt"];
  *  Module for handling PGP/MIME encrypted messages
  *  implemented as an XPCOM object
  */
-
-/*global atob: false */
 
 const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 const EnigmailVerify = ChromeUtils.import("chrome://enigmail/content/modules/mimeVerify.jsm").EnigmailVerify;

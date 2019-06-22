@@ -8,7 +8,7 @@
 /* exported BasePipe, BaseProcess, debug */
 /* globals Process, io */
 
-/* global ctypes: false, onmessage: true */
+/* global ctypes: false */
 /* eslint no-console: 0 */
 
 function debug(message) {
@@ -108,122 +108,126 @@ class BaseProcess {
 
 let requests = {
   init(details) {
-      io.init(details);
+    io.init(details);
 
-      return {
-        data: {}
-      };
-    },
+    return {
+      data: {}
+    };
+  },
 
-    shutdown() {
-      io.shutdown();
+  shutdown() {
+    io.shutdown();
 
-      return {
-        data: {}
-      };
-    },
+    return {
+      data: {}
+    };
+  },
 
-    close(pipeId, force = false) {
-      let pipe = io.getPipe(pipeId);
+  close(pipeId, force = false) {
+    let pipe = io.getPipe(pipeId);
 
-      return pipe.close(force).then(() => ({
-        data: {}
-      }));
-    },
+    return pipe.close(force).then(() => ({
+      data: {}
+    }));
+  },
 
-    spawn(options) {
-      let process = new Process(options);
-      let processId = process.id;
+  spawn(options) {
+    let process = new Process(options);
+    let processId = process.id;
 
-      io.addProcess(process);
+    io.addProcess(process);
 
-      let fds = process.pipes.map(pipe => pipe.id);
+    let fds = process.pipes.map(pipe => pipe.id);
 
+    return {
+      data: {
+        processId,
+        fds,
+        pid: process.pid
+      }
+    };
+  },
+
+  kill(processId, force = false) {
+    let process = io.getProcess(processId);
+
+    process.kill(force ? 9 : 15);
+
+    return {
+      data: {}
+    };
+  },
+
+  wait(processId) {
+    let process = io.getProcess(processId);
+
+    process.wait();
+
+    process.awaitFinished().then(() => {
+      io.cleanupProcess(process);
+    });
+
+    return process.exitPromise.then(exitCode => {
       return {
         data: {
-          processId, fds, pid: process.pid
+          exitCode
         }
       };
-    },
+    });
+  },
 
-    kill(processId, force = false) {
-      let process = io.getProcess(processId);
+  read(pipeId, count) {
+    let pipe = io.getPipe(pipeId);
 
-      process.kill(force ? 9 : 15);
-
+    return pipe.read(count).then(buffer => {
       return {
-        data: {}
+        data: {
+          buffer
+        }
       };
-    },
+    });
+  },
 
-    wait(processId) {
-      let process = io.getProcess(processId);
+  write(pipeId, buffer) {
+    let pipe = io.getPipe(pipeId);
 
-      process.wait();
-
-      process.awaitFinished().then(() => {
-        io.cleanupProcess(process);
-      });
-
-      return process.exitPromise.then(exitCode => {
-        return {
-          data: {
-            exitCode
-          }
-        };
-      });
-    },
-
-    read(pipeId, count) {
-      let pipe = io.getPipe(pipeId);
-
-      return pipe.read(count).then(buffer => {
-        return {
-          data: {
-            buffer
-          }
-        };
-      });
-    },
-
-    write(pipeId, buffer) {
-      let pipe = io.getPipe(pipeId);
-
-      return pipe.write(buffer).then(bytesWritten => {
-        return {
-          data: {
-            bytesWritten
-          }
-        };
-      });
-    },
-
-    getOpenFiles() {
+    return pipe.write(buffer).then(bytesWritten => {
       return {
-        data: new Set(io.pipes.keys())
+        data: {
+          bytesWritten
+        }
       };
-    },
+    });
+  },
 
-    getProcesses() {
-      let data = new Map(Array.from(io.processes.values())
-        .filter(proc => proc.exitCode === null)
-        .map(proc => [proc.id, proc.pid]));
-      return {
-        data
-      };
-    },
+  getOpenFiles() {
+    return {
+      data: new Set(io.pipes.keys())
+    };
+  },
 
-    waitForNoProcesses() {
-      return Promise.all(Array.from(io.processes.values(),
-        proc => proc.awaitFinished()));
-    }
+  getProcesses() {
+    let data = new Map(Array.from(io.processes.values())
+      .filter(proc => proc.exitCode === null)
+      .map(proc => [proc.id, proc.pid]));
+    return {
+      data
+    };
+  },
+
+  waitForNoProcesses() {
+    return Promise.all(Array.from(io.processes.values(),
+      proc => proc.awaitFinished()));
+  }
 };
 
 onmessage = event => {
   io.messageCount--;
 
   let {
-    msg, msgId, args
+    msg,
+    msgId,
+    args
   } = event.data;
 
   new Promise(resolve => {

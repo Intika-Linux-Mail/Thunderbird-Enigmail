@@ -1,4 +1,4 @@
-/*global do_load_module: false, do_get_cwd: false, component: false, do_get_file: false, Components: false  */
+/*global do_load_module: false, do_get_cwd: false, component: false, do_get_file: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this

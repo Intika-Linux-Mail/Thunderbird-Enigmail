@@ -7,9 +7,6 @@
 "use strict";
 
 /* global EnigInitCommon: false, EnigmailLog: false, EnigGetFrame: false */
-/* global Components: false */
-
-
 
 // Initialize enigmailCommon
 EnigInitCommon("enigmailGenericDisplay");

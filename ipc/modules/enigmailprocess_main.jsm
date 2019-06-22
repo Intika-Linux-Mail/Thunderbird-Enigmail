@@ -15,7 +15,6 @@
 let EXPORTED_SYMBOLS = ["SubprocessMain"];
 
 /* exported SubprocessMain */
-/* global Components: false */
 
 var {
   classes: Cc,

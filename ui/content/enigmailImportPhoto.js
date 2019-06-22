@@ -6,9 +6,6 @@
 
 "use strict";
 
-/* global Components: false */
-
-
 
 function onLoad() {
   document.getElementById("photoImage").setAttribute("src", window.arguments[0].photoUri);

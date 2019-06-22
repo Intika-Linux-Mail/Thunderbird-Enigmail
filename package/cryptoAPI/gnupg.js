@@ -1,4 +1,3 @@
-/*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,8 +15,7 @@ var Services = Components.utils.import("resource://gre/modules/Services.jsm").Se
 Services.scriptloader.loadSubScript("chrome://enigmail/content/modules/cryptoAPI/openpgp-js.js",
   null, "UTF-8"); /* global OpenPGPjsCryptoAPI: false */
 
-/* globals loaded from openpgp-js.js: */
-/* global Cc: false, Ci: false */
+/* Globals loaded from openpgp-js.js: */
 /* global getOpenPGP: false, EnigmailLog: false */
 
 const EnigmailGpg = ChromeUtils.import("chrome://enigmail/content/modules/gpg.jsm").EnigmailGpg;

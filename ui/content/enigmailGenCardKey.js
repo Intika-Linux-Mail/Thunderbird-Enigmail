@@ -6,10 +6,6 @@
 
 "use strict";
 
-/* global Components: false */
-
-
-
 // modules:
 /* global EnigmailLocale: false, EnigmailWindows: false, EnigmailLog: false, EnigmailCore: false, EnigmailDialog: false */
 /* global EnigmailKeyEditor: false, fillIdentityListPopup: false, getCurrentIdentity: false */
@@ -42,16 +38,13 @@ function enableDisable(watchElement, bcElement, inverted) {
   if (document.getElementById(watchElement).checked) {
     if (inverted) {
       bcBackupKey.setAttribute("disabled", "true");
-    }
-    else {
+    } else {
       bcBackupKey.removeAttribute("disabled");
     }
-  }
-  else {
+  } else {
     if (inverted) {
       bcBackupKey.removeAttribute("disabled");
-    }
-    else {
+    } else {
       bcBackupKey.setAttribute("disabled", "true");
     }
   }
@@ -74,19 +67,15 @@ enigGenKeyObserver.prototype = {
       if (aLine[1] == "GET_LINE" && aLine[2] == "keygen.comment") {
         txt = EnigmailLocale.getString("keygen.started") + "\n";
         this._state = 1;
-      }
-      else if (aLine[1] == "PROGRESS" && aLine[2] == "primegen") {
+      } else if (aLine[1] == "PROGRESS" && aLine[2] == "primegen") {
         txt = aLine[3];
-      }
-      else if (aLine[1] == "BACKUP_KEY_CREATED") {
+      } else if (aLine[1] == "BACKUP_KEY_CREATED") {
         this.backupLocation = data.replace(/^.*BACKUP_KEY_CREATED [A-Z0-9]+ +/, "");
-      }
-      else if (aLine[1] == "KEY_CREATED") {
+      } else if (aLine[1] == "KEY_CREATED") {
         this.keyId = aLine[3].substr(-16);
       }
 
-    }
-    else if (this._state > 0) {
+    } else if (this._state > 0) {
       txt = data + "\n";
     }
 
@@ -122,8 +111,7 @@ function startKeyGen() {
 
   if (!createBackupElement.checked) {
     passphrase = "";
-  }
-  else {
+  } else {
     if (passphrase != passphrase2Element.value) {
       EnigmailDialog.alert(window, EnigmailLocale.getString("passNoMatch"));
       return;
@@ -213,11 +201,9 @@ function startKeyGen() {
 
         if (EnigmailDialog.confirmDlg(window, msg + "\n\n" + EnigmailLocale.getString("revokeCertRecommended"), EnigmailLocale.getString("keyMan.button.generateCert"))) {
           EnigCreateRevokeCert(generateObserver.keyId, curId.email, closeWin);
-        }
-        else
+        } else
           closeWin();
-      }
-      else {
+      } else {
         EnigmailDialog.alert(window, errorMsg);
       }
     });

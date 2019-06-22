@@ -9,7 +9,7 @@
 
 // modules:
 /* global EnigmailLog: false, EnigmailCore: false, EnigmailDialog: false, EnigmailLocale: false, EnigmailKeyRing: false*/
-/* global Components: false, EnigmailKeyEditor: false, EnigmailTimer: false */
+/* global EnigmailKeyEditor: false, EnigmailTimer: false */
 
 // enigmailCommon.js:
 /* global EnigSetActive: false, createCell */

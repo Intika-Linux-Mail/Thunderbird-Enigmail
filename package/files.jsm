@@ -1,5 +1,3 @@
-/*global Components: false, EnigmailLog: false */
-/*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,10 +8,6 @@
 "use strict";
 
 const EXPORTED_SYMBOLS = ["EnigmailFiles"];
-
-
-
-
 
 const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;
 const EnigmailOS = ChromeUtils.import("chrome://enigmail/content/modules/os.jsm").EnigmailOS;

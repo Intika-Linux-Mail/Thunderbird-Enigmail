@@ -1,5 +1,3 @@
-/*global Components: false, EnigmailLog: false, unescape: false, atob: false, btoa: false */
-/*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,9 +8,6 @@
 "use strict";
 
 var EXPORTED_SYMBOLS = ["EnigmailData"];
-
-
-
 
 const SCRIPTABLEUNICODECONVERTER_CONTRACTID = "@mozilla.org/intl/scriptableunicodeconverter";
 

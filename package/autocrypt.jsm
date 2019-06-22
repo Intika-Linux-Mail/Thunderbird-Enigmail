@@ -1,4 +1,3 @@
-/*global Components: false*/
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
@@ -14,7 +13,7 @@ var EXPORTED_SYMBOLS = ["EnigmailAutocrypt"];
 
 const Cr = Components.results;
 
-Components.utils.importGlobalProperties(["crypto"]); /* global crypto: false */
+Components.utils.importGlobalProperties(["crypto"]);
 
 const jsmime = ChromeUtils.import("resource:///modules/jsmime.jsm").jsmime;
 const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;

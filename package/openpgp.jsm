@@ -11,7 +11,6 @@
  * Do OpenPGP packet parsing
  */
 
-/* global Components: false */
 /* eslint no-invalid-this: 0 */
 
 var EXPORTED_SYMBOLS = ["EnigmailOpenPGP"];

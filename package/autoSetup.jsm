@@ -4,7 +4,7 @@
 
 "use strict";
 
-/*eslint no-loop-func: 0*/
+/*eslint no-loop-func: 0 no-async-promise-executor: 0*/
 
 /**
  *  Module to determine the type of setup of the user, based on existing emails

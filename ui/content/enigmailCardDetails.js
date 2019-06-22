@@ -1,4 +1,3 @@
-/*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,8 +6,6 @@
 
 
 "use strict";
-
-
 
 var EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
 var EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
@@ -37,8 +34,7 @@ function onLoad() {
   var dryRun = false;
   try {
     dryRun = EnigmailPrefs.getPref("dryRun");
-  }
-  catch (ex) {}
+  } catch (ex) {}
 
   var cardStr = EnigmailCard.getCardStatus(exitCodeObj, errorMsgObj);
   if (exitCodeObj.value === 0) {
@@ -79,8 +75,7 @@ function onLoad() {
           }
       }
     }
-  }
-  else {
+  } else {
     if (!dryRun) {
       EnigmailEvents.dispatchEvent(failWithError, 0, errorMsgObj.value);
     }
@@ -106,8 +101,7 @@ function getValue(attrib) {
   var elem = document.getElementById("card_" + attrib);
   if (elem) {
     return elem.value;
-  }
-  else {
+  } else {
     return "";
   }
 }
@@ -116,8 +110,7 @@ function getSelection(attrib) {
   var elem = document.getElementById("card_" + attrib);
   if (elem) {
     return elem.selectedItem.value;
-  }
-  else {
+  } else {
     return "";
   }
 }
@@ -151,8 +144,7 @@ function doSaveChanges() {
     EnigmailDialog.alert(window, EnigmailLocale.getString("Carddetails.NoASCII"));
     onLoad();
     doEditData();
-  }
-  else {
+  } else {
     EnigmailKeyEditor.cardAdminData(window,
       EnigmailData.convertFromUnicode(dialogname),
       EnigmailData.convertFromUnicode(dialogfirstname),

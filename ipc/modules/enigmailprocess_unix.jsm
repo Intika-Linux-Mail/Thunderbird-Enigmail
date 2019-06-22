@@ -5,13 +5,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 "use strict";
 
-/* eslint-disable mozilla/balanced-listeners */
 
 /* exported SubprocessImpl */
 
 /* globals BaseProcess, PromiseWorker */
 
-/* global Components: false, libc: false, LIBC: false */
+/* global libc: false, LIBC: false */
 
 var {
   classes: Cc,

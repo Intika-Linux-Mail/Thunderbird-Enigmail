@@ -15,6 +15,7 @@ module.exports = {
     "no-unused-vars": 0,
     "no-empty": 0,
     "comma-dangle": 2,
+    "require-atomic-updates": 0,
     "consistent-return": 2,
     "block-scoped-var": 2,
     "dot-notation": 2,

@@ -1,4 +1,3 @@
-/*global Components */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -81,8 +80,7 @@ function reloadData() {
     if (keyObj.secretAvailable) {
       setLabel("keyType", EnigmailLocale.getString("keyTypePair"));
       document.getElementById("ownKeyCommands").removeAttribute("hidden");
-    }
-    else {
+    } else {
       document.getElementById("ownKeyCommands").setAttribute("hidden", "true");
       setLabel("keyType", EnigmailLocale.getString("keyTypePublic"));
     }
@@ -97,23 +95,20 @@ function reloadData() {
         photoImg.setAttribute("src", photoUri);
         photoImg.removeAttribute("hidden");
       }
-    }
-    else {
+    } else {
       photoImg.setAttribute("hidden", "true");
     }
 
     if (keyObj.isOwnerTrustUseful()) {
       document.getElementById("setOwnerTrust").removeAttribute("collapsed");
-    }
-    else {
+    } else {
       document.getElementById("setOwnerTrust").setAttribute("collapsed", "true");
     }
 
     if (keyObj.hasSubUserIds()) {
       document.getElementById("alsoknown").removeAttribute("collapsed");
       createUidData(uidList, keyObj);
-    }
-    else {
+    } else {
       document.getElementById("alsoknown").setAttribute("collapsed", "true");
     }
 
@@ -314,8 +309,7 @@ SigListView.prototype = {
 
         if (j + l >= row && row - j < l) {
           return this.setLastKeyObj(this.keyObj[i].sigList[row - j], row);
-        }
-        else {
+        } else {
           j += l;
         }
       }
@@ -419,11 +413,9 @@ function createSubkeyItem(subkey) {
   let expire;
   if (subkey.keyTrust === "r") {
     expire = EnigmailLocale.getString("keyValid.revoked");
-  }
-  else if (subkey.expiryTime === 0) {
+  } else if (subkey.expiryTime === 0) {
     expire = EnigmailLocale.getString("keyExpiryNever");
-  }
-  else {
+  } else {
     expire = subkey.expiry;
   }
 
