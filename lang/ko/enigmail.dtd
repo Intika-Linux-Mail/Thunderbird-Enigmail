@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "">
 <!ENTITY enigmail.autocrypt.label         "">
 
-<!ENTITY enigmail.about.license           "">
-
 <!ENTITY enigmail.keyUserId.label         "계정 / 사용자 ID">
 <!ENTITY enigmail.keygenTitle.label       "OpenPGP 키 생성">
 <!ENTITY enigmail.useForSigning.label     "선택한 신원으로 생성된 키를 사용">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "">
 
-<!ENTITY enigmail.keyUpload.label         "">
-<!ENTITY enigmail.keyUpload.desc          "">
-<!ENTITY enigmail.keyUpload.sks.label     "">
-<!ENTITY enigmail.keyUpload.sks.desc      "">
-<!ENTITY enigmail.keyUpload.wks.label     "">
-<!ENTITY enigmail.keyAttachAuto.label     "">
-
 <!ENTITY enigmail.preferences.label       "Enigmail 설정">
 
 <!ENTITY enigmail.passwordSettings.label   "">
-<!ENTITY enigmail.userNoPassphrase.label   "사용자에게 어떤 패스프레이즈도 묻지 않음">
-<!ENTITY enigmail.userNoPassphrase.tooltip "OpenPGP 키가 패스프레이즈로 보호되어 있지 않은 경우에 활성화 하세요.">
 <!ENTITY enigmail.expertUserMenus.label    "고급 설정 및 메뉴 보기">
 <!ENTITY enigmail.expertUser.tooltip       "고급 사용자를 위한 메뉴 항목이나 옵션을 보고 싶다면 누르세요.">
 <!ENTITY enigmail.basicUserMenus.label     "고급 설정 및 메뉴 숨기기">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "">
 <!ENTITY enigmail.protectedSubjectText.label    "">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "">
+<!ENTITY enigmail.protectedSubjectText.placeholder "메시지 암호화 완료">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "열었을 때만 첨부 파일을 다운로드 (IMAP전용)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "암호문구 기억시간">
 <!ENTITY enigmail.maxIdleMinutesTail.label "">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "제한 시간 동안 암호문구를 메모리에 일시 저장합니다.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "재설정">
 <!ENTITY enigmail.resetPrefs.tooltip     "모든 Enigmail 설정을 기본값으로 설정합니다.">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "셋팅내용과 열쇠를  재설치">
 <!ENTITY enigmail.restorePrefs.tooltip     "OpenPGP 열쇠를 포함하여 에니그메일 선호사항을 파일에서 재설치.">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "">
 <!ENTITY enigmail.pref.acSetupMessage.button "">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
 
 <!ENTITY enigmail.backupRestore.desc       "OpenPGP 열쇠를 포함하여 에니그메일 선호사항을(백업포함) 반출하고 재설치">
 
@@ -89,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "기본 설정">
 
 <!ENTITY enigmail.moreOptions.label       "더 많은 옵션">
+<!ENTITY enigmail.general.okLabel         "">
 
 <!ENTITY enigmail.useNonDefaultComment.label "OpenPGP 서명에 Enigmail 주석을 추가">
 
 <!ENTITY enigmail.keyserver.label         "키 서버">
 <!ENTITY enigmail.keyserverDlg.label      "키 서버 선택">
-<!ENTITY enigmail.keyservers.label        "키 서버 지정">
+<!ENTITY enigmail.keyservers.label        "">
 <!ENTITY enigmail.keyservers.sample2      "">
 
 <!ENTITY enigmail.searchForKey.example    "">
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "복호화">
 <!ENTITY enigmail.decryptbutton.tip       "Enigmail로 된 메시지를 복호화 또는 검증">
+
+<!ENTITY enigmail.doneButton.label        "">
+<!ENTITY enigmail.doneButton.accesskey    "상세">
 
 <!ENTITY enigmail.messengermenu.accesskey "n">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "O">
 
 
 <!-- account specific options -->
@@ -217,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "PGP/MIME을 기본으로 사용">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "기본값과 규칙을 적용한 이후:">
-<!ENTITY enigmail.finallySignEncrypted.label      "암호 메시지에 서명함.">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "평문 메시지에 서명함.">
+<!ENTITY enigmail.finallySignEncrypted.label      "">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "저장시점에서 메시지 초안을 암호화함.">
 
@@ -345,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "이 신원에 대하여 OpenPGP 지원 (enigmail)을 활성화">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "OpenPGP 키 식별을 위해 이 신원의 전자 메일 주소를 사용">
 <!ENTITY enigmail.amPrefUseKeyId.label              "지정한 OpenPGP 키 ID (예:0x1234ABCD)를 사용:">
-<!ENTITY enigmail.amPrefSelectKey.label             "키 선택 ...">
+<!ENTITY enigmail.amPrefSelectKey.label             "">
 <!ENTITY enigmail.amPrefMsgComp.label               "">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "메시지 작성 기본 옵션">
 <!ENTITY enigmail.encryptionDlg.label               "Enigmail 암호화 &amp; 서명 설정">
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "">
-<!ENTITY enigmail.amPrefAutocrypt.description       "">
 
 <!ENTITY enigmail.progressText.label               "진행:">
 
@@ -456,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "서명하려고 하는 키가 위에 표시된 이름의 사람이 실재로 소유하고 있는 것인지 면밀하게 확인했습니까?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "대답하지 않겠습니다">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "전혀 확인하지 않았습니다">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "대략 확인 했습니다">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "매우 주의깊게 확인했습니다">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "로컬 서명 (내보내기 할 수 없음. 이 컴퓨터에서만 사용)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - 사용자 ID 추가">
@@ -542,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "검색어와 일치하는 키 없음">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "키를 불러오는 동안 기다리세요 ...">
 
-<!ENTITY enigmail.keyMan.filter.label              "검색:">
+<!ENTITY enigmail.keyMan.filter.label              "">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "C">
 <!ENTITY enigmail.keyMan.generate.accesskey          "K">
@@ -623,7 +615,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "일련 번호">
 <!ENTITY enigmail.cardDetails.name.label             "이름, 성">
 <!ENTITY enigmail.cardDetails.lang.label             "언어">
-<!ENTITY enigmail.cardDetails.sex.label              "성별">
+<!ENTITY enigmail.cardDetails.sex.label              "">
 <!ENTITY enigmail.cardDetails.url.label              "공개키 URL">
 <!ENTITY enigmail.cardDetails.login.label            "로그인 데이터">
 <!ENTITY enigmail.cardDetails.forcepin.label         "강제 서명 PIN">
@@ -665,133 +657,37 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "새로운 PIN (다시)">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Enigmail 설정 마법사">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "에니그메일 셋업 마법사 환영.">
-<!ENTITY enigmail.setupWiz.pgIntro.desc              "이 컴퓨터에서 에니그메일을 처음 사용하는 것 같습니다.
-                                                      에니그메일을  사용하려면 설정 과정이 필요합니다.
-                                                      마법사를 통해 설정 과정이 진행됩니다.">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "지금 에니그메일을 셋업할까요?">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "지금 설정 시작">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "나중에 에니그메일 구성">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "에니그메일을 어떻게 구성합니까?">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "수작업으로 에니그메일을 셋업할까요 아니면 도우미를 사용할까요?">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "표준구성을 선택합니다 (초보자용)">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "상세 구성을 선택합니다 (고급사용자용)">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "수작업 구성을 선택합니다 (전문가용)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "기존 설치의 설정내용을 반입하고자 합니다.">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "신원 선택">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Enigmail가 동작하기를 원하는 계정이나 신원을 선택">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "이메일 계정이나 아이디가 사용할 에니그메일을 셋업할까요?">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "내가사용하는 계정과 아이디이 에니그메일을 사용할 수 있게 허용함.">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "다음 아이디만 에니그메일을 사용하고자 합니다. ">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>주의:</a> Enigmail는 모든 계정 또는 신원에 대하여, Enigmail가 설정된 상태이든 아니든 관계없이, 전자 메일에 있는 서명을 검증하게 된다는 점을 주의하십시오">
-
+<!ENTITY enigmail.setupWiz.title                     "">
+<!ENTITY enigmail.setupWiz.pgIntro.desc              "">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "GnuPG 필요">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "에니그메일은 암호화작업을 위해 GnuPG가 필요함.
 마법사가 GnuPG 실행프로그램을 찾지 못하였음.">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "에니그메일이 GnuPG를 다운로드하고 설치관리자를 실행할 수 있습니다.
 진행해도 좋으면  GnuPG를 다운로드하고 설치할 수 있도록 GnuPG설치버튼을 클릭하세요.">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "이미 GnuPG를 설치한 경우에는 GnuPG의 디랙토리 패쓰를 수작업으로 지정할 수 있도록 '보기'버튼을 사용하세요.">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "조회 버튼으로 GnuPG를 찾으십시오.">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "GnuPG 설치">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "조회">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "GnuPG 다운로드중">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "설치관리자 개시. GnuPG설치 마법사를 따라 차례로 진행하세요.">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "설치완료. 셋업과정을 계속하려면 마법사의 다음 페이지로 진행하세요. ">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "설치용 정상 GnuPG 발견">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "키 선택">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "전자 메일을 서명하고 암호화할 키 생성하기">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "OpenPGP 열쇠를 발견하였습니다. 기존 열쇠를 사용하여도 되고 새 열쇠 한쌍을 만들어 사용해도 됩니다. ">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "내 메일을 서명하고 암호화하는데 사용할 새로운 키 쌍을 생성하고 싶습니다">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "내 메일을 서명하고 암호화하는데 사용할 키를 아래 목록에서 선택하겠습니다:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "키 생성">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "전자 메일 서명과 암호화하는 키 생성">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "이 대화상자로 열쇠 한 쌍을 작성합니다.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "여러분의 <html:b>공개키(공개열쇠)</html:b> 는 <html:b>다른 사람들</html:b> 이 여러분에게 암호메일을 보낼때 사용합니다. 모든 사람에게 공개열쇠를 배포해도 됩니다. ">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "여러분의 <html:b>비밀키(비밀열쇠)</html:b> 는 <html:b> 여러분 자신이</html:b> 암호메일을 복호화할 때나 이메일에 서명할 때 사용합니다.
-비밀열쇠를 다른 사람에게 보내지 마십시오. 
-                                                      ">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "여러분의 <html:b>비밀키(비밀열쇠)</html:b>는<html:b>여러분 자신이</html:b> 암호메일을 복호화할 때나 이메일에 서명할 때 사용합니다.
-비밀열쇠를 다른 사람에게 보내지 마십시오.
-비밀키를 안전하게 사용하기 위해 다음 대화상자에서 두번 암호문구을 입력해야 합니다.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "여러분의 <html:b>암호문구/html:b>은 여러분의 비밀열쇠를 지키는 패스워드입니다. 여러분의 비밀열쇠를 다른 사람이 무단으로 사용하는 것을 방지 합니다.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "암호문구는 문자와 숫자, 구둣점을 포함하여 8자로 만들어야 합니다. 하지만  움라우트나 일부 언어에만 있는 독특한 문자를 사용해서는 <html:b>절대로 안</html:b>됩니다. ">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "패스프레이즈를 한번더 입력해서 확인해주십시오">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "암호문장의 품질:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "OpenPGP 열쇠를 만들거나 반입합니다.">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "OpenPGP 열쇠가 없는것 같습니다. 새로 만들까요?
-
-아니면 다른 파일에서 반입할까요?">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "수입해서 사용하려는 공개열쇠와 비밀열쇠가 있음.">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "OpenPGP 열쇠 반입">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "반입하려는 파일을 선택하세요. ">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "반입하려는 공개열쇠와 비밀열쇠가 있는 파일을 선택하세요.
-첫번째 파일 안에 공개열쇠와 비밀열쇠가 있으면 비밀열쇠용
-입력난은 공란으로 처리해도됨.">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "공개열쇠 파일">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "비밀연쇠 파일">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "키 생성">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "키가 생성되고 있습니다">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "열쇠를 만들었습니다.">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "취소 인증서 생성">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "">
-<!ENTITY enigmail.attachAuto.desc                    "">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "기존 설치 설정내용 반입.">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "에니그메일에서 OpenPGP 열쇠와 셋팅내용을 새 컴퓨터로 이전할 수 있습니다. 이 작업은 두단계를 거칩니다.
-첫째, 에니그메일 선호사항에서 백업 마법사를 이용하여 이전 컴퓨터에서 데이터를 반출합니다.
-둘째, 이 마법사를 이용하여 데이터를 새 컴퓨터에  반입합니다. ">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "데이터를 백업해 둔 파일을 지정하세요.">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "열쇠를 반입하고 셋팅 내용을 적용하세요.">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "반입과정에서 에러가 발생하였습니다. 셋팅내용이 적용되지 안았습니다.">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "감사합니다">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail를 사용 준비가 완료되었습니다.<html:br></html:br><html:br></html:br>Enigmail을 선택해주셔서 감사합니다.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "">
-<!ENTITY enigmail.pgComplete.help.title              "">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "수작업으로 에니그메일 구성">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "에니그메일 구성용 마법사를 사용하지 않습니다.">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "이제부터 에니그메일 열쇠관리자를 사용할 수 있습니다.">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "이제부터 전문가용 셋팅을 사용할 수 있습니다.">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "고급 Enigmail 신원 설정">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "메시지에 내 공개키를 첨부">
 
-<!ENTITY enigmail.addPhoto.question.label            "다음 그림을 열쇠에 추가하시겠습니까?">
+<!ENTITY enigmail.addPhoto.question.label            "">
 <!ENTITY enigmail.addPhoto.title                     "열쇠에 사진을 추가함.">
 <!ENTITY enigmail.msgViewColumn.tooltip              "OpenPGP 상태에 따라 정렬">
 <!ENTITY enigmail.addToRule.title                    "수신자별 규칙에 열쇠를 추가">
@@ -807,9 +703,9 @@
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "에니그메일 셋팅내용을 반출">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "반출마법사 이용을 환영합니다.">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "에니그메일에서 OpenPGP 의 셋팅내용을 포함하여 모든 사항을 새 컴퓨터로 이전할 수 있습니다. 이 작업은 두단계를 거칩니다.
-첫째, 마법사를 이용하여 이전 컴퓨터에서 데이터를 반출합니다.
-둘째, 설치마법사를 이용하여 새 컴퓨터에 데이터를 반입합니다. ">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "반출할 파일을 지정하세요:">
 <!ENTITY enigmail.exportWiz.pgExport.title           "에니그메일 설정내용 반출 ">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "저장이 진행됩니다.  비밀열쇠용 암호문구가 필요합니다. ">
@@ -870,9 +766,19 @@
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "셋팅내용과 열쇠를  재설치">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">

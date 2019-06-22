@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "Enigmail/p≡p">
 <!ENTITY enigmail.autocrypt.label         "自动加密">
 
-<!ENTITY enigmail.about.license           "Enigmail 是依照 <html:a href='http://www.mozilla.org/MPL/' class='enigmailLink'>Mozilla 公共许可证 2.0</html> 授权的开源软件。">
-
 <!ENTITY enigmail.keyUserId.label         "账户 / 个人标识">
 <!ENTITY enigmail.keygenTitle.label       "请指定您的备份数据所在的文件。">
 <!ENTITY enigmail.useForSigning.label     "将生成的密钥用于选中的身份">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "ECC (椭圆曲线)">
 
-<!ENTITY enigmail.keyUpload.label         "">
-<!ENTITY enigmail.keyUpload.desc          "">
-<!ENTITY enigmail.keyUpload.sks.label     "">
-<!ENTITY enigmail.keyUpload.sks.desc      "">
-<!ENTITY enigmail.keyUpload.wks.label     "">
-<!ENTITY enigmail.keyAttachAuto.label     "">
-
 <!ENTITY enigmail.preferences.label       "Enigmail 选项">
 
 <!ENTITY enigmail.passwordSettings.label   "">
-<!ENTITY enigmail.userNoPassphrase.label   "不再询问任何口令">
-<!ENTITY enigmail.userNoPassphrase.tooltip "如果您想用口令保护您的 OpenPGP 密钥就选择">
 <!ENTITY enigmail.expertUserMenus.label    "显示专家设置和菜单">
 <!ENTITY enigmail.expertUser.tooltip       "如果您想看到面向高级用户的菜单和配置就选此项。">
 <!ENTITY enigmail.basicUserMenus.label     "隐藏专家设置和菜单">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "加密邮件中移除主题和其他敏感头">
 <!ENTITY enigmail.protectedSubjectText.label    "保护加密邮件的主题文本">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "指定发送加密邮件时的公开主题头，掩盖真正的主题">
+<!ENTITY enigmail.protectedSubjectText.placeholder "已加密的邮件">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "仅在打开时下载附件 (仅 IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "在空闲">
 <!ENTITY enigmail.maxIdleMinutesTail.label "">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "在内存中缓存口令一段时间。">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "重置">
 <!ENTITY enigmail.resetPrefs.tooltip     "恢复所有 Enigmail 设置到默认值">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "恢复设置和密钥">
 <!ENTITY enigmail.restorePrefs.tooltip     "从文件恢复 Enigmail 的所有首选项，包括您的 OpenPGP 密钥。">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "">
 <!ENTITY enigmail.pref.acSetupMessage.button "">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
 
 <!ENTITY enigmail.backupRestore.desc       "导出（备份）和恢复您的 Enigmail 设置，包括您的 OpenPGP 密钥。">
 
@@ -89,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "基本设置">
 
 <!ENTITY enigmail.moreOptions.label       "更多选项">
+<!ENTITY enigmail.general.okLabel         "确定">
 
 <!ENTITY enigmail.useNonDefaultComment.label "在 OpenPGP 签名中增加 Enigmail 注释">
 
 <!ENTITY enigmail.keyserver.label         "密钥服务器">
 <!ENTITY enigmail.keyserverDlg.label      "选择密钥服务器">
-<!ENTITY enigmail.keyservers.label        "指定您的密钥服务器">
+<!ENTITY enigmail.keyservers.label        "">
 <!ENTITY enigmail.keyservers.sample2      "示例: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "">
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "解密">
 <!ENTITY enigmail.decryptbutton.tip       "使用 Enigmail 解密或验证邮件">
+
+<!ENTITY enigmail.doneButton.label        "完成">
+<!ENTITY enigmail.doneButton.accesskey    "D">
 
 <!ENTITY enigmail.messengermenu.accesskey "a">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "O">
 
 
 <!-- account specific options -->
@@ -217,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "总是使用 PGP/MIME">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "在默认值和规则应用后：">
-<!ENTITY enigmail.finallySignEncrypted.label      "签名已加密的邮件">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "签名未加密的邮件">
+<!ENTITY enigmail.finallySignEncrypted.label      "">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "保存时加密邮件草稿">
 
@@ -345,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "为这个标识打开 OpenPGP 支持 (Enigmail)">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "使用这个身份的电子邮件地址标示 OpenPGP 密钥">
 <!ENTITY enigmail.amPrefUseKeyId.label              "使用指定的 OpenPGP 密钥标识 (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "选择密钥...">
+<!ENTITY enigmail.amPrefSelectKey.label             "">
 <!ENTITY enigmail.amPrefMsgComp.label               "">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "邮件撰写默认选项">
 <!ENTITY enigmail.encryptionDlg.label               "Enigmail 加密和数字签名设置">
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "如果 Enigmail 与 S/MIME 加密都可使用，那么：">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "偏好 Enigmail (OpenPGP)">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "偏好 S/MIME">
-<!ENTITY enigmail.amPrefAutocrypt.description       "">
 
 <!ENTITY enigmail.progressText.label               "进度:">
 
@@ -456,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "您对“您将要签署的密钥确实属于声称拥有它的人”做过何种程度的考察?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "我不想回答">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "我还没检查过">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "我随便检查了一下">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "我很仔细的检查过">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "本地签署(将不会被导出)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - 增加用户标识">
@@ -542,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "没有密钥匹配您的搜索内容">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "密钥载入中，请稍候…">
 
-<!ENTITY enigmail.keyMan.filter.label              "仅显示用户标识中或密钥标识中包含如下字符的密钥:">
+<!ENTITY enigmail.keyMan.filter.label              "">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "C">
 <!ENTITY enigmail.keyMan.generate.accesskey          "K">
@@ -623,7 +615,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "序列号">
 <!ENTITY enigmail.cardDetails.name.label             "姓, 名">
 <!ENTITY enigmail.cardDetails.lang.label             "语言">
-<!ENTITY enigmail.cardDetails.sex.label              "性别">
+<!ENTITY enigmail.cardDetails.sex.label              "">
 <!ENTITY enigmail.cardDetails.url.label              "公钥的 URL">
 <!ENTITY enigmail.cardDetails.login.label            "登录数据">
 <!ENTITY enigmail.cardDetails.forcepin.label         "强制数字签名识别码">
@@ -665,130 +657,37 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "再次输入新识别码以确认">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Enigmail 设置向导">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "欢迎使用 Enigmail 安装向导">
-<!ENTITY enigmail.setupWiz.pgIntro.desc              "看起来您是第一次在这台计算机上使用 Enigmail。
-为了使用 Enigmail，您首先需要正确的设置它。
-这里将协助您完成初始设置过程。">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "您想现在就设置 Enigmail 吗，或者稍后再设置？">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "立即开始设置">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "稍后再配置 Enigmail">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "您想如何配置 Enigmail？">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "您想手动配置 Enigmail，还是希望提供安装协助？">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "我更喜欢标准配置（推荐给新手）">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "我更喜欢扩展配置（推荐给高级用户）">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "我更喜欢手动配置（推荐给专家）">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "我想从以前的安装导入我的设置">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "选择身份标识">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "选择 Enigmail 所工作的帐号或身份标识">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "您想为您的所有电子邮件账户/身份设置 Enigmail 吗？">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "我想对我的所有账户/身份启用 Enigmail">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "我只想对下列身份启用 Enigmail：">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>注意:</a> Enigmail 将总是验证每个帐号或身份标识邮件的数                                                             字签名，而无论它是否被允许或不">
-
+<!ENTITY enigmail.setupWiz.title                     "">
+<!ENTITY enigmail.setupWiz.pgIntro.desc              "">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "需要 GnuPG">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Enigmail 需要 GnuPG 才能实现密码学处理。
 本向导尝试了定位 GnuPG 可执行程序的位置，但未能找到。">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmail 可以下载并为您启动 GnuPG 安装程序。
 如果您希望这样做，点击“安装 GnuPG”按钮以下载并安装 GnuPG。">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "另外，如果您已经安装了 GnuPG，请手动使用“浏览”按钮指定 GnuPG 的路径。">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "请使用“浏览”按钮定位 GnuPG。">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "安装…">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "浏览…">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "正在下载 GnuPG…">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "正在启动安装程序。请遵循 GnuPG 安装程序的向导指示。">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "安装完成。请继续本向导的下一页面，继续安装过程。">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "找到了有效的 GnuPG 安装位置。">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "选择密钥">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "创建一个用于数字签名和加密邮件的密钥">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "我们检测到您已经有了一个 OpenPGP 密钥。您可以使用您现有密钥中的任何一个，或者创建一个新的密钥对。">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "我想为数字签名和加密邮件创建新的密钥对">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "我想为数字签名和加密邮件选择一个密钥:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "创建密钥">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "创建一个用于数字签名和加密邮件的密钥">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "此对话框将创建一对密钥：">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "您的<html:b>公钥</html:b>是<html:b>给其他人</html:b>用以向您发送加密邮件的东西。您可以将它分发给任何人。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "您的<html:b>私钥</html:b>是<html:b>仅供您自己使用</html:b>的用来解密这些邮件，以及签名要发出的邮件时使用。
-您应该不将它泄露给任何人。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "您的<html:b>私钥</html:b>是<html:b>仅供您自己使用</html:b>的用来解密这些邮件，以及签名要发出的邮件时使用。
-您应该不将它泄露给任何人。
-为了您的私钥的安全，您需要在接下来的两个对话框中输入一个口令。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "您的<html:b>口令</html:b>是用来保护您的私钥的密码。它用以避免您的私钥被滥用。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "该口令应该是总计包含至少8个字符、数字和标点符号的短语。<html:b>不推荐</html:b>使用元音 (e.g. ä, é, ñ) 和特定语言的字符。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "请再次确认您输入的口令">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "口令强度：">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "口令不能少于 8 个字符">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "确认口令不匹配">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "创建或导入 OpenPGP 密钥">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "您似乎还没有任何 OpenPGP 密钥。您想创建一个新密钥或者从已有文件中导入吗？">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "我想导入我已有的公钥和私钥">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "导入 OpenPGP 密钥">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "指定要导入的文件">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "请指定包含有要导入的公钥和私钥的文件。如果首个文件同时包含有公钥和私钥，私钥栏可留空。">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "公钥文件">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "私钥文件">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "创建密钥">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "正在创建您的密钥">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "您的密钥已生成">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "创建证书废除">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "">
-<!ENTITY enigmail.attachAuto.desc                    "">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "从以前的安装导入设置">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail 允许转移其所有设置到一台新电脑，包括 OpenPGP 密钥。完成此操作需要两个步骤：
-<html:ol>
-<html:li>使用 Enigmail 首选项中的备份向导，从您的旧电脑导出您的数据：</html:li>
-<html:li>使用本向导将您的数据导入您的新电脑：</html:li>
-</html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "请指定包含您的备份数据的文件：">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "导入密钥并应用设置">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "导入时发生错误。您的设置未能应用。">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "谢谢你">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail 已经就绪，可以使用。<html:br></html:br><html:br></html:br>感谢您使用 Enigmail。">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "">
-<!ENTITY enigmail.pgComplete.help.title              "">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "手动配置 Enigmail">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "您选择不使用 Enigmail 安装向导来进行配置。">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "Enigmail 密钥管理器在这里可用。">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "导出设置在这里可用。">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "高级 Enigmail 身份设置">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "附加我的公钥到邮件">
 
-<!ENTITY enigmail.addPhoto.question.label            "您是否想添加下列图片到下列密钥？">
+<!ENTITY enigmail.addPhoto.question.label            "">
 <!ENTITY enigmail.addPhoto.title                     "添加照片到密钥">
 <!ENTITY enigmail.msgViewColumn.tooltip              "按照 OpenPGP 状态排序">
 <!ENTITY enigmail.addToRule.title                    "添加密钥到收件人规则">
@@ -804,11 +703,9 @@
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "导出您的 Enigmail 设置">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "欢迎使用导出设置的向导">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail 允许转移其所有设置到一台新电脑，包括 OpenPGP 密钥。完成此操作需要两个步骤：
-<html:ol>
-<html:li>使用本向导从您的旧电脑导出您的数据：</html:li>
-<html:li>使用本向导将您的数据导入您的新电脑：</html:li>
-</html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "请指定导出文件：">
 <!ENTITY enigmail.exportWiz.pgExport.title           "正在导出 Enigmail 设置">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "正在保存。您可能被询问您的密钥的密码。">
@@ -869,9 +766,19 @@
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "恢复设置和密钥">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">

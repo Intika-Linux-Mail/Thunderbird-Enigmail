@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "Enigmail/p≡p">
 <!ENTITY enigmail.autocrypt.label         "Autocrypt">
 
-<!ENTITY enigmail.about.license           "Enigmail har öppen källkod och är licensierad under <html:a href='https://www.mozilla.org/MPL/2.0/' class='enigmailLink'>Mozilla Public License 2.0</html:a>.">
-
 <!ENTITY enigmail.keyUserId.label         "Konto / Användar-ID">
 <!ENTITY enigmail.keygenTitle.label       "Skapa OpenPGP-nyckel">
 <!ENTITY enigmail.useForSigning.label     "Använd genererad nyckel för den valda identiteten">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "ECC (elliptisk kurva)">
 
-<!ENTITY enigmail.keyUpload.label         "Kontrollera om din e-postleverantör stöds">
-<!ENTITY enigmail.keyUpload.desc          "Publicering av din publika nyckel på internet tillåter andra att skicka dig krypterad e-post utan att först kontakta dig.">
-<!ENTITY enigmail.keyUpload.sks.label     "Ladda upp nyckel till globala OpenPGP-nyckelservrar">
-<!ENTITY enigmail.keyUpload.sks.desc      "Genom att ladda upp din nyckel till de globala OpenPGP-nyckelservrarna kan användare av äldre e-postprogram skicka dig krypterade eller signerade meddelanden. Tänk på att alla kan läsa allt som laddas upp till dessa nyckelservrar (tänk på den som en telefonbok). Ladda inte upp din nyckel om du vill behålla den e-postadress som är kopplad till nyckeln privat.">
-<!ENTITY enigmail.keyUpload.wks.label     "Ladda upp till din e-postleverantörs nyckelserver">
-<!ENTITY enigmail.keyAttachAuto.label     "Bifoga alltid min publika nyckel">
-
 <!ENTITY enigmail.preferences.label       "Enigmail Inställningar">
 
 <!ENTITY enigmail.passwordSettings.label   "Timeout för lösenfras ">
-<!ENTITY enigmail.userNoPassphrase.label   "Fråga aldrig efter någon lösenfras">
-<!ENTITY enigmail.userNoPassphrase.tooltip "Aktivera om din OpenPGP-nyckel inte skyddas av en lösenfras.">
 <!ENTITY enigmail.expertUserMenus.label    "Visa expertinställningar och menyer">
 <!ENTITY enigmail.expertUser.tooltip       "Tryck om du vill visa menyposter och alternativ för avancerade användare.">
 <!ENTITY enigmail.basicUserMenus.label     "Göm expertinställningar och menyer">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "Ta bort ämne och andra känsliga headers från krypterade meddelanden.">
 <!ENTITY enigmail.protectedSubjectText.label    "Ange text för att skydda krypterade meddelanden">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "Ange ämnet som ska vara synligt offentligt istället för det riktiga ämnet när du skickar krypterade meddelanden">
+<!ENTITY enigmail.protectedSubjectText.placeholder "Krypterat meddelande">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "Ladda endast ner bilagor när de öppnas (IMAP endast)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Kom ihåg lösenfrasen för">
 <!ENTITY enigmail.maxIdleMinutesTail.label "minuters inaktivitet (innan du behöver skriva in den igen)">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "Cache lösenfras i minnet under en begränsad tid.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "Återställ">
 <!ENTITY enigmail.resetPrefs.tooltip     "Ställ in alla Enigmail inställningar tillbaka till sitt standardvärde.">
@@ -72,15 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Återställ inställningar och nycklar">
 <!ENTITY enigmail.restorePrefs.tooltip     "Återställ alla inställningar för Enigmail inklusive dina OpenPGP-nycklar från en fil.">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "Överför din nyckel till en annan Autocrypt-aktiverad enhet.">
-<!ENTITY enigmail.pref.acSetupMessage.button "Starta Autocrypt-nyckelöverföring">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "Enigmail stöder två sätt att överföra dina nycklar och dina inställningar till en annan enhet.<html:br/><html:br/>
-                                            'Autocrypt-nyckelöverföring'  kräver att e-postklienten på den andra enheten är Autocrypt-kompatibel.
-                                            Även om det här är den enklare lösningen, stödjer endast ett begränsat antal klienter denna standard.<html:br/><html:br/>
-                                            Det andra sättet är att 'Säkerhetskopiera och återställa' dina inställningar.
-                                            Detta skapar en ZIP-fil med all information och nycklar som du kan kopiera till din nya enhet.
-                                            Enigmail kan importera dessa inställningar direkt; för andra e-postklienter kan ZIP-filen packas upp och hanteras manuellt.">
+<!ENTITY enigmail.pref.acSetupMessage.button "">
 
 <!ENTITY enigmail.backupRestore.desc       "Exportera (säkerhetskopiera) dina och återställ dina inställningar för Enigmail inklusive dina OpenPGP-nycklar.">
 
@@ -94,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "Grundläggande inställningar">
 
 <!ENTITY enigmail.moreOptions.label       "Fler alternativ">
+<!ENTITY enigmail.general.okLabel         "">
 
 <!ENTITY enigmail.useNonDefaultComment.label "Lägg till Enigmail kommentar i OpenPGP signatur">
 
 <!ENTITY enigmail.keyserver.label         "Nyckelserver">
 <!ENTITY enigmail.keyserverDlg.label      "Välj nyckelserver">
-<!ENTITY enigmail.keyservers.label        "Ange din nyckelserver">
+<!ENTITY enigmail.keyservers.label        "">
 <!ENTITY enigmail.keyservers.sample2      "Exempel: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "Exempel 'Förnamn Efternamn <user@example.com>'">
@@ -122,10 +106,13 @@
 <!ENTITY enigmail.decryptbutton.label     "Dekryptera">
 <!ENTITY enigmail.decryptbutton.tip       "Dekryptera eller verifiera meddelanden med Enigmail">
 
+<!ENTITY enigmail.doneButton.label        "">
+<!ENTITY enigmail.doneButton.accesskey    "D">
+
 <!ENTITY enigmail.messengermenu.accesskey "E">
 
 <!ENTITY enigmail.decryptverify.label    "Dekryptera/Verifiera">
-<!ENTITY enigmail.importpublickey.label  "Importera publik nyckel">
+<!ENTITY enigmail.importpublickey.label  "Importera offentlig nyckel">
 <!ENTITY enigmail.importKey.label        "Importera nyckel">
 
 <!ENTITY enigmail.autoDecrypt.label      "Automatiskt Dekryptera/Verifiera meddelanden">
@@ -192,8 +179,8 @@
 
 <!ENTITY enigmail.tempTrustAllKeys.label       "Lita på nycklar från alla mottagare">
 <!ENTITY enigmail.undoencryption.label         "Ångra kryptering">
-<!ENTITY enigmail.attachkey.label              "Bifoga publik nyckel ...">
-<!ENTITY enigmail.attachmykey.label            "Bifoga min publika nyckel">
+<!ENTITY enigmail.attachkey.label              "Bifoga offentlig nyckel ...">
+<!ENTITY enigmail.attachmykey.label            "Bifoga min offentliga nyckel">
 <!ENTITY enigmail.protectHeaders.label         "Skydda ämne">
 
 <!ENTITY enigmail.composemenu.accesskey        "n">
@@ -214,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "O">
 
 
 <!-- account specific options -->
@@ -222,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Använd PGP/MIME som standard">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Efter tillämpning av standardinställningar och regler:">
-<!ENTITY enigmail.finallySignEncrypted.label      "signera krypterade meddelanden">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "signera icke-krypterade meddelanden">
+<!ENTITY enigmail.finallySignEncrypted.label      "">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Kryptera utkast av meddelanden när du sparar">
 
@@ -350,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "Aktivera OpenPGP stöd (Enigmail) för denna identitet">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Använd e-postadress för denna identitet för att identifiera OpenPGP nyckel">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Använd specifik OpenPGP nyckel-ID (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "Välj nyckel ...">
+<!ENTITY enigmail.amPrefSelectKey.label             "">
 <!ENTITY enigmail.amPrefMsgComp.label               "Meddelandekomposition">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Standardalternativ för meddelandekomposition">
 <!ENTITY enigmail.encryptionDlg.label               "Enigmail Kryptering &amp; Signering inställningar">
@@ -373,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "Om både Enigmail och S/MIME-kryptering är möjlig, använd då:">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "Föredrar Enigmail (OpenPGP)">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "Föredrar S/MIME">
-<!ENTITY enigmail.amPrefAutocrypt.description       "<enigmailLink href='https://autocrypt.org'>Autocrypt</enigmailLink> är en standard som definierar hur man kan uppnå bekväm end-to-end-kryptering av e-post. Den specificerar hur e-postprogram förhandlar krypteringsfunktioner med vanliga e-postmeddelanden.">
 
 <!ENTITY enigmail.progressText.label               "Utveckling:">
 
@@ -461,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "Hur noga har du kontrollerat att nyckeln som du ska signera verkligen tillhör den person som nämns ovan?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Jag kommer inte att svara">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Jag har inte kontrollerat alls">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Jag har gjort tillfällig kontroll">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "Jag har gjort mycket noggrann kontroll">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Lokal signatur (kan inte exporteras)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - Lägg till användar-ID">
@@ -507,18 +494,18 @@
 <!ENTITY enigmail.keyMan.importFromClipbrd.label   "Importera nycklar från urklipp">
 <!ENTITY enigmail.keyMan.importFromUrl.label       "Importera nycklar från URL">
 <!ENTITY enigmail.keyMan.exportToFile.label        "Exportera nycklar till fil">
-<!ENTITY enigmail.keyMan.sendKeys.label            "Skicka publika nycklar via e-post">
+<!ENTITY enigmail.keyMan.sendKeys.label            "Skicka offentliga nycklar via e-post">
 <!ENTITY enigmail.keyMan.createMail.label          "Skriv ett mail till valda nycklar">
-<!ENTITY enigmail.keyMan.uploadToServer.label      "Ladda upp publika nycklar">
+<!ENTITY enigmail.keyMan.uploadToServer.label      "Ladda upp offentliga nycklar">
 <!ENTITY enigmail.keyMan.uploadToWkd.label         "Ladda upp till din leverantörens webkey-katalog">
-<!ENTITY enigmail.keyMan.copyToClipbrd.label       "Kopiera publika nycklar till urklipp">
+<!ENTITY enigmail.keyMan.copyToClipbrd.label       "Kopiera offentliga nycklar till urklipp">
 <!ENTITY enigmail.keyMan.ctxExportToFile.label     "Exportera nycklar till fil">
-<!ENTITY enigmail.keyMan.ctxUploadToServer.label   "Ladda upp publika nycklar till nyckelserver">
-<!ENTITY enigmail.keyMan.ctxCopyToClipbrd.label    "Kopiera publika nycklar till urklipp">
-<!ENTITY enigmail.keyMan.refreshSelKeys.label      "Uppdatera valda publika nycklar">
-<!ENTITY enigmail.keyMan.refreshAllKeys.label      "Uppdatera alla publika nycklar">
+<!ENTITY enigmail.keyMan.ctxUploadToServer.label   "Ladda upp offentliga nycklar till nyckelserver">
+<!ENTITY enigmail.keyMan.ctxCopyToClipbrd.label    "Kopiera offentliga nycklar till urklipp">
+<!ENTITY enigmail.keyMan.refreshSelKeys.label      "Uppdatera valda offentliga nycklar">
+<!ENTITY enigmail.keyMan.refreshAllKeys.label      "Uppdatera alla offentliga nycklar">
 <!ENTITY enigmail.keyMan.downloadContactKeys.label "Hitta nycklar för alla kontakter">
-<!ENTITY enigmail.keyMan.ctxRefreshKey.label       "Uppdatera alla publika nycklar från nyckelserver">
+<!ENTITY enigmail.keyMan.ctxRefreshKey.label       "Uppdatera alla offentliga nycklar från nyckelserver">
 <!ENTITY enigmail.keyMan.initiateAcBackup.label    "Skapa konfigurationsmeddelande för Autocrypt">
 
 <!ENTITY enigmail.keyMan.reload.label              "Ladda om nyckelcache">
@@ -547,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Inga nycklar matchar dina sökord">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Vänta medan nycklar laddas ...">
 
-<!ENTITY enigmail.keyMan.filter.label              "Sök efter:">
+<!ENTITY enigmail.keyMan.filter.label              "">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "C">
 <!ENTITY enigmail.keyMan.generate.accesskey          "N">
@@ -628,8 +615,8 @@
 <!ENTITY enigmail.cardDetails.serial.label           "Serienummer">
 <!ENTITY enigmail.cardDetails.name.label             "Förnamn, namn">
 <!ENTITY enigmail.cardDetails.lang.label             "Språk">
-<!ENTITY enigmail.cardDetails.sex.label              "Kön">
-<!ENTITY enigmail.cardDetails.url.label              "URL publik nyckel">
+<!ENTITY enigmail.cardDetails.sex.label              "">
+<!ENTITY enigmail.cardDetails.url.label              "URL offentlig nyckel">
 <!ENTITY enigmail.cardDetails.login.label            "Inloggningsdata">
 <!ENTITY enigmail.cardDetails.forcepin.label         "Tvinga signatur PIN-kod">
 <!ENTITY enigmail.cardDetails.maxpinlen.label        "Max. PIN-kodslängd">
@@ -670,145 +657,36 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Repetera ny PIN-kod">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Enigmail installationsguide">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "Välkommen till installationsguiden för Enigmail">
-<!ENTITY enigmail.setupWiz.pgIntro.desc              "Det ser ut som du startade Enigmail för första gången på denna dator. 
-                                                      För att kunna använda Enigmail, måste du först konfigurera den ordentligt. 
-                                                      Denna assistent kan guida dig genom installationen.">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "Vill du konfigurera Enigmail nu, eller vill du göra det senare?">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "Starta konfiguration nu">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "Konfigurera Enigmail senare">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "Hur vill du konfigurera Enigmail?">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "Vill du konfigurera Enigmail manuellt, eller behöver du hjälp med installationen?">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "Jag föredrar en standardkonfiguration (rekommenderas för nybörjare)">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "Jag föredrar en utökad konfiguration (rekommenderas för avancerade användare)">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "Jag föredrar en manuell konfiguration (rekommenderas för experter)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "Jag vill importera mina inställningar från en tidigare installation">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "Välj identiteter">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Välj de konton eller identiteter som du vill Enigmail ska arbeta med">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "Vill du konfigurera Enigmail för alla dina e-postkonton / identiteter?">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "Jag vill aktivera Enigmail för alla mina konton / identiteter">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "Jag vill aktivera Enigmail endast för följande identiteter:">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>OBS:</a> Enigmail kommer alltid att verifiera signaturer på e-post för varje konto eller identitet, oavsett om den är aktiverad eller inte">
-
+<!ENTITY enigmail.setupWiz.title                     "">
+<!ENTITY enigmail.setupWiz.pgIntro.desc              "">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "GnuPG krävs">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "För att kunna använda Enigmail, krävs GnuPG som en ytterligare komponent för att göra det kryptografiska arbetet. Guiden försökte lokalisera GnuPG, men den kunde inte hittas.">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmail kan hämta GnuPG och starta installationsprogrammet åt dig. 
                                                       Om du vill göra det klickar du på 'Installera GnuPG' för att hämta och installera GnuPG.">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "Alternativt, om du redan har installerat GnuPG, använd 'Bläddra' -knappen för att ange sökvägen till GnuPG manuellt.">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "Vänligen lokalisera GnuPG med knappen Bläddra.">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "Installera ...">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "Bläddra ...">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "Hämta GnuPG ...">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "Startar installationsprogrammet. Följ stegen i GnuPG:s installationsguide.">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "Installationen slutförd. Vänligen gå till nästa sida i guiden för att fortsätta installationen.">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "Giltig GnuPG installation hittades.">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "Nyckelval">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "Skapa en nyckel för att signera och kryptera e-post">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "Vi har upptäckt att du redan har en OpenPGP-nyckel. Du kan antingen 
-                                                      använda en av dina befintliga nycklar eller skapa ett nytt nyckelpar.">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "Jag vill skapa ett nytt nyckelpar för signering och kryptering av e-post">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "Jag vill välja en av nycklarna nedan för signering och kryptering min e-post:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "Skapa nyckel">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "Skapa ett nytt nyckelpar">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "Den här dialogrutan kommer att skapa ett par av två nycklar:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "Din <html:b>publika nyckel</html:b> är till <html:b>för andra</html:b> för att skicka krypterad e-post till dig. Du kan distribuera den till alla.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "Din <html:b>privata nyckel</html:b> är till <html:b>för dig själv</html:b> för att dekryptera e-post och skicka signerad e-post.
-
-                                                      
-Du bör inte ge till någon.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "Din <html:b>privata nyckel</html:b> är till <html:b>för dig själv</html:b> för att dekryptera e-post och skicka signerad e-post.
-                                                      
-Du bör inte ge till någon.
-                                                      
-För att säkra din privata nyckel, kommer du att bli tillfrågad om en lösenfras i följande två dialogrutor.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "Din <html:b>lösenfras</html:b> är ett lösenord för att skydda din privata nyckel. Den förhindrar missbruk av din privata nyckel.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "Lösenfrasen bör vara en fras som innehåller minst 8 tecken, siffror och skiljetecken. Omljud (t.ex. ä, é, ñ) och språkspecifika tecken rekommenderas <html:b>inte</html:b>.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "Vänligen bekräfta ditt lösenfras genom att skriva det igen">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "Kvalitet lösenfras:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "Lösenfrasen ska innehålla minst 8 tecken">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "Lösenfraser matchar inte">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "Skapa eller importera OpenPGP-nycklar">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "Du verkar inte ha några OpenPGP-nycklar ännu. Vill du skapa en ny nyckel, eller 
-                                                      vill du importera nycklar från en fil?">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "Jag har befintliga publika och privata nycklar som jag vill importera">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "Importera OpenPGP nycklar">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "Ange de filer du vill importera">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "Ange vilka filer som innehåller publika och privata nycklar att importera. Posten för privata nycklar kan lämnas tomma om den första filen innehåller både privata och publika nycklar.">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "Publik nyckelfil">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "Privat nyckelfil">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "Nyckelskapande">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "Din nyckel skapas">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "Din nyckel har generats">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "Skapande av återkallningscertifikat">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "Du kan nu skapa ditt återkallningscertifikat">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "Om din privata nyckel försvinner eller äventyras, kan du behöva återkalla din publika nyckel
-                                                      så att andra inte fortsätter att använda din gamla nyckel.
-                                                     För detta ändamål behöver du ett återkallningscertifikat.
-                                                      <html:br/>Du kommer att bli uppmanad att ange ditt lösenord för detta. Överför certifikatet till ett medium som kan lagras säkert, som en CD eller USB-minne. Om någon får tillgång till detta certifikat kan de använda den för att göra din nyckel oanvändbar.">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "Skapa återkallningscertifikat">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "Ladda upp publik nyckel">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "Publicera din publika nyckel på internet">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "Bifoga din publika nyckel">
-<!ENTITY enigmail.attachAuto.desc                    "Genom aktivering kopplas dina publika nycklar automatiskt till dina mejl">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "Importera inställningar från tidigare installation">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail gör det möjligt att överföra alla dina inställningar, inklusive dina 
-                                                       
-OpenPGP-nycklar till en ny dator. Detta görs i två steg:
-                                                       
-<html:ol>
-                                                         
-<html:li>exportera data från den gamla datorn med hjälp av backupguiden från inställningarna i Enigmail</html:li>
-                                                         
-<html:li>importera data till den nya datorn med hjälp av den här guiden.</html:li>
-                                                       
-</html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "Ange den fil som innehåller säkerhetskopierad data:">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "Importerar nycklar och tillämpar inställningar">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "Ett fel inträffade under importen. Dina inställningar kunde inte tillämpas.">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "Tack">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail är nu klar att använda.<html:br/><html:br/>Tack för att du använder Enigmail.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "Vi rekommenderar att du laddar upp din publika nyckel till webkey-katalogen för din e-postleverantör så att andra automatiskt kan hitta och använda den.
-                                                        <html:br/>Vänligen bekräfta önskan som du hittar i din inkorg om du vill göra det.">
-<!ENTITY enigmail.pgComplete.help.title              "För mer information om hur du använder Enigmail, besök">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "Manuell konfiguration av Enigmail">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "Du har valt att inte använda guiden för att konfigurera Enigmail.">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "Enigmails nyckelhanterare finns tillgänglig härifrån">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "Expertinställningarna finns tillgängliga härifrån">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "Starta konfiguration">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Avancerade Enigmail identitetsinställningar">
-<!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Bifoga min publika nyckel till meddelanden">
+<!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Bifoga min offentliga nyckel till meddelanden">
 
-<!ENTITY enigmail.addPhoto.question.label            "Vill du lägga till följande bild till följande nyckel?">
+<!ENTITY enigmail.addPhoto.question.label            "">
 <!ENTITY enigmail.addPhoto.title                     "Lägg till foto till nyckel">
 <!ENTITY enigmail.msgViewColumn.tooltip              "Sortera efter OpenPGP status">
 <!ENTITY enigmail.addToRule.title                    "Lägg till nyckel till per-mottagare regel">
@@ -824,17 +702,9 @@ OpenPGP-nycklar till en ny dator. Detta görs i två steg:
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Exportera dina inställningar för Enigmail">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Välkommen till guiden Exportera inställningar">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail gör det möjligt att överföra alla dina inställningar, inklusive dina 
-                                                       
-OpenPGP-nycklar till en ny dator. Detta görs i två steg: 
-                                                       
-<html:ol>
-                                                         
-<html:li>exportera data från den gamla datorn med hjälp av den här guiden </html:li>
-                                                         
-<html:li>importera data till den nya datorn med hjälp av installationsguiden. </html:li>
-                                                       
-</html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Ange exportfilen:">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Exporterar inställningar för Enigmail">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Spara pågår. Du kan bli tillfrågad om lösenfrasen för din nyckel.">
@@ -856,7 +726,7 @@ Thunderbird och börja installationsguiden från menyn i Enigmail.">
 <!ENTITY enigmail.messeneger.pEpIcon.tootlip          "Detta meddelande krypterades med p≡p. Klicka på ikonen för mer information.">
 
 <!ENTITY enigmail.pEp.trustWordsDlg.title             "Verifiera p≡p Förtroendeord">
-<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "Be din korrespondent att läsa hans förtroendeord i person eller via telefon till dig. De ska matcha förtroendeorden nedan.">
+<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "">
 <!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "Du håller på att lägga till en enhet i din P≡P-enhetgrupp. Bekräfta genom att verifiera följande förtroendeord.">
 <!ENTITY enigmail.pEp.trustWordsDlg.myFingerprint     "Fingeravtryck för min nyckel:">
 <!ENTITY enigmail.pEp.trustWordsDlg.trustwordsShort   "Förtroendeord">
@@ -883,7 +753,7 @@ Thunderbird och börja installationsguiden från menyn i Enigmail.">
 <!ENTITY enigmail.pepPref.enableEncryption.label     "Aktivera integritetsskydd">
 <!ENTITY enigmail.pepPref.passiveMode.label          "Bifoga min nyckel till utgående meddelanden">
 <!ENTITY enigmail.pepPref.protectedSubject.label     "Aktivera skyddade ämnen i meddelanden">
-<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "Visa en varning när ett meddelande förlorar säkerhet genom svar eller vidarebefordran">
+<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "">
 <!ENTITY enigmail.pepPref.openpgpCompatibility.label "OpenPGP-kompatibilitet">
 <!ENTITY enigmail.pepPref.autoKeyLookup.label        "Leta efter nycklar automatiskt på servern">
 <!ENTITY enigmail.pepPref.credits.label              "Erkännande">
@@ -897,12 +767,19 @@ Thunderbird och börja installationsguiden från menyn i Enigmail.">
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "Autocrypt-nyckelöverföring">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "Starta nyckelöverföring">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "Om du har en annan enhet som är Autocrypt-aktiverad kan du överföra nyckeln till den andra enheten via en så kallad 'Autocrypt konfigurationsmeddelande'.
-                                                      Ett sådant meddelande kommer att tillåta din andra enhet att skicka och ta emot krypterade e-postmeddelanden precis som Enigmail med några få klick.<html:br/><html:br/>
-                                                      Vänligen välj nedan det konto som du vill överföra nyckeln till.
-                                                      Vi kommer att visa en konfigurationskod (lösenord) på följande skärm som du måste ange på den andra enheten för att kunna importera din nyckel och relaterade inställningar.">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "Skapa konfigurationsmeddelande för konto:">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "Kod för Autocrypt konfigurationsmeddelande">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "Konfigurationsmeddelandet har skickats till dig själv.<html:br/><html:br/>Vänligen växla till den andra enheten nu och öppna meddelandet. Du bör uppmanas att ange en konfigurationskod. Vänligen skriv följande siffror i prompten:">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "När du är klar är din andra enhet redo att använda Autocrypt.">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "Återställ inställningar och nycklar">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">

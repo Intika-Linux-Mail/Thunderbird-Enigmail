@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "Enigmail/p≡p">
 <!ENTITY enigmail.autocrypt.label         "Autocrypt">
 
-<!ENTITY enigmail.about.license           "Enigmail-i është me burim të hapur dhe i licencuar sipas <html:a href='https://www.mozilla.org/MPL/2.0/' class='enigmailLink'>Mozilla Public License 2.0</html:a>.">
-
 <!ENTITY enigmail.keyUserId.label         "Llogari / ID Përdoruesi">
 <!ENTITY enigmail.keygenTitle.label       "Prodho Kyç OpenPGP">
 <!ENTITY enigmail.useForSigning.label     "Përdore kyçin e prodhuar për identitetin e përzgjedhur">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "ECC (Kurbë Eliptike)">
 
-<!ENTITY enigmail.keyUpload.label         "Po kontrollohet nëse mbulohet furnizuesi i programit">
-<!ENTITY enigmail.keyUpload.desc          "Botimi i kyçit tuaj publik në internet u lejon të tjerëve t’ju dërgojnë email të fshehtëzuar pa u lidhur me ju paraprakisht apo për herë të parë.">
-<!ENTITY enigmail.keyUpload.sks.label     "Ngarkoje te shërbyes globalë kyçesh OpenPGP">
-<!ENTITY enigmail.keyUpload.sks.desc      "Ngarkimi i kyçit te shërbyes globalë kyçesh OpenPGP u lejon përdoruesve të postës së dikurshme t’ju dërgojnë mesazhe të fshehtëzuar ose të nënshkruar. Mbani parasysh se gjithkush mund të lexojë çfarëdo gjëje të ngarkuar te këta shërbyes kyçesh (mendojeni si të ish një libër publik telefonash). Mos e ngarkoni kyçin tuaj, nëse doni ta mbani private adresën email përshoqëruar atij.">
-<!ENTITY enigmail.keyUpload.wks.label     "Ngarkojeni te shërbyesi i kyçeve të furnizuesit tuaj të email-it">
-<!ENTITY enigmail.keyAttachAuto.label     "Bashkëngjite përherë kyçin tim publik">
-
 <!ENTITY enigmail.preferences.label       "Parapëlqime Enigmail-i">
 
 <!ENTITY enigmail.passwordSettings.label   "Mbarim Kohe Për Frazëkalimin">
-<!ENTITY enigmail.userNoPassphrase.label   "Mos kërko kurrë për ndonjë frazëkalim">
-<!ENTITY enigmail.userNoPassphrase.tooltip "Aktivizojeni në qoftë se kyçi juaj OpenPGP nuk mbrohet me një frazëkalim.">
 <!ENTITY enigmail.expertUserMenus.label    "Shfaq Rregullime dhe Menu Eksperti">
 <!ENTITY enigmail.expertUser.tooltip       "Shtypeni nëse doni të shihni zëra menuje dhe mundësi për përdorues të përparuar.">
 <!ENTITY enigmail.basicUserMenus.label     "Fshihi Rregullimet dhe Menutë e Ekspertit">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "Hiq nga mesazhet e fshehtëzuar subjektin dhe krye të tjera konfidenciale.">
 <!ENTITY enigmail.protectedSubjectText.label    "Tekst subjekti për të mbrojtur mesazhe të fshehtëzuar">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "Përcaktoni subjektin që do të jetë publikisht i dukshëm në vend të subjektit real kur dërgohen mesazhe të fshehtëzuar">
+<!ENTITY enigmail.protectedSubjectText.placeholder "Mesazh i Fshehtëzuar">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "Bashkëngjitjet shkarkoji vetëm kur hapen (vetëm për IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Mbaje mend frazëkalimin për">
 <!ENTITY enigmail.maxIdleMinutesTail.label "minuta mosveprimtarie (përpara se të nevojitet ridhënia e tij)">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "Ruajeni frazëkalimin në kujtesë për një kohë të kufizuar.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "Mbaje mend frazëkalimin për një kohë të kufizuar.">
 
 <!ENTITY enigmail.resetPrefsButton.label "Riktheji te parazgjedhjet">
 <!ENTITY enigmail.resetPrefs.tooltip     "Rikthejini krejt parapëlqimet për Enigmail-in te vlerat parazgjedhje.">
@@ -72,15 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Rikthe Rregullime dhe Kyçe">
 <!ENTITY enigmail.restorePrefs.tooltip     "Riktheni prej një kartele krejt parapëlqimet mbi Enigmail-in, përfshi kyçet tuaj OpenPGP.">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "Shpërnguleni kyçin tuaj te një tjetër pajisje që punon me Autocrypt.">
-<!ENTITY enigmail.pref.acSetupMessage.button "Fillo Shpërngulje Kyçi Autocrypt">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "Enigmail-i mbulon dy mënyra për shpërngulje kyçesh dhe rregullimesh tuajt te një pajisje tjetër.<html:br/><html:br/>
-'Shpërngulje Autocrypt e Kyçeve' lyp që klienti i postë te pajisja tjetër të mbulojë protokollin Autocrypt.
-Ndërkohë që kjo është zgjidhja më e lehtë, këtë standard e mbulojnë vetëm një numër i kufizuar klientësh.<html:br/><html:br/>
-Mënyra tjetër është të 'Kopjeruani &amp; riktheni' gjetkë rregullimet tuaj.
-Kjo do të krijojë një kartelë ZIP me krejt të dhënat dhe kyçet e nevojshëm, që mund ta kopjoni te pajisja juaj e re.
-Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klientë të tjerë poste, kartela ZIP mund të shpaketohet dhe të trajtohet dorazi.">
+<!ENTITY enigmail.pref.acSetupMessage.button "">
 
 <!ENTITY enigmail.backupRestore.desc       "Eksportoni (kopjeruani) dhe Riktheni rregullimet tuaja mbi Enigmail-in, përfshi kyçet tuaj OpenPGP.">
 
@@ -94,12 +77,13 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.basicPrefs.label       "Rregullime Bazë">
 
 <!ENTITY enigmail.moreOptions.label       "Më Tepër Mundësi">
+<!ENTITY enigmail.general.okLabel         "OK">
 
 <!ENTITY enigmail.useNonDefaultComment.label "Shto koment Enigmail-i te nënshkrimi OpenPGP">
 
 <!ENTITY enigmail.keyserver.label         "Shërbyes kyçesh">
 <!ENTITY enigmail.keyserverDlg.label      "Përzgjidhni Shërbyes Kyçesh">
-<!ENTITY enigmail.keyservers.label        "Përcaktoni shërbyesin(at) tuaj të kyçeve">
+<!ENTITY enigmail.keyservers.label        "Përcaktoni shërbyesin(at) tuaj të kyçeve:">
 <!ENTITY enigmail.keyservers.sample2      "Për shembull: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "Shembull 'Emër Mbiemër <përdorues@example.com>'">
@@ -121,6 +105,9 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 
 <!ENTITY enigmail.decryptbutton.label     "Shfshehtëzoje">
 <!ENTITY enigmail.decryptbutton.tip       "Shfshehtëzoni ose verifikoni mesazhin me Enigmail">
+
+<!ENTITY enigmail.doneButton.label        "U Krye">
+<!ENTITY enigmail.doneButton.accesskey    "Ç">
 
 <!ENTITY enigmail.messengermenu.accesskey "a">
 
@@ -214,6 +201,7 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.undoencryption.accesskey     "Z">
 <!ENTITY enigmail.attachkey.accesskey          "a">
 <!ENTITY enigmail.attachmykey.accesskey        "T">
+<!ENTITY enigmail.protectHeaders.accesskey     "M">
 
 
 <!-- account specific options -->
@@ -222,8 +210,8 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.usePGPMimeAlways.label          "Si parazgjedhje, përdor PGP/MIME">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Pas zbatimit të parazgjedhjeve dhe rregullave:">
-<!ENTITY enigmail.finallySignEncrypted.label      "nënshkruaji mesazhet e fshehtëzuar">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "nënshkruaji mesazhet e pafshehtëzuar">
+<!ENTITY enigmail.finallySignEncrypted.label      "Nënshkruaji mesazhet e fshehtëzuar">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "Nënshkruaji mesazhe të pafshehtëzuar">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Fshehtëzoji mesazhet skicë gjatë ruajtjes">
 
@@ -350,7 +338,7 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.amPrefEnablePgp.label             "Aktivizo mbulim OpenPGP (Enigmail) për këtë identitet">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Përdor adresën email të këtij identiteti për të identifikuar kyçin OpenPGP">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Përdor ID specifike kyçi OpenPGP (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "Përzgjidhni Kyç ...">
+<!ENTITY enigmail.amPrefSelectKey.label             "Përzgjidhni Kyç">
 <!ENTITY enigmail.amPrefMsgComp.label               "Hartim Mesazhi">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Mundësi Parazgjedhje Për Hartim Mesazhesh">
 <!ENTITY enigmail.encryptionDlg.label               "Rregullime Enigmail mbi Fshehtëzimin &amp; Nënshkrimin">
@@ -373,7 +361,6 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.amPrefMimePreferProto.label       "Nëse janë të mundshëm që të dy, fshehtëzim Enigmail dhe S/MIME, atëherë:">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "Parapëlqe Enigmail (OpenPGP)">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "Parapëlqe S/MIME">
-<!ENTITY enigmail.amPrefAutocrypt.description       "<enigmailLink href='https://autocrypt.org'>Autocrypt</enigmailLink> është një standard që përcakton se si të arrihet fshehtëzim skaj-më-skaj i email-eve. Ai specifikon se si programet email trajtojnë aftësi fshehtëzimi duke përdorur email-e të zakonshëm.">
 
 <!ENTITY enigmail.progressText.label               "Ecuri:">
 
@@ -461,8 +448,8 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.sKeyDlg.checked.label            "Me sa kujdes keni verifikuar se kyçet që jeni gati të nënshkruani i përkasin vërtet personit, ose personave, më sipër??">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Nuk do të përgjigjem">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Nuk kam kontrolluar fare">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Kam kontrolluar me raste">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "Kam kontrolluar me shumë kujdes">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Bëra një kontroll të përciptë">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "E kam kontrolluar me shumë kujdes">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Nënshkrim vendor (nuk mund të eksportohet)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - Shtoni ID Përdoruesi">
@@ -547,7 +534,7 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Nuk ka kyç me përputhje kundrejt termave tuaj të kërkimit">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Ju lutemi, prisni sa të ngarkohen kyçet ...">
 
-<!ENTITY enigmail.keyMan.filter.label              "Kërko për:">
+<!ENTITY enigmail.keyMan.filter.label              "Kërkoni për kyçe">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "M">
 <!ENTITY enigmail.keyMan.generate.accesskey          "Ç">
@@ -670,141 +657,39 @@ Enigmail-i mund t’i importojë drejtpërsëdrejti këto rregullime; për klien
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Përsëritni PIN-in e Ri">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Ndihmës Rregullimi Enigmail-i">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "Mirë se vini te Ndihmësi për Rregullimin e Enigmail-in">
+<!ENTITY enigmail.setupWiz.title                     "Ujdisje e Enigmail-it">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "Duket se e nisët për herë të parë Enigmail-in në këtë kompjuter.
                                                       Që të mund të përdorni Enigmail-in, lypset së pari ta rregulloni si duhet.
-                                                      Ky ndihmës mund t'ju udhëheqë nëpër procesin e rregullimit.">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "Doni ta rregulloni Enigmail-in tani, apo doni ta bëni këtë më vonë?">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "Niseni rregullimin tani">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "Formësojeni Enigmail-in më vonë">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "Si do të donit ta Formësonit Enigmail-in">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "Doni ta rregulloni Enigmail-in dorazi, apo keni nevojë për asistencë gjatë procesit të rregullimit?">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "Parapëlqej formësim standard (i këshilluar për fillestarë)">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "Parapëlqej formësim të thelluar (i këshilluar për përdorues të përparuar)">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "Parapëlqej formësim dorazi (i këshilluar për ekspertë)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "Dua t'i importoj rregullimet e mia nga një instalim i mëparshëm">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "Përzgjidhni Identitete">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Përzgjidhni llogaritë ose identitetet për të cilët doni që të funksionojë Enigmail-i">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "Do të donit ta rregullonit Enigmail-in për krejt llogaritë/identitetet tuaja email?">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "Do të doja ta aktivizoj Enigmail-in për krejt llogaritë/identitetet e mi">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "Do të doja ta aktivizoj Enigmail-in vetëm për identitetet vijuese:">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>Shënim:</a> Enigmail-i do të verifikojë përherë nënshkrimet
-                                                      në email-e, për çdo llogari ose identitet, pavarësisht se është aktivizuar apo jo për një të tillë">
-
+                                                      Ky ndihmës mund t’ju udhëheqë nëpër procesin e rregullimit.">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "Lypset GnuPG-ja">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Enigmail-i lyp GnuPG-në për kryerje aktesh kriptografike.
                                                       Ndihmësi u përpoq të lokalizojë GnuPG-në, por nuk e gjeti dot.">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmail-i mund ta shkarkojë GnuPG-në dhe ta nisë instaluesin për ju.
                                                       Nëse doni të bëhet kjo, klikoni mbi butonin 'Instaloni GnuPG-në' që të shkarkohet dhe instalohet GnuPG-ja.">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "Ndryshe, nëse e keni tashmë të instaluar GnuPG-në, përdorni butonin 'Shfletoni' që ta jepni dorazi shtegun për te GnuPG-ja.">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "Ju lutemi, lokalizoni GnuPG-në duke përdorur butonin Shfletoni.">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "Instaloni GnuPG-në ...">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "Shfletoni ...">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "Po shkarkohet GnuPG-ja ...">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "Po niset instaluesi. Ju lutemi, ndiqni hapat e ndihmësit të instalimit të GnuPG-së.">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "Instalimi u plotësua. Ju lutemi, kaloni te skena pasuese e ndihmësit që të vazhdohet me procesin e rregullimit.">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "U gjet instalim GnuPG-je i vlefshëm.">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "Përzgjedhje Kyçi">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "Krijoni Një Kyç Për Nënshkrim dhe Fshehtëzim Email-esh">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "Gjetëm se keni tashmë një kyç OpenPGP. Mundeni ose të përdorni
-                                                      një nga kyçet tuaj ekzistues, ose të krijoni një çift të ri kyçesh.">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "Dua të krijoj një çift të ri kyçesh për nënshkrim dhe fshehtëzim të email-eve të mi">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "Dua të përzgjedh një nga kyçet më poshtë për nënshkrim dhe fshehtëzim të email-eve të mi:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "Krijoni Kyç">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "Krijoni një Çift të ri Kyçesh">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "Në këtë skenë do të krijohet një çift kyçesh:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "<html:b>Kyçi juaj publik</html:b> shërben <html:b>për t'u përdorur nga të tjerët</html:b> që t'ju dërgojnë mesazhe të fshehtëzuar. Mund t'ia jepni kujtdo.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "<html:b>Kyçi juaj privat</html:b> shërben që <html:b>ju vetë</html:b> t'i shfshehtëzoni këto email-e dhe që të dërgoni email-e të nënshkruar.
-                                                      S'duhet t’ia jepni ndokujt.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "<html:b>Kyçi juaj privat</html:b> shërben që <html:b>ju</html:b> t'i shfshehtëzoni këto email-e dhe të dërgoni email-e të nënshkruar.
-                                                      S'duhet t'ia jepni ndokujt.
-                                                      Që ta siguroni kyçin tuaj privat, në dy hapat vijues do t'ju kërkohet një frazëkalim.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "<html:b>Frazëkalimi</html:b> juaj është një fjalëkalim për mbrojtjen e kyçit tuaj privat. Ai parandalon përdorimin e paautorizuar të kyçit tuaj privat.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "Frazëkalimi duhet të jetë një frazë që përmban të paktën 8 shenja, shifra dhe shenja pikësimi. <html:b>Nuk</html:b> këshillohen shkronjat me shenja sipër (p.sh. ë, é, ñ) dhe shkronja specifike të një gjuhe të caktuar.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "Ju lutemi, ripohoni frazëkalimin tuaj, duke e shtypur sërish">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "Cilësi frazëkalimi:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "Frazëkalimi duhet të përmbajë të paktën 8 shenja">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "Frazëkalimet e dhënë nuk përputhen">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "Krijoni ose Importoni Kyçe OpenPGP">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "Nuk duket se keni ndonjë kyç OpenPGP. Do të donit të krijohet një kyç i ri, apo
-                                                      doni të importoni kyçe nga një kartelë?">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "Kam kyçe publik dhe privat që do të doja t'i importoja">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "Importoni Kyçe OpenPGP">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "Tregoni kartelat për importim">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "Ju lutemi, tregoni kartelat që përmbajnë kyçet publik dhe privat për 
-importim. Fusha për kyçet privatë mund të lihet e zbrazët, nëse kartela 
-e parë përmban si kyçin privat, ashtu edhe atë publik.">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "Kartelë kyçi publik">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "Kartelë kyçi vetjak">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "Krijim Kyçi">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "Kyçi juaj po prodhohet">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "Kyçi Juaj u Prodhua">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "Krijim Dëshmie Shfuqizimi">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "Tani mund të krijoni dëshminë tuaj të shfuqizimeve">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "Në rast se kyçi juaj privat humb ose komprometohet, mund t'ju duhet të shfuqizoni kyçin tuaj publik,
- që të tjerët të mos vazhdojnë të përdorin kyçin tuaj
- të vjetër. Për këtë qëllim, ju duhet një dëshmi
- shfuqizimi. <html:br/>Për këtë do t'ju kërkohet të jepni fjalëkalimin tuaj. Ju lutemi, shpërnguleni dëshminë te një media që mund të depozitohet gjetkë pa rrezik, b.f., CD ose diskth USB. Nëse dikush arrin të hyjë në këtë dëshmi, mund ta përdorë për ta bërë të papërdorshëm kyçin tuaj.">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "Krijoni Dëshmi Shfuqizimi">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "Ngarkoni Kyç Publik">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "Botojeni kyçin tuaj publik në internet">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "Bashkëngjitini kyçin tuaj publik">
-<!ENTITY enigmail.attachAuto.desc                    "Përmes aktivizimit, kyçi juaj publik u bashkëngjitet vetvetiu email-eve tuaj">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "Importo Rregullime prej Instalimi të Mëparshëm">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail-i lejon mbartjen e krejt rregullimeve për të, përfshi kyçet tuaj OpenPGP,
-                                                      në një kompjuter të ri. Kjo bëhet me dy hapa:
-                                                      <html:ol>
-                                                        <html:li>eksportoni të dhënat tuaja prej kompjuterit të vjetër duke përdorur ndihmësin e kopjeruajtjeve te Parapëlqimet për Enigmail-in</html:li>
-                                                        <html:li>importojini të dhënat tuaja te kompjuteri i ri duke përdorur këtë ndihmës.</html:li>
-                                                      </html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "Ju lutemi, tregoni kartelën që përmban kopjeruajtjen e të dhënave tuaja:">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "Po importohen  kyçe dhe po vihen në punë rregullimet">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "Ndodhi një gabim gjatë importimit. Rregullimet tuaja nuk u vunë dot në punë.">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "Faleminderit">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail-i është gati për përdorim.<html:br/><html:br/>Faleminderit që përdorni Enigmail-in.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "Këshillojmë ta ngarkoni kyçin tuaj publik te Drejtoria Kyçe Web e furnizuesit të email-it tuaj, që të tjerët të mund ta gjejnë dhe përdorin vetvetiu.
- <html:br/>Ju lutemi, ripohojeni kërkesën që do të gjeni te mesazhet tuaj të marrë, nëse doni të bëhet kështu.
-">
-<!ENTITY enigmail.pgComplete.help.title              "Për më tepër informacion mbi përdorimin e Enigmail-it, ju lutemi vizitoni">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "Formësim Dorazi i Enigmail-it">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "Keni zgjedhur të mos përdorni Ndihmësin për formësim të Enigmail-it.">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "Përgjegjësi i kyçeve te Enigmail-i gjendet prej këtu">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "Rregullimet për ekspertë gjenden prej këtu">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "Po shihet për GnuPG …">
+<!ENTITY enigmail.setupWiz.checkingSetup             "Po kontrollohet instalimi juaj ekzistues …">
+<!ENTITY enigmail.setupWiz.startSetupButton          "Nise Rregullimin">
+<!ENTITY enigmail.setupWiz.usingPepMode              "Kemi përcaktuar se po përdorni Pretty Easy Privacy (p≡p).">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "Importo Kyçe">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Rregullime të Thelluara Identitetesh Enigmail">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Bashkëngjiti mesazheve kyçin tim publik">
 
-<!ENTITY enigmail.addPhoto.question.label            "Dëshironi t'i shtoni foton vijuese kyçit vijues?">
+<!ENTITY enigmail.addPhoto.question.label            "Dëshironi t’i shtoni kyçit foton vijuese?">
 <!ENTITY enigmail.addPhoto.title                     "Shtojini Kyçit Foto">
 <!ENTITY enigmail.msgViewColumn.tooltip              "Renditini sipas gjendjes së OpenPGP-së">
 <!ENTITY enigmail.addToRule.title                    "Shto Kyç te Rregulla Sipas-Marrësish">
@@ -820,12 +705,9 @@ e parë përmban si kyçin privat, ashtu edhe atë publik.">
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Eksportoni Rregullimet tuaja të Enigmail-it">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Mirë se vini te Ndihmësi i Eksportimit të Rregullimeve">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail-i lejon mbartjen e krejt rregullimeve për të, përfshi kyçet tuaj OpenPGP,
-                                                      në një kompjuter të ri. Kjo bëhet me dy hapa:
-                                                      <html:ol>
-                                                        <html:li>eksportoni të dhënat tuaja prej kompjuterit të vjetër duke përdorur këtë ndihmës</html:li>
-                                                        <html:li>importojini të dhënat tuaja te kompjuteri i ri duke përdorur Ndihmësin e Rregullimeve.</html:li>
-                                                      </html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Ju lutemi, përcaktoni kartelën e eksportimit">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Po eksportohen Rregullime Enigmail-i">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Ruajtja po kryhet. Mund t'ju kërkohet frazëkalimi(et) për kyçin(et) tuaj.">
@@ -886,12 +768,19 @@ e parë përmban si kyçin privat, ashtu edhe atë publik.">
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "Shpërngulje Kyçi Autocrypt">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "Fillo Shpërngulje Kyçi">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "Nëse keni një pajisje tjetër të aftë të përdorë Autocrypt-in, mund ta shpërngulni kyçin tuaj te pajisja tjetër përmes të ashtuquajturit 'Mesazh Rregullimi Autocrypt-i'.
- Një mesazh i tillë do t’i lejojë pajisjes tuaj tjetër të dërgojë dhe marrë email-e të fshehtëzuar njësoj si Enigmail-i, vetëm me pak klikime.<html:br/><html:br/>
- Ju lutemi, përzgjidhni më poshtë llogarinë për të cilën doni të shpërngulet kyçi juaj.
- Te skena vijuese do të shfaqim një kod rregullimi (fjalëkalim) të cilin do t’ju duhet ta jepni te pajisja tjetër, që të mund të importohet kyçi juaj dhe rregullimet e ruajtura.">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "Krijoni Mesazh Rregullimi për Llogarinë:">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "Kod për Mesazh Rregullimi Autocrypt-i">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "Mesazhi i rregullimit ju dërgua juve.<html:br/><html:br/>Ju lutemi, tani kaloni te pajisja tjetër dhe hapeni mesazhin. Do t’ju kërkohet një kod rregullimi. Ju lutemi, shtypni te kutiza shifrat vijuese:">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "Mesazhi i ujdisjes iu dërgua vetes tuaj.">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "Pasi të keni mbaruar, pajisja juaj tjetër do të jetë gati të përdorë Autocrypt-in.">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "Rikthe Rregullime dhe Kyçe">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "Po importohen kyça në GnuPG. Kjo mund të zgjasë ca …">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "Po rikthehen rregullimet e GnuPG-së …">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "Po rikthehen rregullimet Enigmail …">

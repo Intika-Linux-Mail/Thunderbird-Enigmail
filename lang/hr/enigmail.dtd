@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "">
 <!ENTITY enigmail.autocrypt.label         "">
 
-<!ENTITY enigmail.about.license           "">
-
 <!ENTITY enigmail.keyUserId.label         "Račun / Korisnički ID">
 <!ENTITY enigmail.keygenTitle.label       "Generiraj OpenPGP ključ">
 <!ENTITY enigmail.useForSigning.label     "Koristi generirani ključ za odabrani identitet">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "">
 
-<!ENTITY enigmail.keyUpload.label         "">
-<!ENTITY enigmail.keyUpload.desc          "">
-<!ENTITY enigmail.keyUpload.sks.label     "">
-<!ENTITY enigmail.keyUpload.sks.desc      "">
-<!ENTITY enigmail.keyUpload.wks.label     "">
-<!ENTITY enigmail.keyAttachAuto.label     "">
-
 <!ENTITY enigmail.preferences.label       "Enigmail postavke">
 
 <!ENTITY enigmail.passwordSettings.label   "">
-<!ENTITY enigmail.userNoPassphrase.label   "Nikad ne pitaj za ijednu lozinku">
-<!ENTITY enigmail.userNoPassphrase.tooltip "Aktivirajte ako Vaš OpenPGP ključ nije zaštićen lozinkom.">
 <!ENTITY enigmail.expertUserMenus.label    "Prikaži stručne postavke i izbornike">
 <!ENTITY enigmail.expertUser.tooltip       "Pritisnite ako želite vidjeti stavke izbornika i opcije za napredne korisnike.">
 <!ENTITY enigmail.basicUserMenus.label     "Sakrij stručne postavke i izbornike">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "">
 <!ENTITY enigmail.protectedSubjectText.label    "">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "">
+<!ENTITY enigmail.protectedSubjectText.placeholder "Enkriptirana poruka">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "Preuzmi privitke samo kod se otvore (jedino IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Zapamti lozinku za">
 <!ENTITY enigmail.maxIdleMinutesTail.label "">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "Spremi lozinku u memoriju na ograničeno vrijeme.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "Ponovno postavi">
 <!ENTITY enigmail.resetPrefs.tooltip     "Postavi sve Enigmail postavke na zadane vrijednosti.">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Vrati postavke i ključeve">
 <!ENTITY enigmail.restorePrefs.tooltip     "Vrati sve Enigmail preference uključujući Vaše OpenPGP ključeve iz datotetke.">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "">
 <!ENTITY enigmail.pref.acSetupMessage.button "">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
 
 <!ENTITY enigmail.backupRestore.desc       "Izvezi (sigurnosna kopija) i vrati Enigmail postavke uključujući Vaše OpenPGP ključeve.">
 
@@ -89,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "Osnovne postavke">
 
 <!ENTITY enigmail.moreOptions.label       "Još opcija">
+<!ENTITY enigmail.general.okLabel         "OK">
 
 <!ENTITY enigmail.useNonDefaultComment.label "Dodaj Enigmail komentar u OpenPGP potpis">
 
 <!ENTITY enigmail.keyserver.label         "Poslužitelj ključeva">
 <!ENTITY enigmail.keyserverDlg.label      "Odaberi poslužitelj ključeva">
-<!ENTITY enigmail.keyservers.label        "Odredite poslužitelj(e) ključeva">
+<!ENTITY enigmail.keyservers.label        "">
 <!ENTITY enigmail.keyservers.sample2      "">
 
 <!ENTITY enigmail.searchForKey.example    "">
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "Dekriptiraj">
 <!ENTITY enigmail.decryptbutton.tip       "Dekriptiraj ili potvrdi poruku s Enigmail-om">
+
+<!ENTITY enigmail.doneButton.label        "">
+<!ENTITY enigmail.doneButton.accesskey    "D">
 
 <!ENTITY enigmail.messengermenu.accesskey "a">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "O">
 
 
 <!-- account specific options -->
@@ -217,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Koristi PGP/MIME pod zadano">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Nakon primjene zadanih postavki i pravila:">
-<!ENTITY enigmail.finallySignEncrypted.label      "potpiši enkriptirane poruke">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "potpiši ne-enkriptirane poruke">
+<!ENTITY enigmail.finallySignEncrypted.label      "">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Enkriptiraj skice prilikom spremanja">
 
@@ -345,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "Omogući OpenPGP podršku (Enigmail) za ovaj identitet">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Koristi email adresu ovog identiteta za identificiranje OpenPGP ključa">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Koristi specifični ID OpenPGP ključa (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "Odaberi ključ...">
+<!ENTITY enigmail.amPrefSelectKey.label             "">
 <!ENTITY enigmail.amPrefMsgComp.label               "">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Zadane opcije sastavljanja poruke">
 <!ENTITY enigmail.encryptionDlg.label               "Postavke Enigmail enkripcije &amp; potpisivanja">
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "">
-<!ENTITY enigmail.amPrefAutocrypt.description       "">
 
 <!ENTITY enigmail.progressText.label               "Progres:">
 
@@ -456,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "Koliko pažljivo se potvrdili da ključ koji će te potpisati stvarno pripada osobi(osobama) navedenim iznad?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Neću odgovoriti">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Nisam provjerio/la uopće">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Odradio/la sam uobičajene provjere">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "Odradio/la sam vrlo pažljive provjere">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Lokalni potpis (ne može biti izvezen)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - dodaj ID korisnika">
@@ -542,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Nema ključeva koji odgovaraju Vašoj pretrazi">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Molim pričekajte dok se ključevi učitavaju...">
 
-<!ENTITY enigmail.keyMan.filter.label              "Traži:">
+<!ENTITY enigmail.keyMan.filter.label              "">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "C">
 <!ENTITY enigmail.keyMan.generate.accesskey          "K">
@@ -623,7 +615,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "Serijski broj">
 <!ENTITY enigmail.cardDetails.name.label             "Ime, prezime">
 <!ENTITY enigmail.cardDetails.lang.label             "Jezik">
-<!ENTITY enigmail.cardDetails.sex.label              "Spol">
+<!ENTITY enigmail.cardDetails.sex.label              "">
 <!ENTITY enigmail.cardDetails.url.label              "URL javnog ključa">
 <!ENTITY enigmail.cardDetails.login.label            "Podatci za prijavu">
 <!ENTITY enigmail.cardDetails.forcepin.label         "Prisili potpisni PIN">
@@ -665,161 +657,37 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Ponovite novi PIN">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "čarobnjak: dobrodošlica
-
-Enigmail čarobnjak za postavljanje">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "Dobrodošli u Enigmail čarobnjak za postavljanje">
-<!ENTITY enigmail.setupWiz.pgIntro.desc              "Izgleda da ste prvi put pokrenuli Enigmail na ovom računalu.
-Da bi koristili Enigmail, morate ga ispravno postaviti.
-Ovaj pomoćnik Vas može voditi kroz proces postavljanja.">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "Želite li postaviti Enigmail sad, ili želite to odraditi kasnije?">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "Pokreni postavljanje sad">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "Postavi Enigmail kasnije">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "Kako bi ste htjeli postaviti Enigmail?">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "Želite li postaviti Enigmail ručno ili trebate pomoć u procesu postavljanja?">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "Preferiram standardne postavke (preporučeno za početnike)">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "Preferiram produženo postavljanje (preporučeno za napredne korisnike)">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "Preferiram ručno postavljanje (preporučeno za stručnjake)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "Želim uvesti svoje postavke sa prijašnje instalacije">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "čarobnjak: odabir ID-a računa
-
-Odaberite identitete">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Odaberite račune ili identitete s kojima želite da Enigmail radi">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "Želite li postaviti Enigmail za sve email račune / identitete?">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "Želim omogućiti Enigmail za sve svoje račune / identitete">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "Želim omogućiti Enigmail samo za sljedeće identitete:">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>Obavijest:</a> Enigmail će uvijek provjeravati potpise
-na email-ovima za svaki račun i identitet, bez obzira da li je omogućen ili ne">
-
+<!ENTITY enigmail.setupWiz.title                     "">
+<!ENTITY enigmail.setupWiz.pgIntro.desc              "">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "čarobnjak: instalacija GnuPG-a
-
-GnuPG je potreban">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Enigmail zahtjeva GnuPG za kriptografski posao.
 Čarobnjak je pokušao naći GnuPG izvršnu datoteku, ali nije uspio.">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmail može preuzeti GnuPG i pokrenuti instalciju za Vas.
 Ako želite nastaviti tako, kliknite 'Instaliraj GnuPG' gumb da bi preuzeli i instalirali GnuPG.">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "Alternativno, ako ste već instalirali GnuPG, kliknite 'Pregledaj' gumb da bi ručno odredili putanju do GnuPG-a.">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "Molimo locirajte GnuPG koristeći Pregledaj gumb">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "Instaliraj GnuPG..">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "Pregledaj...">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "Preuzmi GnuPG...">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "Pokrećem instaler. Molim Vas da pratite korake GnuPG instalacijskog čarobnjaka.">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "Instalcija završena. Molim Vas da nastavite na sljedeću stranicu čarobnjaka da bi nastavili proces postavljanja.">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "Važeća GnuPG instalacija pronađena.">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "čarobnjak: odabir ključa
-
-Odabir ključa">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "Stvori ključ za potpisivanje i enkripciju email-a">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "Otkrili smo da već imate OpenPGP ključ. Možete ili
-iskoristiti jedan od postojećih ključeva ili stvoriti novi par ključeva.">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "Želim stvoriti novi par ključeva za potpisivanje i enkripciju email-a">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "Želim odabrati jedan od ključeva ispod za potpisivanje i enkripciju email-a:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "čarobnjak: stvaranje ključa i lozinke
-
-Stvori ključ">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "Stvori novi par ključeva">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "Ovaj dijalog će stvoriti par ključeva:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "Vaš <html:b>javni ključ</html:b> je <html:b>za druge</html:b> da Vam pošalju enkriptirane email-ove. Možete ga distribuirati svima.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "Vaš <html:b>privatni ključ</html:b> je <html:b>za Vas</html:b> tako da možete dekriptirati i slati potpisane email-ove.
-Ne bi ga trebali dati nikom.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "Vaš <html:b>privatni ključ</html:b> je <html:b>za Vas</html:b> da bi dekriptirali ove email-ove i slali potpisane email-ove.
-Ne bi ga trebali dati nikom.
-Da bi osigurali Vaš privatni ključ, bit ćete upitani za lozinku u sljedeća dva dijaloga.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "Vaša <html:b>lozinka</html:b> je lozinka za zaštitu Vašeg privatnog ključa. Spriječava zloupotrebu Vašeg privatnog ključa.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "Lozinka bi trebala sadržavati najmanje 8 slova, znamenki i interpunkcijskih znakova. Znakovi specifični za određene jezike (npr. č, ć, š, ž, ä, é, ñ) <html:b>nisu</hmtl:b> preporučeni.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "Molim potvrdite svoju lozinku ponovnim upisivanjem">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "Kvaliteta lozinke:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "čarobnjak: nije pronađen ključ
-
-Stvorite ili uvezite OpenPGP ključeve">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "Čini se da nemate OpenPGP ključeve. Želite li stvoriti novi ključ ili
-želite uvesti ključeve iz datoteke?">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "Imam postojeće javne i privatne ključeve koje želim uvesti">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "čarobnjak: uvoz ključeva
-
-Uvezi OpenPGP ključeve">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "Odredi datoteke za uvoz">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "Molim odredite datoteke koje sadrže javne i privatne ključeve za
-uvoz. Unos za privatne ključeve može biti prazan ako prva datoteka
-sadrži i privatni i javni ključ.">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "Datoteka javnog ključa">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "Datoteka privatnog ključa">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "čarobnjak: stvaranje ključa - generacija ključa
-
-Stvaranje ključa">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "Vaš ključ se generira">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "Vaš ključ je generiran">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "Stvori certifikat za opoziv">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "">
-<!ENTITY enigmail.attachAuto.desc                    "">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "Uvezi postavke sa prijašnje instalacije">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail dopušta prijenos svih svojih postavki uključujući i Vaše OpnePGP
-
-ključeve na novo računalo. To se izvodi u dva koraka:
-
-<html:ol>
-
-<html:li>izvezite svoje podatke sa svog starog računala koristeći čarobnjak za sigurnosne kopije iz Enigmail postavki</html:li>
-
-<html:li>uvezite podatke na novo računalo koristeći ovaj čarobnjak.</html:li>
-
-</html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "Molimo Vas da odredite datoteku koja sadržava Vaše pohranjene podatke:">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "Uvoz ključeva i primjena postavki">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "Došlo je do greške prilikom uvoza. Vaše postavke nisu mogle biti primjenjene.">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "čarobnjak: završna stranica
-
-Hvala Vam">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail je sad spreman za upotrebu.<html:br/><html:br/>Hvala Vam što koristite Enigmail.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "">
-<!ENTITY enigmail.pgComplete.help.title              "">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "čarobnjak: ručno postavljanje
-
-Ručno postavljanje Enigmail-a">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "Odabrali ste ne koristiti čarobnjak za postavljanje Enigmail-a">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "Enigmail upravitelj ključeva je dostupan ovdje">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "Stručne postavke su dostupne ovdje">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Napredne postavke Enigmail identiteta">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Dodaj moj javni ključ porukama">
 
-<!ENTITY enigmail.addPhoto.question.label            "Želite li dodati sljedeću sliku sljedećem ključu?">
+<!ENTITY enigmail.addPhoto.question.label            "">
 <!ENTITY enigmail.addPhoto.title                     "Dodaj sliku ključu">
 <!ENTITY enigmail.msgViewColumn.tooltip              "Sortiraj po OpenPGP statusu">
 <!ENTITY enigmail.addToRule.title                    "Dodaj ključ pravilu po primatelju">
@@ -835,17 +703,9 @@ Ručno postavljanje Enigmail-a">
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Izvezite svoje Enigmail postavke">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Dobrodošli u Čarobnjak za izvoz postavki">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail također dopušta prijenos svih svojih postavki uključujući Vaše OpenPGP
-
-ključeve na novo računalo. Ovo se izvodi u dva koraka:
-
-<html:ol>
-
-<html:li>izvezite svoje podatke sa starog računala koristeći ovaj čarobnjak</html:li>
-
-<html:li>uvezite podatke na novo računalo koristeći Čarobnjak za postavljanje.</html:li>
-
-</html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Molimo navedite izvoznu datoteku:">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Izvozim Enigmail postavke">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Pohrana u toku. Možda će se od Vas tražiti lozinke Vaših ključeva.">
@@ -908,9 +768,19 @@ Thunderbird i pokrenete Čarobnjak za postavljanje iz Enigmail izbornika.">
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "Vrati postavke i ključeve">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">

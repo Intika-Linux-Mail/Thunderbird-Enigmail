@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "">
 <!ENTITY enigmail.autocrypt.label         "">
 
-<!ENTITY enigmail.about.license           "">
-
 <!ENTITY enigmail.keyUserId.label         "Tài khoản / ID người dùng">
 <!ENTITY enigmail.keygenTitle.label       "Tạo khoá OpenPGP">
 <!ENTITY enigmail.useForSigning.label     "Dùng khoá đã tạo cho danh tính được chọn">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "">
 
-<!ENTITY enigmail.keyUpload.label         "">
-<!ENTITY enigmail.keyUpload.desc          "">
-<!ENTITY enigmail.keyUpload.sks.label     "">
-<!ENTITY enigmail.keyUpload.sks.desc      "">
-<!ENTITY enigmail.keyUpload.wks.label     "">
-<!ENTITY enigmail.keyAttachAuto.label     "">
-
 <!ENTITY enigmail.preferences.label       "Tuỳ chỉnh Enigmail">
 
 <!ENTITY enigmail.passwordSettings.label   "">
-<!ENTITY enigmail.userNoPassphrase.label   "Đừng bao giờ hỏi bất kỳ mật khẩu nào">
-<!ENTITY enigmail.userNoPassphrase.tooltip "Kích hoạt nếu khoá OpenPGP của bạn không được bảo vệ bằng mật khẩu.">
 <!ENTITY enigmail.expertUserMenus.label    "Hiện Trình đơn và Cài đặt chuyên gia">
 <!ENTITY enigmail.expertUser.tooltip       "Bấm nếu bạn muốn thấy trình đơn và tuỳ chọn cho người dùng nâng cao.">
 <!ENTITY enigmail.basicUserMenus.label     "Ẩn Trình đơn và Cài đặt chuyên gia">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "">
 <!ENTITY enigmail.protectedSubjectText.label    "">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "">
+<!ENTITY enigmail.protectedSubjectText.placeholder "Tin nhắn đã mã hoá">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "Chỉ tải xuống các tập tin đính kèm khi được mở (chỉ IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Nhớ mật khẩu cho">
 <!ENTITY enigmail.maxIdleMinutesTail.label "">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "Nhớ tạm mật khẩu trong bộ nhớ cho một khoảng thời gian giới hạn.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "Cài lại">
 <!ENTITY enigmail.resetPrefs.tooltip     "Cài toàn bộ các tuỳ chỉnh OpenGPG về giá trị mặc định.">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "">
 <!ENTITY enigmail.restorePrefs.tooltip     "">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "">
 <!ENTITY enigmail.pref.acSetupMessage.button "">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
 
 <!ENTITY enigmail.backupRestore.desc       "">
 
@@ -89,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "Cài đặt cơ bản">
 
 <!ENTITY enigmail.moreOptions.label       "Thêm tuỳ chọn">
+<!ENTITY enigmail.general.okLabel         "OK">
 
 <!ENTITY enigmail.useNonDefaultComment.label "Thêm ghi chú Enigmail trong chữ ký OpenPGP">
 
 <!ENTITY enigmail.keyserver.label         "Máy chủ quản lý khoá">
 <!ENTITY enigmail.keyserverDlg.label      "Chọn máy chủ quản lý khoá">
-<!ENTITY enigmail.keyservers.label        "Chỉ định (các) máy quản lý khoá">
+<!ENTITY enigmail.keyservers.label        "">
 <!ENTITY enigmail.keyservers.sample2      "">
 
 <!ENTITY enigmail.searchForKey.example    "">
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "Giải mã">
 <!ENTITY enigmail.decryptbutton.tip       "Giải mã hoặc xác minh tin nhắn với Enigmail">
+
+<!ENTITY enigmail.doneButton.label        "Done">
+<!ENTITY enigmail.doneButton.accesskey    "D">
 
 <!ENTITY enigmail.messengermenu.accesskey "a">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "">
 
 
 <!-- account specific options -->
@@ -217,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Dùng PGP/MIME theo mặc định">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Sau khi áp dụng mặc định và các quy tắc:">
-<!ENTITY enigmail.finallySignEncrypted.label      "ký tên các tin nhắn đã mã hoá">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "ký tên các tin nhắn chưa mã hoá">
+<!ENTITY enigmail.finallySignEncrypted.label      "">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Mã hoá tin nhắn nháp khi lưu">
 
@@ -345,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "Bật hỗ trợ OpenPGP (Enigmail) cho danh tính này">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Dùng địa chỉ email của danh tính này để nhận diện khoá OpenPGP">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Dùng ID khoá OpenPGP cụ thể (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "Chọn khoá ...">
+<!ENTITY enigmail.amPrefSelectKey.label             "">
 <!ENTITY enigmail.amPrefMsgComp.label               "">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Tuỳ chọn mặc định của Soạn tin nhắn">
 <!ENTITY enigmail.encryptionDlg.label               "Mã hoá Enigmail &amp; Tuỳ chỉnh ký tên">
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "">
-<!ENTITY enigmail.amPrefAutocrypt.description       "">
 
 <!ENTITY enigmail.progressText.label               "Tiến triển:">
 
@@ -456,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "Bạn đã xác minh cẩn thận rằng khoá mà bạn sắp ký thuộc về (những) người có tên bên trên?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Tôi sẽ không trả lời">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Tôi chưa kiểm tra gì cả">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Tôi đã kiểm tra sơ bộ">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "Tôi đã kiểm tra rất cẩn thận">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Chữ ký cục bộ (không thể xuất ra được)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - Thêm ID Nguời dùng ">
@@ -542,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Không có khóa nào trùng hợp với điều kiện tìm kiếm của bạn">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Vui lòng chờ trong khi khóa đang được nạp ...">
 
-<!ENTITY enigmail.keyMan.filter.label              "Tìm kiếm:">
+<!ENTITY enigmail.keyMan.filter.label              "">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "Đ">
 <!ENTITY enigmail.keyMan.generate.accesskey          "K">
@@ -623,7 +615,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "Số sản xuất">
 <!ENTITY enigmail.cardDetails.name.label             "Tên, Họ">
 <!ENTITY enigmail.cardDetails.lang.label             "Ngôn ngữ">
-<!ENTITY enigmail.cardDetails.sex.label              "Phái">
+<!ENTITY enigmail.cardDetails.sex.label              "">
 <!ENTITY enigmail.cardDetails.url.label              "URL của khóa công">
 <!ENTITY enigmail.cardDetails.login.label            "Dữ liệu đăng nhập">
 <!ENTITY enigmail.cardDetails.forcepin.label         "PIN chữ ký bắt buộc">
@@ -665,117 +657,30 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Lặp lại PIN mới">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Trợ lý Thiết lập cho Enigmail">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "">
+<!ENTITY enigmail.setupWiz.title                     "">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "Chọn Danh tính">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Chọn các tài khoản hoặc danh tính bạn muốn Enigmail làm việc với">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>Lưu ý:</a> Enigmail sẽ luôn luôn kiểm chứng chữ ký 
-
-
-trên thư điện tử cho tất cả các tài khoản hoặc danh tính, bất kể là nó có được bật hay không">
-
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "Chọn lựa Khóa">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "Tạo Một Khóa Để Ký tên Và Mã hóa Thư điện tử">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "Tôi muốn tạo một cặp khóa mới cho việc ký tên và mã hóa thư điện tử của tôi">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "Tôi muốn chọn một trong các khóa bên dưới cho việc ký tên và mã hóa thư điện tử của tôi:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "Tạo ra Khóa">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "Tạo Một Khóa Để Ký tên Và Mã hóa Thư điện tử">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "Vui lòng xác nhận cụm từ mật khẩu của bạn bằng cách gõ nó lại">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "Tạo Khóa">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "Khóa của bạn đang được tạo ra">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "">
-<!ENTITY enigmail.attachAuto.desc                    "">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "Xin chỉ định tập tin có chứa dữ liệu đã sao lưu:">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "Đang nhập khoá và áp dụng cài đặt">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "Đã xuất hiện lỗi khi nhập. Không thể áp dụng cài đặt của bạn.">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "Cám ơn bạn">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail bây giờ sẵn sàng để sử dụng.<html:br></html:br><html:br></html:br>Cám ơn bạn đã sử dụng Enigmail.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "">
-<!ENTITY enigmail.pgComplete.help.title              "">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Thiết lập cho Danh tính Cấp cao của Enigmail">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Đính kèm khóa công của tôi vào các tin nhắn">
@@ -796,12 +701,9 @@ trên thư điện tử cho tất cả các tài khoản hoặc danh tính, bấ
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Xuất cài đặt Enigmail">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Chào mừng đến với Trình hướng dẫn cài đặt xuất">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail cho phép chuyển toàn bộ cài đặt của nó bao gồm các khoá OpenPGP
-                                                      sang máy mới. Nó được tiến hành theo hai bước:
-                                                      <html:ol>
-                                                        <html:li>xuất dữ liệu từ máy cũ thông qua trình hướng dẫn này</html:li>
-                                                        <html:li>nhập dữ liệu vào máy mới thông qua trình hướng dẫn cài đặt.</html:li>
-                                                      </html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Xin chỉ định tập tin xuất:">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Đang xuất cài đặt Enigmail">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Đang lưu. Bạn có thể được hỏi (các) mật khẩu của (các) khoá.">
@@ -862,9 +764,19 @@ trên thư điện tử cho tất cả các tài khoản hoặc danh tính, bấ
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">

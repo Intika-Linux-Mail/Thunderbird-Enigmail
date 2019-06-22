@@ -2,15 +2,13 @@
 <!ENTITY enigmail.pEp.label               "Enigmail/p≡p">
 <!ENTITY enigmail.autocrypt.label         "Autocrypt">
 
-<!ENTITY enigmail.about.license           "Enigmail はオープンソースであり、<html:a href='https://www.mozilla.org/MPL/2.0/' class='enigmailLink'>Mozilla Public License 2.0</html:a> でライセンスされています">
-
 <!ENTITY enigmail.keyUserId.label         "アカウント/ユーザー ID">
-<!ENTITY enigmail.keygenTitle.label       "OpenPGP 鍵の生成">
+<!ENTITY enigmail.keygenTitle.label       "OpenPGP鍵の生成">
 <!ENTITY enigmail.useForSigning.label     "生成した鍵を選択したアカウントに使用する">
 <!ENTITY enigmail.keyNoPassphrase.label   "パスフレーズ無し">
 <!ENTITY enigmail.keyPassphrase.label     "パスフレーズ">
 <!ENTITY enigmail.keyPassphraseRepeat.label "パスフレーズ (確認)">
-<!ENTITY enigmail.generateKey.tooltip     "OpenPGP に則った新しい鍵を署名/暗号化するため生成します">
+<!ENTITY enigmail.generateKey.tooltip     "OpenPGPに則った新しい鍵を署名/暗号化するため生成します">
 <!ENTITY enigmail.cancelKey.label         "中止">
 <!ENTITY enigmail.cancelKey.tooltip       "鍵生成を中止します">
 <!ENTITY enigmail.keyGen.expiry.title     "鍵の有効期限">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "ECC (楕円曲線)">
 
-<!ENTITY enigmail.keyUpload.label         "あなたのメールプロバイダーが対応しているか確認しています">
-<!ENTITY enigmail.keyUpload.desc          "あなたの公開鍵をインターネット上で公開することで、他者があなたに直接会ってからでなくともあなたに暗号化したメッセージを送ることが可能になります">
-<!ENTITY enigmail.keyUpload.sks.label     "グローバルの OpenPGP 鍵サーバーへアップロードします">
-<!ENTITY enigmail.keyUpload.sks.desc      "グローバルの OpenPGP 鍵サーバーへ公開鍵をアップロードすることで、レガシーなメールクライアントの利用者があなたに暗号化/署名したメッセージを送れるようになります。これらの鍵サーバーへアップロードされた情報には誰でもアクセスすることが可能なことに注意してください。メールアドレスと公開鍵の関連を秘密にしておきたい場合には、アップロードを行わないでください">
-<!ENTITY enigmail.keyUpload.wks.label     "あなたのメールプロバイダーの鍵サーバーへアップロードします">
-<!ENTITY enigmail.keyAttachAuto.label     "公開鍵を常に添付します">
-
 <!ENTITY enigmail.preferences.label       "Enigmail 設定">
 
 <!ENTITY enigmail.passwordSettings.label   "パスフレーズのタイムアウト">
-<!ENTITY enigmail.userNoPassphrase.label   "パスフレーズの問い合わせをしない">
-<!ENTITY enigmail.userNoPassphrase.tooltip "OpenPGP 鍵がパスフレーズで保護されていない場合にチェックしてください">
 <!ENTITY enigmail.expertUserMenus.label    "上級者向けの設定とメニューを表示">
 <!ENTITY enigmail.expertUser.tooltip       "上級者向けの設定やメニュー項目を表示したい場合にクリックしてください">
 <!ENTITY enigmail.basicUserMenus.label     "上級者向けの設定とメニューを隠す">
@@ -44,45 +33,39 @@
 
 <!ENTITY enigmail.prefs.pathsTitle.label      "フォルダーとファイル">
 <!ENTITY enigmail.prefs.overrideGpg.label     "次の設定で上書き">
-<!ENTITY enigmail.prefs.overrideGpg.tooltip   "GnuPG の場所を設定したい場合は、クリックしてください">
+<!ENTITY enigmail.prefs.overrideGpg.tooltip   "GnuPGの場所を設定したい場合は、クリックしてください">
 
 
-<!ENTITY enigmail.agentAdditionalParam.label    "GnuPG の追加パラメーター">
-<!ENTITY enigmail.agentAdditionalParam.tooltip  "GnuPG で使用するオプションを設定します">
+<!ENTITY enigmail.agentAdditionalParam.label    "GnuPGの追加パラメーター">
+<!ENTITY enigmail.agentAdditionalParam.tooltip  "GnuPGで使用するオプションを設定します">
 
 <!ENTITY enigmail.protectHeadersPrefs.label    "件名を保護する (PGP/MIME で暗号化されるメッセージのみ)">
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "件名や機微情報を含むヘッダーをメッセージの平文部分から除去し暗号化します">
 <!ENTITY enigmail.protectedSubjectText.label    "保護された件名の代替テキスト">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "件名を保護した暗号化メッセージの送信の際に、保護された件名の代わりに一般に表示される件名を指定します">
+<!ENTITY enigmail.protectedSubjectText.placeholder "Encrypted Message">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "開くときに初めて添付ファイルをダウンロードする (IMAP のみ)">
 
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "パスフレーズを">
-<!ENTITY enigmail.maxIdleMinutesTail.label "分間保持する (再入力までの時間)">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "制限時間だけパスフレーズを保持します">
+<!ENTITY enigmail.maxIdleMinutesTail.label "分間保持する（再入力が不要になります）">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "一定期間パスフレーズを保持する（再入力が不要になります）">
 
 <!ENTITY enigmail.resetPrefsButton.label "リセット">
-<!ENTITY enigmail.resetPrefs.tooltip     "Enigmail の設定を初期値に戻します">
+<!ENTITY enigmail.resetPrefs.tooltip     "Enigmailの設定を初期値に戻します">
 
 <!ENTITY enigmail.backupPrefsButton.label "設定と鍵のエクスポート">
-<!ENTITY enigmail.backupPrefs.tooltip     "Enigmail のすべての設定と OpenPGP 鍵をファイルに保存します">
+<!ENTITY enigmail.backupPrefs.tooltip     "Enigmailのすべての設定とOpenPGP鍵をファイルに保存します">
 
 <!ENTITY enigmail.restorePrefsButton.label "設定と鍵のインポート">
-<!ENTITY enigmail.restorePrefs.tooltip     "Enigmail のすべての設定と OpenPGP 鍵をファイルから読み込みます">
+<!ENTITY enigmail.restorePrefs.tooltip     "Enigmailのすべての設定とOpenPGP鍵をファイルから読み込みます">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "Autocrypt が有効なデバイスへの鍵の移行">
-<!ENTITY enigmail.pref.acSetupMessage.button "Autocrypt セットアップの開始">
+<!ENTITY enigmail.pref.acSetupMessage.button "Autocryptの設定">
 
-<!ENTITY enigmail.pref.backupRestore.overallDesc "Enigmail は、二つの方法で設定と OpenPGP 鍵を他のデバイスへ移行することができます。<html:br/><html:br/>
-                                            「Autocrypt Key Transfer」は、移行先のデバイスに Autocrypt に対応したメールクライアントが存在する必要があります。
-                                            こちらは移行は容易ですが、この標準に対応したクライアントは現時点では限られています。<html:br/><html:br/>
-                                            もう一つの方法は、設定の「エクスポート/インポート」です。
-                                            こちらの方法では、すべての設定と OpenPGP 鍵を ZIP ファイルに保存し、新しいデバイスで読み込みます。
-                                            Enigmail ではこれらの設定を直接インポートすることができます。他のメールクライアントでは、ZIP ファイルを展開し、手作業で扱う必要があります。">
-
-<!ENTITY enigmail.backupRestore.desc       "Enigmail のすべての設定と OpenPGP 鍵のエクスポート/インポート">
+<!ENTITY enigmail.backupRestore.desc       "Enigmailのすべての設定とOpenPGP鍵のエクスポート/インポート">
 
 <!ENTITY enigmail.basic.label            "基本">
 <!ENTITY enigmail.sending.label          "送信">
@@ -94,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "基本設定">
 
 <!ENTITY enigmail.moreOptions.label       "詳細設定">
+<!ENTITY enigmail.general.okLabel         "OK">
 
-<!ENTITY enigmail.useNonDefaultComment.label "OpenPGP ブロックに Enigmail のコメントを追加する">
+<!ENTITY enigmail.useNonDefaultComment.label "OpenPGPブロックにEnigmailのコメントを追加する">
 
 <!ENTITY enigmail.keyserver.label         "鍵サーバー">
 <!ENTITY enigmail.keyserverDlg.label      "鍵サーバーの選択">
-<!ENTITY enigmail.keyservers.label        "鍵サーバーを指定する (複数指定可)">
+<!ENTITY enigmail.keyservers.label        "鍵サーバーの指定:">
 <!ENTITY enigmail.keyservers.sample2      "例: hkps://hkps.pool.sks-keyservers.net, hkps://pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "例: 'Forename Surname <user@example.com>'">
@@ -112,15 +96,18 @@
 <!ENTITY enigmail.noHushMailSupport.label   "'<' と '>' をメールアドレスを指定するために使用する">
 
 <!ENTITY enigmail.doubleDashSeparator.tooltip  "一行に二つのハイフンしか無い場合は、署名ブロックとします">
-<!ENTITY enigmail.noHushMailSupport.tooltip    "GnuPG に対して、'<' と '>' をメールアドレスを指定するために使用します。もし、受取人が古い Hushmail 鍵を使用している場合は無効にしてください">
-<!ENTITY enigmail.mime_parts_on_demand.tooltip "PGP/MIME メッセージを IMAP フォルダーで受信している場合には、無効にしてください">
-<!ENTITY enigmail.disableSMIMEui.tooltip       "S/MIME ボタンをメッセージ作成ウインドウのツールバーから隠します">
+<!ENTITY enigmail.noHushMailSupport.tooltip    "GnuPGに対して、'<' と '>' をメールアドレスを指定するために使用します。もし、受取人が古いHushmail鍵を使用している場合は無効にしてください">
+<!ENTITY enigmail.mime_parts_on_demand.tooltip "PGP/MIMEメッセージをIMAPフォルダーで受信している場合には、無効にしてください">
+<!ENTITY enigmail.disableSMIMEui.tooltip       "S/MIMEボタンをメッセージ作成ウインドウのツールバーから隠します">
 
 <!ENTITY enigmail.autoKeyServerSelection.label     "常に先頭の鍵サーバーを利用する">
 <!ENTITY enigmail.autoKeyServerSelection.tooltip   "既定としてリストの先頭にある鍵サーバーを利用します">
 
 <!ENTITY enigmail.decryptbutton.label     "復号">
-<!ENTITY enigmail.decryptbutton.tip       "Enigmail で復号/検証を行う">
+<!ENTITY enigmail.decryptbutton.tip       "Enigmailで復号/検証を行う">
+
+<!ENTITY enigmail.doneButton.label        "完了しました">
+<!ENTITY enigmail.doneButton.accesskey    "D">
 
 <!ENTITY enigmail.messengermenu.accesskey "a">
 
@@ -147,7 +134,7 @@
 
 <!ENTITY enigmail.generateKey.label        "鍵の生成">
 <!ENTITY enigmail.help.label               "ヘルプ">
-<!ENTITY enigmail.about.label              "Enigmail について">
+<!ENTITY enigmail.about.label              "Enigmailについて">
 <!ENTITY enigmail.reload.label             "メッセージを再読込">
 <!ENTITY enigmail.browse.label             "参照...">
 <!ENTITY enigmail.sendersKeyMenu.label     "送信者の鍵">
@@ -175,7 +162,7 @@
 <!ENTITY enigmail.about.accesskey           "b">
 <!ENTITY enigmail.sendersKeyMenu.accesskey  "K">
 
-<!ENTITY enigmail.composetoolbar.desc         "Enigmail 暗号化情報">
+<!ENTITY enigmail.composetoolbar.desc         "Enigmail暗号化情報">
 
 <!ENTITY enigmail.signedsend.label            "このメッセージに署名">
 <!ENTITY enigmail.encryptedsend.label         "このメッセージを暗号化">
@@ -187,7 +174,7 @@
 <!ENTITY enigmail.sendOptionsMenu.label        "送信時の設定...">
 <!ENTITY enigmail.defaultKeySelOpts.label      "鍵の選択の設定...">
 <!ENTITY enigmail.usePgpMime.label             "プロトコル: PGP/MIME">
-<!ENTITY enigmail.useInline.label              "プロトコル: インライン PGP">
+<!ENTITY enigmail.useInline.label              "プロトコル: インラインPGP">
 <!ENTITY enigmail.useSmime.label               "プロトコル: S/MIME">
 
 <!ENTITY enigmail.tempTrustAllKeys.label       "すべての受取人の鍵を信頼する">
@@ -214,27 +201,28 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "A">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "O">
 
 
 <!-- account specific options -->
 <!ENTITY enigmail.defaultSigning.label            "メッセージに署名する">
 <!ENTITY enigmail.defaultEncryption.label         "メッセージを暗号化する">
-<!ENTITY enigmail.usePGPMimeAlways.label          "PGP/MIME を使用する">
+<!ENTITY enigmail.usePGPMimeAlways.label          "PGP/MIMEを使用する">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "既定の設定と鍵の選択方法を適用後のオプション:">
-<!ENTITY enigmail.finallySignEncrypted.label      "暗号化するメッセージに署名する">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "暗号化しないメッセージに署名する">
+<!ENTITY enigmail.finallySignEncrypted.label      "暗号化メッセージに署名">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "未暗号化メッセージに署名">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "下書きの保存時に暗号化する">
 
 <!ENTITY enigmail.advancedPrefsButton.label       "上級者向け設定...">
-<!ENTITY enigmail.openpgpPrefsButton.label        "Enigmail 設定...">
+<!ENTITY enigmail.openpgpPrefsButton.label        "Enigmail設定...">
 
 
 <!-- Sending Preferences -->
 
 <!ENTITY enigmail.SendingPrefs.label              "送信時の設定">
-<!ENTITY enigmail.seeAccountSettings.label        "それぞれのアカウントに固有の Enigmail 設定 (アカウント設定 → OpenPGP セキュリティ) も確認してください">
+<!ENTITY enigmail.seeAccountSettings.label        "それぞれのアカウントに固有のEnigmail設定 (アカウント設定 → OpenPGPセキュリティ) も確認してください">
 
 <!ENTITY enigmail.encryptionModelConvenient.label "標準の暗号化設定">
 <!ENTITY enigmail.encryptionModelManually.label   "詳細な暗号化設定">
@@ -252,7 +240,7 @@
 <!ENTITY enigmail.acceptedKeysTrusted.label       "信用できる鍵のみ">
 <!ENTITY enigmail.acceptedKeysTrusted.tooltip     "あなた自身によって、あるいはあなたが信用する鍵によって署名された鍵のみを受け入れます。技術的には、暗号化に対して「有効な (valid)」鍵のみを受け入れます">
 <!ENTITY enigmail.acceptedKeysAllUsable.label     "利用可能なすべての鍵">
-<!ENTITY enigmail.acceptedKeysAllUsable.tooltip   "あなたによって無効化された、所有者によって失効された、あるいは有効期限が切れた鍵である場合を除いてすべての鍵を受け入れます。技術的には、GPG のオプション '--trust-model always' を用います">
+<!ENTITY enigmail.acceptedKeysAllUsable.tooltip   "あなたによって無効化された、所有者によって失効された、あるいは有効期限が切れた鍵である場合を除いてすべての鍵を受け入れます。技術的には、GPGのオプション '--trust-model always' を用います">
 
 <!ENTITY enigmail.confirmBeforeSendingOption.label           "送信前の確認">
 <!ENTITY enigmail.confirmBeforeSendingNever.label            "確認しない">
@@ -281,8 +269,8 @@
 <!ENTITY enigmail.defineRules.label               "受取人ごとの設定...">
 
 
-<!ENTITY enigmail.wrapHtmlBeforeSend.label        "送信する前に HTML テキストを再整形する">
-<!ENTITY enigmail.wrapHtmlBeforeSend.tooltip      "署名が損なわれないように HTML テキストを再整形します">
+<!ENTITY enigmail.wrapHtmlBeforeSend.label        "送信する前にHTMLテキストを再整形する">
+<!ENTITY enigmail.wrapHtmlBeforeSend.tooltip      "署名が損なわれないようにHTMLテキストを再整形します">
 <!ENTITY enigmail.autoKeyRetrieve.label           "署名を検証するために自動的に鍵を">
 <!ENTITY enigmail.autoKeyRetrieve2.label          "以下の鍵サーバーからダウンロードする:">
 <!ENTITY enigmail.resetRememberedValues.label     "警告をリセット">
@@ -290,7 +278,7 @@
 
 <!ENTITY enigmail.keygen.desc "<a class='enigmailStrong'>注意：鍵生成には数分かかることがあります。</a>生成途中でアプリケーションを終了しないでください。生成途中でウェブブラウザーを使用する、もしくはディスクアクセスが激しい処理を行うと「乱数プール」が満たされ、処理が早く終わります。鍵の生成が終了すると通知します。">
 
-<!ENTITY enigmail.userSelectionList.label           "Enigmail 鍵の選択">
+<!ENTITY enigmail.userSelectionList.label           "Enigmail鍵の選択">
 <!ENTITY enigmail.usersNotFound.label               "鍵が無効、信用していない、もしくは見つからない受取人">
 <!ENTITY enigmail.keyExpiry.label                   "有効期限">
 <!ENTITY enigmail.uidValidity.label                 "鍵の有効性">
@@ -314,14 +302,14 @@
 <!ENTITY enigmail.enigAttachNoneSign.label              "メッセージ本文のみ署名する">
 <!ENTITY enigmail.enigAttachNoneEncrypt.label           "メッセージ本文のみ暗号化する">
 <!ENTITY enigmail.enigAttachNoneEncryptAndSign.label    "メッセージ本文のみ暗号化および署名する">
-<!ENTITY enigmail.enigEncryptAttachInline.label         "添付ファイルは個別に署名/暗号化し、インライン PGP を使用してメッセージを送信する">
-<!ENTITY enigmail.enigAttachInlineSign.label            "添付ファイルは個別に署名し、インライン PGP を使用してメッセージを送信する">
-<!ENTITY enigmail.enigAttachInlineEncrypt.label         "添付ファイルは個別に暗号化し、インライン PGP を使用してメッセージを送信する">
-<!ENTITY enigmail.enigAttachInlineEncryptAndSign.label  "添付ファイルは個別に暗号化および署名し、インライン PGP を使用してメッセージを送信する">
-<!ENTITY enigmail.enigEncryptAttachPgpMime.label        "メッセージ全体を署名/暗号化し、PGP/MIME を使用して送信する">
-<!ENTITY enigmail.enigAttachPgpMimeSign.label           "メッセージ全体を署名し、PGP/MIME を使用して送信する">
-<!ENTITY enigmail.enigAttachPgpMimeEncrypt.label        "メッセージ全体を暗号化し、PGP/MIME を使用してメッセージを送信する">
-<!ENTITY enigmail.enigAttachPgpMimeEncryptAndSign.label "メッセージ全体を暗号化および署名し、PGP/MIME を使用してメッセージを送信する">
+<!ENTITY enigmail.enigEncryptAttachInline.label         "添付ファイルは個別に署名/暗号化し、インラインPGPを使用してメッセージを送信する">
+<!ENTITY enigmail.enigAttachInlineSign.label            "添付ファイルは個別に署名し、インラインPGPを使用してメッセージを送信する">
+<!ENTITY enigmail.enigAttachInlineEncrypt.label         "添付ファイルは個別に暗号化し、インラインPGPを使用してメッセージを送信する">
+<!ENTITY enigmail.enigAttachInlineEncryptAndSign.label  "添付ファイルは個別に暗号化および署名し、インラインPGPを使用してメッセージを送信する">
+<!ENTITY enigmail.enigEncryptAttachPgpMime.label        "メッセージ全体を署名/暗号化し、PGP/MIMEを使用して送信する">
+<!ENTITY enigmail.enigAttachPgpMimeSign.label           "メッセージ全体を署名し、PGP/MIMEを使用して送信する">
+<!ENTITY enigmail.enigAttachPgpMimeEncrypt.label        "メッセージ全体を暗号化し、PGP/MIMEを使用してメッセージを送信する">
+<!ENTITY enigmail.enigAttachPgpMimeEncryptAndSign.label "メッセージ全体を暗号化および署名し、PGP/MIMEを使用してメッセージを送信する">
 <!ENTITY enigmail.enigEncryptAttachDontEncryptMsg.label        "署名/暗号化しない">
 <!ENTITY enigmail.enigAttachDontEncryptMsgSign.label           "署名しない">
 <!ENTITY enigmail.enigAttachDontEncryptMsgEncrypt.label        "暗号化しない">
@@ -331,7 +319,7 @@
 
 <!ENTITY enigmail.ctxDecryptOpen.label              "復号して開く">
 <!ENTITY enigmail.ctxDecryptSave.label              "復号して名前をつけて保存...">
-<!ENTITY enigmail.ctxImportKey.label                "OpenPGP 鍵のインポート">
+<!ENTITY enigmail.ctxImportKey.label                "OpenPGP鍵のインポート">
 <!ENTITY enigmail.ctxVerifyAtt.label                "署名を検証する">
 <!ENTITY enigmail.ctxDecryptOpen.accesskey          "D">
 <!ENTITY enigmail.ctxDecryptSave.accesskey          "C">
@@ -341,19 +329,19 @@
 <!ENTITY enigmail.revealAttachmentsButton.label     "添付ファイルの名前は非表示になっています。「ファイル名表示」をクリックして元の名前を取得できます。">
 <!ENTITY enigmail.revealAttachments.button          "ファイル名表示">
 
-<!ENTITY enigmail.exchangeGarbage.desc              "このメッセージは MS-Exchange から送信された不正なフォーマットの PGP/MIME メッセージです。添付ファイルにアクセスできない、返信や転送が行えないなど問題が生じている場合には、「メッセージを修復」ボタンをクリックしてください。">
+<!ENTITY enigmail.exchangeGarbage.desc              "このメッセージは、MS-Exchangeから送信された不正なフォーマットの PGP/MIMEメッセージです。添付ファイルにアクセスできない、返信や転送が行えないなど問題が生じている場合には、「メッセージを修復」ボタンをクリックしてください。">
 <!ENTITY enigmail.exchangeGarbage.fixButton.label   "メッセージを修復">
 <!ENTITY enigmail.exchangeGarbage.waitMessage       "お待ちください...">
 
 <!ENTITY enigmail.amPrefTitle.label                 "署名および暗号化の設定">
-<!ENTITY enigmail.amPrefDesc.label                  "OpenPGP によるメッセージの署名/暗号化のサポートは Enigmail により提供されています。この機能を使用するには前もって GnuPG (gpg) をインストールする必要があります。">
-<!ENTITY enigmail.amPrefEnablePgp.label             "この ID に対して Enigmail による OpenPGP サポートを有効にする">
-<!ENTITY enigmail.amPrefUseFromAddr.label           "このアカウントのメールアドレスを OpenPGP 鍵 の識別に使用">
-<!ENTITY enigmail.amPrefUseKeyId.label              "指定した OpenPGP 鍵 ID を使用:">
+<!ENTITY enigmail.amPrefDesc.label                  "OpenPGPによるメッセージの署名/暗号化のサポートは、Enigmailにより提供されています。この機能を使用するには、前もってGnuPG(gpg)をインストールする必要があります。">
+<!ENTITY enigmail.amPrefEnablePgp.label             "この ID に対してEnigmailによるOpenPGPサポートを有効にする">
+<!ENTITY enigmail.amPrefUseFromAddr.label           "このアカウントのメールアドレスをOpenPGP鍵の識別に使用">
+<!ENTITY enigmail.amPrefUseKeyId.label              "指定したOpenPGP鍵 IDを使用:">
 <!ENTITY enigmail.amPrefSelectKey.label             "鍵の選択">
 <!ENTITY enigmail.amPrefMsgComp.label               "メッセージの作成">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "メッセージ作成時の既定の設定">
-<!ENTITY enigmail.encryptionDlg.label               "Enigmail 暗号化および署名設定">
+<!ENTITY enigmail.encryptionDlg.label               "Enigmail暗号化および署名設定">
 <!ENTITY enigmail.encDlgProtocol.label              "暗号化および署名プロトコル">
 <!ENTITY enigmail.encDlgEncrypt.label               "このメッセージを暗号化する">
 <!ENTITY enigmail.encDlgEncrypt.accesskey           "E">
@@ -361,34 +349,33 @@
 <!ENTITY enigmail.encDlgSign.accesskey              "S">
 <!ENTITY enigmail.encDlgPgpMime.label               "PGP/MIME">
 <!ENTITY enigmail.encDlgPgpMime.accesskey           "P">
-<!ENTITY enigmail.encDlgInlinePgp.label             "インライン PGP">
+<!ENTITY enigmail.encDlgInlinePgp.label             "インラインPGP">
 <!ENTITY enigmail.encDlgInlinePgp.accesskey         "I">
 <!ENTITY enigmail.encDlgSMime.label                 "S/MIME">
 <!ENTITY enigmail.encDlgSMime.accesskey             "M">
 <!ENTITY enigmail.encDlgReset.label                 "標準設定に戻す">
 <!ENTITY enigmail.encDlgReset.accesskey             "R">
 <!ENTITY enigmail.amPrefPgpHeader.label             "'OpenPGP' ヘッダーを追加">
-<!ENTITY enigmail.amPrefPgpHeader.id.label          "OpenPGP 鍵 ID ヘッダーを追加">
-<!ENTITY enigmail.amPrefPgpHeader.url.label         "鍵を取得するための URL をヘッダーに追加:">
-<!ENTITY enigmail.amPrefMimePreferProto.label       "Enigmail と S/MIME の両方を利用可能な場合:">
-<!ENTITY enigmail.amPrefMimePreferEnigmail.label    "Enigmail (OpenPGP) を優先する">
-<!ENTITY enigmail.amPrefMimePreferSMime.label       "S/MIME を優先する">
-<!ENTITY enigmail.amPrefAutocrypt.description       "<enigmailLink href='https://autocrypt.org'>Autocrypt</enigmailLink> は、メールのエンドツーエンド暗号化を簡便に達成するための標準です。通常のメールを用いて、メールクライアント間で暗号化の可否をやり取りすることができます。">
+<!ENTITY enigmail.amPrefPgpHeader.id.label          "OpenPGP鍵 IDヘッダーを追加">
+<!ENTITY enigmail.amPrefPgpHeader.url.label         "鍵を取得するためのURLをヘッダーに追加:">
+<!ENTITY enigmail.amPrefMimePreferProto.label       "EnigmailとS/MIMEの両方を利用可能な場合:">
+<!ENTITY enigmail.amPrefMimePreferEnigmail.label    "Enigmail (OpenPGP)を優先する">
+<!ENTITY enigmail.amPrefMimePreferSMime.label       "S/MIMEを優先する">
 
 <!ENTITY enigmail.progressText.label               "実行中:">
 
-<!ENTITY enigmail.openPgpSecurity.label            "OpenPGP セキュリティ">
+<!ENTITY enigmail.openPgpSecurity.label            "OpenPGPセキュリティ">
 
-<!ENTITY enigmail.pgpSecurityInfo.label            "Enigmail セキュリティ情報...">
-<!ENTITY enigmail.copySecurityInfo.label           "Enigmail セキュリティ情報をコピー">
-<!ENTITY enigmail.showPhoto.label                  "OpenPGP フォト ID を表示">
-<!ENTITY enigmail.photoViewer.title                "OpenPGP フォト ID">
+<!ENTITY enigmail.pgpSecurityInfo.label            "Enigmailセキュリティ情報...">
+<!ENTITY enigmail.copySecurityInfo.label           "Enigmailセキュリティ情報をコピー">
+<!ENTITY enigmail.showPhoto.label                  "OpenPGPフォト IDを表示">
+<!ENTITY enigmail.photoViewer.title                "OpenPGPフォト ID">
 <!ENTITY enigmail.displayKeyProperties.label       "鍵のプロパティを表示">
 <!ENTITY enigmail.signSenderKey.label              "鍵に署名...">
 <!ENTITY enigmail.trustSenderKey.label             "所有者の信用を付与...">
 <!ENTITY enigmail.signSenderKeyPopup.label         "送信者の鍵に署名...">
 <!ENTITY enigmail.trustSenderKeyPopup.label        "送信者の鍵に所有者の信用を付与...">
-<!ENTITY enigmail.createRuleFromAddr.label         "アドレスから Enigmail の受取人ごとの設定を作成...">
+<!ENTITY enigmail.createRuleFromAddr.label         "アドレスからEnigmailの受取人ごとの設定を作成...">
 <!ENTITY enigmail.keyManWindow.label               "鍵の管理">
 <!ENTITY enigmail.keyManWindow.accesskey           "y">
 
@@ -399,14 +386,14 @@
 <!ENTITY enigmail.wrapSelectionList.label           "折り返しの選択">
 <!ENTITY enigmail.compose.wrap_radio.label          "自動的に折り返す (正当な署名となりますが、メッセージの改行位置がずれるなど見た目が悪くなることがあります)">
 <!ENTITY enigmail.compose.sendasis_radio.label      "そのまま送信する (不正な署名となる可能性があります)">
-<!ENTITY enigmail.compose.use_mime_radio.label      "PGP/MIME で送信する (正当な署名となりますが、受信者のメールクライアントが対応していない可能性があります)">
+<!ENTITY enigmail.compose.use_mime_radio.label      "PGP/MIMEで送信する (正当な署名となりますが、受信者のメールクライアントが対応していない可能性があります)">
 <!ENTITY enigmail.compose.editmanually.label        "メッセージの作成に戻る">
 
 <!ENTITY enigmail.selKeysButton.label               "鍵の選択...">
 <!ENTITY enigmail.action.label                      "動作">
 <!ENTITY enigmail.nextRule.label                    "該当するアドレスについては、次のルールを続いて適用">
 <!ENTITY enigmail.nextAddress.label                 "該当するアドレスについては、これ以上のルールを適用しない">
-<!ENTITY enigmail.useKeys.label                     "以下の OpenPGP 鍵を使用する:">
+<!ENTITY enigmail.useKeys.label                     "以下のOpenPGP鍵を使用する:">
 <!ENTITY enigmail.selKeysButton.accesskey           "S">
 <!ENTITY enigmail.setDefaultsFor.label              "各動作の既定の設定...">
 <!ENTITY enigmail.encryption.label                  "暗号化">
@@ -416,7 +403,7 @@
 <!ENTITY enigmail.maybe.label                       "返信時のみ有効">
 <!ENTITY enigmail.singleRcptSettings.desc           "(注意: 複数のルールの間に矛盾がある場合には「無効」が「有効」より優先されます)">
 <!ENTITY enigmail.ruleEmail.label                   "対象とするメールアドレス">
-<!ENTITY enigmail.ruleEmail.tooltip                 "メールアドレスだけを入力してください。受取人の名前は含めないでください。 すなわち '日本 太郎 <taro.nippon@address.net<' は無効です。">
+<!ENTITY enigmail.ruleEmail.tooltip                 "メールアドレスだけを入力してください。受取人の名前は含めないでください。 すなわち、'日本太郎 <taro.nippon@address.net>' は無効です。">
 <!ENTITY enigmail.sepratationDesc.label             "(複数のメールアドレスは、スペースで区切って入力してください)">
 <!ENTITY enigmail.matchDescStart.label              "受取人が上記アドレス">
 <!ENTITY enigmail.matchDescEnd.label                "とき、ルールを適用">
@@ -428,7 +415,7 @@
 
 <!ENTITY enigmail.rulesEditor.label                 "Enigmail - 受取人ごとの設定">
 <!ENTITY enigmail.email.label                       "メールアドレス">
-<!ENTITY enigmail.pgpKeys.label                     "OpenPGP 鍵">
+<!ENTITY enigmail.pgpKeys.label                     "OpenPGP鍵">
 <!ENTITY enigmail.sign.label                        "署名">
 <!ENTITY enigmail.encrypt.label                     "暗号化">
 <!ENTITY enigmail.edit.label                        "編集">
@@ -445,7 +432,7 @@
 <!ENTITY enigmail.clearSearch.label                 "クリア">
 <!ENTITY enigmail.clearSearch.accesskey             "C">
 
-<!ENTITY enigmail.searchKeyDlg.label               "OpenPGP 鍵をダウンロード">
+<!ENTITY enigmail.searchKeyDlg.label               "OpenPGP鍵をダウンロード">
 <!ENTITY enigmail.searchKeyDlgCapt.label           "鍵の検索結果の表示 - インポートする鍵を選択してください">
 <!ENTITY enigmail.searchKeyDlgSelAll.label         "すべての鍵を選択/選択を解除">
 
@@ -458,14 +445,14 @@
 <!ENTITY enigmail.sKeyDlg.fingerprint.label        "フィンガープリント:">
 <!ENTITY enigmail.sKeyDlg.signWithKey.label        "署名に使う鍵:">
 <!ENTITY enigmail.sKeyDlg.ownKeyTrust.label        "注意: 絶対的に信用している秘密鍵のみがここに表示されます">
-<!ENTITY enigmail.sKeyDlg.checked.label            "あなたが署名しようとしている鍵が実際に上記の名前の人のものだとどのくらい注意して確かめましたか？">
+<!ENTITY enigmail.sKeyDlg.checked.label            "あなたが署名しようとしている鍵が本当に上記の名前の人のものだと、どのくらい慎重に確かめましたか？">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "ノーコメント">
-<!ENTITY enigmail.sKeyDlg.notChecked.label         "全くチェックしていません">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "一応チェックしました">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "注意深くチェックしました">
+<!ENTITY enigmail.sKeyDlg.notChecked.label         "全く確認していません">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "簡単な確認をしました">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "慎重に確認しました">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "ローカル署名 (エクスポート不可)">
 
-<!ENTITY enigmail.addUidDlg.title                  "Enigmail - ユーザー ID の追加">
+<!ENTITY enigmail.addUidDlg.title                  "Enigmail - ユーザーIDの追加">
 <!ENTITY enigmail.addUidDlg.name.label             "名前">
 <!ENTITY enigmail.addUidDlg.email.label            "メールアドレス">
 
@@ -510,7 +497,7 @@
 <!ENTITY enigmail.keyMan.sendKeys.label            "公開鍵をメッセージで送る">
 <!ENTITY enigmail.keyMan.createMail.label          "選択した鍵に対してメッセージを作成する">
 <!ENTITY enigmail.keyMan.uploadToServer.label      "公開鍵をアップロード">
-<!ENTITY enigmail.keyMan.uploadToWkd.label         "公開鍵をあなたのプロバイダーの Web Key Directory にアップロード">
+<!ENTITY enigmail.keyMan.uploadToWkd.label         "公開鍵をあなたのプロバイダーのWeb Key Directoryにアップロード">
 <!ENTITY enigmail.keyMan.copyToClipbrd.label       "公開鍵をクリップボードにコピー">
 <!ENTITY enigmail.keyMan.ctxExportToFile.label     "鍵をファイルへエクスポート">
 <!ENTITY enigmail.keyMan.ctxUploadToServer.label   "公開鍵を鍵サーバーへアップロード">
@@ -519,11 +506,11 @@
 <!ENTITY enigmail.keyMan.refreshAllKeys.label      "すべての公開鍵を更新する">
 <!ENTITY enigmail.keyMan.downloadContactKeys.label "すべての連絡先の鍵を検索する">
 <!ENTITY enigmail.keyMan.ctxRefreshKey.label       "鍵サーバーから公開鍵を更新">
-<!ENTITY enigmail.keyMan.initiateAcBackup.label    "Autocrypt セットアップメッセージを作成">
+<!ENTITY enigmail.keyMan.initiateAcBackup.label    "Autocryptセットアップメッセージを作成">
 
 <!ENTITY enigmail.keyMan.reload.label              "鍵キャッシュの再読込">
-<!ENTITY enigmail.keyMan.addPhoto.label            "フォト ID の追加">
-<!ENTITY enigmail.keyMan.manageUid.label           "ユーザー ID の設定">
+<!ENTITY enigmail.keyMan.addPhoto.label            "フォト IDの追加">
+<!ENTITY enigmail.keyMan.manageUid.label           "ユーザー IDの設定">
 <!ENTITY enigmail.keyMan.changeExpiry.label        "有効期限の変更">
 <!ENTITY enigmail.keyMan.changePwd.label           "パスフレーズの変更">
 <!ENTITY enigmail.keyMan.delKey.label              "鍵を削除">
@@ -531,7 +518,7 @@
 <!ENTITY enigmail.keyMan.keyProps.label            "鍵のプロパティ">
 <!ENTITY enigmail.keyMan.showAllKeys.label         "すべての鍵を表示する">
 <!ENTITY enigmail.keyMan.viewPhoto.label           "フォト ID">
-<!ENTITY enigmail.keyMan.ctxViewPhoto.label        "フォト ID を表示">
+<!ENTITY enigmail.keyMan.ctxViewPhoto.label        "フォト IDを表示">
 <!ENTITY enigmail.keyMan.showInvalidKeys.label     "無効な鍵を表示する">
 <!ENTITY enigmail.keyMan.showUntrustedKeys.label   "信用していない鍵を表示する">
 <!ENTITY enigmail.keyMan.showOthersKeys.label      "自分以外の鍵を表示する">
@@ -547,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "検索語に一致する鍵がありません">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "鍵を読込中です。お待ち下さい...">
 
-<!ENTITY enigmail.keyMan.filter.label              "次の文字列を含むユーザー ID か鍵 ID だけを表示:">
+<!ENTITY enigmail.keyMan.filter.label              "鍵の検索">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "C">
 <!ENTITY enigmail.keyMan.generate.accesskey          "K">
@@ -590,7 +577,7 @@
 
 <!ENTITY enigmail.keySearch.selectAll.key            "A">
 
-<!ENTITY enigmail.manageUidDlg.title                 "主に使うユーザー ID の変更">
+<!ENTITY enigmail.manageUidDlg.title                 "主に使うユーザー IDの変更">
 <!ENTITY enigmail.manageUidDlg.affectedKey.label     "変更する鍵:">
 <!ENTITY enigmail.manageUidDlg.availableUid.label    "利用可能なユーザー ID:">
 <!ENTITY enigmail.manageUidDlg.addUid.label          "追加">
@@ -619,21 +606,21 @@
 <!ENTITY enigmail.keyDetails.keyValidity.label       "鍵の有効性">
 <!ENTITY enigmail.keyDetails.alsoKnown.label         "別名">
 
-<!ENTITY enigmail.cardDetails.title                  "OpenPGP スマートカード詳細設定">
+<!ENTITY enigmail.cardDetails.title                  "OpenPGPスマートカード詳細設定">
 <!ENTITY enigmail.cardDetails.cardMenu.label         "スマートカード">
-<!ENTITY enigmail.cardDetails.adminPin.label         "PIN の変更">
+<!ENTITY enigmail.cardDetails.adminPin.label         "PINの変更">
 <!ENTITY enigmail.cardDetails.genCardKey.label       "鍵の生成">
 
 <!ENTITY enigmail.cardDetails.vendor.label           "製造者">
 <!ENTITY enigmail.cardDetails.serial.label           "シリアルナンバー">
 <!ENTITY enigmail.cardDetails.name.label             "名, 姓">
 <!ENTITY enigmail.cardDetails.lang.label             "言語">
-<!ENTITY enigmail.cardDetails.sex.label              "性別">
-<!ENTITY enigmail.cardDetails.url.label              "公開鍵の URL">
+<!ENTITY enigmail.cardDetails.sex.label              "性(ジェンダー)">
+<!ENTITY enigmail.cardDetails.url.label              "公開鍵のURL">
 <!ENTITY enigmail.cardDetails.login.label            "ログインデータ">
-<!ENTITY enigmail.cardDetails.forcepin.label         "署名時の PIN 認証を強制">
-<!ENTITY enigmail.cardDetails.maxpinlen.label        "PIN の最大文字数">
-<!ENTITY enigmail.cardDetails.pinretry.label         "PIN 入力試行可能回数">
+<!ENTITY enigmail.cardDetails.forcepin.label         "署名時のPIN認証を強制">
+<!ENTITY enigmail.cardDetails.maxpinlen.label        "PINの最大文字数">
+<!ENTITY enigmail.cardDetails.pinretry.label         "PIN入力試行可能回数">
 <!ENTITY enigmail.cardDetails.sigcount.label         "署名回数">
 <!ENTITY enigmail.cardDetails.sigKey.label           "署名用の鍵">
 <!ENTITY enigmail.cardDetails.keyCreated.label       "作成日">
@@ -653,159 +640,59 @@
 <!ENTITY enigmail.cardDetails.cardMenu.accesskey     "S">
 <!ENTITY enigmail.cardDetails.editData.accesskey     "E">
 
-<!ENTITY enigmail.genCardKey.title                   "OpenPGP 鍵の生成">
+<!ENTITY enigmail.genCardKey.title                   "OpenPGP鍵の生成">
 <!ENTITY enigmail.genCardKey.backupKey.label         "カードの外部に鍵をバックアップする">
 <!ENTITY enigmail.genCardKey.desc                    "<a class='enigmailStrong'>注意: 鍵生成には数分かかることがあります。</a>鍵生成中はアプリケーションを終了しないでください。終了時にはお知らせします。">
 
-<!ENTITY enigmail.cardPin.title                      "スマートカードの PIN の変更">
+<!ENTITY enigmail.cardPin.title                      "スマートカードのPINの変更">
 <!ENTITY enigmail.cardPin.action.label               "スマートカードの">
-<!ENTITY enigmail.cardPin.changePin.label            "PIN を変更する">
-<!ENTITY enigmail.cardPin.changeAdmPin.label         "管理者 PIN を変更する">
-<!ENTITY enigmail.cardPin.unblockPin.label           "PIN のブロックを解除する">
-<!ENTITY enigmail.cardPin.currAdmPin.label           "現在の管理者 PIN">
-<!ENTITY enigmail.cardPin.newAdminPin.label          "新しい管理者 PIN">
-<!ENTITY enigmail.cardPin.adminPinRepeat.label       "新しい管理者 PIN (確認)">
-<!ENTITY enigmail.cardPin.currPin.label              "現在の PIN">
-<!ENTITY enigmail.cardPin.newPin.label               "新しい PIN">
+<!ENTITY enigmail.cardPin.changePin.label            "PINを変更する">
+<!ENTITY enigmail.cardPin.changeAdmPin.label         "管理者PINを変更する">
+<!ENTITY enigmail.cardPin.unblockPin.label           "PINのブロックを解除する">
+<!ENTITY enigmail.cardPin.currAdmPin.label           "現在の管理者PIN">
+<!ENTITY enigmail.cardPin.newAdminPin.label          "新しい管理者PIN">
+<!ENTITY enigmail.cardPin.adminPinRepeat.label       "新しい管理者PIN(確認)">
+<!ENTITY enigmail.cardPin.currPin.label              "現在のPIN">
+<!ENTITY enigmail.cardPin.newPin.label               "新しいPIN">
 <!ENTITY enigmail.cardPin.pinRepeat.label            "新しい PIN (確認)">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Enigmail セットアップウィザード">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "Enigmail セットアップウィザードへようこそ">
+<!ENTITY enigmail.setupWiz.title                     "Enigmail セットアップ">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "このコンピューターで初めて Enigmail をお使いのようです。
-                                                      Enigmail を利用するためには、適切に設定を行う必要があります。
-                                                      このウィザードでは、Enigmail の設定を支援します。">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "今すぐ Enigmail の設定を行いますか？それとも後で行いますか？">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "今すぐ行う">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "後で行う">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "ウィザードの選択">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "セットアップウィザードに従って設定しますか？それともウィザードを使わず手動で設定しますか？">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "セットアップウィザード：標準設定 (初心者向け)">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "セットアップウィザード：詳細設定 (上級者向け)">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "手動設定 (上級者向け)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "以前の環境から設定をインポート">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "ID の選択">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Enigmail で使用するアカウントもしくは ID の選択">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "すべてのアカウント/ID に対して Enigmail を設定しますか？">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "すべてのアカウント/ID に対して Enigmail を有効化する">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "以下のアカウント/ID に対して Enigmail を有効化する:">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>注意:</a> Enigmail は、有効無効に関わらず
-                                                      すべてのアカウントもしくは ID 宛のメッセージの署名を検証します。">
-
+                                                      Enigmailを利用するためには、適切に設定を行う必要があります。
+                                                      このウィザードでは、Enigmailの設定を支援します。">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "GnuPG が必要です">
-<!ENTITY enigmail.setupWiz.pgInstall.desc            "Enigmail で暗号化機能を利用するためには、GnuPG が必要です。
-                                                      インストール済みの GnuPG を探しましたが見つかりませんでした。">
-<!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmail は自動的に GnuPG をダウンロードし、インストーラを起動することができます。
+<!ENTITY enigmail.setupWiz.pgInstall.desc            "Enigmailで暗号化機能を利用するためには、GnuPGが必要です。
+                                                      インストール済みのGnuPGを探しましたが、見つかりませんでした。">
+<!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmailは自動的にGnuPGをダウンロードし、インストーラを起動することができます。
                                                       「インストール」ボタンをクリックして、ダウンロードおよびインストールを開始してください。">
+<!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "GnuPGをインストール済みの場合には「選択」ボタンをクリックして、GnuPGの場所を指定してください。">
 
-<!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "既に GnuPG をインストール済みの場合には「選択」ボタンをクリックして GnuPG の場所を指定してください。">
-<!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "「選択」ボタンから GnuPG の場所を指定してください。">
-<!ENTITY enigmail.setupWiz.pgInstall.installButton   "GnuPG をインストール...">
+<!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "「選択」ボタンからGnuPGの場所を指定してください。">
+<!ENTITY enigmail.setupWiz.pgInstall.installButton   "GnuPGをインストール...">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "選択...">
-<!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "GnuPG をダウンロード...">
-<!ENTITY enigmail.setupWiz.pgInstall.installLabel    "GnuPG のインストールを開始します。ウィザードに従ってください。">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "インストールが完了しました。次に進んでセットアップを継続してください。">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "インストール済みの GnuPG を検出しました。">
+<!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "GnuPGをダウンロード...">
+<!ENTITY enigmail.setupWiz.pgInstall.installLabel    "GnuPGのインストールを開始します。ウィザードに従ってください。">
 
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "GnuPGを探しています ...">
+<!ENTITY enigmail.setupWiz.checkingSetup             "既存の設定をチェックしています ...">
+<!ENTITY enigmail.setupWiz.startSetupButton          "セットアップの開始">
+<!ENTITY enigmail.setupWiz.usingPepMode              "あなたはPretty Easy Privacy (p≡p)を使用していると判断しました。">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "もし、p≡pを使用している端末をお持ちなら、このコンピューターと同期させることをお勧めします。
+                                                      その場合、このウィザードを終了し、同期処理が始まるまでお待ちください。">
+<!ENTITY enigmail.setupWiz.useImportKeys             "あるいは、下の「鍵をインポート」ボタンで鍵を手動でインポートできます。">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "メールフォルダに暗号化されたメッセージが見つかりました。使用していた端末からあなたの鍵をエクスポート（書き出し）し、このコンピューターにインポートすることをお勧めします。">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "すでにOpenPGP鍵を使用していますね。この鍵を利用できるよう、Enigmailをセットアップすることをお勧めします。">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "私の鍵を適用">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "受信箱を再検索">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "鍵のインポート">
 
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "鍵の選択">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "メッセージの署名/暗号化に使用する鍵の選択">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "OpenPGP 鍵を既にお持ちのようです。メッセージの署名/暗号化に
-                                                      それらを利用することも、新規に作成する事もできます。">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "メッセージ署名/暗号化に使用する鍵ペアを新規に作成する">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "メッセージ署名/暗号化に使用する鍵ペアを以下から選択する:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "鍵の生成">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "新しい鍵ペアの生成">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "ここでは鍵ペアを生成します。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "<html:b>公開鍵</html:b> は、あなた宛に暗号化メッセージを送るときおよび、あなたによる署名メッセージを検証するときに <html:b>第三者によって</html:b> 使用されます。公開鍵は第三者に配布することができます。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "<html:b>秘密鍵</html:b> は、暗号化メッセージを復号するときおよび署名メッセージを送るときに <html:b>あなた自身によって</html:b> 使用されます。
-                                                      秘密鍵を第三者に公開してはいけません。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "<html:b>秘密鍵</html:b> は、あなた宛に送られた暗号化メッセージを復号するときおよび、あなたが署名メッセージを送るときに <html:b>あなた自身によって</html:b> 使用されます。
-                                                      秘密鍵を第三者に公開してはいけません。
-                                                      秘密鍵の安全性を保つために、パスフレーズを設定することができます。以下の 2 つのダイアログにパスフレーズを入力してください。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "<html:b>パスフレーズ</html:b> は、秘密鍵を保護するためのパスワードです。これにより、あなた自身による秘密鍵の誤使用や、第三者による不正使用が防止されます。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "パスフレーズは最低でも 8 文字の長さが必要で、複数の単語から構成されるべきです。アルファベット (大文字小文字は区別されます)・数字・記号が使用可能です。ウムラルトを含むアルファベットや、ひらがな・カタカナ・漢字などそれぞれの言語に特有な文字の使用は <html:b>推奨されません</html:b>。">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "確認のため、もう一度パスフレーズを入力してください">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "パスフレーズの品質:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "パスフレーズは最低でも 8 文字の長さが必要です">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "パスフレーズが一致しません">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "OpenPGP 鍵の生成あるいはインポート">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "OpenPGP 鍵をお持ちではないようです。新しい鍵を作成しますか？
-                                                      それともファイルから鍵をインポートしますか？">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "公開鍵と秘密鍵を持っているためそれらをインポートする">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "OpenPGP 鍵のインポート">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "インポートする鍵の選択">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "インポートする公開鍵と秘密鍵のファイルを指定してください。
-                                                      公開鍵と秘密鍵がセットになっているファイルの場合には
-                                                      秘密鍵の欄を空白にしてください。">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "公開鍵ファイル">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "秘密鍵ファイル">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "鍵の生成">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "現在、鍵を生成中です">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "鍵生成が完了しました">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "失効証明書の生成">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "失効証明書を生成することができます">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "秘密鍵をなくしたりパスフレーズを忘れた時や、パスフレーズが第三者に漏洩するなど秘密鍵の信用が失われた時には、公開鍵を失効させる必要があります。
-                                                      失効させることで、第三者があなたの古い鍵を使うことができなくなります。
-                                                      鍵の失効には、あらかじめ生成した失効証明書が必要となります。
-                                                      <html:br/>失効証明書の生成のためパスフレーズを入力してください。この証明書は、CD-R や USB メモリーのようなオフラインで安全に保存できるメディアに移してください。もし、誰かがこの失効証明書を手に入れた場合、あなたの鍵を使えなくされるおそれがあります。">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "失効証明書の生成">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "公開鍵のアップロード">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "公開鍵のインターネット上への公開">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "公開鍵の添付">
-<!ENTITY enigmail.attachAuto.desc                    "メッセージ送信時にあなたの公開鍵を自動的に添付するようになります">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "以前の環境から設定をインポート">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail では、OpenPGP 鍵を含むすべての設定を新しい環境へ移行することができます。
-                                                      移行は以下の 2 つのステップからなります:
-                                                      <html:ol>
-                                                        <html:li>古い環境で、このウィザードからデータをエクスポートする</html:li>
-                                                        <html:li>新しい環境で、セットアップウィザードからデータをインポートする</html:li>
-                                                      </html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "インポートするファイルを指定してください:">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "鍵のインポートと設定の適用">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "インポート中にエラーが発生しました。Enigmail の設定は適用されませんでした。">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "お疲れさまでした">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail が利用可能となりました。<html:br/><html:br/>この度は、Enigmail をご利用いただきありがとうございます。">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "あなたの公開鍵をあなたのメールプロバイダーの Web Key Directory にアップロードすることをお勧めします。それによって、あなたの通信相手があなたの公開鍵を自動的に見つけて利用することが可能となります。
-                                                        <html:br/>Web Key Directory にアップロードを希望する場合には、この後受信するメッセージに記載されている確認リクエストを承認してください。">
-<!ENTITY enigmail.pgComplete.help.title              "Enigmail の利用に関しての詳細情報は以下を参照してください">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "手動設定">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "Enigmail の設定にウィザードを使用しないことが選択されました。">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "鍵管理マネージャー">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "上級者向け設定">
-
-
-
-<!ENTITY enigmail.advancedIdentityDlg.title          "上級者向け Enigmail 設定">
+<!ENTITY enigmail.advancedIdentityDlg.title          "上級者向けEnigmail設定">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "自分の公開鍵をメッセージに添付する">
 
-<!ENTITY enigmail.addPhoto.question.label            "この写真を鍵に追加しますか？">
-<!ENTITY enigmail.addPhoto.title                     "フォト ID の追加">
-<!ENTITY enigmail.msgViewColumn.tooltip              "クリックすると OpenPGP ステータスで並べ替えます">
+<!ENTITY enigmail.addPhoto.question.label            "鍵に写真を追加しますか？">
+<!ENTITY enigmail.addPhoto.title                     "フォト IDの追加">
+<!ENTITY enigmail.msgViewColumn.tooltip              "クリックするとOpenPGPステータスで並べ替えます">
 <!ENTITY enigmail.addToRule.title                    "この鍵を受取人ごとの設定に追加">
 <!ENTITY enigmail.addToRule.useRuleButton.label      "選択した設定に追加">
 <!ENTITY enigmail.addToRule.useRuleButton.accesskey  "A">
@@ -817,42 +704,40 @@
 <!ENTITY enigmail.filterEditor.moveError.label       "「メッセージを恒久的に復号する」に続くフィルター動作はサポートされていません">
 
 <!-- Export wizard -->
-<!ENTITY enigmail.exportWiz.title                    "Enigmail 設定のエクスポート">
+<!ENTITY enigmail.exportWiz.title                    "Enigmail設定のエクスポート">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "設定のエクスポートウィザードへようこそ">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail では、OpenPGP 鍵を含むすべての設定を新しい環境へ移行することができます。
-                                                      移行は以下の 2 つのステップからなります:
-                                                      <html:ol>
-                                                        <html:li>古い環境で、エクスポートウィザードからデータをエクスポートする</html:li>
-                                                        <html:li>新しい環境で、このウィザードからデータをインポートする</html:li>
-                                                      </html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "Enigmailは、OpenPGP鍵をを含む全ての設定を移行できます。
+                                                      ステップは２段階です:">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "このウィザードを使って、古いコンピューターからデータをエクスポートします">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "セットアップ・ウィザードを使って、新しいコンピューターにインポートします">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "エクスポート先のファイル名を指定してください:">
-<!ENTITY enigmail.exportWiz.pgExport.title           "Enigmail 設定をエクスポート">
+<!ENTITY enigmail.exportWiz.pgExport.title           "Enigmail設定をエクスポート">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "データをエクスポート中です。途中であなたの秘密鍵のパスフレーズを尋ねられるかもしれません。">
-<!ENTITY enigmail.exportWiz.pgExport.done            "あなたの OpenPGP 鍵と Enigmail の設定は無事にエクスポートされました。
+<!ENTITY enigmail.exportWiz.pgExport.done            "あなたのOpenPGP鍵とEnigmailの設定は無事にエクスポートされました。
                                                       エクスポートされたファイルを新しい環境にコピーし、
-                                                      Thunderbird を起動して Enigmail メニューからセットアップウィザードを開始してください。">
-<!ENTITY enigmail.exportWiz.pgExport.failed          "エクスポート中にエラーが発生しました。Enigmail の設定はエクスポートされませんでした。">
+                                                      Thunderbirdを起動して、Enigmailメニューからセットアップウィザードを開始してください。">
+<!ENTITY enigmail.exportWiz.pgExport.failed          "エクスポート中にエラーが発生しました。Enigmailの設定はエクスポートされませんでした。">
 
 <!ENTITY enigmail.privacyPprefPane.juniorMode         "Enigmail 初心者モード">
 <!ENTITY enigmail.privacyPprefPane.juniorModeAuto     "初心者モードを使用するかどうか自動的に決定する">
-<!ENTITY enigmail.privacyPprefPane.juniorModeForceOff "S/MIME と Enigmail を使用する">
+<!ENTITY enigmail.privacyPprefPane.juniorModeForceOff "S/MIMEとEnigmailを使用する">
 <!ENTITY enigmail.privacyPprefPane.juniorModeForceOn  "p≡p (Pretty Easy Privacy) を使用する">
 
-<!ENTITY enigmail.pEp.verifyTrustwords.label          "p≡p ハンドシェイク">
+<!ENTITY enigmail.pEp.verifyTrustwords.label          "p≡pハンドシェイク">
 <!ENTITY enigmail.pEp.verifyTrustwords.accesskey      "H">
-<!ENTITY enigmail.pEp.revokeTrust.label               "p≡p の信用度の取り消し">
-<!ENTITY enigmail.messeneger.pEpIcon.tootlip          "このメッセージは p≡p によって暗号化されています。詳細はアイコンをクリックしてください。">
+<!ENTITY enigmail.pEp.revokeTrust.label               "p≡pの信用度の取り消し">
+<!ENTITY enigmail.messeneger.pEpIcon.tootlip          "このメッセージはp≡pによって暗号化されています。詳細はアイコンをクリックしてください。">
 
-<!ENTITY enigmail.pEp.trustWordsDlg.title             "p≡p の trustword の認証">
-<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "あなたの通信相手に、Trustword を対面で、あるいは電話であなたに伝えるよう依頼してください。それらは以下の Trustword に一致していなければいけません。">
-<!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "あなたの p≡p デバイスグループに新しいデバイスを追加しようとしています。以下の Trustword を正しく認証できることを確認してください。">
+<!ENTITY enigmail.pEp.trustWordsDlg.title             "p≡pのtrustwordの認証">
+<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "通信相手にTrustwordを読むように依頼してください。以下のTrustwordと合致しているはずです。">
+<!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "あなたの p≡p デバイスグループに新しいデバイスを追加しようとしています。以下のTrustwordを正しく認証できることを確認してください。">
 <!ENTITY enigmail.pEp.trustWordsDlg.myFingerprint     "私の鍵のフィンガープリント:">
 <!ENTITY enigmail.pEp.trustWordsDlg.trustwordsShort   "Trustword">
-<!ENTITY enigmail.pEp.trustWordsDlg.trustwordsLong    "長い Trustword">
+<!ENTITY enigmail.pEp.trustWordsDlg.trustwordsLong    "長いTrustword">
 <!ENTITY enigmail.pEp.trustWordsDlg.fingerprint       "フィンガープリント">
 
-<!ENTITY enigmail.pEp.trustWordsDlg.btnVerified       "Trustword が一致しました">
-<!ENTITY enigmail.pEp.trustWordsDlg.btnMistrust       "Trustword が一致しません/誤って信用した鍵です">
+<!ENTITY enigmail.pEp.trustWordsDlg.btnVerified       "Trustwordが一致しました">
+<!ENTITY enigmail.pEp.trustWordsDlg.btnMistrust       "Trustwordが一致しません/誤って信用した鍵です">
 <!ENTITY enigmail.pEp.privacyStatus.label             "プライバシー状況:">
 <!ENTITY enigmail.pEp.composestatus.label             "不明">
 
@@ -864,33 +749,42 @@
 <!ENTITY enigmail.pepPref.window.title               "Enigmail/p≡p 設定">
 <!ENTITY enigmail.pepPref.accountTab.label           "アカウント">
 <!ENTITY enigmail.pepPref.compatTab.label            "互換性">
-<!ENTITY enigmail.pepPref.aboutTab.label             "Enigmail/p≡p について">
+<!ENTITY enigmail.pepPref.aboutTab.label             "Enigmail/p≡pについて">
 <!ENTITY enigmail.pepPref.accountSecurity.desc       "アカウントセキュリティ">
 <!ENTITY enigmail.pepPref.storeSecurely.title        "これらのアカウントのメッセージを安全に保存する">
 <!ENTITY enigmail.pepPref.storeSecurely.label        "メッセージを安全に保存します">
 <!ENTITY enigmail.pepPref.enableEncryption.label     "プライバシー保護を有効にする">
 <!ENTITY enigmail.pepPref.passiveMode.label          "送信メッセージに自分の鍵を添付する">
 <!ENTITY enigmail.pepPref.protectedSubject.label     "メッセージの件名の保護を有効にする">
-<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "返信や転送によってメッセージのセキュリティが失われるときに警告する">
-<!ENTITY enigmail.pepPref.openpgpCompatibility.label "OpenPGP 互換性">
+<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "返信や転送によって、メッセージの秘匿性が失われるときに警告する">
+<!ENTITY enigmail.pepPref.openpgpCompatibility.label "OpenPGP互換性">
 <!ENTITY enigmail.pepPref.autoKeyLookup.label        "鍵をサーバーから自動的に検索する">
 <!ENTITY enigmail.pepPref.credits.label              "クレジット">
 <!ENTITY enigmail.pepPref.thanksTo.label             "謝辞">
 
 <!ENTITY enigmail.acPreferEncrypt.label              "メッセージのやり取りをしたことのある宛先についてメッセージの暗号化を優先する">
-<!ENTITY enigmail.enableAutocrypt.label              "Autocrypt を有効化する">
+<!ENTITY enigmail.enableAutocrypt.label              "Autocryptを有効化する">
 
-<!ENTITY enigmail.acSetupPasswd.dlgTitle             "Autocrypt セットアップコード">
+<!ENTITY enigmail.acSetupPasswd.dlgTitle             "Autocryptセットアップコード">
 <!ENTITY enigmail.acSetupPasswd.password             "セットアップコード:">
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "Autocrypt Key Transfer">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "鍵移行の開始">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "Autocrypt が有効なデバイスをお持ちであれば、「Autocrypt セットアップメッセージ」によってあなたの OpenPGP 鍵を他のデバイスに移行することができます。
-                                                      この方法では、数クリックの操作のみで、暗号化したメッセージのやり取りを行うことができるようになります。<html:br/><html:br/>
-                                                      鍵移行を行いたいアカウントを選択してください。
-                                                      表示されたセットアップコード (パスワード) を、移行先のデバイスに入力してください。">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "Autocryptに対応した別の端末をお持ちの場合、「Autocrypt Setup Message」によってあなたの鍵を転送できます。
+                                                      Autocrypt Setup Messageは、別の端末でもEnigmailと同じように暗号メッセージが送受信できるようになります。">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "鍵を転送したいアカウントを選択してください。
+                                                      次の画面でセットアップコード（パスワード）を表示しますので、転送先の端末でそのコードを入力してください。">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "セットアップメッセージを作成するアカウント:">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "Autocrypt セットアップメッセージのコード">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "セットアップメッセージはあなた自身に送信されました。<html:br/><html:br/>移行先のデバイスでメッセージを開いてください。セットアップコードが要求されたら、以下の数字を入力してください:">
-<!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "新しいデバイスでの Autocrypt が利用可能となりました。">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "セットアップメッセージが送信されました">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "新しい端末でメッセージを確認してください。セットアップコードの入力を求められますので、以下の数字を入力してください:">
+<!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "新しいデバイスでのAutocryptが利用可能となりました。">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "設定と鍵のインポート">
+<!ENTITY enigmail.importSetup.topDesc                "このダイアログで、使用中のEnigmailの設定からあなたの設定と鍵を修復できます。バックアップを作成するには、Enigmailの設定の「移行設定」タブを使用してください">
+<!ENTITY enigmail.importSetup.specifyImportFile      "バックアップ用ファイルを指定してください:">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "修復を開始">
+<!ENTITY enigmail.importSetup.importingKeys          "GnuPGの鍵をインポートしています。しばらくお持ちください ...">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "GnuPG設定を修復中 ...">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "Enigmailの設定を修復中 ...">

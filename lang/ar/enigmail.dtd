@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "">
 <!ENTITY enigmail.autocrypt.label         "">
 
-<!ENTITY enigmail.about.license           "">
-
 <!ENTITY enigmail.keyUserId.label         "الحساب/هوية المستخدم">
 <!ENTITY enigmail.keygenTitle.label       "ولِّد مفتاح OpenPGP">
 <!ENTITY enigmail.useForSigning.label     "استخدم المفتاح المُولّد للهوية المختارة">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "">
 
-<!ENTITY enigmail.keyUpload.label         "">
-<!ENTITY enigmail.keyUpload.desc          "">
-<!ENTITY enigmail.keyUpload.sks.label     "">
-<!ENTITY enigmail.keyUpload.sks.desc      "">
-<!ENTITY enigmail.keyUpload.wks.label     "">
-<!ENTITY enigmail.keyAttachAuto.label     "">
-
 <!ENTITY enigmail.preferences.label       "تفضيلات Enigmail">
 
 <!ENTITY enigmail.passwordSettings.label   "">
-<!ENTITY enigmail.userNoPassphrase.label   "لا تسأل أبدا عن كلمة السر">
-<!ENTITY enigmail.userNoPassphrase.tooltip "أشِّره إن كان مفتاح OpenPGP الخاص بك غير محمي بعبارة سر.">
 <!ENTITY enigmail.expertUserMenus.label    "">
 <!ENTITY enigmail.expertUser.tooltip       "اضغط هذا لإظهار عناصر قوائم و خيارات المستخدمين الخبراء.">
 <!ENTITY enigmail.basicUserMenus.label     "">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "">
 <!ENTITY enigmail.protectedSubjectText.label    "">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "">
+<!ENTITY enigmail.protectedSubjectText.placeholder "">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "نزِّل المرفقات عند فتحها (لا يصلح سوى مع IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "تذكر كلمة السر لمدة‍">
 <!ENTITY enigmail.maxIdleMinutesTail.label "">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "يحفظ عبارة السر في الذاكرة لمدة محددة.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "صفّر">
 <!ENTITY enigmail.resetPrefs.tooltip     "اضبط كل تفضيلات Enigmail إلى القيم البدئية.">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "">
 <!ENTITY enigmail.restorePrefs.tooltip     "">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "">
 <!ENTITY enigmail.pref.acSetupMessage.button "">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
 
 <!ENTITY enigmail.backupRestore.desc       "">
 
@@ -89,12 +77,13 @@
 <!ENTITY enigmail.basicPrefs.label       "التضبيطات الأساسية">
 
 <!ENTITY enigmail.moreOptions.label       "خيارات أخرى">
+<!ENTITY enigmail.general.okLabel         "حسناً">
 
 <!ENTITY enigmail.useNonDefaultComment.label "أضف تعليق Enigmail في توقيع OpenPGP">
 
 <!ENTITY enigmail.keyserver.label         "خادوم المفاتيح">
 <!ENTITY enigmail.keyserverDlg.label      "اختر خادوم مفاتيح">
-<!ENTITY enigmail.keyservers.label        "حدد خادوما للبحث عن المفاتيح وتحديثها">
+<!ENTITY enigmail.keyservers.label        "">
 <!ENTITY enigmail.keyservers.sample2      "">
 
 <!ENTITY enigmail.searchForKey.example    "">
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "ظهِّر">
 <!ENTITY enigmail.decryptbutton.tip       "ظهِّر أو تحقق من الرسالة باستخدام Enigmail">
+
+<!ENTITY enigmail.doneButton.label        "انتهى">
+<!ENTITY enigmail.doneButton.accesskey    "ظ">
 
 <!ENTITY enigmail.messengermenu.accesskey "n">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "ع">
 <!ENTITY enigmail.attachkey.accesskey          "ر">
 <!ENTITY enigmail.attachmykey.accesskey        "ي">
+<!ENTITY enigmail.protectHeaders.accesskey     "O">
 
 
 <!-- account specific options -->
@@ -345,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "فعِّل دعم OpenPGP (Enigmail) لهذه الهوية">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "استخدم عنوان بريد هذه الهوية لتَعرُّف مفتاح OpenPGP">
 <!ENTITY enigmail.amPrefUseKeyId.label              "استخدم معرِّف مفتاح OpenPGP محدد (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "اختر مفتاحا...">
+<!ENTITY enigmail.amPrefSelectKey.label             "">
 <!ENTITY enigmail.amPrefMsgComp.label               "">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "الخيارات البدئية لتحرير الرسائل">
 <!ENTITY enigmail.encryptionDlg.label               "إعدادات تعمية وتوقيع Enigmail">
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "">
-<!ENTITY enigmail.amPrefAutocrypt.description       "">
 
 <!ENTITY enigmail.progressText.label               "التّقدّم:">
 
@@ -456,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "إلى أي مدى تحققت من أن المفتاح الذي أنت بصدد توقيعه ينتمي للشخص المذكور أعلاه؟">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "لا إجابة">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "لم أتحقق على الإطلاق">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "تحققت بلا تدقيق">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "تحققت بتدقيق شديد">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "توقيع محلي (لا يمكن تصديره)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - أضِف هوية المستخدم">
@@ -542,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "لا تطابق أية مفاتيح محددات البحث التي أدخلت">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "انتظر حتى يتم تحميل المفاتيح …">
 
-<!ENTITY enigmail.keyMan.filter.label              "ابحث عن:">
+<!ENTITY enigmail.keyMan.filter.label              "">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "غ">
 <!ENTITY enigmail.keyMan.generate.accesskey          "ز">
@@ -623,7 +615,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "الرّقم التّسلسلي">
 <!ENTITY enigmail.cardDetails.name.label             "الاسم الأول، الاسم">
 <!ENTITY enigmail.cardDetails.lang.label             "اللغة">
-<!ENTITY enigmail.cardDetails.sex.label              "الجنس">
+<!ENTITY enigmail.cardDetails.sex.label              "">
 <!ENTITY enigmail.cardDetails.url.label              "مسار المفتاح العلني">
 <!ENTITY enigmail.cardDetails.login.label            "بيانات الولوج">
 <!ENTITY enigmail.cardDetails.forcepin.label         "أجبر توقيع PIN">
@@ -665,114 +657,30 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "كرر PIN الجديد">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "مُرشِد إعداد Enigmail">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "">
+<!ENTITY enigmail.setupWiz.title                     "">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "اختر هويات">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "اختر الحسابات أو الهويات التي ترغب أن يعمل Enigmail معها">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>لاحظ:</a> سيقوم Enigmail دائما بالتحقق من التوقيعات على البريد لكل حساب أو هوية، بغض النظر عن تفعيلها من عدمه">
-
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "اختيار المفتاح">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "ولّد مفتاحا لتوقيع وتعمية البريد">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "أريد إنشاء زوج مفاتيح جديد لتوقيع وتعمية مراسلاتي">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "أريد اختيار أحد المفاتيح أدناه لتوقيع وتعمية بريدي:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "ولّد مفتاحا">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "ولّد مفتاحا لتوقيع وتعمية البريد">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "من فضلك أكد كلمة السر بإعادة إدخالها">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "I have existing public and private keys that I would like to import">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "Import OpenPGP Keys">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "Specify the files to import">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "Please specifiy the files containing the public and the private keys to                                                             import. The entry for private keys can be left empty if the first file                                                          contains both private and public keys.">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "Public key file">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "Private key file">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "توليد المفتاح">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "يجري توليد زوج مفاتيحك الآن">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "">
-<!ENTITY enigmail.attachAuto.desc                    "">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "شكرا لك">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail جاهز للاستخدام الآن.<html:br></html:br><html:br></html:br>شكرًا لاستخدامك Enigmail.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "">
-<!ENTITY enigmail.pgComplete.help.title              "">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "تضبيطات Enigmail المتقدمة للهوية">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "أرفق مفتاحي العلنيّ بالرسائل">
@@ -793,7 +701,9 @@
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "">
 <!ENTITY enigmail.exportWiz.pgExport.title           "">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "">
@@ -831,7 +741,7 @@
 <!ENTITY enigmail.pepPref.window.title               "">
 <!ENTITY enigmail.pepPref.accountTab.label           "">
 <!ENTITY enigmail.pepPref.compatTab.label            "">
-<!ENTITY enigmail.pepPref.aboutTab.label             "">
+<!ENTITY enigmail.pepPref.aboutTab.label             "عن الخدمة">
 <!ENTITY enigmail.pepPref.accountSecurity.desc       "">
 <!ENTITY enigmail.pepPref.storeSecurely.title        "">
 <!ENTITY enigmail.pepPref.storeSecurely.label        "">
@@ -852,9 +762,19 @@
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">

@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "Enigmail/p≡p">
 <!ENTITY enigmail.autocrypt.label         "Autocrypt">
 
-<!ENTITY enigmail.about.license           "Enigmail yra atvirojo kodo ir yra licencijuota pagal <html:a href='https://www.mozilla.org/MPL/2.0/' class='enigmailLink'>&quot;Mozilla&quot; viešąją licenciją 2.0</html:a>.">
-
 <!ENTITY enigmail.keyUserId.label         "Paskyra / Naudotojo ID">
 <!ENTITY enigmail.keygenTitle.label       "Generuoti OpenPGP raktą">
 <!ENTITY enigmail.useForSigning.label     "Naudoti sugeneruotą raktą pasirinktai tapatybei">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "ECC (Elipsinė kreivė)">
 
-<!ENTITY enigmail.keyUpload.label         "Tikrinama, ar Jūsų el. pašto tiekėjas yra palaikomas">
-<!ENTITY enigmail.keyUpload.desc          "Jūsų viešojo rakto paskelbimas internete leidžia kitiems asmenims siųsti jums šifruotus el. laiškus, prieš tai su jumis nesusisiekus.">
-<!ENTITY enigmail.keyUpload.sks.label     "Įkelti į globaliosius OpenPGP raktų serverius">
-<!ENTITY enigmail.keyUpload.sks.desc      "Jūsų rakto įkėlimas į visuotinius OpenPGP raktų serverius leidžia pasenusių el. pašto programų naudotojams siųsti jums šifruotus ar pasirašytus laiškus. Turėkite omenyje, kad bet kas gali skaityti viską, kas yra įkelta į tuos raktų serverius (įsivaizduokite tai kaip telefonų knygą). Neįkelkite savo rakto, jei norite su tuo raktu susietą el. pašto adresą išlaikyti privatų.">
-<!ENTITY enigmail.keyUpload.wks.label     "Įkelti į Jūsų el. pašto tiekėjo raktų serverį">
-<!ENTITY enigmail.keyAttachAuto.label     "Visada pridėti mano viešąjį raktą">
-
 <!ENTITY enigmail.preferences.label       "Enigmail nuostatos">
 
 <!ENTITY enigmail.passwordSettings.label   "Slaptafrazės laiko limitas">
-<!ENTITY enigmail.userNoPassphrase.label   "Niekada neklausti jokios slaptafrazės">
-<!ENTITY enigmail.userNoPassphrase.tooltip "Aktyvuokite, jeigu jūsų OpenPGP raktas nėra apsaugotas slaptafraze.">
 <!ENTITY enigmail.expertUserMenus.label    "Rodyti ekspertinius nustatymus ir meniu">
 <!ENTITY enigmail.expertUser.tooltip       "Paspauskite, jeigu norite matyti meniu elementus ir parinktis, skirtas pažengusiems naudotojams.">
 <!ENTITY enigmail.basicUserMenus.label     "Slėpti ekspertinius nustatymus ir meniu">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "Šalinti iš šifruoto laiško temą bei kitas slaptas antraštes.">
 <!ENTITY enigmail.protectedSubjectText.label    "Temos tekstas, siekiant apsaugoti šifruotus laiškus">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "Nurodyti temą, kuri siunčiant šifruotus laiškus, bus viešai matoma vietoj tikrosios temos">
+<!ENTITY enigmail.protectedSubjectText.placeholder "Šifruotas laiškas">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "Atsisiųsti priedus tik atveriant (tik IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Prisiminti slaptafrazę">
 <!ENTITY enigmail.maxIdleMinutesTail.label "neveiklumo minutes(-ių) (prieš reikalaujant įvesti ją iš naujo)">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "Saugoti slaptafrazę ribotą laiką atminties podėlyje.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "Prisiminti slaptafrazę ribotą laiką.">
 
 <!ENTITY enigmail.resetPrefsButton.label "Atstatyti">
 <!ENTITY enigmail.resetPrefs.tooltip     "Nustatyti visas Enigmail nuostatas į jų numatytąsias reikšmes.">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Atkurti nustatymus ir raktus">
 <!ENTITY enigmail.restorePrefs.tooltip     "Atkurti visas Enigmail nuostatas, įskaitant jūsų OpenPGP raktus, iš failo.">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "Perduoti jūsų raktą į kitą Autocrypt įgalintą įrenginį.">
-<!ENTITY enigmail.pref.acSetupMessage.button "Inicijuoti Autocrypt rakto perdavimą">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
+<!ENTITY enigmail.pref.acSetupMessage.button "Inicijuoti Autocrypt sąranką">
 
 <!ENTITY enigmail.backupRestore.desc       "Eksportuoti (pasidaryti atsarginę kopiją) ir atkurti savo Enigmail nustatymus, įskaitant savo OpenPGP raktus.">
 
@@ -84,17 +72,18 @@
 <!ENTITY enigmail.keySel.label           "Rakto pasirinkimas">
 <!ENTITY enigmail.pgpMime.label          "PGP/MIME">
 <!ENTITY enigmail.advanced.label         "Išplėstiniai">
-<!ENTITY enigmail.transferSettings.label "Perdavimo nustatymai">
+<!ENTITY enigmail.transferSettings.label "Perkėlimo nustatymai">
 
 <!ENTITY enigmail.basicPrefs.label       "Pagrindiniai nustatymai">
 
 <!ENTITY enigmail.moreOptions.label       "Daugiau parinkčių">
+<!ENTITY enigmail.general.okLabel         "Gerai">
 
 <!ENTITY enigmail.useNonDefaultComment.label "Pridėti Enigmail komentarą OpenPGP paraše">
 
 <!ENTITY enigmail.keyserver.label         "Raktų serveris">
 <!ENTITY enigmail.keyserverDlg.label      "Pasirinkite raktų serverį">
-<!ENTITY enigmail.keyservers.label        "Nurodykite savo raktų serverį(-ius)">
+<!ENTITY enigmail.keyservers.label        "Nurodykite savo raktų serverį(-ius):">
 <!ENTITY enigmail.keyservers.sample2      "Pavyzdys: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "Pavyzdys: &quot;Vardas Pavardė <naudotojas@example.com>&quot;">
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "Iššifruoti">
 <!ENTITY enigmail.decryptbutton.tip       "Iššifruoti ar patvirtinti laišką, naudojant Enigmail">
+
+<!ENTITY enigmail.doneButton.label        "Atlikta">
+<!ENTITY enigmail.doneButton.accesskey    "l">
 
 <!ENTITY enigmail.messengermenu.accesskey "o">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "u">
 <!ENTITY enigmail.attachkey.accesskey          "P">
 <!ENTITY enigmail.attachmykey.accesskey        "m">
+<!ENTITY enigmail.protectHeaders.accesskey     "o">
 
 
 <!-- account specific options -->
@@ -217,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Pagal numatymą naudoti PGP/MIME">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Po programos numatytųjų nustatymų ir taisyklių:">
-<!ENTITY enigmail.finallySignEncrypted.label      "pasirašyti šifruotus laiškus">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "pasirašyti nešifruotus laiškus">
+<!ENTITY enigmail.finallySignEncrypted.label      "Pasirašyti šifruotus laiškus">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "Pasirašyti nešifruotus laiškus">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Įrašant, šifruoti juodraščio laiškus">
 
@@ -345,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "šiai tapatybei įjungti OpenPGP palaikymą (Enigmail)">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Naudoti šio el. pašto adreso tapatybę atpažįstant OpenPGP raktą">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Naudoti konkretų OpenPGP rakto ID (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "Pasirinkti raktą...">
+<!ENTITY enigmail.amPrefSelectKey.label             "Pasirinkti raktą">
 <!ENTITY enigmail.amPrefMsgComp.label               "Laiško rašymas">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Numatytieji laiško rašymo nustatymai">
 <!ENTITY enigmail.encryptionDlg.label               "Enigmail šifravimo ir pasirašymo nustatymai">
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "Jeigu yra įmanomi abu Enigmail ir S/MIME šifravimai, tuomet:">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "Teikti pirmenybę Enigmail (OpenPGP)">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "Teikti pirmenybę S/MIME">
-<!ENTITY enigmail.amPrefAutocrypt.description       "<enigmailLink href='https://autocrypt.org'>Autocrypt</enigmailLink> yra standartas, kuris apibrėžia kaip pasiekti patogų ištisinį el. laiškų šifravimą. Jis nurodo, kaip el. pašto programos užmezga šifravimo galimybes, naudodamos įprastus el. laiškus.">
 
 <!ENTITY enigmail.progressText.label               "Progresas:">
 
@@ -391,8 +383,8 @@
 
 <!ENTITY enigmail.compose.excesslength.label        "Jūsų laiške yra labai ilgos eilutės. Norint išvengti blogų parašų, jos turėtų būti apdorojamos kitaip.">
 <!ENTITY enigmail.compose.excesslength_action.label "Kaip norėtumėte tęsti?">
-<!ENTITY enigmail.wrapSelectionList.label           "">
-<!ENTITY enigmail.compose.wrap_radio.label          "">
+<!ENTITY enigmail.wrapSelectionList.label           "Pasirinkite skaidymą">
+<!ENTITY enigmail.compose.wrap_radio.label          "Automatiškai skaidyti (geras parašas, tačiau gali negerai atrodyti)">
 <!ENTITY enigmail.compose.sendasis_radio.label      "Siųsti kaip yra (ir rizikuoti blogu parašu)">
 <!ENTITY enigmail.compose.use_mime_radio.label      "Naudoti PGP/MIME (geras parašas, tačiau kai kurie gavėjai gali jo nedekoduoti)">
 <!ENTITY enigmail.compose.editmanually.label        "Taisyti rankiniu būdu">
@@ -413,7 +405,7 @@
 <!ENTITY enigmail.ruleEmail.label                   "Nustatyti Enigmail taisykles skirtas">
 <!ENTITY enigmail.ruleEmail.tooltip                 "Užpildyti tik el. pašto adresus, nenurodyti gavėjų vardų  pvz. „Vardenis Pavardenis  <vardenis.pavardenis@adresas.lt>“ yra netinkamas">
 <!ENTITY enigmail.sepratationDesc.label             "(Atskirkite kelis adresus tarpu)">
-<!ENTITY enigmail.matchDescStart.label              "Pritaikyti taisyklę jei gavėjas">
+<!ENTITY enigmail.matchDescStart.label              "Pritaikyti taisyklę, jei gavėjas">
 <!ENTITY enigmail.matchDescEnd.label                "vienas iš šių adresų">
 <!ENTITY enigmail.matchExact.label                  "Yra">
 <!ENTITY enigmail.matchContains.label               "Turi">
@@ -452,11 +444,11 @@
 <!ENTITY enigmail.sKeyDlg.signKey.label            "Raktas kuris bus pasirašytas:">
 <!ENTITY enigmail.sKeyDlg.fingerprint.label        "Kontrolinis kodas:">
 <!ENTITY enigmail.sKeyDlg.signWithKey.label        "Raktas pasirašymui:">
-<!ENTITY enigmail.sKeyDlg.ownKeyTrust.label        "">
+<!ENTITY enigmail.sKeyDlg.ownKeyTrust.label        "Pastaba: Tam, kad jūsų raktai būtų čia rodomi, turite nustatyti pasitikėjimą savininku į visiškas.">
 <!ENTITY enigmail.sKeyDlg.checked.label            "Ar jūs įsitikinę, jog raktas kurį netrukus pasirašysite, tikrai priklauso asmeniui kuris minimas aukščiau?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Neatsakysiu">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Netikrinau">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Daugmaž patikrinau">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Aš daugmaž patikrinau">
 <!ENTITY enigmail.sKeyDlg.carefulCheck.label       "Aš labai atidžiai patikrinau">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Vietinis parašas (negali būti eksportuotas)">
 
@@ -464,15 +456,15 @@
 <!ENTITY enigmail.addUidDlg.name.label             "Vardas">
 <!ENTITY enigmail.addUidDlg.email.label            "El. paštas">
 
-<!ENTITY enigmail.keyTrust.title                   "Enigmail - pasitikėjimas savininku">
+<!ENTITY enigmail.keyTrust.title                   "Enigmail - Nustatyti pasitikėjimą savininku">
 <!ENTITY enigmail.keyTrust.trustKey.label          "Raktas kuriuo pasitikėti:">
-<!ENTITY enigmail.keyTrust.trustLevel.label        "Ar labai pasitikite raktu?">
+<!ENTITY enigmail.keyTrust.trustLevel.label        "Kaip stipriai pasitikite rakto savininku, kad pasirašytumėte kitus raktus?">
 <!ENTITY enigmail.keyTrust.trustLevel.tooltip      "Išsamesnei informacijai apie raktų pasitikėjimo lygius, apsilankykite: https://gpgtools.tenderapp.com/kb/faq/what-is-ownertrust-trust-levels-explained">
 <!ENTITY enigmail.keyTrust.dontKnow.label          "Nežinau">
 <!ENTITY enigmail.keyTrust.noTrust.label           "NEpasitikiu">
-<!ENTITY enigmail.keyTrust.marginalTrust.label     "Pasitikiu iš dalies">
-<!ENTITY enigmail.keyTrust.fullTrust.label         "Pilnai pasitikiu">
-<!ENTITY enigmail.keyTrust.ultimateTrust.label     "Visiškai pasitikiu">
+<!ENTITY enigmail.keyTrust.marginalTrust.label     "Iš dalies pasitikiu (Kažkiek pasitikiu, kad pasirašyčiau raktus)">
+<!ENTITY enigmail.keyTrust.fullTrust.label         "Pilnai pasitikiu (Pilnai pasitikiu, kad pasirašyčiau raktus)">
+<!ENTITY enigmail.keyTrust.ultimateTrust.label     "Visiškai pasitikiu (Naudokite tik savo pačių raktams)">
 
 <!ENTITY enigmail.keyExpiry.title                   "Enigmail - keisti galiojimo laiko pabaigos datą">
 <!ENTITY enigmail.keyExpiry.expiryKey.label         "Raktai kurių galiojimo laiką keisti:">
@@ -542,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Nei vienas raktas neatitiko jūsų paieškos kriterijų">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Palaukite kol raktai bus įkrauti...">
 
-<!ENTITY enigmail.keyMan.filter.label              "Ieškoti:">
+<!ENTITY enigmail.keyMan.filter.label              "Ieškoti raktų">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "U">
 <!ENTITY enigmail.keyMan.generate.accesskey          "r">
@@ -593,9 +585,9 @@
 <!ENTITY enigmail.manageUidDlg.setPrimary.label      "Nustatyti pagrindiniu">
 
 <!ENTITY enigmail.keyDetails.title                   "Rakto savybės">
-<!ENTITY enigmail.keyDetails.signaturesTab           "Sertifikacijos">
+<!ENTITY enigmail.keyDetails.signaturesTab           "Sertifikavimai">
 <!ENTITY enigmail.keyDetails.structureTab            "Struktūra">
-<!ENTITY enigmail.keyDetails.uidCertifiedCol         "">
+<!ENTITY enigmail.keyDetails.uidCertifiedCol         "Naudotojo ID / Sertifikavo">
 <!ENTITY enigmail.keyDetails.userId.label            "Pagrindinis naudotojo ID">
 <!ENTITY enigmail.keyDetails.ID.label                "ID">
 <!ENTITY enigmail.keyDetails.keyType.label           "Tipas">
@@ -610,7 +602,7 @@
 <!ENTITY enigmail.keyDetails.selAction.accesskey     "a">
 <!ENTITY enigmail.keyDetails.change.label            "Keisti">
 <!ENTITY enigmail.keyDetails.signKey.label           "Sertifikuoti">
-<!ENTITY enigmail.keyDetails.trustStatus.label       "">
+<!ENTITY enigmail.keyDetails.trustStatus.label       "Jūs pasikliaujate sertifikavimais">
 <!ENTITY enigmail.keyDetails.keyValidity.label       "Galiojimas">
 <!ENTITY enigmail.keyDetails.alsoKnown.label         "Taip pat žinomas kaip">
 
@@ -665,39 +657,11 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Pakartokite naują PIN">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "Enigmail sąrankos vediklis">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "Sveiki atvykę į Enigmail sąrankos vediklį">
+<!ENTITY enigmail.setupWiz.title                     "Enigmail sąranka">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "Atrodo, kad jūs šiame kompiuteryje paleidote Enigmail pirmąjį kartą.
                                                       Norėdami naudotis Enigmail, iš pradžių, turite ją tinkamai nustatyti.
-                                                      Šis pagelbiklis gali jus palydėti per sąrankos procesą.">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "Ar norite nustatyti Enigmail dabar, ar norėtumėte tai padaryti vėliau?">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "Pradėti sąranką dabar">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "Konfigūruoti Enigmail vėliau">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "Kaip norėtumėte konfigūruoti Enigmail?">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "Ar norėtumėte nustatyti Enigmail rankiniu būdu, ar sąrankos procese jums prireiks pagalbos?">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "Aš teikiu pirmenybę standartinei konfigūracijai (rekomenduojama pradedantiems)">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "Aš teikiu pirmenybę išplėstinei konfigūracijai (rekomenduojama pažengusiems naudotojams)">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "Aš teikiu pirmenybę rankinei konfigūracijai (rekomenduojama ekspertams)">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "Aš noriu importuoti savo nustatymus iš ankstesnio diegimo">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "Pasirinkite tapatybes">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "Pasirinkite paskyras ar tapatybes su kuriomis dirbs Enigmail">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "Ar norėtumėte nustatyti Enigmail visoms savo el. pašto paskyroms / tapatybėms?">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "Aš norėčiau įjungti Enigmail visoms savo paskyroms / tapatybėms">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "Aš norėčiau įjungti Enigmail tik šioms tapatybėms:">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "<a class='enigmailStrong'>Pastaba:</a> Enigmail visada patikrins visų paskyrų ir tapatybių parašus 
-
-
- 
-
- 
-
-nepaisant ar įjungta ar išjungta">
-
+                                                      Šis pagelbiklis palydės jus per sąrankos procesą.">
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "Būtina GnuPG ">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Norint naudoti Enigmail, reikia GnuPG kriptografiniam darbui atlikti. 
 
 
@@ -708,109 +672,31 @@ nepaisant ar įjungta ar išjungta">
 Vediklis ieškojo GnuPG, bet nerado.">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "Enigmail gali jums atsiųsti ir paleisti GnuPG diegimo programą.
                                                       Jeigu norite tai atlikti, norėdami atsisiųsti ir įdiegti GnuPG, spustelėkite ant mygtuko &quot;Įdiegti GnuPG&quot;.">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "Priešingu atveju, jeigu jau esate įdiegę GnuPG, naudokite mygtuką &quot;Naršyti&quot;, kad rankiniu būdu nurodytumėte kelią į GnuPG.">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "Pasirinkite GnuPG naudodamiesi naršymo mygtuku.">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "Įdiegti...">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "Naršyti...">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "Atsiunčiama GnuPG...">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "Paleidžiama diegimo programa. Sekite GnuPG diegimo vediklio žingsnius.">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "Diegimas baigtas. Norėdami tęsti sąranką, pereikite į kitą vediklio puslapį.">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "Rasta tinkama GnuPG.">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "Rakto pasirinkimas">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "Sukurti raktą kuriuo bus pasirašomi ir šifruojami laiškai">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "Mes aptikome, kad jūs jau turite OpenPGP raktą. Jūs galite arba
-                                                      naudoti vieną iš savo esamų raktų, arba sukurti naują raktų porą.">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "Noriu sukurti naują raktų porą laiškų pasirašymui ir šifravimui">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "Noriu pasirinkti vieną iš žemiau esančių raktų laiškų pasirašymui ir šifravimui:">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "Sukurti raktą">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "Sukurti raktą su kuriuo bus pasirašomi ir šifruojami laiškai">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "Šis dialogo langas sukurs dviejų raktų porą:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "Jūsų <html:b>viešasis raktas</html:b> yra skirtas <html:b>kitiems</html:b>, kad jie siųstų jums šifruotus laiškus. Jūs galite juo dalintis su visais.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "Jūsų <html:b>privatusis raktas</html:b> yra skirtas <html:b>jums</html:b>, kad iššifruotumėte šiuos el. laiškus ir siųstumėte pasirašytus el. laiškus.
-                                                      Jūs neturėtumėte jo niekam perduoti.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "Jūsų <html:b>privatusis raktas</html:b> yra skirtas <html:b>jums</html:b>, kad iššifruotumėte šiuos el. laiškus ir siųstumėte pasirašytus el. laiškus.
-                                                      Jūs neturėtumėte jo niekam perduoti.
-                                                      Norint apsaugoti jūsų privatųjį raktą, kituose dviejuose dialogo languose jūsų bus paklausta slaptafrazės.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "Jūsų <html:b>slaptafrazė</html:b> yra slaptažodis, skirtas apsaugoti jūsų privatųjį raktą. Jis neleidžia netinkamai naudoti jūsų privatųjį raktą.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "Slaptafraze turėtų būti frazė, kurioje yra bent 8 simboliai, skaitmenys ir skyrybos ženklai. Umliautai (pvz., ä, é, ñ) ir kiti specifiniai kalbos simboliai yra <html:b>nerekomenduojami</html:b>.">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "Patvirtinkite savo slaptafrazę įvesdami ją dar kartą">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "Slaptafrazės kokybė:">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "Slaptafrazėje turėtų būti bent 8 simboliai">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "Slaptafrazės įrašai nesutampa">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "Sukurti ar importuoti OpenPGP raktus">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "Atrodo, kad jūs kol kas neturite jokių OpenPGP raktų. Ar norėtumėte sukurti naują raktą, ar
-                                                      norite importuoti raktus iš failo?">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "Aš turiu viešąjį ir privatųjį raktus, kuriuos norėčiau importuoti">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "Importuoti OpenPGP raktus">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "Nurodykite failus importavimui">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "Nurodykite failus, kuriuose yra viešasis ir privatusis raktai, kuriuos
-                                                      importuoti. Privačiųjų raktų įrašas gali būti paliktas tuščias, jei pirmajame faile
-                                                      yra abu: viešasis ir privatusis raktai.">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "Viešojo rakto failas">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "Privačiojo rakto failas">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "Rakto kūrimas">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "Jūsų raktas sugeneruotas">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "Jūsų raktas yra sugeneruotas">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "Panaikinimo liudijimo sukūrimas">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "Dabar galite sukurti savo panaikinimo liudijimą">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "Tuo atveju, jei prarasite savo privatųjį raktą arba jis bus sukompromituotas, jums gali prireikti panaikinti savo viešąjį raktą,
-                                                      kad kiti nebenaudotų ir toliau jūsų senojo rakto.
-                                                      Dėl šios priežasties, jums reikės panaikinimo liudijimo.
-                                                      <html:br/>Šiam reikalui jūsų bus paprašyta įvesti slaptažodį. Perkelkite liudijimą į laikmeną, kaip pavyzdžiui, CD ar USB atmintukas, kurį gali būti saugiai atskirai laikoma. Jei koks nors asmuo gaus prieigą prie šio liudijimo, jis galės padaryti jūsų raktą netinkamą naudoti.">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "Sukurti panaikinimo liudijimą">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "Įkelti viešą raktą">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "Prisegti Jūsų viešą raktą">
-<!ENTITY enigmail.attachAuto.desc                    "Kai įjungta, jūsų viešasis raktas bus automatiškai pridedamas į jūsų el. laiškus">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "Importuoti nustatymus iš ankstesnio diegimo">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail leidžia perkelti visus savo nustatymus, įskaitant jūsų OpenPGP
-                                                      raktus į naują kompiuterį. Tai atliekama dviem žingsniais:
-                                                      <html:ol>
-                                                        <html:li>eksportuokite savo duomenis iš seno kompiuterio, naudodami atsarginės kopijos vediklį, esantį Enigmail nuostatose</html:li>
-                                                        <html:li>importuokite duomenis į savo naująjį kompiuterį, naudodami šį vediklį.</html:li>
-                                                      </html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "Nurodykite failą, kuriame yra jūsų atsarginės kopijos duomenys:">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "Importuojami raktai ir taikomi nustatymai">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "Importavimo metu įvyko klaida. Jūsų nustatymai gali būti nepritaikyti.">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "Dėkui">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "Enigmail paruošta.<html:br/><html:br/>Dėkui jog naudojate Enigmail.">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "Mes rekomenduojame, kad jūs įkeltumėte savo viešąjį raktą į savo el. pašto tiekėjo saityno raktų katalogą, kad tokiu būdu kiti žmonės galėtų jį rasti ir iš karto naudoti.
-                                                        <html:br/>Norėdami tai atlikti, patvirtinkite užklausą, kurią rasite savo gautų laiškų aplanke.">
-<!ENTITY enigmail.pgComplete.help.title              "Išsamesnei informacijai apie tai kaip naudotis Enigmail, apsilankykite">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "Rankinis Enigmail konfigūravimas">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "Jus pasirinkote Enigmail konfigūravimui nenaudoti vediklio.">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "Čia yra prieinama Enigmail raktų tvarkytuvė">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "Ekspertiniai nustatymai yra prieinami čia">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "Ieškoma GnuPG...">
+<!ENTITY enigmail.setupWiz.checkingSetup             "Tikrinama jūsų esama sąranka...">
+<!ENTITY enigmail.setupWiz.startSetupButton          "Pradėti sąranką">
+<!ENTITY enigmail.setupWiz.usingPepMode              "Mes nustatėme, kad naudojate Pretty Easy Privacy (p≡p).">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "Jei turite kitą įrenginį, veikiantį naudojant p≡p, tuomet rekomenduojame jums, kad čia leistumėte kitam įrenginiui būti sinchronizuotam su jūsų asmeniniu kompiuteriu.
+                                                      Tokiu atveju, tiesiog užverkite vediklį ir palaukite, kol prasidės sinchronizavimas.">
+<!ENTITY enigmail.setupWiz.useImportKeys             "Priešingu atveju, galite importuoti savo raktus naudodami žemiau esantį mygtuką &quot;Importuoti raktus&quot;.">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "Mes aptikome, kad savo pašto aplankuose turite šifruotų laiškų. Rekomenduojame, kad jūs eksportuotumėte savo raktus esamame įrenginyje ir čia juos importuotumėte. (Patarimas: galite naudoti &quot;Importuoti raktus&quot; funkciją keletą kartų, pavyzdžiui tam, kad importuotumėte viešuosius ir slaptuosius raktus).">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "Mes aptikome, kad jūs jau turite OpenPGP raktus. Rekomenduojame leisti mums nustatyti Enigmail už jus, kad tokiu būdu, jūs galėtumėte ir toliau dirbti naudodami šiuos raktus.">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "Taikyti mano raktus">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "Peržiūrėti gautųjų aplanką">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "Importuoti raktus">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Papildomi Enigmail tapatybės nustatymai">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Pridėti mano viešąjį raktą į laiškus">
 
-<!ENTITY enigmail.addPhoto.question.label            "Ar norite pridėti šį paveikslėlį prie šio rakto?">
+<!ENTITY enigmail.addPhoto.question.label            "Ar norite pridėti šį paveikslėlį prie rakto?">
 <!ENTITY enigmail.addPhoto.title                     "Pridėti nuotrauką prie rakto">
 <!ENTITY enigmail.msgViewColumn.tooltip              "Rikiuoti pagal OpenPGP būseną">
 <!ENTITY enigmail.addToRule.title                    "Pridėti raktą į kiekvienam-gavėjui taisyklę">
@@ -826,12 +712,10 @@ Vediklis ieškojo GnuPG, bet nerado.">
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Eksportuokite savo Enigmail nustatymus">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Sveiki atvykę į nustatymų eksportavimo vediklį">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "Enigmail leidžia perkelti visus savo nustatymus, įskaitant jūsų OpenPGP
-                                                      raktus į naują kompiuterį. Tai atliekama dviem žingsniais:
-                                                      <html:ol>
-                                                        <html:li>eksportuokite savo duomenis iš seno kompiuterio, naudodami šį vediklį</html:li>
-                                                        <html:li>importuokite duomenis į savo naująjį kompiuterį, naudodami sąrankos vediklį.</html:li>
-                                                      </html:ol>">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "Enigmail leidžia perkelti visus savo nustatymus, įskaitant OpenPGP
+                                                      raktus į naują kompiuterį. Tai yra atliekama dviem žingsniais:">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "eksportuojant duomenis iš jūsų senojo kompiuterio šio vediklio pagalba">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "importuojant duomenis į jūsų naująjį kompiuterį naudojant Sąrankos vediklį.">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Nurodykite eksportavimo failą:">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Eksportuojami Enigmail nustatymai">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Įrašymas eigoje. Jūsų gali būti paklausta jūsų rakto(-ų) slaptafrazės(-ių).">
@@ -843,27 +727,27 @@ Vediklis ieškojo GnuPG, bet nerado.">
 <!ENTITY enigmail.privacyPprefPane.juniorMode         "Enigmail jaunių veiksena">
 <!ENTITY enigmail.privacyPprefPane.juniorModeAuto     "Automatiškai spręsti ar turėtų būti naudojama jaunių veiksena">
 <!ENTITY enigmail.privacyPprefPane.juniorModeForceOff "Priverstinai naudoti S/MIME ir Enigmail">
-<!ENTITY enigmail.privacyPprefPane.juniorModeForceOn  "">
+<!ENTITY enigmail.privacyPprefPane.juniorModeForceOn  "Priverstinai naudoti p≡p (Pretty Easy Privacy)">
 
-<!ENTITY enigmail.pEp.verifyTrustwords.label          "p≡p Išankstinis suderinimas">
+<!ENTITY enigmail.pEp.verifyTrustwords.label          "p≡p išankstinis suderinimas">
 <!ENTITY enigmail.pEp.verifyTrustwords.accesskey      "H">
-<!ENTITY enigmail.pEp.revokeTrust.label               "">
+<!ENTITY enigmail.pEp.revokeTrust.label               "Atsisakyti p≡p pasitikėjimo">
 <!ENTITY enigmail.messeneger.pEpIcon.tootlip          "Šis laiškas buvo užšifruotas, naudojant p≡p. Išsamesnei informacijai, spustelėkite piktogramą.">
 
-<!ENTITY enigmail.pEp.trustWordsDlg.title             "">
-<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "">
-<!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "">
+<!ENTITY enigmail.pEp.trustWordsDlg.title             "Patikrinti p≡p pasitikėjimo žodžius">
+<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "Paprašykite žmogaus, su kuriuo susirašinėjate, kad perskaitytų jums savo pasitikėjimo žodžius asmeniškai arba telefonu. Tie žodžiai privalo sutapti su žemiau esančiais pasitikėjimo žodžiais.">
+<!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "Jūs ketinate pridėti įrenginį į p≡p įrenginių grupę. Patvirtinkite, sėkmingai patikrindami šiuos pasitikėjimo žodžius.">
 <!ENTITY enigmail.pEp.trustWordsDlg.myFingerprint     "Mano rakto kontrolinis kodas:">
-<!ENTITY enigmail.pEp.trustWordsDlg.trustwordsShort   "">
-<!ENTITY enigmail.pEp.trustWordsDlg.trustwordsLong    "">
+<!ENTITY enigmail.pEp.trustWordsDlg.trustwordsShort   "Pasitikėjimo žodžiai">
+<!ENTITY enigmail.pEp.trustWordsDlg.trustwordsLong    "Ilgi pasitikėjimo žodžiai">
 <!ENTITY enigmail.pEp.trustWordsDlg.fingerprint       "Kontrolinis kodas">
 
-<!ENTITY enigmail.pEp.trustWordsDlg.btnVerified       "">
-<!ENTITY enigmail.pEp.trustWordsDlg.btnMistrust       "">
+<!ENTITY enigmail.pEp.trustWordsDlg.btnVerified       "Patvirtinti pasitikėjimo žodžius">
+<!ENTITY enigmail.pEp.trustWordsDlg.btnMistrust       "Neteisingi pasitikėjimo žodžiai/Nebepasitikėti raktu">
 <!ENTITY enigmail.pEp.privacyStatus.label             "Privatumo būsena:">
 <!ENTITY enigmail.pEp.composestatus.label             "Nežinoma">
 
-<!ENTITY enigmail.pepHandshake.SuggestionTitle       "">
+<!ENTITY enigmail.pepHandshake.SuggestionTitle       "p≡p siūlymas">
 <!ENTITY enigmail.pepHandshake.explanation           "Paaiškinimas">
 
 <!ENTITY enigmail.pepPrepHandshake.desc              "Įkeliami duomenys, prašome palaukti ...">
@@ -873,28 +757,40 @@ Vediklis ieškojo GnuPG, bet nerado.">
 <!ENTITY enigmail.pepPref.compatTab.label            "Suderinamumas">
 <!ENTITY enigmail.pepPref.aboutTab.label             "Apie">
 <!ENTITY enigmail.pepPref.accountSecurity.desc       "Paskyros saugumas">
-<!ENTITY enigmail.pepPref.storeSecurely.title        "">
-<!ENTITY enigmail.pepPref.storeSecurely.label        "">
+<!ENTITY enigmail.pepPref.storeSecurely.title        "Saugoti laiškus saugiai šioms paskyroms">
+<!ENTITY enigmail.pepPref.storeSecurely.label        "Saugoti laiškus saugiai">
 <!ENTITY enigmail.pepPref.enableEncryption.label     "Įjungti privatumo apsaugą">
 <!ENTITY enigmail.pepPref.passiveMode.label          "Pridėti mano raktą į išsiunčiamus laiškus">
 <!ENTITY enigmail.pepPref.protectedSubject.label     "Įjungti apsaugotas laiškų temas">
-<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "Rodyti įspėjimą, kai laiškas, į jį atsakant ar jį persiunčiant, praranda saugumą.">
+<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "Rodyti įspėjimą, kai laiškas, į jį atsakant ar jį persiunčiant, praranda saugumą">
 <!ENTITY enigmail.pepPref.openpgpCompatibility.label "OpenPGP suderinamumas">
 <!ENTITY enigmail.pepPref.autoKeyLookup.label        "Automatiškai ieškoti serveryje raktų">
 <!ENTITY enigmail.pepPref.credits.label              "Padėkos">
 <!ENTITY enigmail.pepPref.thanksTo.label             "Dėkojame">
 
-<!ENTITY enigmail.acPreferEncrypt.label              "">
+<!ENTITY enigmail.acPreferEncrypt.label              "Teikti pirmenybę šifruotiems el. laiškams iš žmonių su kuriais apsikeičiate el. paštu">
 <!ENTITY enigmail.enableAutocrypt.label              "Įjungti Autocrypt">
 
 <!ENTITY enigmail.acSetupPasswd.dlgTitle             "Autocrypt sąrankos kodas">
 <!ENTITY enigmail.acSetupPasswd.password             "Sąrankos kodas:">
 
-<!ENTITY enigmail.acKeyTransfer.window.title         "Autocrypt rakto perdavimas">
-<!ENTITY enigmail.acKeyTransfer.welcome.title        "Inicijuoti rakto perdavimą">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.window.title         "Autocrypt rakto perkėlimas">
+<!ENTITY enigmail.acKeyTransfer.welcome.title        "Pradėti rakto perkėlimą">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "Jeigu turite kitą Autocrypt įgalintą įrenginį, galite perkelti savo raktą į kitą įrenginį per taip vadinamą &quot;Autocrypt sąrankos laišką&quot;.
+                                                      Toks laiškas leis jūsų kitam įrenginiui siųsti ir gauti šifruotus el. laiškus, panašiai kaip naudojant Enigmail, keliais spustelėjimais.">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "Žemiau pasirinkite paskyrą, kurios raktą norite perkelti.
+                                                      Kitame lange, mes parodysime sąrankos kodą (slaptažodį), kurį, norėdami importuoti savo raktą ir susijusius nustatymus, turėsite įvesti kitame įrenginyje.">
 
-<!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
+<!ENTITY enigmail.acKeyTransfer.selectAccount.label  "Sukurti sąrankos laišką paskyrai:">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "Kodas, skirtas Autocrypt sąrankos laiškui">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "Sąrankos laiškas buvo išsiųstas jums patiems.<html:br/><html:br/>Dabar persijunkite į kitą įrenginį ir atverkite laišką. Jūsų turėtų būti paprašyta sąrankos kodo. Užklausoje įveskite šiuos skaitmenis:">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "Sąrankos laiškas išsiųstas asmeniškai jums.">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "Dabar, persijunkite į kitą įrenginį ir atverkite laišką. Jūsų turėtų būti paprašyta įvesti sąrankos kodą. Užklausoje įveskite šiuos skaitmenis:">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "Kai užbaigsite, jūsų kitas įrenginys bus paruoštas naudoti Autocrypt.">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "Atkurti nustatymus ir raktus">
+<!ENTITY enigmail.importSetup.topDesc                "Naudodami šį dialogą, galite iš esamo Enigmail diegimo atkurti savo nustatymus ir raktus. Norėdami sukurti atsarginę savo nustatymų ir raktų kopiją, Enigmail nuostatose naudokite kortelę &quot;Perkėlimo nustatymai&quot;.">
+<!ENTITY enigmail.importSetup.specifyImportFile      "Nurodykite atsarginės kopijos failą, kuris bus naudojamas jūsų nustatymų ir raktų atkūrimui:">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "Pradėti atkūrimą">
+<!ENTITY enigmail.importSetup.importingKeys          "Importuojami raktai į GnuPG. Tai gali šiek tiek užtrukti...">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "Atkūriami GnuPG nustatymai...">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "Atkūriami Enigmail nustatymai...">

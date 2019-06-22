@@ -2,8 +2,6 @@
 <!ENTITY enigmail.pEp.label               "Enigmail/p≡p">
 <!ENTITY enigmail.autocrypt.label         "Autokrypter">
 
-<!ENTITY enigmail.about.license           "Enigmail er open source og licenseret under <html:a href='https://www.mozilla.org/MPL/2.0/' class='enigmailLink'>Mozilla Public License 2.0</html:a>.">
-
 <!ENTITY enigmail.keyUserId.label         "Konto / Bruger ID">
 <!ENTITY enigmail.keygenTitle.label       "Generer OpenPGP Nøgle">
 <!ENTITY enigmail.useForSigning.label     "Brug genereret nøgle til den valgte identitet">
@@ -25,18 +23,9 @@
 <!ENTITY enigmail.keyGen.keyType.rsa      "RSA">
 <!ENTITY enigmail.keyGen.keyType.ecc      "ECC (Elliptic Curve)">
 
-<!ENTITY enigmail.keyUpload.label         "Kontrollerer om din ebrev-udbyder er understøttet">
-<!ENTITY enigmail.keyUpload.desc          "Når du offentliggør din offentlige nøgle på internettet, kan andre sende dig krypteret ebrev uden at kontakte dig først.">
-<!ENTITY enigmail.keyUpload.sks.label     "Læg op på de globale OpenPGP nøgleservere">
-<!ENTITY enigmail.keyUpload.sks.desc      "Når du lægger din nøgle op på til de globale OpenPGP-nøgleservere, kan brugere af gamle ebrev-apps sende dig krypterede eller signerede meddelelser. Husk, at alle kan læse alt, der er uploadet til disse nøgleservere (tænk på det som en telefonbog). Læg ikke din nøgle op, hvis du vil beholde den ebrev-adresse, der er knyttet til den, privat.">
-<!ENTITY enigmail.keyUpload.wks.label     "Læg op på din ebrevsleverandørs nøgleserver">
-<!ENTITY enigmail.keyAttachAuto.label     "Vedhæft altid min offentlige nøgle">
-
 <!ENTITY enigmail.preferences.label       "Enigmail præferencer">
 
 <!ENTITY enigmail.passwordSettings.label   "Adgangskode tidsudløb">
-<!ENTITY enigmail.userNoPassphrase.label   "Spørg aldrig efter en adgangskode">
-<!ENTITY enigmail.userNoPassphrase.tooltip "Aktivér hvis din OpenPGP-nøgle ikke er beskyttet af en adgangskode.">
 <!ENTITY enigmail.expertUserMenus.label    "Vis ekspertindstillinger og menuer">
 <!ENTITY enigmail.expertUser.tooltip       "Tryk, hvis du vil se menupunkter og muligheder for avancerede brugere.">
 <!ENTITY enigmail.basicUserMenus.label     "Skjul menupunkter og indstillinger for avancerede brugere.">
@@ -54,6 +43,8 @@
 <!ENTITY enigmail.protectHeadersPrefs.tooltip  "Fjern emne og andre følsomme headers / overskrifter fra krypterede meddelelser.">
 <!ENTITY enigmail.protectedSubjectText.label    "Emne tekst til beskyttelse af krypterede meddelelser">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "Angiv det emne, der bliver offentligt synligt i stedet for det virkelige emne, når der sendes krypterede meddelelser">
+<!ENTITY enigmail.protectedSubjectText.placeholder "">
+
 
 
 <!ENTITY enigmail.mime_parts_on_demand.label  "Hent kun vedhæftede filer, når de åbnes (kun IMAP)">
@@ -61,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Husk adgangskode til">
 <!ENTITY enigmail.maxIdleMinutesTail.label "minutter af inaktivitet (før du skal indtaste det igen)">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "Husk adgangskode i hukommelsen i en begrænset periode.">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
 
 <!ENTITY enigmail.resetPrefsButton.label "Nulstil">
 <!ENTITY enigmail.resetPrefs.tooltip     "Sæt alle Enigmail-præferencer tilbage til deres standardværdi.">
@@ -72,10 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Gendan indstillinger og nøgler">
 <!ENTITY enigmail.restorePrefs.tooltip     "Gendan alle Enigmail præferencer, herunder dine OpenPGP nøgler fra en fil.">
 
-<!ENTITY enigmail.pref.acSetupMessage.desc   "">
 <!ENTITY enigmail.pref.acSetupMessage.button "">
-
-<!ENTITY enigmail.pref.backupRestore.overallDesc "">
 
 <!ENTITY enigmail.backupRestore.desc       "">
 
@@ -89,6 +77,7 @@
 <!ENTITY enigmail.basicPrefs.label       "">
 
 <!ENTITY enigmail.moreOptions.label       "">
+<!ENTITY enigmail.general.okLabel         "OK">
 
 <!ENTITY enigmail.useNonDefaultComment.label "">
 
@@ -116,6 +105,9 @@
 
 <!ENTITY enigmail.decryptbutton.label     "">
 <!ENTITY enigmail.decryptbutton.tip       "">
+
+<!ENTITY enigmail.doneButton.label        "">
+<!ENTITY enigmail.doneButton.accesskey    "D">
 
 <!ENTITY enigmail.messengermenu.accesskey "">
 
@@ -209,6 +201,7 @@
 <!ENTITY enigmail.undoencryption.accesskey     "U">
 <!ENTITY enigmail.attachkey.accesskey          "T">
 <!ENTITY enigmail.attachmykey.accesskey        "M">
+<!ENTITY enigmail.protectHeaders.accesskey     "I">
 
 
 <!-- account specific options -->
@@ -368,7 +361,6 @@
 <!ENTITY enigmail.amPrefMimePreferProto.label       "">
 <!ENTITY enigmail.amPrefMimePreferEnigmail.label    "">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "">
-<!ENTITY enigmail.amPrefAutocrypt.description       "">
 
 <!ENTITY enigmail.progressText.label               "">
 
@@ -666,118 +658,29 @@
 
 <!-- wizard: welcome step -->
 <!ENTITY enigmail.setupWiz.title                     "">
-<!ENTITY enigmail.setupWiz.pgIntro.title             "">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "">
-<!ENTITY enigmail.setupWiz.pgIntro.desc2             "">
-<!ENTITY enigmail.setupWiz.pgIntro.startNow          "">
-<!ENTITY enigmail.setupWiz.pgIntro.startLater        "">
-
-<!ENTITY enigmail.setupWiz.pgWelcome.title           "">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualOrAuto    "">
-<!ENTITY enigmail.setupWiz.pgWelcome.beginnersMode   "">
-<!ENTITY enigmail.setupWiz.pgWelcome.advancedMode    "">
-<!ENTITY enigmail.setupWiz.pgWelcome.manualMode      "">
-<!ENTITY enigmail.setupWiz.pgWelcome.importSettings  "">
-
-<!-- wizard: select account IDs step -->
-<!ENTITY enigmail.setupWiz.pgSelectId.title          "">
-<!ENTITY enigmail.setupWiz.pgSelectId.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgSelectId.desc2          "">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectallIds   "">
-<!ENTITY enigmail.setupWiz.pgSelectId.selectedIds    "">
-<!ENTITY enigmail.setupWiz.pgSelectId.note           "">
-
 <!-- wizard: install GnuPG step -->
-<!ENTITY enigmail.setupWiz.pgInstall.title           "">
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "">
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc1    "">
-
 <!ENTITY enigmail.setupWiz.pgInstall.installDesc2    "">
+
 <!ENTITY enigmail.setupWiz.pgInstall.locateDesc      "">
 <!ENTITY enigmail.setupWiz.pgInstall.installButton   "">
 <!ENTITY enigmail.setupWiz.pgInstall.locateButton    "">
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "">
-<!ENTITY enigmail.setupWiz.pgInstall.installDone     "">
-<!ENTITY enigmail.setupWiz.pgInstall.gnupgFound      "">
 
-
-<!-- wizard: key selection step -->
-
-<!ENTITY enigmail.setupWiz.pgKeySel.title            "">
-<!ENTITY enigmail.setupWiz.pgKeySel.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgKeySel.desc2            "">
-<!ENTITY enigmail.setupWiz.pgKeySel.newKey           "">
-<!ENTITY enigmail.setupWiz.pgKeySel.useExistingKey   "">
-
-
-<!-- wizard: key creation - password step -->
-<!ENTITY enigmail.setupWiz.pgKeyCreate.title         "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.subtitle      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descTwoKeys   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPub       "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec1      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descSec2      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.descPass      "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passContain   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passRepeat    "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passQuality   "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passError     "">
-<!ENTITY enigmail.setupWiz.pgKeyCreate.passErrorRepeat "">
-
-<!-- wizard: no key found step -->
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.title2       "">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.desc2        "">
-<!ENTITY enigmail.setupWiz.pgNoKeyFound.importKey    "">
-
-<!-- wizard: import key page -->
-<!ENTITY enigmail.setupWiz.pgKeyImport.title         "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.subtitle      "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.desc          "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.pubkeyFile    "">
-<!ENTITY enigmail.setupWiz.pgKeyImport.seckeyFile    "">
-
-<!-- wizard: key creation - key generation step -->
-
-<!ENTITY enigmail.setupWiz.pgKeygen.title            "">
-<!ENTITY enigmail.setupWiz.pgKeygen.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgKeygen.keyGenComplete   "">
-<!ENTITY enigmail.setupWiz.pgRevocert.title          "">
-<!ENTITY enigmail.setupWiz.pgRevocert.subtitle       "">
-<!ENTITY enigmail.setupWiz.pgRevocert.desc           "">
-<!ENTITY enigmail.setupWiz.pgRevocert.button         "">
-
-<!-- wizard: key creation - key upload step -->
-<!ENTITY enigmail.setupWiz.pgUpload.title            "">
-<!ENTITY enigmail.setupWiz.pgUpload.subtitle         "">
-<!ENTITY enigmail.setupWiz.pgAttachAuto.title        "">
-<!ENTITY enigmail.attachAuto.desc                    "">
-
-<!-- wizard: import settings from previous installation -->
-<!ENTITY enigmail.setupWiz.pgImportSettings.title    "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.desc     "Enigmail giver mulighed for at overføre alle dens indstillinger, herunder din OpenPGP
-nøgler til en ny computer. Dette sker i to trin:
-<Html: ol>
-<html: li> Eksporter dine data fra din gamle computer ved hjælp af backupguiden fra Enigmail præferencerne</html:li>
-<html: li> Importer dataene til din nye computer ved hjælp af denne guiden.</html:li>
-</html:ol>">
-<!ENTITY enigmail.setupWiz.pgImportSettings.fileName "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.importing "">
-<!ENTITY enigmail.setupWiz.pgImportSettings.error    "">
-
-<!-- wizard: final page -->
-<!ENTITY enigmail.setupWiz.pgComplete.title          "">
-<!ENTITY enigmail.setupWiz.pgComplete.desc           "">
-<!ENTITY enigmail.setupWiz.pgComplete.wkdUploaded    "">
-<!ENTITY enigmail.pgComplete.help.title              "">
-
-<!-- wizard: manual setup page -->
-<!ENTITY enigmail.setupWiz.pgExpert.title            "">
-<!ENTITY enigmail.setupWiz.pgExpert.desc             "">
-<!ENTITY enigmail.setupWiz.pgExpert.keyManager       "">
-<!ENTITY enigmail.setupWiz.pgExpert.expertSettings   "">
-
-
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.startSetupButton          "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
+<!ENTITY enigmail.setupWiz.useImportKeys             "">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "">
@@ -798,7 +701,9 @@ nøgler til en ny computer. Dette sker i to trin:
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "">
-<!ENTITY enigmail.exportWiz.pgIntro.desc1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "">
 <!ENTITY enigmail.exportWiz.pgExport.title           "">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "">
@@ -857,9 +762,19 @@ nøgler til en ny computer. Dette sker i to trin:
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc         "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc      "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "">
+
+<!ENTITY enigmail.importSetup.dlgTitle               "Gendan indstillinger og nøgler">
+<!ENTITY enigmail.importSetup.topDesc                "">
+<!ENTITY enigmail.importSetup.specifyImportFile      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.importingKeys          "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "">
