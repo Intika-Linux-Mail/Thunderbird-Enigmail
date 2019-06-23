@@ -122,6 +122,7 @@ var EnigmailExecution = {
     errorMsgObj.value = EnigmailErrorHandling.parseErrorOutput(errOutput, retObj);
     statusFlagsObj.value = retObj.statusFlags;
     statusMsgObj.value = retObj.statusMsg;
+    statusFlagsObj.encryptedFileName = retObj.encryptedFileName;
     if (!blockSeparationObj) blockSeparationObj = {};
     blockSeparationObj.value = retObj.blockSeparation;
 
