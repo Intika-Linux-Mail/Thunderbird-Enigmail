@@ -45,7 +45,7 @@ module.exports = {
     "no-octal-escape": 2,
     "no-process-env": 2,
     "no-proto": 2,
-    "no-redeclare": [2, {
+    "no-redeclare": [0, {
       "builtinGlobals": true
     }],
     "no-return-assign": 2,
