@@ -6,19 +6,21 @@
 
 "use strict";
 
-/* global Services: false */
+/* global Services: false, MailUtils: false */
 /* global gActionListOrdered: false, checkActionsReorder: true, nsMsgFilterType: false   */
 /* global  gFilterActionList: true, gCustomActions: false, gFilterList: false */
 /* global gFilterType: false, gFilterBundle: false, gFilterActionStrings: false */
 
 var EnigmailTb60Compat = ChromeUtils.import("chrome://enigmail/content/modules/tb60compat.jsm").EnigmailTb60Compat;
 var EnigmailTimer = ChromeUtils.import("chrome://enigmail/content/modules/timer.jsm").EnigmailTimer;
-
+var EnigmailStringBundle = ChromeUtils.import("resource:///modules/StringBundle.js").StringBundle;
 
 var EnigmailFilterEditor = {
   onLoad: function() {
     let self = this;
     let platformTb66 = EnigmailTb60Compat.isPlatformNewerThan("66");
+
+    this.mozStringBundle = new EnigmailStringBundle("chrome://messenger/locale/messenger.properties");
 
     if ("arguments" in window && window.arguments[0]) {
       let args = window.arguments[0];
@@ -53,6 +55,20 @@ var EnigmailFilterEditor = {
     EnigmailFilterEditor = undefined;
   },
 
+  getFilterAction: function(filterStr) {
+    let filter = window.arguments[0].filter;
+    for (let i = 0; i < filter.actionCount; i++) {
+      let act = filter.getActionAt(i);
+      try {
+        if (act.customId == filterStr) {
+          return act;
+        }
+      } catch (ex) {}
+    }
+
+    return null;
+  },
+
   overwriteAction: function(element, resetValues) {
     let targetType = "";
 
@@ -73,6 +89,19 @@ var EnigmailFilterEditor = {
       if (currType != targetType) {
         element.mRuleActionType.nextSibling.setAttribute("type", targetType);
         element.mRuleActionType.menulist.value = element.value;
+      }
+
+      if (!resetValues) {
+        let act = this.getFilterAction(element.value);
+        if (act) {
+          element.mRuleActionType.nextSibling.firstChild.firstChild.value = act.strValue;
+          let folder = MailUtils.getExistingFolder(act.strValue);
+
+          if (folder) {
+            let lbl = this.mozStringBundle.getFormattedString("verboseFolderFormat", [folder.prettyName, folder.server.prettyName]);
+            element.mRuleActionType.nextSibling.firstChild.firstChild.setAttribute("label", lbl);
+          }
+        }
       }
     }
 
