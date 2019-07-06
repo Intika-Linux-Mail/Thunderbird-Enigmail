@@ -182,6 +182,17 @@ function displayUpgradeInfo() {
   catch (ex) {}
 }
 
+function setDefaultKeyServer() {
+  EnigmailLog.DEBUG("configure.jsm: setDefaultKeyServer()\n");
+
+  let ks = EnigmailPrefs.getPref("keyserver");
+
+  if (ks.search(/^ldaps?:\/\//) < 0) {
+    ks = "hkps://keys.openpgp.org, " + ks;
+    EnigmailPrefs.setPref("keyserver", ks);
+  }
+}
+
 
 var EnigmailConfigure = {
   configureEnigmail: function(win, startingPreferences) {
@@ -261,6 +272,9 @@ var EnigmailConfigure = {
       if (vc.compare(oldVer, "2.0.1a2pre") < 0) {
         this.upgradeTo201();
       }
+      if (vc.compare(oldVer, "2.0.12") < 0) {
+        this.upgradeTo_2_0_12();
+      }
     }
 
     EnigmailPrefs.setPref("configuredVersion", EnigmailApp.getVersion());
@@ -275,5 +289,9 @@ var EnigmailConfigure = {
 
   upgradeTo201: function() {
     setAutocryptForOldAccounts();
+  },
+
+  upgradeTo_2_0_12: function() {
+    setDefaultKeyServer();
   }
 };

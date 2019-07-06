@@ -97,7 +97,7 @@ pref("extensions.enigmail.keyManShowAllKeys", true);
 
 
 // list of keyservers to use
-pref("extensions.enigmail.keyserver", "hkps://hkps.pool.sks-keyservers.net, hkps://keys.mailvelope.com, hkps://pgp.mit.edu");
+pref("extensions.enigmail.keyserver", "hkps://keys.openpgp.org, hkps://keys.mailvelope.com, hkps://hkps.pool.sks-keyservers.net");
 
 // auto select the first keyserver in the key server list
 pref("extensions.enigmail.autoKeyServerSelection", true);
