@@ -9,7 +9,7 @@
 "use strict";
 
 /*globally available Thunderbird variables/object/functions: */
-/*global gMsgCompose: false, getCurrentIdentity: false */
+/*global gMsgCompose: false, getCurrentIdentity: false, gNotification: false */
 /*global UpdateAttachmentBucket: false, gContentChanged: true */
 /*global AddAttachments: false, AddAttachment: false, ChangeAttachmentBucketVisibility: false, GetResourceFromUri: false */
 /*global Recipients2CompFields: false, Attachments2CompFields: false, DetermineConvertibility: false, gWindowLocked: false */
