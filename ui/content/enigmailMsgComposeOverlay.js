@@ -5188,6 +5188,9 @@ Enigmail.msg = {
    */
   notifyUser: function(priority, msgText, messageId, detailsText) {
     let notif = document.getElementById("attachmentNotificationBox");
+    if (!notif) {
+      notif = gNotification.notificationbox;
+    }
     let prio;
 
     switch (priority) {
