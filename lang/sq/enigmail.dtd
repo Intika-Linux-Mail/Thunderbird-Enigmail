@@ -63,7 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Rikthe Rregullime dhe Kyçe">
 <!ENTITY enigmail.restorePrefs.tooltip     "Riktheni prej një kartele krejt parapëlqimet mbi Enigmail-in, përfshi kyçet tuaj OpenPGP.">
 
-<!ENTITY enigmail.pref.acSetupMessage.button "">
+<!ENTITY enigmail.pref.acSetupMessage.button "Fillo Ujdisje Autocrypt-i">
 
 <!ENTITY enigmail.backupRestore.desc       "Eksportoni (kopjeruani) dhe Riktheni rregullimet tuaja mbi Enigmail-in, përfshi kyçet tuaj OpenPGP.">
 
@@ -678,12 +678,13 @@
 <!ENTITY enigmail.setupWiz.checkingSetup             "Po kontrollohet instalimi juaj ekzistues …">
 <!ENTITY enigmail.setupWiz.startSetupButton          "Nise Rregullimin">
 <!ENTITY enigmail.setupWiz.usingPepMode              "Kemi përcaktuar se po përdorni Pretty Easy Privacy (p≡p).">
-<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
-<!ENTITY enigmail.setupWiz.useImportKeys             "">
-<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
-<!ENTITY enigmail.setupWiz.existingKeysFound         "">
-<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
-<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "Nëse keni një pajisje tjetër që xhiron me p≡p, këshillojmë të lejoni pajisjen tjetër të njëkohësohet
+                                                      me PC-në tuaj këtu. Në këtë rast, thjesht mbylleni ndihmësin, dhe prisni të fillojë njëkohësimi.">
+<!ENTITY enigmail.setupWiz.useImportKeys             "Përndryshe, mund të importoni kyçet tuaja duke përdorur butonin 'Importo Kyçe' më poshtë.">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "Pamë se keni mesazhe të fshehtëzuar në dosjet tuaja të email-eve. Këshillojmë të eksportoni kyçet tuaj që nga pajisja juaj ekzistuese, dhe t’i importoni ata këtu. (Ndihmëz: 'Importo Kyçe' mund ta përdorni shumë herë, për të importuar kyçe publikë dhe të fshehtë, për shembull).">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "Pamë se keni tashmë kyçe OpenPGP. Këshillojmë që t’jua ujdisim Enigmail-in në mënyrë të tillë që të vazhdoni të punoni me këta kyçe.">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "Apliko Kyçet e mi">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "Riskano Të marrët">
 <!ENTITY enigmail.setupWiz.importKeysBtn             "Importo Kyçe">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Rregullime të Thelluara Identitetesh Enigmail">
@@ -705,9 +706,10 @@
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Eksportoni Rregullimet tuaja të Enigmail-it">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Mirë se vini te Ndihmësi i Eksportimit të Rregullimeve">
-<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
-<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
-<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "Enigmail lejon shpërnguljen në një kompjuter të ri të krejt
+rregullimeve për të, përfshi kyçet tuaj OpenPGP. Kjo bëhet në dy hapa:">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "eksportoni përmes këtij ndihmësi të dhënat tuaj që nga kompjuteri juaj i dikurshëm">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "importoni të dhënat në kompjuterin tuaj të ri duke përdorur Ndihmësin e Ujdisjes.">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Ju lutemi, përcaktoni kartelën e eksportimit">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Po eksportohen Rregullime Enigmail-i">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Ruajtja po kryhet. Mund t'ju kërkohet frazëkalimi(et) për kyçin(et) tuaj.">
@@ -768,19 +770,21 @@
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "Shpërngulje Kyçi Autocrypt">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "Fillo Shpërngulje Kyçi">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "Nëse keni një pajisje tjetër të aftë të përdorë Autocrypt-in, mund ta shpërngulni kyçin tuaj te pajisja tjetër përmes të ashtuquajturit 'Mesazh Rregullimi Autocrypt-i'.
+                                                         Një mesazh i tillë do t’i lejojë pajisjes tuaj tjetër të dërgojë dhe marrë email-e të fshehtëzuar njësoj si Enigmail-i, vetëm me pak klikime.">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "Ju lutemi, përzgjidhni më poshtë llogarinë për të cilën dëshironi të shpërngulen kyçet tuaj.
+                                                      Në skenën pasuese do të shfaqim një kod (fjalëkalim) ujdisjeje të cilin do t’ju duhet ta jepni te pajisja tjetër, që të mund të importohen kyçet tuaj dhe rregullimet përkatëse.">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "Krijoni Mesazh Rregullimi për Llogarinë:">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "Kod për Mesazh Rregullimi Autocrypt-i">
 <!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "Mesazhi i ujdisjes iu dërgua vetes tuaj.">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "Ju lutemi, kaloni te pajisja tjetër dhe hapeni mesazhin. Do t’ju kërkohet një kod rregullimi. Ju lutemi, shtypni te kutiza shifrat vijuese:">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "Pasi të keni mbaruar, pajisja juaj tjetër do të jetë gati të përdorë Autocrypt-in.">
 
 <!ENTITY enigmail.importSetup.dlgTitle               "Rikthe Rregullime dhe Kyçe">
-<!ENTITY enigmail.importSetup.topDesc                "">
-<!ENTITY enigmail.importSetup.specifyImportFile      "">
-<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.topDesc                "Duke përdorur këtë dialog, mund të riktheni rregullimet dhe kyçet tuaj nga një instalim ekzistues i Enigmail-it. Që të krijoni një kopjeruajtje të rregullimeve dhe kyçeve tuaja, përdorni skedën 'Shpërngul Rregullimet', që nga parapëlqimet e Enigmail-it.">
+<!ENTITY enigmail.importSetup.specifyImportFile      "Ju lutemi, tregoni kartelën kopjeruajtje për t’u përdorur për rikthimin e rregullimeve dhe kyçeve tuaj:">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "Fillo Rikthimin">
 <!ENTITY enigmail.importSetup.importingKeys          "Po importohen kyça në GnuPG. Kjo mund të zgjasë ca …">
 <!ENTITY enigmail.importSetup.restoringGnupgSettings "Po rikthehen rregullimet e GnuPG-së …">
 <!ENTITY enigmail.importSetup.restoringEnigmail      "Po rikthehen rregullimet Enigmail …">
