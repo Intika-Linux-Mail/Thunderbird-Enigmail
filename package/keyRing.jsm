@@ -492,14 +492,15 @@ var EnigmailKeyRing = {
    * @param keyId           String   - key ID expected to import (no meaning)
    * @param errorMsgObj     Object   - o.value will contain error message from GnuPG
    * @param importedKeysObj Object   - [OPTIONAL] o.value will contain an array of the FPRs imported
+   * @param minimizeKey     Boolean  - [OPTIONAL] minimize key for importing
    *
    * @return Integer -  exit code:
    *      ExitCode == 0  => success
    *      ExitCode > 0   => error
    *      ExitCode == -1 => Cancelled by user
    */
-  importKey: function(parent, isInteractive, keyBlock, keyId, errorMsgObj, importedKeysObj) {
-    EnigmailLog.DEBUG("keyRing.jsm: EnigmailKeyRing.importKey: id=" + keyId + ", " + isInteractive + "\n");
+  importKey: function(parent, isInteractive, keyBlock, keyId, errorMsgObj, importedKeysObj, minimizeKey = false) {
+    EnigmailLog.DEBUG(`keyRing.jsm: EnigmailKeyRing.importKey('${keyId}', ${isInteractive}, ${minimizeKey})\n`);
 
     const beginIndexObj = {};
     const endIndexObj = {};
@@ -524,7 +525,12 @@ var EnigmailKeyRing = {
       }
     }
 
-    const args = EnigmailGpg.getStandardArgs(false).concat(["--no-verbose", "--status-fd", "2", "--no-auto-check-trustdb", "--import"]);
+    let args;
+    if (minimizeKey) {
+      args = EnigmailGpg.getStandardArgs(false).concat(["--no-verbose", "--status-fd", "2", "--import-options", "import-minimal", "--no-auto-check-trustdb", "--import"]);
+    } else {
+      args = EnigmailGpg.getStandardArgs(false).concat(["--no-verbose", "--status-fd", "2", "--no-auto-check-trustdb", "--import"]);
+    }
 
     const exitCodeObj = {};
     const statusMsgObj = {};
@@ -902,8 +908,7 @@ var EnigmailKeyRing = {
         if (details) {
           details.keyMap[addr.toLowerCase()] = keyId;
         }
-      }
-      else {
+      } else {
         // no key for this address found
         keyMissing = true;
         if (details) {

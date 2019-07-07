@@ -39,8 +39,7 @@ function pushTrimmedStr(arr, str, splitStr) {
       for (let i = 0; i < tmpArr.length; i++) {
         arr.push(tmpArr[i]);
       }
-    }
-    else {
+    } else {
       arr.push(str);
     }
   }
@@ -73,8 +72,7 @@ function getDirmngrTorStatus(exitCodeObj) {
         stdout += data;
       }
     }).wait();
-  }
-  catch (ex) {
+  } catch (ex) {
     exitCodeObj.value = -1;
     EnigmailLog.DEBUG("enigmail> DONE with FAILURE\n");
   }
@@ -134,6 +132,7 @@ var EnigmailGpg = {
    decryption-info      - does gpg print DECRYPTION_INFO (true for gpg >= 2.0.19)
    export-specific-uid  - does gpg support exporting a key with a specific UID (true for gpg >= 2.2.8)
    supports-show-only   - does gpg support --import-options show-only (true for gpg >= 2.1.14)
+   handles-huge-keys    - can gpg deal with huge keys without aborting (true for gpg >= 2.2.17)
 
    @return: depending on featureName - Boolean unless specified differently:
    (true if feature is available / false otherwise)
@@ -173,8 +172,7 @@ var EnigmailGpg = {
         // returns a string
         if (EnigmailVersioning.greaterThan(gpgVersion, "2.1")) {
           return "save";
-        }
-        else
+        } else
           return "quit";
       case "supports-sender":
         return EnigmailVersioning.greaterThanOrEqual(gpgVersion, "2.1.15");
@@ -188,6 +186,8 @@ var EnigmailGpg = {
         return EnigmailVersioning.greaterThanOrEqual(gpgVersion, "2.2.9");
       case "supports-show-only":
         return EnigmailVersioning.greaterThanOrEqual(gpgVersion, "2.1.14");
+      case "handles-huge-keys":
+        return EnigmailVersioning.greaterThanOrEqual(gpgVersion, "2.2.17");
     }
 
     return undefined;
@@ -218,8 +218,7 @@ var EnigmailGpg = {
           startQuote = i;
           foundSign = p.substr(last).charAt(i);
           last = i + 1;
-        }
-        else if (p.substr(last).charAt(i) == foundSign) {
+        } else if (p.substr(last).charAt(i) == foundSign) {
           // found enquoted part
           if (startQuote > 1) pushTrimmedStr(r, p.substr(0, startQuote), true);
 
@@ -228,15 +227,13 @@ var EnigmailGpg = {
           last = 0;
           startQuote = -1;
           foundSign = "";
-        }
-        else {
+        } else {
           last = last + i + 1;
         }
       }
 
       pushTrimmedStr(r, p, true);
-    }
-    catch (ex) {}
+    } catch (ex) {}
 
 
     if (withBatchOpts) {
@@ -333,8 +330,7 @@ var EnigmailGpg = {
         mergeStderr: false
       });
       proc.wait();
-    }
-    catch (ex) {
+    } catch (ex) {
       EnigmailLog.ERROR("enigmailCommon.jsm: recalcTrustDb: subprocess.call failed with '" + ex.toString() + "'\n");
       throw ex;
     }

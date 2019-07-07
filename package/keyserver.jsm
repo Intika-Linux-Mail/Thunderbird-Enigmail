@@ -214,7 +214,7 @@ const accessHkpInternal = {
    * @return:   Promise<Number (Status-ID)>
    */
   accessKeyServer: function(actionFlag, keyserver, keyId, listener) {
-    EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal: accessKeyServer(${keyserver})\n`);
+    EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal.accessKeyServer(${keyserver})\n`);
     if (keyserver === null) {
       keyserver = EnigmailKeyserverURIs.getDefaultKeyServer();
     }
@@ -223,7 +223,7 @@ const accessHkpInternal = {
       let xmlReq = null;
       if (listener && typeof(listener) === "object") {
         listener.onCancel = function() {
-          EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal: accessKeyServer - onCancel() called\n`);
+          EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal.accessKeyServer - onCancel() called\n`);
           if (xmlReq) {
             xmlReq.abort();
           }
@@ -246,10 +246,10 @@ const accessHkpInternal = {
       xmlReq = new XMLHttpRequest();
 
       xmlReq.onload = function _onLoad() {
-        EnigmailLog.DEBUG("keyserver.jsm: onload(): status=" + xmlReq.status + "\n");
+        EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal: onload(): status=" + xmlReq.status + "\n");
         switch (actionFlag) {
           case EnigmailConstants.UPLOAD_KEY:
-            EnigmailLog.DEBUG("keyserver.jsm: onload: " + xmlReq.responseText + "\n");
+            EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal: onload: " + xmlReq.responseText + "\n");
             if (xmlReq.status >= 400) {
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
             } else {
@@ -274,12 +274,13 @@ const accessHkpInternal = {
               // key not found
               resolve(1);
             } else if (xmlReq.status >= 500) {
-              EnigmailLog.DEBUG("keyserver.jsm: onload: " + xmlReq.responseText + "\n");
+              EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal: onload: " + xmlReq.responseText + "\n");
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
             } else {
               let errorMsgObj = {},
                 importedKeysObj = {};
-              let r = EnigmailKeyRing.importKey(null, false, xmlReq.responseText, "", errorMsgObj, importedKeysObj);
+              let importMinimal = (xmlReq.responseText.length > 1024000 && (!EnigmailGpg.getGpgFeature("handles-huge-keys")));
+              let r = EnigmailKeyRing.importKey(null, false, xmlReq.responseText, "", errorMsgObj, importedKeysObj, importMinimal);
               if (r === 0) {
                 resolve(importedKeysObj.value);
               } else {
@@ -292,7 +293,7 @@ const accessHkpInternal = {
       };
 
       xmlReq.onerror = function(e) {
-        EnigmailLog.DEBUG("keyserver.jsm: accessKeyServer: onerror: " + e + "\n");
+        EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal.accessKeyServer: onerror: " + e + "\n");
         let err = EnigmailXhrUtils.createTCPErrorFromFailedXHR(e.target);
         switch (err.type) {
           case 'SecurityCertificate':
@@ -309,7 +310,7 @@ const accessHkpInternal = {
       };
 
       xmlReq.onloadend = function() {
-        EnigmailLog.DEBUG("keyserver.jsm: accessKeyServer: loadEnd\n");
+        EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal.accessKeyServer: loadEnd\n");
       };
 
       let {
@@ -320,12 +321,12 @@ const accessHkpInternal = {
 
       if (host === HKPS_POOL_HOST && actionFlag !== EnigmailConstants.GET_SKS_CACERT) {
         this.getSksCACert().then(r => {
-          EnigmailLog.DEBUG(`keyserver.jsm: accessKeyServer: getting ${url}\n`);
+          EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal.accessKeyServer: getting ${url}\n`);
           xmlReq.open(method, url);
           xmlReq.send(payLoad);
         });
       } else {
-        EnigmailLog.DEBUG(`keyserver.jsm: accessKeyServer: requesting ${url}\n`);
+        EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal.accessKeyServer: requesting ${url}\n`);
         xmlReq.open(method, url);
         xmlReq.send(payLoad);
       }
