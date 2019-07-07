@@ -822,6 +822,7 @@ PgpMimeEncrypt.prototype = {
     }
 
     if (this.outQueue === "") {
+      this.outQueue = "X-pEp-Version: 2.0\r\n" + this.outQueue;
       if (originalSubject !== null) {
         this.outQueue = jsmime.headeremitter.emitStructuredHeader("subject", originalSubject, {}) +
           this.pipeQueue;
