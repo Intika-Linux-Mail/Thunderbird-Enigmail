@@ -13,6 +13,7 @@ var EnigmailAutocrypt = ChromeUtils.import("chrome://enigmail/content/modules/au
 var gAccountList;
 var gAccountManager;
 var gCurrentIdentity = null;
+var gCurrentPage = null;
 
 function onLoad() {
   gAccountList = document.getElementById("selectedAccount");
@@ -50,15 +51,11 @@ function getWizard() {
 
 function onNext() {
   let wizard = getWizard();
-  if (wizard.currentPage && wizard.currentPage.pageid == "pgSelectId") {
+  if (wizard.pageIndex == 0) {
     disableChangePage(true);
     createSetupMessage();
   }
 
-  return true;
-}
-
-function onCancel() {
   return true;
 }
 
@@ -95,3 +92,7 @@ function delayedEnableNext() {
     disableChangePage(false);
   }, 30000);
 }
+
+document.addEventListener("wizardnext", function(event) {
+  onNext();
+});

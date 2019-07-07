@@ -17,7 +17,6 @@
 
 <wizard id="overallWizard"
         title="&enigmail.exportWiz.title;"
-        onwizardcancel="return onCancel();"
         onload="return onLoad();"
         minheight="300px"
         minwidth="400px"
@@ -52,7 +51,6 @@
 
   <wizardpage id="pgExport" pageid="pgExport"
               next=""
-              onpageshow="return startExport();"
               label="&enigmail.exportWiz.pgExport.title;">
     <vbox>
       <description>

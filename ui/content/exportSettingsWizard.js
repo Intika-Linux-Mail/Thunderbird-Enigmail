@@ -30,10 +30,6 @@ function enableNext(status) {
 }
 
 
-function onCancel() {
-  return true;
-}
-
 function browseExportFile(referencedId) {
   var filePath = EnigmailDialog.filePicker(window, EnigmailLocale.getString("specifyExportFile"),
     "", true, "*.zip", EnigmailLocale.getString("defaultBackupFileName") + ".zip", [EnigmailLocale.getString("enigmailSettings"), "*.zip"]);
@@ -184,3 +180,16 @@ function onLoad() {
     window.close();
   }
 }
+
+function onNext() {
+  let wizard = getWizard();
+  if (wizard.pageIndex == 0) {
+    startExport();
+  }
+
+  return true;
+}
+
+document.addEventListener("wizardnext", function(event) {
+  onNext();
+});
