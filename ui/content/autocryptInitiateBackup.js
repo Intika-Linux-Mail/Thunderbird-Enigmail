@@ -80,9 +80,15 @@ function createSetupMessage() {
 }
 
 function disableChangePage(disable) {
-  var wizard = getWizard();
-  wizard.canAdvance = !disable;
-  wizard.canRewind = !disable;
+  EnigmailTimer.setTimeout(function _f() {
+    let wizard = getWizard();
+    wizard.canRewind = false;
+    if (disable) {
+      wizard.getButton("finish").setAttribute("disabled", "true");
+    } else {
+      wizard.getButton("finish").removeAttribute("disabled");
+    }
+  }, 500);
 }
 
 function delayedEnableNext() {
