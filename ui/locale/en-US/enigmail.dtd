@@ -84,7 +84,7 @@
 <!ENTITY enigmail.keyserver.label         "Keyserver">
 <!ENTITY enigmail.keyserverDlg.label      "Select Keyserver">
 <!ENTITY enigmail.keyservers.label        "Specify your keyserver(s):">
-<!ENTITY enigmail.keyservers.sample2      "Example: pool.sks-keyservers.net, pgp.mit.edu">
+<!ENTITY enigmail.keyservers.sample2      "Example: keys.openpgp.org, pool.sks-keyservers.net">
 
 <!ENTITY enigmail.searchForKey.example    "Example: 'Forename Surname &lt;user@example.com&gt;'">
 <!ENTITY enigmail.searchForKey.desc1	    "'Forename Surname' finds all keys that contain 'Forename' OR 'Surname'">
