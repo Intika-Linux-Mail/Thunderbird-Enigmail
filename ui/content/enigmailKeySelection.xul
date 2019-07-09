@@ -46,7 +46,7 @@
   <!-- <separator/> -->
 
   <vbox flex="1">
-    <vbox class="enigmailCaptionbox" width="700px" flex="1">
+    <vbox class="enigmailCaptionbox" width="700px" flex="1" id="dialogHeaderBox">
       <html:h1 ><html:span id="dialogHeader" style="visibility: hidden;">...</html:span></html:h1>
 
       <hbox flex="0" align="center">

@@ -185,6 +185,10 @@ function prepareDialog(secretOnly) {
       dialogHeader.innerHTML = window.arguments[INPUT].dialogHeader;
       dialogHeader.style.visibility = "visible";
     }
+  } else {
+    let box = document.getElementById("dialogHeaderBox");
+    box.setAttribute("class", "enigmailCaptionboxNoTitle");
+    box.removeChild(box.firstChild);
   }
   var dialogMsgList = document.getElementById("dialogMsgList");
   var dialogMsgListRows = document.getElementById("dialogMsgListRows");
