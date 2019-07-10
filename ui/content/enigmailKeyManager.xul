@@ -247,21 +247,21 @@
                   checked="true"
                   persist="checked"
                   accesskey="&enigmail.keyMan.showInvalidKeys.accesskey;"
-                  oncommand="onSearchInput()"/>
+                  oncommand="applyFilter()"/>
         <menuitem label="&enigmail.keyMan.showUntrustedKeys.label;"
                   id="showUntrustedKeys"
                   type="checkbox"
                   checked="true"
                   persist="checked"
                   accesskey="&enigmail.keyMan.showUntrustedKeys.accesskey;"
-                  oncommand="onSearchInput()"/>
+                  oncommand="applyFilter()"/>
         <menuitem label="&enigmail.keyMan.showOthersKeys.label;"
                   id="showOthersKeys"
                   type="checkbox"
                   checked="true"
                   persist="checked"
                   accesskey="&enigmail.keyMan.showOthersKeys.accesskey;"
-                  oncommand="onSearchInput()"/>
+                  oncommand="applyFilter()"/>
 
       </menupopup>
     </menu>
