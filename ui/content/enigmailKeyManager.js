@@ -1266,7 +1266,7 @@ function accessKeyServer(accessType, callbackFunc) {
           try {
             return EnigmailFuncs.stripEmail(k.userId);
           } catch (x) {
-            return k.fpr;
+            return "0x" + k.fpr;
           }
         }).join(", ");
         break;
@@ -1276,7 +1276,7 @@ function accessKeyServer(accessType, callbackFunc) {
           try {
             return EnigmailFuncs.stripEmail(k.userId);
           } catch (x) {
-            return k.fpr;
+            return "0x" + k.fpr;
           }
         }).join(", ");
         break;
@@ -1296,7 +1296,7 @@ function accessKeyServer(accessType, callbackFunc) {
     inputObj.keyServer = keyServer;
     inputObj.accessType = accessType;
     inputObj.keyId = keyList.map(k => {
-      return k.fpr;
+      return "0x" + k.fpr;
     });
     window.openDialog("chrome://enigmail/content/ui/enigRetrieveProgress.xul",
       "", "dialog,modal,centerscreen", inputObj, resultObj);

@@ -1466,7 +1466,7 @@ const accessVksServer = {
    *           - uid: Array of Strings with UIDs
    */
   search: async function(searchTerm, keyserver, listener = null) {
-    EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal.search(${searchTerm})\n`);
+    EnigmailLog.DEBUG(`keyserver.jsm: accessVksServer.search(${searchTerm})\n`);
     let retObj = {
       result: 0,
       errorDetails: "",
