@@ -40,7 +40,7 @@
 <!ENTITY enigmail.agentAdditionalParam.tooltip  "Adja meg a GnuPG beállításait.">
 
 <!ENTITY enigmail.protectHeadersPrefs.label    "">
-<!ENTITY enigmail.protectHeadersPrefs.tooltip  "">
+<!ENTITY enigmail.protectHeadersPrefs.tooltip  "Távolítsa el a tárgyat és más érzékeny fejléceket a titkosított üzenetekről.">
 <!ENTITY enigmail.protectedSubjectText.label    "">
 <!ENTITY enigmail.protectedSubjectText.tooltip  "">
 <!ENTITY enigmail.protectedSubjectText.placeholder "Titkosított üzenet">
@@ -52,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Jelmondat megjegyzése">
 <!ENTITY enigmail.maxIdleMinutesTail.label "">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "Jelmondat tárolása meghatározott ideig.">
 
 <!ENTITY enigmail.resetPrefsButton.label "Alaphelyzet">
 <!ENTITY enigmail.resetPrefs.tooltip     "Az összes Enigmail beállítás visszaállítása az alapértelmezettre.">
@@ -83,7 +83,7 @@
 
 <!ENTITY enigmail.keyserver.label         "Kulcskiszolgáló">
 <!ENTITY enigmail.keyserverDlg.label      "Válasszon kulcskiszolgálót">
-<!ENTITY enigmail.keyservers.label        "">
+<!ENTITY enigmail.keyservers.label        "Adja meg a kulcskiszolgálókat:">
 <!ENTITY enigmail.keyservers.sample2      "Például: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "">
@@ -210,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "PGP/MIME használata alapértelmezésben">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Az alapértelmezések és szabályok alkalmazása után:">
-<!ENTITY enigmail.finallySignEncrypted.label      "">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "">
+<!ENTITY enigmail.finallySignEncrypted.label      "Titkosított üzenetek aláírása">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "Nem titkosított üzenetek aláírása">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Piszkozatok titkosítása mentéskor">
 
@@ -225,7 +225,7 @@
 <!ENTITY enigmail.seeAccountSettings.label        "Nézze meg a postafiókra jellemző Enigmail beállításokat is (Postafiók beállításai → OpenPGP biztonság)">
 
 <!ENTITY enigmail.encryptionModelConvenient.label "">
-<!ENTITY enigmail.encryptionModelManually.label   "">
+<!ENTITY enigmail.encryptionModelManually.label   "A titkosítási beállítások kézi konfigurálása">
 
 <!ENTITY enigmail.keepCryptoSettingsForReply.label   "Titkosított, illetve aláírt válasz küldése titkosított, illetve aláírt üzenetre">
 <!ENTITY enigmail.keepCryptoSettingsForReply.tooltip "Ha lehetséges, küldjön titkosított, illetve aláírt választ a titkosított, illetve aláírt üzenetre">
@@ -359,7 +359,7 @@
 <!ENTITY enigmail.amPrefPgpHeader.id.label          "OpenPGP-kulcsazonosító küldése">
 <!ENTITY enigmail.amPrefPgpHeader.url.label         "URL küldése a kulcs letöltéséhez:">
 <!ENTITY enigmail.amPrefMimePreferProto.label       "">
-<!ENTITY enigmail.amPrefMimePreferEnigmail.label    "">
+<!ENTITY enigmail.amPrefMimePreferEnigmail.label    "Enigmail előnyben részesítése (OpenPGP)">
 <!ENTITY enigmail.amPrefMimePreferSMime.label       "S/MIME előnybe részesítve">
 
 <!ENTITY enigmail.progressText.label               "Feldolgozás:">
@@ -617,7 +617,7 @@ Például: a „Senki Alfonz <alfonz.senki@cime.net>” formátum helytelen.">
 <!ENTITY enigmail.cardDetails.serial.label           "Sorozatszám">
 <!ENTITY enigmail.cardDetails.name.label             "Keresztnév, név">
 <!ENTITY enigmail.cardDetails.lang.label             "Nyelv">
-<!ENTITY enigmail.cardDetails.sex.label              "">
+<!ENTITY enigmail.cardDetails.sex.label              "Neme">
 <!ENTITY enigmail.cardDetails.url.label              "Nyilvános kulcs URL-címe">
 <!ENTITY enigmail.cardDetails.login.label            "Bejelentkezési adatok">
 <!ENTITY enigmail.cardDetails.forcepin.label         "Aláírás PIN-kód erőltetése">
@@ -659,8 +659,10 @@ Például: a „Senki Alfonz <alfonz.senki@cime.net>” formátum helytelen.">
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Új PIN-kód ismét">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "">
-<!ENTITY enigmail.setupWiz.pgIntro.desc              "">
+<!ENTITY enigmail.setupWiz.title                     "Enigmail telepítő">
+<!ENTITY enigmail.setupWiz.pgIntro.desc              "Első alkalommal indítottal el az Enigmail programot ezen az eszközön.
+Az Enigmail használata megkezdőse előtt be kell állítania megfelelően a programot. 
+Ez a Tündér segít Önnek a beállítási folyamatban.">
 <!-- wizard: install GnuPG step -->
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Az Enigmail használatához szüksége van a GnuPG komponensre, amely a kriptográfiai feladatokat végzi el. 
 A tündér megpróbálta megtalálni a telepített GnuPG-t, de nem találta.">
@@ -689,7 +691,7 @@ Ha szeretné ezt megtenni, akkor kattintson a „Telepítés GnuPG” gombra a G
 <!ENTITY enigmail.advancedIdentityDlg.title          "Haladó Enigmail postafiók beállítások">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Nyilvános kulcs csatolása az üzenetekhez">
 
-<!ENTITY enigmail.addPhoto.question.label            "">
+<!ENTITY enigmail.addPhoto.question.label            "Hozzá kívánja adni a következő képet a kulcshoz?">
 <!ENTITY enigmail.addPhoto.title                     "Fénykép hozzáadása a kulcshoz">
 <!ENTITY enigmail.msgViewColumn.tooltip              "Rendezés OpenPGP állapot szerint">
 <!ENTITY enigmail.addToRule.title                    "Kulcs hozzáadása címzettenkénti szabályhoz">
@@ -718,9 +720,9 @@ Másolja át a létrehozott fájlt az új számítógépre, majd indítsa el
 a Thunderbird levelezőklienst, és az Enigmail menüből válassza ki a Beállításvarázslót">
 <!ENTITY enigmail.exportWiz.pgExport.failed          "Hiba lépett fel a mentés során. A beállítások nem menthetők el.">
 
-<!ENTITY enigmail.privacyPprefPane.juniorMode         "">
+<!ENTITY enigmail.privacyPprefPane.juniorMode         "Enigmail alacsony beosztású mód">
 <!ENTITY enigmail.privacyPprefPane.juniorModeAuto     "">
-<!ENTITY enigmail.privacyPprefPane.juniorModeForceOff "">
+<!ENTITY enigmail.privacyPprefPane.juniorModeForceOff "S/MIME és Enigmail használata kényszerítve">
 <!ENTITY enigmail.privacyPprefPane.juniorModeForceOn  "Használja mindenképp p≡p (Pretty Easy Privacy)">
 
 <!ENTITY enigmail.pEp.verifyTrustwords.label          "p≡p kézfogás">
@@ -729,7 +731,7 @@ a Thunderbird levelezőklienst, és az Enigmail menüből válassza ki a Beáll�
 <!ENTITY enigmail.messeneger.pEpIcon.tootlip          "">
 
 <!ENTITY enigmail.pEp.trustWordsDlg.title             "p≡p bizalmi szavak ellenőrzése">
-<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "">
+<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "Kérjük, kérdezze meg levelezőjét, hogy személyesen vagy telefonon keresztül olvassa el bizalmi szavakját. A bizalmi szavaknak meg kell egyeznie az alábbiakban.">
 <!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "Arról készül, hogy hozzáad egy eszközt a p≡p eszközcsoporthoz. Erősítse meg az alábbi bizalmi szavak sikeres ellenőrzését.">
 <!ENTITY enigmail.pEp.trustWordsDlg.myFingerprint     "Saját kulcs ujjlenyomata:">
 <!ENTITY enigmail.pEp.trustWordsDlg.trustwordsShort   "Bizalmi szavakat">
@@ -742,21 +744,21 @@ a Thunderbird levelezőklienst, és az Enigmail menüből válassza ki a Beáll�
 <!ENTITY enigmail.pEp.composestatus.label             "Ismeretlen">
 
 <!ENTITY enigmail.pepHandshake.SuggestionTitle       "">
-<!ENTITY enigmail.pepHandshake.explanation           "">
+<!ENTITY enigmail.pepHandshake.explanation           "Magyarázat">
 
 <!ENTITY enigmail.pepPrepHandshake.desc              "Adatok betöltése, kérem várjon…">
 
-<!ENTITY enigmail.pepPref.window.title               "">
+<!ENTITY enigmail.pepPref.window.title               "Az Enigmail/p≡p beállításai">
 <!ENTITY enigmail.pepPref.accountTab.label           "Fiók">
 <!ENTITY enigmail.pepPref.compatTab.label            "Kompatibilitás">
 <!ENTITY enigmail.pepPref.aboutTab.label             "Névjegy">
 <!ENTITY enigmail.pepPref.accountSecurity.desc       "Fiók biztonság">
 <!ENTITY enigmail.pepPref.storeSecurely.title        "Az üzenetek biztonságos tárolása ezekhez a fiókokhoz">
-<!ENTITY enigmail.pepPref.storeSecurely.label        "">
+<!ENTITY enigmail.pepPref.storeSecurely.label        "Üzenetek biztonságos tárolása">
 <!ENTITY enigmail.pepPref.enableEncryption.label     "Magánszféra védelmének engedélyezése">
 <!ENTITY enigmail.pepPref.passiveMode.label          "Csatlakoztassa a kulcsomat a kimenő üzenetekhez">
 <!ENTITY enigmail.pepPref.protectedSubject.label     "Levél tárgyszövegének védelme">
-<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "">
+<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "Figyelmeztető üzenet megjelenítése, ha az üzenet elveszti titkosságát válasz és továbbítás esetén.">
 <!ENTITY enigmail.pepPref.openpgpCompatibility.label "OpenPGP kompatibilitás">
 <!ENTITY enigmail.pepPref.autoKeyLookup.label        "Kulcsok automatikus keresése a kiszolgálón">
 <!ENTITY enigmail.pepPref.credits.label              "Köszönet">

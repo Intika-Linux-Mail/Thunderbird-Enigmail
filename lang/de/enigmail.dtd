@@ -107,7 +107,7 @@
 <!ENTITY enigmail.decryptbutton.tip       "Nachricht mit Enigmail entschlüsseln oder überprüfen">
 
 <!ENTITY enigmail.doneButton.label        "Fertig">
-<!ENTITY enigmail.doneButton.accesskey    "D">
+<!ENTITY enigmail.doneButton.accesskey    "F">
 
 <!ENTITY enigmail.messengermenu.accesskey "M">
 
@@ -272,7 +272,7 @@
 <!ENTITY enigmail.wrapHtmlBeforeSend.label        "Signierten HTML-Text vor dem Senden umbrechen">
 <!ENTITY enigmail.wrapHtmlBeforeSend.tooltip      "Der formatierte Text wird so umbrochen, dass die Signatur intakt bleibt.">
 <!ENTITY enigmail.autoKeyRetrieve.label           "Schlüssel zur Signaturprüfung automatisch herunterladen">
-<!ENTITY enigmail.autoKeyRetrieve2.label          "folgendem Server herunterladen:">
+<!ENTITY enigmail.autoKeyRetrieve2.label          "von folgendem Server:">
 <!ENTITY enigmail.resetRememberedValues.label     "Warnungen zurücksetzen">
 <!ENTITY enigmail.resetRememberedValues.tooltip   "Alle Warnungen und Fragen werden erneut angezeigt.">
 

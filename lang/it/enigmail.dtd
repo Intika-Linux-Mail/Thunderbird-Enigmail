@@ -84,7 +84,7 @@
 
 <!ENTITY enigmail.keyserver.label         "Server delle chiavi">
 <!ENTITY enigmail.keyserverDlg.label      "Seleziona server delle chiavi">
-<!ENTITY enigmail.keyservers.label        "">
+<!ENTITY enigmail.keyservers.label        "Specifica i server delle chiavi:">
 <!ENTITY enigmail.keyservers.sample2      "Esempio: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "Esempio: 'Nome Cognome <user@example.com>'">
@@ -211,8 +211,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Usa PGP/MIME in modo predefinito">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Dopo l'applicazione dei valori predefiniti e delle regole:">
-<!ENTITY enigmail.finallySignEncrypted.label      "">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "">
+<!ENTITY enigmail.finallySignEncrypted.label      "Firma i messaggi cifrati">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "Firma i messaggi non cifrati">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Cifra le bozze durante il salvataggio">
 
@@ -339,7 +339,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "Abilita il supporto OpenPGP (Enigmail) per questa identità">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Usa l'indirizzo email di questa identità per scegliere la chiave OpenPGP">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Usa la chiave OpenPGP con ID (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "">
+<!ENTITY enigmail.amPrefSelectKey.label             "Seleziona chiave">
 <!ENTITY enigmail.amPrefMsgComp.label               "Composizione messaggio">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Impostazioni predefinite per la composizione dei messaggi">
 <!ENTITY enigmail.encryptionDlg.label               "Impostazioni Enigmail di cifratura e firma">
@@ -535,7 +535,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Nessuna chiave corrisponde ai termini impostati per la ricerca">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Attendi il caricamento delle chiavi...">
 
-<!ENTITY enigmail.keyMan.filter.label              "">
+<!ENTITY enigmail.keyMan.filter.label              "Cerca chiave">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "C">
 <!ENTITY enigmail.keyMan.generate.accesskey          "N">
@@ -616,7 +616,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "Numero di serie">
 <!ENTITY enigmail.cardDetails.name.label             "Nome, Cognome">
 <!ENTITY enigmail.cardDetails.lang.label             "Lingua">
-<!ENTITY enigmail.cardDetails.sex.label              "">
+<!ENTITY enigmail.cardDetails.sex.label              "Genere">
 <!ENTITY enigmail.cardDetails.url.label              "URL della chiave pubblica">
 <!ENTITY enigmail.cardDetails.login.label            "Dati di accesso">
 <!ENTITY enigmail.cardDetails.forcepin.label         "Forza PIN della firma">
@@ -658,7 +658,7 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Ripeti il nuovo PIN">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "">
+<!ENTITY enigmail.setupWiz.title                     "Configurazione di Enigmail">
 <!ENTITY enigmail.setupWiz.pgIntro.desc              "">
 <!-- wizard: install GnuPG step -->
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Per utilizzare OpenPGP, GnuPG è richiesto come componente aggiuntivo per le operazioni di cifratura. 
@@ -683,7 +683,7 @@ Se vuoi che ciò avvenga, fai clic sul pulsante 'Installa GnuPG' per scaricare e
 <!ENTITY enigmail.setupWiz.existingKeysFound         "">
 <!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
 <!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
-<!ENTITY enigmail.setupWiz.importKeysBtn             "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "Importa chiavi">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Impostazioni avanzate delle identità Enigmail">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Allega la mia chiave pubblica ai messaggi">

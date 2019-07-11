@@ -84,12 +84,12 @@
 <!ENTITY enigmail.keyserver.label         "鍵サーバー">
 <!ENTITY enigmail.keyserverDlg.label      "鍵サーバーの選択">
 <!ENTITY enigmail.keyservers.label        "鍵サーバーを指定する (複数指定可):">
-<!ENTITY enigmail.keyservers.sample2      "例: hkps://hkps.pool.sks-keyservers.net, hkps://pgp.mit.edu">
+<!ENTITY enigmail.keyservers.sample2      "例: keys.openpgp.org, pool.sks-keyservers.net">
 
-<!ENTITY enigmail.searchForKey.example    "例: 'Forename Surname <user@example.com>'">
-<!ENTITY enigmail.searchForKey.desc1	    "'Forename Surname' は 'Forename' あるいは 'Surname' を含む鍵を検索します">
-<!ENTITY enigmail.searchForKey.desc2      "'Forename+Surname' は 'Forename' と 'Surname' の両方を含む鍵を検索します">
-<!ENTITY enigmail.searchForKey.desc3      "'example.com' は 'example@example.com' のように 'example.com' を含む鍵を検索します">
+<!ENTITY enigmail.searchForKey.example    "例: 'Taro Yamada <taro.yamada@example.com>'">
+<!ENTITY enigmail.searchForKey.desc1	    "'Taro Yamada' は 'Taro' あるいは 'Yamada' を含む鍵を検索します">
+<!ENTITY enigmail.searchForKey.desc2      "'Taro+Yamada' は 'Taro' と 'Yamada' の両方を含む鍵を検索します">
+<!ENTITY enigmail.searchForKey.desc3      "'example.com' は 'taro.yamada@example.com' のように 'example.com' を含む鍵を検索します">
 <!ENTITY enigmail.searchForKey.label      "鍵の検索">
 
 <!ENTITY enigmail.doubleDashSeparator.label "'--' を署名の境界とする">
@@ -403,7 +403,7 @@
 <!ENTITY enigmail.maybe.label                       "返信時のみ有効">
 <!ENTITY enigmail.singleRcptSettings.desc           "(注意: 複数のルールの間に矛盾がある場合には「無効」が「有効」より優先されます)">
 <!ENTITY enigmail.ruleEmail.label                   "対象とするメールアドレス">
-<!ENTITY enigmail.ruleEmail.tooltip                 "メールアドレスだけを入力してください。受取人の名前は含めないでください。 すなわち '日本 太郎 <taro.nippon@address.net<' は無効です。">
+<!ENTITY enigmail.ruleEmail.tooltip                 "メールアドレスだけを入力してください。受取人の名前は含めないでください。 すなわち 'Taro Yamada <taro.yamada@example.com;' は無効です。">
 <!ENTITY enigmail.sepratationDesc.label             "(複数のメールアドレスは、スペースで区切って入力してください)">
 <!ENTITY enigmail.matchDescStart.label              "受取人が上記アドレス">
 <!ENTITY enigmail.matchDescEnd.label                "とき、ルールを適用">
@@ -681,7 +681,7 @@
 <!ENTITY enigmail.setupWiz.synchronizeWithPep        "p≡p を利用している他のデバイスがある場合、この PC とそのデバイスを同期することをお勧めします。
                                                       この場合、このウィザードを閉じて同期の開始をお待ちください。">
 <!ENTITY enigmail.setupWiz.useImportKeys             "あるいは、「鍵のインポート」ボタンをクリックし、鍵をインポートすることもできます。">
-<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "フォルダー内に暗号化されたメッセージを検出しました。あなたの鍵を既存のデバイスからエクスポートし、この環境にインポートすることをお勧めします。 (ヒント: 公開鍵と秘密鍵の両方をインポートする場合など、「鍵のインポート」を複数回クリックする必要がある場合があります)">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "フォルダー内に暗号化されたメッセージを検出しました。あなたの鍵を既存のデバイスからエクスポートし、この環境にインポートすることをお勧めします (ヒント: 公開鍵と秘密鍵の両方をインポートする場合など、「鍵のインポート」を複数回クリックする必要がある場合があります)。">
 <!ENTITY enigmail.setupWiz.existingKeysFound         "既に OpenPGP 鍵をお持ちです。このままこれらの鍵を使用するよう Enigmail を設定することをお勧めします。">
 <!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "鍵の適用">
 <!ENTITY enigmail.setupWiz.rescanInboxBtn            "受信ボックスの再スキャン">

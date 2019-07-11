@@ -87,9 +87,9 @@
 <!ENTITY enigmail.keyservers.sample2      "Przykład: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "Przykład: „Imię Nazwisko <uzytkownik@przyklad.com>”">
-<!ENTITY enigmail.searchForKey.desc1	    "">
-<!ENTITY enigmail.searchForKey.desc2      "">
-<!ENTITY enigmail.searchForKey.desc3      "">
+<!ENTITY enigmail.searchForKey.desc1	    "'Imię Nazwisko' wyszukuje wszystkie klucze zawierające 'Imię' LUB 'Nazwisko'">
+<!ENTITY enigmail.searchForKey.desc2      "'Imię+Nazwisko' wyszukuje wszystkie klucze zawierające 'Imię' ORAZ 'Nazwisko'">
+<!ENTITY enigmail.searchForKey.desc3      "'example.com' wyszukuje wszystkie klucze zawierające 'example.com', takie jak 'example@example.com'">
 <!ENTITY enigmail.searchForKey.label      "Szukaj klucza">
 
 <!ENTITY enigmail.doubleDashSeparator.label "Znaki „--” są separatorem podpisu">

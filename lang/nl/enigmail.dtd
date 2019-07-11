@@ -52,7 +52,7 @@
 
 <!ENTITY enigmail.maxIdleMinutesHead.label "Wachtwoordzin">
 <!ENTITY enigmail.maxIdleMinutesTail.label "minuten inactiviteit (voordat u hem opnieuw moet invoeren)">
-<!ENTITY enigmail.maxIdleMinutes.tooltip   "">
+<!ENTITY enigmail.maxIdleMinutes.tooltip   "Wachtwoordzin beperkte tijd onthouden.">
 
 <!ENTITY enigmail.resetPrefsButton.label "Terugzetten">
 <!ENTITY enigmail.resetPrefs.tooltip     "Alle Enigmail-voorkeuren naar hun standaardwaarden terugzetten.">
@@ -63,7 +63,7 @@
 <!ENTITY enigmail.restorePrefsButton.label "Instellingen en sleutels herstellen">
 <!ENTITY enigmail.restorePrefs.tooltip     "Alle voorkeuren van Enigmail en uw openPGP-sleutels herstellen vanuit een bestand.">
 
-<!ENTITY enigmail.pref.acSetupMessage.button "">
+<!ENTITY enigmail.pref.acSetupMessage.button "Autocrypt-configuratie starten">
 
 <!ENTITY enigmail.backupRestore.desc       "Uw Enigmail-instellingen exporteren (back-up maken), inclusief uw OpenPGP-sleutels.">
 
@@ -83,7 +83,7 @@
 
 <!ENTITY enigmail.keyserver.label         "Sleutelservers">
 <!ENTITY enigmail.keyserverDlg.label      "Sleutelserver kiezen">
-<!ENTITY enigmail.keyservers.label        "">
+<!ENTITY enigmail.keyservers.label        "Specificeer uw sleutelserver(s):">
 <!ENTITY enigmail.keyservers.sample2      "Voorbeeld: pool.sks-keyservers.net, pgp.mit.edu">
 
 <!ENTITY enigmail.searchForKey.example    "Voorbeeld ‘Voornaam Achternaam <email@example.com>’">
@@ -210,8 +210,8 @@
 <!ENTITY enigmail.usePGPMimeAlways.label          "Altijd PGP/MIME gebruiken">
 
 <!ENTITY enigmail.afterDefaultsAndRules.label     "Na het toepassen van standaarden en regels:">
-<!ENTITY enigmail.finallySignEncrypted.label      "">
-<!ENTITY enigmail.finallySignNotEncrypted.label   "">
+<!ENTITY enigmail.finallySignEncrypted.label      "Versleutelde berichten ondertekenen">
+<!ENTITY enigmail.finallySignNotEncrypted.label   "Niet-versleutelde berichten ondertekenen">
 
 <!ENTITY enigmail.autoEncryptDrafts.label         "Conceptberichten versleutelen bij opslaan">
 
@@ -338,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "OpenPGP-ondersteuning (Enigmail) voor dit profiel inschakelen">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "E-mailadres van deze identiteit voor herkennen van OpenPGP-sleutel gebruiken">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Specifieke OpenPGP-sleutel-ID (0x1234ABCD) gebruiken:">
-<!ENTITY enigmail.amPrefSelectKey.label             "">
+<!ENTITY enigmail.amPrefSelectKey.label             "Sleutel selecteren">
 <!ENTITY enigmail.amPrefMsgComp.label               "Bericht opstellen">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Standaardopties voor berichtopstelling">
 <!ENTITY enigmail.encryptionDlg.label               "Enigmail-instellingen voor versleuteling &amp; ondertekening">
@@ -448,8 +448,8 @@
 <!ENTITY enigmail.sKeyDlg.checked.label            "Hoe zorgvuldig hebt u gecontroleerd of de sleutel die u gaat ondertekenen werkelijk eigendom is van de hierbovengenoemde persoon/personen?">
 <!ENTITY enigmail.sKeyDlg.noAnswer.label           "Ik wil niet antwoorden">
 <!ENTITY enigmail.sKeyDlg.notChecked.label         "Ik heb het helemaal niet gecontroleerd">
-<!ENTITY enigmail.sKeyDlg.casualCheck.label        "">
-<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "">
+<!ENTITY enigmail.sKeyDlg.casualCheck.label        "Ik heb het snel gecontroleerd">
+<!ENTITY enigmail.sKeyDlg.carefulCheck.label       "Ik heb het zeer zorgvuldig gecontroleerd">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Lokale ondertekening (kan niet worden geëxporteerd)">
 
 <!ENTITY enigmail.addUidDlg.title                  "Enigmail - Gebruikers-ID toevoegen">
@@ -534,7 +534,7 @@
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "Geen sleutels gevonden die aan uw criteria voldoen">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Wacht tot de sleutels zijn geladen…">
 
-<!ENTITY enigmail.keyMan.filter.label              "">
+<!ENTITY enigmail.keyMan.filter.label              "Sleutels zoeken">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "l">
 <!ENTITY enigmail.keyMan.generate.accesskey          "N">
@@ -615,7 +615,7 @@
 <!ENTITY enigmail.cardDetails.serial.label           "Serienummer">
 <!ENTITY enigmail.cardDetails.name.label             "Voornaam, familienaam">
 <!ENTITY enigmail.cardDetails.lang.label             "Taal">
-<!ENTITY enigmail.cardDetails.sex.label              "">
+<!ENTITY enigmail.cardDetails.sex.label              "Geslacht">
 <!ENTITY enigmail.cardDetails.url.label              "URL van publieke sleutel">
 <!ENTITY enigmail.cardDetails.login.label            "Aanmeldingsgegevens">
 <!ENTITY enigmail.cardDetails.forcepin.label         "Pincodeondertekening forceren">
@@ -657,8 +657,10 @@
 <!ENTITY enigmail.cardPin.pinRepeat.label            "Herhaal nieuwe pincode">
 
 <!-- wizard: welcome step -->
-<!ENTITY enigmail.setupWiz.title                     "">
-<!ENTITY enigmail.setupWiz.pgIntro.desc              "">
+<!ENTITY enigmail.setupWiz.title                     "Enigmail-instellingen">
+<!ENTITY enigmail.setupWiz.pgIntro.desc              "Het lijkt erop dat u Enigmail voor het eerst op deze computer gebruikt.
+Om Enigmail te kunnen gebruiken, moet u het eerst goed instellen.
+Deze wizard kan u helpen bij het installatieproces.">
 <!-- wizard: install GnuPG step -->
 <!ENTITY enigmail.setupWiz.pgInstall.desc            "Enigmail vereist GnuPG voor het uitvoeren van cryptografische taken.
                                                       De wizard heeft geprobeerd GnuPG te vinden, maar is daar niet in geslaagd.">
@@ -672,22 +674,23 @@
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "GnuPG downloaden…">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "Het installatieprogramma wordt gestart. Volg de stappen van de GnuPG-installatiewizard.">
 
-<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
-<!ENTITY enigmail.setupWiz.checkingSetup             "">
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "Zoeken naar Enigmail…">
+<!ENTITY enigmail.setupWiz.checkingSetup             "Bestaande installatie controleren…">
 <!ENTITY enigmail.setupWiz.startSetupButton          "Set-up starten">
-<!ENTITY enigmail.setupWiz.usingPepMode              "">
-<!ENTITY enigmail.setupWiz.synchronizeWithPep        "">
-<!ENTITY enigmail.setupWiz.useImportKeys             "">
-<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "">
-<!ENTITY enigmail.setupWiz.existingKeysFound         "">
-<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
-<!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
-<!ENTITY enigmail.setupWiz.importKeysBtn             "">
+<!ENTITY enigmail.setupWiz.usingPepMode              "We hebben gedetecteerd dat u Pretty Easy Privacy (p≡p) gebruikt.">
+<!ENTITY enigmail.setupWiz.synchronizeWithPep        "Als u een ander apparaat gebruikt met p≡p, raden wij u aan om het andere apparaat met uw PC
+te synchroniseren. Sluit in dit geval de wizard af en wacht tot de synchronisatie begint.">
+<!ENTITY enigmail.setupWiz.useImportKeys             "U kunt eventueel ook uw sleutels importeren met de knop ‘Sleutels importeren’ hieronder.">
+<!ENTITY enigmail.setupWiz.existingEncryptedMsg      "We hebben gedetecteerd dat u versleutelde berichten in uw e-mailmappen heeft. We raden aan om uw sleutels op uw bestaande apparaat te exporteren en deze hier te importeren. (Tip: u kunt ‘Sleutels importeren’ meerdere keren gebruiken, bijvoorbeeld om publieke en geheime sleutels te importeren.)">
+<!ENTITY enigmail.setupWiz.existingKeysFound         "We hebben gedetecteerd dat u al OpenPGP-sleutels heeft. We raden u aan om Enigmail te configureren, zodat u met deze sleutels kunt blijven werken.">
+<!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "Mijn sleutels toepassen">
+<!ENTITY enigmail.setupWiz.rescanInboxBtn            "Postvak IN opnieuw scannen">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "Sleutels importeren">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Geavanceerde Enigmail-identiteitsinstellingen">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Mijn publieke sleutel als berichtbijlage verzenden">
 
-<!ENTITY enigmail.addPhoto.question.label            "">
+<!ENTITY enigmail.addPhoto.question.label            "Wilt u de volgende foto aan de sleutel toevoegen?">
 <!ENTITY enigmail.addPhoto.title                     "Foto aan sleutel toevoegen">
 <!ENTITY enigmail.msgViewColumn.tooltip              "Sorteren op OpenPGP-status">
 <!ENTITY enigmail.addToRule.title                    "Sleutel toevoegen aan ontvangerregel">
@@ -703,9 +706,9 @@
 <!-- Export wizard -->
 <!ENTITY enigmail.exportWiz.title                    "Uw Enigmail-instellingen importeren">
 <!ENTITY enigmail.exportWiz.pgIntro.title            "Welkom bij de wizard Instellingen exporteren">
-<!ENTITY enigmail.exportWiz.pgIntro.desc             "">
-<!ENTITY enigmail.exportWiz.pgIntro.step1            "">
-<!ENTITY enigmail.exportWiz.pgIntro.step2            "">
+<!ENTITY enigmail.exportWiz.pgIntro.desc             "Met Enigmail kunt u alle instellingen inclusief uw OpenPGP-sleutels overzetten naar een nieuwe computer. Dit gebeurt in twee stappen:">
+<!ENTITY enigmail.exportWiz.pgIntro.step1            "exporteer uw gegevens van uw oude computer met behulp van de wizard;">
+<!ENTITY enigmail.exportWiz.pgIntro.step2            "importeer uw gegevens op uw nieuwe computer met behulp van de wizard.">
 <!ENTITY enigmail.exportWiz.pgIntro.specifyFile      "Geef de naam van het exportbestand op:">
 <!ENTITY enigmail.exportWiz.pgExport.title           "Enigmail-instellingen exporteren">
 <!ENTITY enigmail.exportWiz.pgExport.exporting       "Opslaan wordt uitgevoerd. Mogelijk wordt om de wachtwoordzin(nen) van uw sleutel(s) gevraagd.">
@@ -725,7 +728,7 @@
 <!ENTITY enigmail.messeneger.pEpIcon.tootlip          "Dit bericht was met p≡p versleuteld. Klik het pictogram voor meer details.">
 
 <!ENTITY enigmail.pEp.trustWordsDlg.title             "p≡p-vertrouwenswoorden controleren">
-<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "">
+<!ENTITY enigmail.pEp.trustWordsDlg.overallDesc       "Vraag uw correspondent om zijn vertrouwenswoorden persoonlijk of via de telefoon aan u voor te lezen. Ze moeten overeenkomen met de vertrouwenswoorden hieronder.">
 <!ENTITY enigmail.pEp.trustWordsDlg.keySyncDesc       "U staat op het punt om een apparaat aan uw p≡p-apparatengroep toe te voegen. Bevestig dit door de volgende vertrouwenswoorden succesvol te verifiëren.">
 <!ENTITY enigmail.pEp.trustWordsDlg.myFingerprint     "Vingerafdruk voor mijn sleutel:">
 <!ENTITY enigmail.pEp.trustWordsDlg.trustwordsShort   "Vertrouwenswoorden">
@@ -752,7 +755,7 @@
 <!ENTITY enigmail.pepPref.enableEncryption.label     "Privacybescherming inschakelen">
 <!ENTITY enigmail.pepPref.passiveMode.label          "Mijn sleutel aan uitgaande berichten toevoegen">
 <!ENTITY enigmail.pepPref.protectedSubject.label     "Beveiligde berichtonderwerpen inschakelen">
-<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "">
+<!ENTITY enigmail.pepPref.warnReducedSecurity.label  "Een waarschuwing tonen als een bericht beveiliging verliest bij het beantwoorden of doorsturen">
 <!ENTITY enigmail.pepPref.openpgpCompatibility.label "OpenPGP-compatibiliteit">
 <!ENTITY enigmail.pepPref.autoKeyLookup.label        "Sleutels automatisch op server opzoeken">
 <!ENTITY enigmail.pepPref.credits.label              "Bijdragers">
@@ -766,19 +769,21 @@
 
 <!ENTITY enigmail.acKeyTransfer.window.title         "Autocrypt-sleuteloverdracht">
 <!ENTITY enigmail.acKeyTransfer.welcome.title        "Sleuteloverdracht initiëren">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "">
-<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc1        "Als u een ander apparaat hebt waarop Autocrypt is ingeschakeld, kunt u uw sleutel naar het andere apparaat overzetten via het ‘Autocrypt-configuratiebericht’.
+Met zo’n bericht kan je andere apparaat met een paar klikken net als Enigmail versleutelde e-mailberichten versturen en ontvangen.">
+<!ENTITY enigmail.acKeyTransfer.welcome.desc2        "Selecteer hieronder de account waarvoor u uw sleutel wilt overzetten.
+Wij tonen een configuratie-code (wachtwoord) op het scherm, die u op het andere apparaat moet invoeren om uw sleutel en overige instellingen te importeren.">
 
 <!ENTITY enigmail.acKeyTransfer.selectAccount.label  "Instellingsbericht creëren voor account:">
 <!ENTITY enigmail.acKeyTransfer.displayPasswd.title  "Code voor Autocrypt-instellingsbericht:">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "">
-<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc1     "Het configuratiebericht is naar uzelf verstuurd.">
+<!ENTITY enigmail.acKeyTransfer.msgCreated.desc2     "Schakel over naar het andere apparaat en open het bericht. U wordt gevraagd naar de configuratie-code. Voer de volgende cijfers in op de prompt:">
 <!ENTITY enigmail.acKeyTransfer.switchDevice.desc    "Als u klaar bent, is het andere apparaat klaar om Autocrypt te gebruiken.">
 
 <!ENTITY enigmail.importSetup.dlgTitle               "Instellingen en sleutels herstellen">
-<!ENTITY enigmail.importSetup.topDesc                "">
-<!ENTITY enigmail.importSetup.specifyImportFile      "">
-<!ENTITY enigmail.importSetup.startRestoreLabel      "">
-<!ENTITY enigmail.importSetup.importingKeys          "">
-<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
-<!ENTITY enigmail.importSetup.restoringEnigmail      "">
+<!ENTITY enigmail.importSetup.topDesc                "Met behulp van deze dialoog kunt u uw instellingen en sleutels van een bestaande Enigmail-installatie herstellen. Gebruik het tabblad ‘Instellingen overzetten’ in de Enigmail-voorkeuren om een back-up van uw instellingen en sleutels te maken.">
+<!ENTITY enigmail.importSetup.specifyImportFile      "Specificeer het back-up-bestand dat gebruikt moet worden om uw instellingen en sleutels te herstellen:">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "Beginnen met herstellen">
+<!ENTITY enigmail.importSetup.importingKeys          "Sleutels worden geïmporteerd in GnuPG. Dit kan enige tijd duren…">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "GnuPG-instellingen herstellen…">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "Enigmail-instellingen herstellen…">
