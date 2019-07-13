@@ -205,10 +205,9 @@ function execute(request, listener, subproc) {
       done: function(result) {
         try {
           if (result.exitCode === 0 && request.isDownload) {
-            if (typeof (request.keyId) === "string") {
+            if (typeof(request.keyId) === "string") {
               EnigmailKeyRing.updateKeys([request.keyId]);
-            }
-            else
+            } else
               EnigmailKeyRing.updateKeys(request.keyId);
           }
           if (exitCode === null) {
@@ -298,11 +297,18 @@ function build(actionFlags, keyserver, searchTerms, errorMsgObj) {
  */
 function access(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
 
-  if (keyserver.search(/^(hkps:\/\/)?keys.mailvelope.com$/i) === 0) {
+  if (keyserver.search(/^(hkps:\/\/)?keys\.mailvelope\.com$/i) === 0) {
     if (matchesKeyserverAction(actionFlags, EnigmailConstants.UPLOAD_KEY) ||
       matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
       // special API for mailvelope.com
       return accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj);
+    }
+  }
+
+  if (keyserver.search(/^(hkps:\/\/)?(.*\.)keys\.openpgp\.org$/i) === 0) {
+    if (matchesKeyserverAction(actionFlags, EnigmailConstants.UPLOAD_KEY)) {
+      // special API for keys.openpgp.org
+      return accessVks(actionFlags, keyserver, searchTerms, listener, errorMsgObj);
     }
   }
 
@@ -320,14 +326,12 @@ function buildHkpPayload(actionFlags, searchTerms) {
 
     payLoad = "keytext=" + encodeURIComponent(keyData);
     return payLoad;
-  }
-  else if (matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
+  } else if (matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
     return "";
   }
 
   // other actions are not yet implemented
   return null;
-
 }
 
 /**
@@ -343,8 +347,7 @@ function accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
   function downloadNextKey() {
     if (searchTerms.length > 0) {
       accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj);
-    }
-    else {
+    } else {
       listener.done(0);
     }
   }
@@ -368,22 +371,18 @@ function accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
         listener.stderr(ERROR_MSG);
         errorCode = 1;
       }
-    }
-    else if (matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
+    } else if (matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
       if (xmlReq.status >= 400 && xmlReq.status < 500) {
         downloadNextKey();
-      }
-      else if (xmlReq.status >= 500) {
+      } else if (xmlReq.status >= 500) {
         EnigmailLog.DEBUG("keyserver.jsm: onload: " + xmlReq.responseText + "\n");
         listener.stderr(ERROR_MSG);
         errorCode = 1;
-      }
-      else {
+      } else {
         let r = importHkpKey(xmlReq.responseText, listener);
         if (r !== 0) {
           listener.done(r);
-        }
-        else {
+        } else {
           downloadNextKey();
         }
       }
@@ -408,8 +407,7 @@ function accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
   if (matchesKeyserverAction(actionFlags, EnigmailConstants.UPLOAD_KEY)) {
     url += "/pks/add";
     method = "POST";
-  }
-  else if (matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
+  } else if (matchesKeyserverAction(actionFlags, EnigmailConstants.DOWNLOAD_KEY)) {
     let keys = searchTerms.split(/ +/);
     if (searchTerms.length > 0) {
       let keyId = keys[0];
@@ -419,8 +417,7 @@ function accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
       url += "/pks/lookup?search=" + keyId + "&op=get&options=mr";
       keys.shift(); // remove 1st key
       searchTerms = keys.join(" ");
-    }
-    else {
+    } else {
       listener.done(0);
       return null;
     }
@@ -438,6 +435,134 @@ function accessHkp(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
       xmlReq.abort();
     }
   };
+}
+
+function buildVksPayload(actionFlags, searchTerms) {
+  let payLoad = null;
+
+  if (matchesKeyserverAction(actionFlags, EnigmailConstants.UPLOAD_KEY)) {
+    let keyData = EnigmailKeyRing.extractKey(false, searchTerms, null, {}, {});
+    if (keyData.length === 0) return null;
+
+    payLoad = JSON.stringify({
+      keytext: keyData
+    });
+    return payLoad;
+  } else if (matchesKeyserverAction(actionFlags, EnigmailConstants.GET_CONFIRMATION_LINK)) {
+    return searchTerms;
+  }
+
+  // other actions are not yet implemented
+  return null;
+}
+
+
+/**
+ * Access a VKS server (Hagrid) directly
+ * Same API as access()
+ * currently only key uploading is supported
+ */
+function accessVks(actionFlags, keyserver, searchTerms, listener, errorMsgObj) {
+  EnigmailLog.DEBUG("keyserver.jsm: accessHkp()\n");
+
+  const ERROR_MSG = "[GNUPG:] ERROR X";
+
+  let keySrv = parseKeyserverUrl(keyserver);
+  let protocol = "https"; // protocol is always hkps (which equals to https in TB)
+
+  let payLoad = buildVksPayload(actionFlags, searchTerms);
+  if (payLoad === null) return null;
+
+  let errorCode = 0;
+  let xmlReq = new XMLHttpRequest();
+
+  xmlReq.onload = function _onLoad() {
+    EnigmailLog.DEBUG("keyserver.jsm: onload(): status=" + xmlReq.status + "\n");
+
+    if (xmlReq.status >= 400) {
+      EnigmailLog.DEBUG("keyserver.jsm: onload: " + xmlReq.responseText + "\n");
+      listener.stderr(ERROR_MSG);
+      errorCode = 1;
+      listener.done(errorCode);
+
+      return;
+    }
+
+    if (matchesKeyserverAction(actionFlags, EnigmailConstants.UPLOAD_KEY)) {
+      let confirmationData = getConfirmationData(xmlReq.responseText);
+      if (confirmationData) {
+        accessVks(EnigmailConstants.GET_CONFIRMATION_LINK, keyserver, confirmationData, listener, errorMsgObj);
+        return;
+      }
+
+      listener.done(errorCode);
+    } else if (matchesKeyserverAction(actionFlags, EnigmailConstants.GET_CONFIRMATION_LINK)) {
+
+      listener.done(errorCode);
+    }
+  };
+
+  xmlReq.onerror = function(e) {
+    EnigmailLog.DEBUG("keyserver.jsm: onerror: " + e + "\n");
+    listener.stderr(ERROR_MSG);
+    listener.done(1);
+  };
+
+  xmlReq.onloadend = function() {
+    EnigmailLog.DEBUG("keyserver.jsm: loadEnd:\n");
+  };
+
+  let url = protocol + "://" + keySrv.host + ":" + keySrv.port;
+  if (matchesKeyserverAction(actionFlags, EnigmailConstants.UPLOAD_KEY)) {
+    url += "/vks/v1/upload";
+  } else if (matchesKeyserverAction(actionFlags, EnigmailConstants.GET_CONFIRMATION_LINK)) {
+    url += "/vks/v1/request-verify";
+  } else {
+    listener.done(0);
+    return null;
+  }
+
+  xmlReq.open("POST", url, true, "no-user", "");
+  xmlReq.setRequestHeader("Content-Type", "application/json");
+  xmlReq.send(payLoad);
+
+  // return the same API as subprocess
+  return {
+    wait: function() {
+      throw Components.results.NS_ERROR_FAILURE;
+    },
+    kill: function() {
+      xmlReq.abort();
+    }
+  };
+}
+
+
+function getConfirmationData(jsonFragment) {
+  EnigmailLog.DEBUG(`keyserver.jsm: accessVksServer.getConfirmationData()\n`);
+
+  let response = JSON.parse(jsonFragment);
+
+  let addr = [];
+
+  for (let email in response.status) {
+    if (response.status[email] !== "published") {
+      addr.push(email);
+    }
+  }
+
+  let r = null;
+  let uiLocale = EnigmailLocale.getUILocale();
+
+  if (addr.length > 0) {
+    r = JSON.stringify({
+      token: response.token,
+      addresses: addr,
+      locale: [uiLocale]
+    });
+  }
+
+  return r;
 }
 
 function importHkpKey(keyData, listener) {
@@ -474,8 +599,7 @@ function refresh(keyId) {
 function logRefreshAction(successStatus, usingTor, keyId) {
   if (successStatus) {
     EnigmailLog.CONSOLE("Refreshed key " + keyId + " over Tor: " + usingTor + ". Refreshed successfully: " + successStatus + "\n\n");
-  }
-  else {
+  } else {
     EnigmailLog.CONSOLE("Failed to refresh key " + keyId + "\n\n");
   }
 }
@@ -554,13 +678,11 @@ function keyServerUpDownload(win, keys, access, hideProgess, callbackFunc, resul
         return;
       }
     }
-  }
-  else {
+  } else {
     let autoKeyServer = EnigmailPrefs.getPref("autoKeyServerSelection") ? EnigmailPrefs.getPref("keyserver").split(/[ ,;]/g)[0] : null;
     if (autoKeyServer) {
       keyDlObj.keyServer = autoKeyServer;
-    }
-    else {
+    } else {
       let inputObj = {};
       let resultObj = {};
       switch (access) {
@@ -594,8 +716,7 @@ function keyServerUpDownload(win, keys, access, hideProgess, callbackFunc, resul
   if (!hideProgess) {
     win.openDialog("chrome://enigmail/content/enigRetrieveProgress.xul",
       "", "dialog,modal,centerscreen", keyDlObj, resultObj);
-  }
-  else {
+  } else {
     resultObj.fprList = [];
     let observer = {
       isCanceled: false,
@@ -665,14 +786,12 @@ function performWkdUpload(keyList, win, observer) {
               if (success) {
                 observer.onUpload(keyFpr);
                 resolve(senderIdent);
-              }
-              else {
+              } else {
                 reject();
               }
             });
           });
-        }
-        else {
+        } else {
           observer.onProgress((i + 1) / numKeys * 100);
           return Promise.resolve(null);
         }
@@ -720,8 +839,7 @@ function parseKeyserverUrl(keyserver) {
   if (keyserver.search(/^[a-zA-Z0-9_.-]+:\/\//) === 0) {
     protocol = keyserver.replace(/^([a-zA-Z0-9_.-]+)(:\/\/.*)/, "$1");
     keyserver = keyserver.replace(/^[a-zA-Z0-9_.-]+:\/\//, "");
-  }
-  else {
+  } else {
     protocol = "hkp";
   }
 

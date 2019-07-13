@@ -126,6 +126,7 @@ var EnigmailConstants = {
   UPLOAD_KEY: 0x04,
   REFRESH_KEY: 0x08,
   UPLOAD_WKD: 0x10,
+  GET_CONFIRMATION_LINK: 0x20,
 
   /* attachment handling */
 
