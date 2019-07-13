@@ -29,7 +29,6 @@ Cu.import("resource://enigmail/timer.jsm"); /*global EnigmailTimer: false */
 Cu.import("resource://enigmail/key.jsm"); /*global EnigmailKey: false */
 Cu.import("resource://enigmail/keyRing.jsm"); /*global EnigmailKeyRing: false */
 Cu.import("resource://enigmail/openpgp.jsm"); /*global EnigmailOpenPGP: false */
-Cu.import("resource://enigmail/mime.jsm"); /*global EnigmailMime: false */
 Cu.import("resource://enigmail/rng.jsm"); /*global EnigmailRNG: false */
 Cu.import("resource://enigmail/send.jsm"); /*global EnigmailSend: false */
 Cu.import("resource://enigmail/streams.jsm"); /*global EnigmailStreams: false */
