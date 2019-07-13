@@ -46,7 +46,7 @@ module.exports = {
     "no-process-env": 2,
     "no-proto": 2,
     "no-redeclare": [2, {
-      "builtinGlobals": true
+      "builtinGlobals": false
     }],
     "no-return-assign": 2,
     "no-script-url": 2,

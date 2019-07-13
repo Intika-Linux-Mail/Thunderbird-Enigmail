@@ -1,4 +1,3 @@
-/*global Components: false, EnigmailTimer: false */
 /*  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -98,8 +97,7 @@ var EnigmailFilterEditor = {
     if (forbidden >= 0 || (hasMoveAction >= 0 && hasCopyAction > hasMoveAction)) {
       document.getElementById("enigmailInfobar").removeAttribute("hidden");
       acceptButton.setAttribute("disabled", "true");
-    }
-    else {
+    } else {
       document.getElementById("enigmailInfobar").setAttribute("hidden", "true");
       acceptButton.setAttribute("disabled", "false");
     }

@@ -1,4 +1,3 @@
-/*global Components: false, EnigmailFiles: false, EnigmailCore: false, EnigmailApp: false, EnigmailDialog: false, EnigmailWindows: false, EnigmailTime: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -296,8 +295,7 @@ function EnigSetRadioPref(prefName, optionElementIds) {
         groupElement.value = prefValue;
       }
     }
-  }
-  catch (ex) {}
+  } catch (ex) {}
 }
 
 function EnigSavePrefs() {
@@ -315,8 +313,7 @@ function EnigGetDefaultPref(prefName) {
     EnigmailPrefs.getPrefBranch().lockPref(prefName);
     prefValue = EnigGetPref(prefName);
     EnigmailPrefs.getPrefBranch().unlockPref(prefName);
-  }
-  catch (ex) {}
+  } catch (ex) {}
 
   return prefValue;
 }
@@ -341,8 +338,7 @@ function EnigConvertFromUnicode(text, charset) {
     unicodeConv.charset = charset;
     return unicodeConv.ConvertFromUnicode(text);
 
-  }
-  catch (ex) {
+  } catch (ex) {
     EnigmailLog.DEBUG("enigmailCommon.js: EnigConvertFromUnicode: caught an exception\n");
 
     return text;
@@ -363,8 +359,7 @@ function EnigConvertToUnicode(text, charset) {
     unicodeConv.charset = charset;
     return unicodeConv.ConvertToUnicode(text);
 
-  }
-  catch (ex) {
+  } catch (ex) {
     EnigmailLog.DEBUG("enigmailCommon.js: EnigConvertToUnicode: caught an exception while converting'" + text + "' to " + charset + "\n");
     return text;
   }
@@ -502,8 +497,7 @@ function EnigRevokeKey(keyId, userId, callbackFunc) {
       EnigAlert(EnigGetString("noTempDir"));
       return false;
     }
-  }
-  catch (ex) {}
+  } catch (ex) {}
   revFile.append("revkey.asc");
 
   EnigmailKeyEditor.genRevokeCert(window, "0x" + keyId, revFile, "0", "",
@@ -519,8 +513,7 @@ function EnigRevokeKey(keyId, userId, callbackFunc) {
       revFile.remove(false);
       if (r !== 0) {
         EnigAlert(EnigGetString("revokeKeyFailed") + "\n\n" + EnigConvertGpgToUnicode(errorMsgObj.value));
-      }
-      else {
+      } else {
         EnigAlert(EnigGetString("revokeKeyOk"));
       }
       if (callbackFunc) {
@@ -558,8 +551,7 @@ function EnigCreateRevokeCert(keyId, userId, callbackFunc) {
     function _revokeCertCb(exitCode, errorMsg) {
       if (exitCode !== 0) {
         EnigAlert(EnigGetString("revokeCertFailed") + "\n\n" + errorMsg);
-      }
-      else {
+      } else {
         EnigAlert(EnigGetString("revokeCertOK"));
       }
 
@@ -626,8 +618,7 @@ function EnigOpenURL(event, hrefObj) {
     EnigOpenUrlExternally(iUri);
     event.preventDefault();
     event.stopPropagation();
-  }
-  catch (ex) {}
+  } catch (ex) {}
 }
 
 function EnigGetHttpUri(aEvent) {
@@ -643,12 +634,10 @@ function EnigGetHttpUri(aEvent) {
       target instanceof HTMLLinkElement) {
       if (target.hasAttribute("href"))
         href = target.href;
-    }
-    else if (!aDontCheckInputElement && target instanceof HTMLInputElement) {
+    } else if (!aDontCheckInputElement && target instanceof HTMLInputElement) {
       if (target.form && target.form.action)
         href = target.form.action;
-    }
-    else {
+    } else {
       // we may be nested inside of a link node
       var linkNode = aEvent.originalTarget;
       while (linkNode && !(linkNode instanceof HTMLAnchorElement))
@@ -771,16 +760,14 @@ function EnigGetKeyDetails(sigListStr) {
         subkeyList.push(aLine);
         if (!gUserId) {
           gUserId = EnigConvertGpgToUnicode(aLine[9]);
-        }
-        else if (uidList !== false) {
+        } else if (uidList !== false) {
           uidList.push(aLine);
         }
         break;
       case "uid":
         if (!gUserId) {
           gUserId = EnigConvertGpgToUnicode(aLine[9]);
-        }
-        else if (uidList !== false) {
+        } else if (uidList !== false) {
           uidList.push(aLine);
         }
         break;

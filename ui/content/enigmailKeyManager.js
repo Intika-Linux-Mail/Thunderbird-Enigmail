@@ -1,4 +1,4 @@
-/*global Components: false, EnigInitCommon: false, EnigmailDialog: false */
+/*global EnigInitCommon: false, EnigmailDialog: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,7 @@
 /* global ENIG_KEY_DISABLED: false, ENIG_KEY_NOT_VALID: false, IOSERVICE_CONTRACTID: false, ENIG_LOCAL_FILE_CONTRACTID: false */
 
 // imported packages
-/* global EnigmailLog: false, EnigmailEvents: false, EnigmailKeyRing: false, EnigmailWindows: false, EnigmailKeyEditor: false */
+/* global EnigmailLog: false, EnigmailEvents: false, EnigmailKeyRing: false, EnigmailKeyEditor: false */
 /* global EnigmailKey: false, EnigmailLocale: false, EnigmailPrefs: false, EnigmailConstants: false */
 
 // Initialize enigmailCommon

@@ -5,8 +5,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 "use strict";
 
-/* eslint-disable mozilla/balanced-listeners */
-
 /* exported SubprocessImpl */
 
 /* globals BaseProcess, PromiseWorker */
@@ -25,7 +23,7 @@ Cu.importGlobalProperties(["TextDecoder"]);
 var EXPORTED_SYMBOLS = ["SubprocessImpl"];
 
 Cu.import("resource://gre/modules/ctypes.jsm"); /* global ctypes: false */
-Cu.import("resource://gre/modules/osfile.jsm"); /* global ctypes: false */
+Cu.import("resource://gre/modules/osfile.jsm"); 
 Cu.import("resource://gre/modules/Services.jsm"); /* global Services: false */
 Cu.import("resource://enigmail/enigmailprocess_common.jsm"); /* global SubprocessConstants: false */
 

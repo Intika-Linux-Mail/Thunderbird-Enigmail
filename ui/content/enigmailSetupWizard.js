@@ -1,4 +1,3 @@
-/*global Components: false*/
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,7 +8,7 @@
 
 // modules
 /* global EnigmailData: false, EnigmailLog: false, EnigmailLocale: false, EnigmailGpg: false, EnigmailKeyEditor: false */
-/* global EnigmailOS: false, EnigmailPrefs: false, EnigmailGpgAgent: false, EnigmailDialog: false */
+/* global EnigmailOS: false, EnigmailPrefs: false, EnigmailDialog: false */
 
 // variables from enigmailKeygen.js and enigmailCommon.js */
 /* global EnigGetWindowOptions: false, gKeygenRequest: true, gGeneratedKey: true, EnigConfirm: false, EnigGetString: false*/

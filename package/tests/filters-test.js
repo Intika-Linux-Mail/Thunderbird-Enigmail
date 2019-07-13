@@ -1,5 +1,5 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false, component: false */
-/*global EnigmailCore: false, Cc: false, Ci: false, EnigmailFiles: false, EnigmailLog: false, EnigmailPrefs: false */
+/*global EnigmailCore: false, Cc: false, Ci: false, EnigmailLog: false, EnigmailPrefs: false */
 /*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -82,8 +82,7 @@ test(function processIncomingMailTest() {
         Assert.equal(rawMessageData, testString);
         let ct = msg.headers.contentType.type;
         Assert.equal(ct, "text/plain");
-      }
-      catch (ex) {
+      } catch (ex) {
         Assert.equal(ex.toString(), "");
       }
       do_test_finished();

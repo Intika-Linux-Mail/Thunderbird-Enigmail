@@ -1,5 +1,4 @@
 /*global do_load_module: false, do_get_cwd: false, Components: false, Assert: false,  CustomAssert: false, FileUtils: false, JSUnit: false, EnigmailFiles: false */
-/*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,8 +36,7 @@ var TestHelper = {
     on[prop] = val;
     try {
       return f();
-    }
-    finally {
+    } finally {
       on[prop] = orgVal;
     }
   },
@@ -92,7 +90,7 @@ var TestHelper = {
     environment.set("GNUPGHOME", workingDirectory.path);
     if (EnigmailCore.getEnvList() !== null)
       EnigmailCore.setEnvVariable("GNUPGHOME", workingDirectory.path);
-   return homedir;
+    return homedir;
   },
 
   removeGpgHome: function(homedir) {
@@ -100,8 +98,7 @@ var TestHelper = {
 
     try {
       if (workingDirectory.exists()) workingDirectory.remove(true);
-    }
-    catch (ex) {
+    } catch (ex) {
       // do nothing about it
     }
   }
@@ -126,8 +123,7 @@ function withEnvironment(vals, f) {
   }
   try {
     return f(environment);
-  }
-  finally {
+  } finally {
     for (let key in oldVals) {
       environment.set(key, oldVals[key]);
     }
@@ -139,8 +135,7 @@ function withTestGpgHome(f) {
     const homedir = initalizeGpgHome();
     try {
       f();
-    }
-    finally {
+    } finally {
       removeGpgHome(homedir);
     }
   };
@@ -152,8 +147,7 @@ function withPreferences(func) {
     const keyserverPrefs = EnigmailPrefs.getPref("keyserver");
     try {
       func();
-    }
-    finally {
+    } finally {
       EnigmailPrefs.setPref("keyRefreshOn", keyRefreshPrefs);
       EnigmailPrefs.setPref("keyserver", keyserverPrefs);
     }
@@ -193,8 +187,7 @@ function setupTestAccounts(primaryEmail = null, primaryKeyId = null) {
     else if (ac.identities.length === idNumber - 1) {
       id = accountManager.createIdentity();
       ac.addIdentity(id);
-    }
-    else {
+    } else {
       id = ac.identities.queryElementAt(idNumber - 1, Ci.nsIMsgIdentity);
     }
 
@@ -255,8 +248,6 @@ function setupTestAccounts(primaryEmail = null, primaryKeyId = null) {
   }
 }
 
-Components.utils.import("resource://enigmail/core.jsm"); /*global EnigmailCore: false */
-
 function withEnigmail(f) {
   return function() {
     try {
@@ -264,8 +255,7 @@ function withEnigmail(f) {
       const window = JSUnit.createStubWindow();
       enigmail.initialize(window, "");
       return f(EnigmailCore.getEnigmailService(), window);
-    }
-    finally {
+    } finally {
       EnigmailCore.setEnigmailService(null);
     }
   };
@@ -280,8 +270,7 @@ function withLogFiles(f) {
     try {
       EnigmailLog.setLogLevel(5);
       f();
-    }
-    finally {
+    } finally {
       EnigmailLog.onShutdown();
       EnigmailLog.createLogFiles();
     }

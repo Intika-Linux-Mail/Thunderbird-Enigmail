@@ -1,4 +1,3 @@
-/*global Components: false, EnigmailWindows: false, EnigmailLocale: false, EnigmailPrefs: false, EnigmailTime: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,7 +7,7 @@
 
 "use strict";
 
-/* globals from Thunderbird: */
+/* Globals from Thunderbird: */
 /* global gFolderDisplay: false, currentAttachments: false, gSMIMEContainer: false, gSignedUINode: false, gEncryptedUINode: false */
 /* global gDBView: false, msgWindow: false, messageHeaderSink: false, gMessageListeners: false, findEmailNodeFromPopupNode: true */
 /* global gExpandedHeaderView: false, CanDetachAttachments: true, gEncryptedURIService: false */

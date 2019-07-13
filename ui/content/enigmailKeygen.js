@@ -1,4 +1,3 @@
-/*global Components: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -93,8 +92,7 @@ function enigmailKeygenLoad() {
 function updateKeySizeSel(selectedObj) {
   if (selectedObj.id === "keyType_ecc") {
     document.getElementById("keySize").setAttribute("disabled", "true");
-  }
-  else {
+  } else {
     document.getElementById("keySize").removeAttribute("disabled");
   }
 }
@@ -163,11 +161,9 @@ function enigmailKeygenTerminate(exitCode) {
 
       if (EnigConfirm(EnigGetString("keygenComplete", curId.email) + "\n\n" + EnigGetString("revokeCertRecommended"), EnigGetString("keyMan.button.generateCert"))) {
         EnigCreateRevokeCert(gGeneratedKey, curId.email, closeAndReset);
-      }
-      else
+      } else
         closeAndReset();
-    }
-    else {
+    } else {
       if (EnigConfirm(EnigGetString("genCompleteNoSign") + "\n\n" + EnigGetString("revokeCertRecommended"), EnigGetString("keyMan.button.generateCert"))) {
         EnigCreateRevokeCert(gGeneratedKey, curId.email, closeAndReset);
         genAndSaveRevCert(gGeneratedKey, curId.email).then(
@@ -178,12 +174,10 @@ function enigmailKeygenTerminate(exitCode) {
             // do nothing
           }
         );
-      }
-      else
+      } else
         closeAndReset();
     }
-  }
-  else {
+  } else {
     EnigAlert(EnigGetString("keyGenFailed"));
     window.close();
   }
@@ -233,8 +227,7 @@ function saveRevCert(inputKeyFile, keyId, uid, resolve, reject) {
     try {
       inputKeyFile.copyToFollowingLinks(outFile.parent, outFile.leafName);
       EnigmailDialog.info(window, EnigGetString("revokeCertOK"));
-    }
-    catch (ex) {
+    } catch (ex) {
       EnigAlert(EnigGetString("revokeCertFailed"));
       reject(2);
     }
@@ -322,8 +315,7 @@ function enigmailKeygenStart() {
       if (passphrase === null) return;
     }
 
-  }
-  else {
+  } else {
     passphrase = "";
   }
 
@@ -403,8 +395,7 @@ function enigmailKeygenStart() {
       keyType,
       EnigmailData.convertFromUnicode(passphrase),
       listener);
-  }
-  catch (ex) {
+  } catch (ex) {
     EnigmailLog.DEBUG("enigmailKeygen.js: generateKey() failed with " + ex.toString() + "\n" + ex.stack + "\n");
   }
 
@@ -427,8 +418,7 @@ function enigmailKeygenCancel() {
   if (gKeygenRequest) {
     closeWin = EnigConfirm(EnigGetString("keyAbort"), EnigGetString("keyMan.button.generateKeyAbort"), EnigGetString("keyMan.button.generateKeyContinue"));
     if (closeWin) abortKeyGeneration();
-  }
-  else {
+  } else {
     closeWin = true;
   }
 
@@ -481,17 +471,14 @@ function fillIdentityListPopup() {
     // Gecko >= 20
     if (defIdentities.length >= 1) {
       defIdentity = defIdentities.queryElementAt(0, Components.interfaces.nsIMsgIdentity);
-    }
-    else {
+    } else {
       defIdentity = identities[0];
     }
-  }
-  catch (ex) {
+  } catch (ex) {
     // Gecko < 20
     if (defIdentities.Count() >= 1) {
       defIdentity = defIdentities.QueryElementAt(0, Components.interfaces.nsIMsgIdentity);
-    }
-    else {
+    } else {
       defIdentity = identities[0];
     }
   }
@@ -513,8 +500,7 @@ function fillIdentityListPopup() {
       if (serverSupports.length > 0) {
         inServer = serverSupports.queryElementAt(0, Components.interfaces.nsIMsgIncomingServer);
       }
-    }
-    catch (ex) {
+    } catch (ex) {
       // Gecko < 20
       serverSupports = gAccountManager.GetServersForIdentity(identity);
       if (serverSupports.GetElementAt(0)) {

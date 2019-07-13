@@ -10,7 +10,7 @@
 "use strict";
 
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js");
-/*global TestHelper: false, withEnvironment: false, withEnigmail: false, component: false, withTestGpgHome: false, osUtils: false */
+/*global withEnigmail: false, component: false, withTestGpgHome: false, osUtils: false */
 
 testing("gpg.jsm"); /*global EnigmailGpg: false, getGpgFeature: false, lazyEnv: true, usesDirmngr: false, dirmngrConfiguredWithTor: false */
 component("enigmail/execution.jsm"); /*global EnigmailExecution: false, MINIMUM_GPG_VERSION: false */

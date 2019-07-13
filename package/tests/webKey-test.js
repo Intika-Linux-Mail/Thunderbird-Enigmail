@@ -1,6 +1,5 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false */
-/*global TestHelper: false, withEnvironment: false, nsIWindowsRegKey: true */
-/*jshint -W097 */
+/*nsIWindowsRegKey: true */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -29,8 +28,7 @@ test(function getWksPathInBinDir() {
 
         if (EnigmailOS.isDosLike) {
           listener.stdout("bindir:" + do_get_cwd().path + "\r\nlibexecdir:C:\\GnuPG\\lib\\exec\\dir\\test\r\n");
-        }
-        else {
+        } else {
           listener.stdout("bindir:" + do_get_cwd().path + "\nlibexecdir:/lib/exec/dir/test\n");
         }
         listener.done(0);
@@ -62,8 +60,7 @@ test(function getWksPathInLibexecDir() {
 
         if (EnigmailOS.isDosLike) {
           listener.stdout("libexecdir:" + do_get_cwd().path + "\r\nbindir:C:\\GnuPG\\bin\\dir\\test\r\n");
-        }
-        else {
+        } else {
           listener.stdout("libexecdir:" + do_get_cwd().path + "\nbindir:/bin/dir/test\n");
         }
         listener.done(0);

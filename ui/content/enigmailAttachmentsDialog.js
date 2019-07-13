@@ -1,4 +1,3 @@
-/*global EnigInitCommon EnigGetString EnigmailLog */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,7 +6,8 @@
 
 // Uses: chrome://enigmail/content/enigmailCommon.js
 
-/* global Components: false, EnigInitCommon: false, EnigSetPref: false, EnigGetPref: false */
+/* global EnigInitCommon: false, EnigSetPref: false, EnigGetPref: false 
+   EnigGetString: false, EnigmailLog: false */
 
 
 "use strict";
@@ -34,8 +34,7 @@ function enigmailAttachDlgLoad() {
   var descNotFound = document.getElementById("enigPgpMimeDetails");
   if (gArguments[ENIG_INPUT].inlinePossible) {
     descNotFound.firstChild.data = EnigGetString("pgpMimeNote", EnigGetString("second"));
-  }
-  else {
+  } else {
     descNotFound.firstChild.data = EnigGetString("pgpMimeNote", EnigGetString("first"));
   }
 
@@ -49,8 +48,7 @@ function enigmailAttachDlgLoad() {
     rb.setAttribute("label", rb.getAttribute("data-signLabel"));
     rb = document.getElementById("enigEncryptAttachDontEncryptMsg");
     rb.setAttribute("label", rb.getAttribute("data-signLabel"));
-  }
-  else if (window.arguments[ENIG_INPUT].reasonForCheck == "encrypt") {
+  } else if (window.arguments[ENIG_INPUT].reasonForCheck == "encrypt") {
     let rb = document.getElementById("enigEncryptAttachNone");
     rb.setAttribute("label", rb.getAttribute("data-encryptLabel"));
     rb = document.getElementById("enigEncryptAttachInline");
@@ -59,8 +57,7 @@ function enigmailAttachDlgLoad() {
     rb.setAttribute("label", rb.getAttribute("data-encryptLabel"));
     rb = document.getElementById("enigEncryptAttachDontEncryptMsg");
     rb.setAttribute("label", rb.getAttribute("data-encryptLabel"));
-  }
-  else if (window.arguments[ENIG_INPUT].reasonForCheck == "encryptAndSign") {
+  } else if (window.arguments[ENIG_INPUT].reasonForCheck == "encryptAndSign") {
     let rb = document.getElementById("enigEncryptAttachNone");
     rb.setAttribute("label", rb.getAttribute("data-encryptAndSignLabel"));
     rb = document.getElementById("enigEncryptAttachInline");
@@ -81,12 +78,10 @@ function enigmailAttachDlgLoad() {
     if (!gArguments[ENIG_INPUT].inlinePossible && nodeCount == 1) {
       // disable inline PGP option
       node.disabled = true;
-    }
-    else if (!gArguments[ENIG_INPUT].pgpMimePossible && nodeCount == 2) {
+    } else if (!gArguments[ENIG_INPUT].pgpMimePossible && nodeCount == 2) {
       // disable PGP/MIME option
       node.disabled = true;
-    }
-    else if (nodeCount == selected) {
+    } else if (nodeCount == selected) {
       optionSel.selectedItem = node;
       optionSel.value = selected;
     }
@@ -116,8 +111,7 @@ function enigmailAttachDlgAccept() {
         EnigSetPref("encryptAttachments", optionSel.value);
       }
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
