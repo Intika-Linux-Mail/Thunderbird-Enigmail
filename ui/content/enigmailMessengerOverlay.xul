@@ -214,7 +214,6 @@
     </menu>
   </menubar>
 
-<!-- ifndef POSTBOX -->
   <!-- menuitem in folder list context menu to decrypt message -->
   <menupopup id="mailContext">
     <menu
@@ -232,7 +231,25 @@
                  recentAccessKey="&enigmail.recent.accesskey;"/>
     </menu>
   </menupopup>
-<!-- endif -->
+
+  <!-- menuitem in Message menu to decrypt message -->
+  <menupopup id="messageMenuPopup">
+    <menu
+        id="enigmailMessageMenu-decryptToFolder"
+        insertafter="copyMenu"
+        label="&enigmail.decryptToFolder.label;"
+        accesskey="&enigmail.decryptToFolder.accesskey;"
+        oncommand="Enigmail.msg.decryptToFolder(event.target._folder)">
+      <menupopup id="enigmailCtxDecrypt-fileHereMenu"
+                 type="folder"
+                 mode="filing"
+                 showFileHereLabel="true"
+                 showRecent="true"
+                 recentLabel="&enigmail.recent.label;"
+                 recentAccessKey="&enigmail.recent.accesskey;"/>
+    </menu>
+  </menupopup>
+
 
   <!-- the default set does not include the Enigmail decryption icon anymore -->
 
