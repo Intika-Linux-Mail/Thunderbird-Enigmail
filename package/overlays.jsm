@@ -570,7 +570,8 @@ function insertXul(srcUrl, window, document, callback) {
 
 
   xmlReq.onerror = xmlReq.onabort = function() {
-    ERROR_LOG("Failed to load " + srcUrl + "\n");
+    ERROR_LOG("overlays.jsm: Failed to load " + srcUrl + "\n");
+    ERROR_LOG("  error code: "+ xmlReq.status+ "\n");
     callback(0);
   };
 

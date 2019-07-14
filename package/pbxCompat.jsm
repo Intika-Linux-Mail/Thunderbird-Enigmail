@@ -18,6 +18,7 @@ const Cu = Components.utils;
  * Message-reading related functions
  */
 
+const MailUtils = Cu.import("resource:///modules/MailUtils.js").MailUtils;
 
 var EnigmailPbxCompat = {
 
@@ -77,5 +78,14 @@ var EnigmailPbxCompat = {
     // TB
     return copySvc.CopyFileMessage(file, destFolder, null, false, msgFlags, msgKeywords, listener, msgWindow);
 #endif
+  },
+
+  getExistingFolder: function(folderUri) {
+    if ("getExistingFolder" in MailUtils) {
+      // TB >= 65
+      return MailUtils.getExistingFolder(folderUri);
+    } else {
+      return MailUtils.getFolderForURI(folderUri, false);
+    }
   }
 };

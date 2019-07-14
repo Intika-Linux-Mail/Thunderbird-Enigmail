@@ -214,7 +214,7 @@
     </menu>
   </menubar>
 
-#ifndef POSTBOX
+<!-- ifndef POSTBOX -->
   <!-- menuitem in folder list context menu to decrypt message -->
   <menupopup id="mailContext">
     <menu
@@ -232,7 +232,7 @@
                  recentAccessKey="&enigmail.recent.accesskey;"/>
     </menu>
   </menupopup>
-#endif
+<!-- endif -->
 
   <!-- the default set does not include the Enigmail decryption icon anymore -->
 

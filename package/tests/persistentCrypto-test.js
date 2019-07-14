@@ -1,6 +1,4 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false */
-/*global Cc: false, Ci: false, Components: false */
-/*jshint -W097 */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,11 +10,9 @@
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global TestHelper: false, component: false, withTestGpgHome: false, withEnigmail: false */
 TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
 
-testing("persistentCrypto.jsm"); /*global EnigmailPersistentCrypto: false, Promise: false */
-component("enigmail/keyRing.jsm"); /*global EnigmailKeyRing: false */
-/*global msgHdrToMimeMessage: false, MimeMessage: false, MimeContainer: false */
-component("enigmail/glodaMime.jsm");
-component("enigmail/streams.jsm"); /*global EnigmailStreams: false */
+testing("persistentCrypto.jsm"); /*global EnigmailPersistentCrypto: false, EnigmailMime: false */
+component("enigmail/keyRing.jsm"); /* global EnigmailKeyRing: false */
+/*global MsgHdrToMimeMessage: false, MimeMessage: false, MimeContainer: false, EnigmailStreams: false */
 
 const inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
 
@@ -72,7 +68,7 @@ test(withTestGpgHome(withEnigmail(function messageIsMovedAndDecrypted() {
   loadSecretKey();
   MailHelper.cleanMailFolder(MailHelper.rootFolder);
   const sourceFolder = MailHelper.createMailFolder("source-box");
-  MailHelper.loadEmailToMailFolder("resources/encrypted-email.eml", sourceFolder);
+  MailHelper.loadEmailToMailFolder("resources/encrypted-pgpmime-email.eml", sourceFolder);
 
   const header = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
   const targetFolder = MailHelper.createMailFolder("target-box");
@@ -87,18 +83,28 @@ test(withTestGpgHome(withEnigmail(function messageIsMovedAndDecrypted() {
 
   const dispatchedHeader = MailHelper.fetchFirstMessageHeaderIn(targetFolder);
   Assert.ok(dispatchedHeader !== null);
+
+  let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
+  const msgSvc = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger).messageServiceFromURI(msgUriSpec);
+
+  let urlObj = {};
+  msgSvc.GetUrlForUri(msgUriSpec, urlObj, null);
+
   do_test_pending();
-  msgHdrToMimeMessage(
-    dispatchedHeader,
-    null,
-    function(header, mime) {
-      Assert.ok(!mime.isEncrypted);
-      Assert.assertContains(mime.parts[0].body, "This is encrypted");
+  EnigmailMime.getMimeTreeFromUrl(
+    urlObj.value.spec,
+    true,
+    function(mimeTree) {
+      Assert.equal(mimeTree.subParts.length, 1);
+      if (mimeTree.subParts.length > 0) {
+        Assert.assertContains(mimeTree.subParts[0].body, "This message is encrypted");
+      }
       do_test_finished();
     },
     false
   );
 })));
+
 
 test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndDecrypted() {
   loadSecretKey();
@@ -119,21 +125,72 @@ test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndDecryp
   const dispatchedHeader = MailHelper.fetchFirstMessageHeaderIn(targetFolder);
   Assert.ok(dispatchedHeader !== null);
 
+  let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
+  const msgSvc = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger).messageServiceFromURI(msgUriSpec);
+
+  let urlObj = {};
+  msgSvc.GetUrlForUri(msgUriSpec, urlObj, null);
+
   do_test_pending();
-  msgHdrToMimeMessage(
-    dispatchedHeader,
-    null,
-    function(header, mime) {
-      Assert.ok(!mime.isEncrypted);
-      Assert.assertContains(mime.parts[0].parts[0].body, "This is encrypted");
-      const atts = extractAttachments(mime);
-      Assert.ok(!atts[0].isEncrypted);
-      Assert.assertContains(atts[0].body, "This is an attachment.");
+  EnigmailMime.getMimeTreeFromUrl(
+    urlObj.value.spec,
+    true,
+    function(mimeTree) {
+      Assert.assertContains(mimeTree.subParts[0].body, "This is encrypted");
+      Assert.equal(mimeTree.subParts.length, 2);
+      if (mimeTree.subParts.length >= 2) {
+        Assert.assertContains(mimeTree.subParts[1].body, "This is an attachment.");
+      }
       do_test_finished();
     },
     false
   );
 })));
+
+test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndReEncrypted() {
+  loadSecretKey();
+  loadPublicKey();
+  MailHelper.cleanMailFolder(MailHelper.getRootFolder());
+  const sourceFolder = MailHelper.createMailFolder("source-box");
+  MailHelper.loadEmailToMailFolder("resources/encrypted-email-with-attachment.eml", sourceFolder);
+
+  const header = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
+  const targetFolder = MailHelper.createMailFolder("target-box");
+  const move = true;
+  copyListener.OnStopCopy = function(statusCode) {
+    inspector.exitNestedEventLoop();
+  };
+
+  let keyObj = EnigmailKeyRing.getKeyById("0x65537E212DC19025AD38EDB2781617319CE311C4");
+  EnigmailPersistentCrypto.dispatchMessages([header], targetFolder.URI, copyListener, move, keyObj);
+  inspector.enterNestedEventLoop(0);
+
+  const dispatchedHeader = MailHelper.fetchFirstMessageHeaderIn(targetFolder);
+  Assert.ok(dispatchedHeader !== null);
+
+  let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
+  const msgSvc = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger).messageServiceFromURI(msgUriSpec);
+
+  let urlObj = {};
+  msgSvc.GetUrlForUri(msgUriSpec, urlObj, null);
+
+  do_test_pending();
+  EnigmailMime.getMimeTreeFromUrl(
+    urlObj.value.spec,
+    true,
+    function(mimeTree) {
+      Assert.assertContains(mimeTree.headers._rawHeaders.get("content-type")[0], "multipart/encrypted");
+      Assert.assertContains(mimeTree.subParts[0].body, "Version: 1");
+      Assert.equal(mimeTree.subParts.length, 2);
+      if (mimeTree.subParts.length >= 2) {
+        Assert.assertContains(mimeTree.subParts[1].body, "---BEGIN PGP MESSAGE---");
+      }
+      do_test_finished();
+    },
+    false
+  );
+})));
+
 
 var loadSecretKey = function() {
   const secretKey = do_get_file("resources/dev-strike.sec", false);
@@ -151,7 +208,7 @@ function stringFromUrl(url) {
   const p = new Promise(function(resolve, reject) {
     const iOService = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
     const uri = iOService.newURI(url, null, null);
-    const attChannel = EnigmailStreams.createChannelFromURI(uri);
+    const attChannel = EnigmailStreams.createChannel(uri);
     const listener = EnigmailStreams.newStringStreamListener(function(data) {
       result = data;
       inspector.exitNestedEventLoop();
