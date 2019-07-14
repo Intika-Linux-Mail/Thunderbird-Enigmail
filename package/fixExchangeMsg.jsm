@@ -402,7 +402,11 @@ var EnigmailFixExchangeMsg = {
       OnStopCopy: function(statusCode) {
         if (statusCode !== 0) {
           EnigmailLog.DEBUG("fixExchangeMsg.jsm: error copying message: " + statusCode + "\n");
-          tempFile.remove(false);
+          try {
+            tempFile.remove(false);
+          } catch (ex) {
+            EnigmailLog.DEBUG("persistentCrypto.jsm: Could not delete temp file\n");
+          }
           self.reject(3);
           return;
         }
@@ -415,7 +419,11 @@ var EnigmailFixExchangeMsg = {
         self.hdr.folder.deleteMessages(msgArray, null, true, false, null, false);
         EnigmailLog.DEBUG("fixExchangeMsg.jsm: deleted original message\n");
 
-        tempFile.remove(false);
+        try {
+          tempFile.remove(false);
+        } catch (ex) {
+          EnigmailLog.DEBUG("persistentCrypto.jsm: Could not delete temp file\n");
+        }
         self.resolve(this.msgKey);
         return;
       }
