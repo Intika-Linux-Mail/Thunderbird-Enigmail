@@ -11,10 +11,12 @@
 /* global nsMsgFilterAction: false, gFilterActionStrings: false, gFilterActionList: true */
 
 Components.utils.import("resource://enigmail/timer.jsm"); /*global EnigmailTimer: false */
+Components.utils.import("resource://enigmail/log.jsm"); /*global EnigmailLog: false */
 
 
 var EnigmailFilterEditor = {
   onLoad: function() {
+    EnigmailLog.DEBUG("enigmailFilterEditor.js: onLoad()\n");
     let self = this;
 
     if ("arguments" in window && window.arguments[0]) {

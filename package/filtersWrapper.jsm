@@ -38,8 +38,7 @@ const filterActionMoveDecrypt = {
 
     if (gEnigmailFilters) {
       gEnigmailFilters.moveDecrypt.apply(aMsgHdrs, aActionValue, aListener, aType, aMsgWindow);
-    }
-    else {
+    } else {
       aListener.OnStartCopy();
       aListener.OnStopCopy(0);
     }
@@ -72,8 +71,7 @@ const filterActionCopyDecrypt = {
   apply: function(aMsgHdrs, aActionValue, aListener, aType, aMsgWindow) {
     if (gEnigmailFilters) {
       gEnigmailFilters.copyDecrypt.apply(aMsgHdrs, aActionValue, aListener, aType, aMsgWindow);
-    }
-    else {
+    } else {
       aListener.OnStartCopy();
       aListener.OnStopCopy(0);
     }
@@ -105,8 +103,7 @@ const filterActionEncrypt = {
   apply: function(aMsgHdrs, aActionValue, aListener, aType, aMsgWindow) {
     if (gEnigmailFilters) {
       gEnigmailFilters.encrypt.apply(aMsgHdrs, aActionValue, aListener, aType, aMsgWindow);
-    }
-    else {
+    } else {
       aListener.OnStartCopy();
       aListener.OnStopCopy(0);
     }
@@ -142,8 +139,7 @@ function addFilterIfNotExists(filterObj) {
   let foundFilter = null;
   try {
     foundFilter = filterService.getCustomAction(filterObj.id);
-  }
-  catch (ex) {}
+  } catch (ex) {}
 
   if (!foundFilter) {
     filterService.addCustomAction(filterObj);
@@ -152,18 +148,14 @@ function addFilterIfNotExists(filterObj) {
 
 var EnigmailFiltersWrapper = {
   onStartup: function() {
-    if (!EnigmailApp.isPostbox()) {
-      let {
-        EnigmailFilters
-      } = Cu.import("resource://enigmail/filters.jsm");
-      gEnigmailFilters = EnigmailFilters;
+    let EnigmailFilters = Cu.import("resource://enigmail/filters.jsm").EnigmailFilters;
+    gEnigmailFilters = EnigmailFilters;
 
-      addFilterIfNotExists(filterActionMoveDecrypt);
-      addFilterIfNotExists(filterActionCopyDecrypt);
-      addFilterIfNotExists(filterActionEncrypt);
+    addFilterIfNotExists(filterActionMoveDecrypt);
+    addFilterIfNotExists(filterActionCopyDecrypt);
+    addFilterIfNotExists(filterActionEncrypt);
 
-      gEnigmailFilters.onStartup();
-    }
+    gEnigmailFilters.onStartup();
   },
 
   onShutdown: function() {
