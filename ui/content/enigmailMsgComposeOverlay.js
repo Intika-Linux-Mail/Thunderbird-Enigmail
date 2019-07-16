@@ -3552,6 +3552,7 @@ Enigmail.msg = {
         rating = EnigmailPEPAdapter.getOutgoingMessageRating(o.from, o.toAddrList);
 
         let isDraft = (typeof(gMsgCompose.compFields.draftId) === "string" && gMsgCompose.compFields.draftId.length > 0);
+        this.setAdditionalHeader("X-pEp-Version", "2.0");
 
         if (this.origPepRating !== null && !isDraft) {
           if (this.origPepRating >= 6 && rating < 6 && this.identity.getBoolAttribute("warnWeakReply")) {
