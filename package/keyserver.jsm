@@ -21,6 +21,8 @@ const EnigmailGpg = ChromeUtils.import("chrome://enigmail/content/modules/gpg.js
 const EnigmailHttpProxy = ChromeUtils.import("chrome://enigmail/content/modules/httpProxy.jsm").EnigmailHttpProxy;
 const EnigmailOS = ChromeUtils.import("chrome://enigmail/content/modules/os.jsm").EnigmailOS;
 const EnigmailXhrUtils = ChromeUtils.import("chrome://enigmail/content/modules/xhrUtils.jsm").EnigmailXhrUtils;
+const EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
+const EnigmailCryptoAPI = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI.jsm").EnigmailCryptoAPI;
 
 const IOSERVICE_CONTRACTID = "@mozilla.org/network/io-service;1";
 
@@ -91,7 +93,8 @@ function parseKeyserverUrl(keyserver) {
   if (keyserver.search(/^[a-zA-Z0-9_.-]+:\/\//) === 0) {
     protocol = keyserver.replace(/^([a-zA-Z0-9_.-]+)(:\/\/.*)/, "$1");
     keyserver = keyserver.replace(/^[a-zA-Z0-9_.-]+:\/\//, "");
-  } else {
+  }
+  else {
     protocol = "hkp";
   }
 
@@ -186,14 +189,17 @@ const accessHkpInternal = {
     if (actionFlag === EnigmailConstants.UPLOAD_KEY) {
       url += "/pks/add";
       method = "POST";
-    } else if (actionFlag === EnigmailConstants.DOWNLOAD_KEY) {
+    }
+    else if (actionFlag === EnigmailConstants.DOWNLOAD_KEY) {
       if (searchTerm.indexOf("0x") !== 0) {
         searchTerm = "0x" + searchTerm;
       }
       url += "/pks/lookup?search=" + searchTerm + "&op=get&options=mr";
-    } else if (actionFlag === EnigmailConstants.SEARCH_KEY) {
+    }
+    else if (actionFlag === EnigmailConstants.SEARCH_KEY) {
       url += "/pks/lookup?search=" + escape(searchTerm) + "&fingerprint=on&op=index&options=mr";
-    } else if (actionFlag === EnigmailConstants.GET_SKS_CACERT) {
+    }
+    else if (actionFlag === EnigmailConstants.GET_SKS_CACERT) {
       url = SKS_CACERT_URL;
     }
 
@@ -252,7 +258,8 @@ const accessHkpInternal = {
             EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal: onload: " + xmlReq.responseText + "\n");
             if (xmlReq.status >= 400) {
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               resolve(0);
             }
             return;
@@ -262,9 +269,11 @@ const accessHkpInternal = {
             if (xmlReq.status === 404) {
               // key not found
               resolve("");
-            } else if (xmlReq.status >= 400) {
+            }
+            else if (xmlReq.status >= 400) {
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               resolve(xmlReq.responseText);
             }
             return;
@@ -273,17 +282,20 @@ const accessHkpInternal = {
             if (xmlReq.status >= 400 && xmlReq.status < 500) {
               // key not found
               resolve(1);
-            } else if (xmlReq.status >= 500) {
+            }
+            else if (xmlReq.status >= 500) {
               EnigmailLog.DEBUG("keyserver.jsm: accessHkpInternal: onload: " + xmlReq.responseText + "\n");
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               let errorMsgObj = {},
                 importedKeysObj = {};
               let importMinimal = (xmlReq.responseText.length > 1024000 && (!EnigmailGpg.getGpgFeature("handles-huge-keys")));
               let r = EnigmailKeyRing.importKey(null, false, xmlReq.responseText, "", errorMsgObj, importedKeysObj, importMinimal);
               if (r === 0) {
                 resolve(importedKeysObj.value);
-              } else {
+              }
+              else {
                 reject(createError(EnigmailConstants.KEYSERVER_ERR_IMPORT_ERROR));
               }
             }
@@ -325,7 +337,8 @@ const accessHkpInternal = {
           xmlReq.open(method, url);
           xmlReq.send(payLoad);
         });
-      } else {
+      }
+      else {
         EnigmailLog.DEBUG(`keyserver.jsm: accessHkpInternal.accessKeyServer: requesting ${url}\n`);
         xmlReq.open(method, url);
         xmlReq.send(payLoad);
@@ -347,7 +360,8 @@ const accessHkpInternal = {
       let certData = certTxt.substring(begin + BEGIN_CERT.length, end);
       let x509cert = certDb.addCertFromBase64(certData, "C,C,C", "");
       return x509cert;
-    } catch (x) {
+    }
+    catch (x) {
       return null;
     }
   },
@@ -395,7 +409,8 @@ const accessHkpInternal = {
         if (Array.isArray(r)) {
           retObj.keyList = retObj.keyList.concat(r);
         }
-      } catch (ex) {
+      }
+      catch (ex) {
         retObj.result = ex.result;
         retObj.errorDetails = ex.errorDetails;
         throw retObj;
@@ -439,10 +454,12 @@ const accessHkpInternal = {
         let r = await this.accessKeyServer(EnigmailConstants.UPLOAD_KEY, keyserver, keyIdArr[i], listener);
         if (r === 0) {
           retObj.keyList.push(keyIdArr[i]);
-        } else {
+        }
+        else {
           retObj.result = r;
         }
-      } catch (ex) {
+      }
+      catch (ex) {
         retObj.result = ex.result;
         retObj.errorDetails = ex.errorDetails;
         throw retObj;
@@ -529,7 +546,8 @@ const accessHkpInternal = {
       if (key) {
         retObj.pubKeys.push(key);
       }
-    } catch (ex) {
+    }
+    catch (ex) {
       retObj.result = ex.result;
       retObj.errorDetails = ex.errorDetails;
       throw retObj;
@@ -554,12 +572,14 @@ const accessKeyBase = {
     if (actionFlag === EnigmailConstants.UPLOAD_KEY) {
       // not supported
       throw Components.results.NS_ERROR_FAILURE;
-    } else if (actionFlag === EnigmailConstants.DOWNLOAD_KEY) {
+    }
+    else if (actionFlag === EnigmailConstants.DOWNLOAD_KEY) {
       if (searchTerm.indexOf("0x") === 0) {
         searchTerm = searchTerm.substr(0, 40);
       }
       url += "lookup.json?key_fingerprint=" + escape(searchTerm) + "&fields=public_keys";
-    } else if (actionFlag === EnigmailConstants.SEARCH_KEY) {
+    }
+    else if (actionFlag === EnigmailConstants.SEARCH_KEY) {
       url += "autocomplete.json?q=" + escape(searchTerm);
     }
 
@@ -606,7 +626,8 @@ const accessKeyBase = {
           case EnigmailConstants.SEARCH_KEY:
             if (xmlReq.status >= 400) {
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               resolve(xmlReq.responseText);
             }
             return;
@@ -615,10 +636,12 @@ const accessKeyBase = {
             if (xmlReq.status >= 400 && xmlReq.status < 500) {
               // key not found
               resolve([]);
-            } else if (xmlReq.status >= 500) {
+            }
+            else if (xmlReq.status >= 500) {
               EnigmailLog.DEBUG("keyserver.jsm: onload: " + xmlReq.responseText + "\n");
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               try {
                 let resp = JSON.parse(xmlReq.responseText);
                 let imported = [];
@@ -638,7 +661,8 @@ const accessKeyBase = {
                   }
                 }
                 resolve(imported);
-              } catch (ex) {
+              }
+              catch (ex) {
                 reject(createError(EnigmailConstants.KEYSERVER_ERR_UNKNOWN));
               }
             }
@@ -702,7 +726,8 @@ const accessKeyBase = {
         if (r.length > 0) {
           retObj.keyList = retObj.keyList.concat(r);
         }
-      } catch (ex) {
+      }
+      catch (ex) {
         retObj.result = ex.result;
         retObj.errorDetails = ex.result;
         throw retObj;
@@ -766,7 +791,8 @@ const accessKeyBase = {
           retObj.pubKeys.push(key);
         }
       }
-    } catch (ex) {
+    }
+    catch (ex) {
       retObj.result = ex.result;
       retObj.errorDetails = ex.errorDetails;
       throw retObj;
@@ -1074,7 +1100,8 @@ const accessGnuPG = {
       if (key) {
         retObj.pubKeys.push(key);
       }
-    } catch (ex) {
+    }
+    catch (ex) {
       retObj.result = ex.result;
       retObj.errorDetails = ex.errorDetails;
       throw retObj;
@@ -1169,25 +1196,33 @@ const accessVksServer = {
       url += "/vks/v1/upload";
       method = "POST";
       contentType = "application/json";
-    } else if (actionFlag === EnigmailConstants.GET_CONFIRMATION_LINK) {
+    }
+    else if (actionFlag === EnigmailConstants.GET_CONFIRMATION_LINK) {
       url += "/vks/v1/request-verify";
       method = "POST";
       contentType = "application/json";
-    } else if (actionFlag === EnigmailConstants.DOWNLOAD_KEY) {
+    }
+    else if (actionFlag === EnigmailConstants.DOWNLOAD_KEY || actionFlag === EnigmailConstants.SEARCH_KEY) {
       if (searchTerm) {
-        let lookup = "/vks/v1/by-email/" + searchTerm;
+        let lookup = "/vks/";
         if (searchTerm.indexOf("0x") === 0) {
           searchTerm = searchTerm.substr(2);
           if (searchTerm.length == 16 && searchTerm.search(/^[A-F0-9]+$/) === 0) {
             lookup = "/vks/v1/by-keyid/" + searchTerm;
-          } else if (searchTerm.length == 40 && searchTerm.search(/^[A-F0-9]+$/) === 0) {
+          }
+          else if (searchTerm.length == 40 && searchTerm.search(/^[A-F0-9]+$/) === 0) {
             lookup = "/vks/v1/by-fingerprint/" + searchTerm;
           }
         }
+        else {
+          try {
+            searchTerm = EnigmailFuncs.stripEmail(searchTerm);
+          }
+          catch (x) {}
+          lookup = "/vks/v1/by-email/" + searchTerm;
+        }
         url += lookup;
       }
-    } else if (actionFlag === EnigmailConstants.SEARCH_KEY) {
-      url += "/pks/lookup?search=" + searchTerm + "&fingerprint=on&op=index&options=mr";
     }
 
     return {
@@ -1249,7 +1284,8 @@ const accessVksServer = {
             EnigmailLog.DEBUG("keyserver.jsm: accessVksServer.onload: " + xmlReq.responseText + "\n");
             if (xmlReq.status >= 400) {
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               resolve(xmlReq.responseText);
             }
             return;
@@ -1258,9 +1294,11 @@ const accessVksServer = {
             if (xmlReq.status === 404) {
               // key not found
               resolve("");
-            } else if (xmlReq.status >= 400) {
+            }
+            else if (xmlReq.status >= 400) {
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               resolve(xmlReq.responseText);
             }
             return;
@@ -1269,16 +1307,19 @@ const accessVksServer = {
             if (xmlReq.status >= 400 && xmlReq.status < 500) {
               // key not found
               resolve(1);
-            } else if (xmlReq.status >= 500) {
+            }
+            else if (xmlReq.status >= 500) {
               EnigmailLog.DEBUG("keyserver.jsm: accessVksServer.onload: " + xmlReq.responseText + "\n");
               reject(createError(EnigmailConstants.KEYSERVER_ERR_SERVER_ERROR));
-            } else {
+            }
+            else {
               let errorMsgObj = {},
                 importedKeysObj = {};
               let r = EnigmailKeyRing.importKey(null, false, xmlReq.responseText, "", errorMsgObj, importedKeysObj);
               if (r === 0) {
                 resolve(importedKeysObj.value);
-              } else {
+              }
+              else {
                 reject(createError(EnigmailConstants.KEYSERVER_ERR_IMPORT_ERROR));
               }
             }
@@ -1345,7 +1386,8 @@ const accessVksServer = {
         if (Array.isArray(r)) {
           retObj.keyList = retObj.keyList.concat(r);
         }
-      } catch (ex) {
+      }
+      catch (ex) {
         retObj.result = ex.result;
         retObj.errorDetails = ex.errorDetails;
         throw retObj;
@@ -1431,10 +1473,12 @@ const accessVksServer = {
             retObj.result = 0;
             retObj.numEmails = req;
           }
-        } else {
+        }
+        else {
           retObj.result = r;
         }
-      } catch (ex) {
+      }
+      catch (ex) {
         retObj.result = ex.result;
         retObj.errorDetails = ex.errorDetails;
         throw retObj;
@@ -1477,51 +1521,27 @@ const accessVksServer = {
     try {
       let r = await this.accessKeyServer(EnigmailConstants.SEARCH_KEY, keyserver, searchTerm, listener);
 
-      let lines = r.split(/\r?\n/);
+      const cApi = EnigmailCryptoAPI();
+      let keyList = await cApi.getKeyListFromKeyBlock(r);
 
-      for (var i = 0; i < lines.length; i++) {
-        let line = lines[i].split(/:/).map(unescape);
-        if (line.length <= 1) continue;
+      for (let k in keyList) {
+        key = {
+          keyId: keyList[k].fpr,
+          keyLen: "0",
+          keyType: "",
+          created: keyList[k].created,
+          uid: [keyList[k].name],
+          status: keyList[k].revoke ? "r" : ""
+        };
 
-        switch (line[0]) {
-          case "info":
-            if (line[1] !== "1") {
-              // protocol version not supported
-              throw {
-                result: 7,
-                errorDetails: EnigmailLocale.getString("keyserver.error.unsupported"),
-                pubKeys: []
-              };
-            }
-            break;
-          case "pub":
-            if (line.length >= 6) {
-              if (key) {
-                retObj.pubKeys.push(key);
-                key = null;
-              }
-              let dat = new Date(line[4] * 1000);
-              let month = String(dat.getMonth() + 101).substr(1);
-              let day = String(dat.getDate() + 100).substr(1);
-              key = {
-                keyId: line[1],
-                keyLen: line[3],
-                keyType: line[2],
-                created: dat.getFullYear() + "-" + month + "-" + day,
-                uid: [],
-                status: line[6]
-              };
-            }
-            break;
-          case "uid":
-            key.uid.push(EnigmailData.convertToUnicode(line[1].trim(), "utf-8"));
+        for (let uid of keyList[k].uids) {
+          key.uid.push(uid);
         }
-      }
 
-      if (key) {
         retObj.pubKeys.push(key);
       }
-    } catch (ex) {
+    }
+    catch (ex) {
       retObj.result = ex.result;
       retObj.errorDetails = ex.errorDetails;
       throw retObj;
