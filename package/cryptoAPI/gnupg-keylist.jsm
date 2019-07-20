@@ -458,7 +458,9 @@ async function getGpgKeyData(armorKeyString) {
           id: lineTokens[KEY_ID],
           fpr: null,
           name: null,
-          isSecret: false
+          isSecret: false,
+          created: EnigmailTime.getDateTime(lineTokens[CREATED_ID], true, false),
+          uids: []
         };
 
         if (!(key.id in keyList)) {
@@ -477,6 +479,9 @@ async function getGpgKeyData(armorKeyString) {
       case "uid":
         if (!key.name) {
           key.name = lineTokens[USERID_ID];
+        }
+        else {
+          key.uids.push(lineTokens[USERID_ID]);
         }
         break;
       case "rvs":

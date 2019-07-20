@@ -105,6 +105,7 @@ class OpenPGPjsCryptoAPI extends CryptoAPI {
 
   async OPENPGPjs_getKeyListFromKeyBlock(keyBlockStr) {
     EnigmailLog.DEBUG("openpgp-js.js: getKeyListFromKeyBlock()\n");
+    const EnigmailTime = ChromeUtils.import("chrome://enigmail/content/modules/time.jsm").EnigmailTime;
 
     const SIG_TYPE_REVOCATION = 0x20;
 
@@ -132,8 +133,11 @@ class OpenPGPjsCryptoAPI extends CryptoAPI {
             key = {
               id: m.packets[i].getKeyId().toHex().toUpperCase(),
               fpr: m.packets[i].getFingerprint().toUpperCase(),
+              uids: [],
+              created: EnigmailTime.getDateTime(m.packets[i].getCreationTime().getTime()/1000, true, false),
               name: null,
-              isSecret: false
+              isSecret: false,
+              revoke: false
             };
 
             if (!(key.id in keyList)) {
@@ -147,6 +151,9 @@ class OpenPGPjsCryptoAPI extends CryptoAPI {
           case "userid":
             if (!key.name) {
               key.name = m.packets[i].userid.replace(/[\r\n]+/g, " ");
+            }
+            else {
+              key.uids.push(m.packets[i].userid.replace(/[\r\n]+/g, " "));
             }
             break;
           case "signature":
