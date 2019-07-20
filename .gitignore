@@ -7,15 +7,16 @@
 /config/autoconf.mk
 /build
 /ui/content/enigmailBuildDate.js
-/ipc/src/subprocess.o
 /public/_xpidlgen
-ipc/src/libsubprocess-*.dylib
-ipc/src/libsubprocess-*.so
 /test_output.log
 /ipc/tests/ipc-data.txt
 /package/tests/jsunit.result
+/package/tests/file-test.txt
+/package/tests/test-message.txt
+/stdlib/openpgp-lib.jsm
 unused.txt
 /package/tests/enigdbug.txt
+.eslintcache
 
 # vi tmp files:
 *.swp
@@ -31,6 +32,14 @@ unused.txt
 # vagrant files:
 provisioning/.vagrant
 
+# Visual Studio Code:
+/.vscode
+.*.code-workspace
+
+# Sublime:
+*.sublime-*
+
 # other local configuration files:
 .ackrc
 .envrc
+
