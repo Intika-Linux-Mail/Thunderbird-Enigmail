@@ -35,7 +35,7 @@
 .enigmailHeaderValue {
   min-width: 50px;
   white-space: normal;
-  color: black;
+  color: black !important;
   line-height: 1.4em !important;
 
   -moz-appearance: none !important;
