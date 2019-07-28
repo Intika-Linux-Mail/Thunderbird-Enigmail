@@ -301,48 +301,48 @@ var EnigmailExecution = {
 
   execAsync: function(command, args, input, subprocessHandle = null) {
     EnigmailLog.WRITE("execution.jsm: execAsync: command = '" + command.path + "'\n");
-
-    if ((typeof input) != "string") input = "";
-
-    let outputData = "";
-    let errOutput = "";
-    let returnObj = {
-      exitCode: -1,
-      stdoutData: "",
-      stderrData: "",
-      errorMsg: "",
-      statusFlags: 0,
-      statusMsg: "",
-      blockSeparation: "",
-      isKilled: 0
-    };
-
-    EnigmailLog.CONSOLE("enigmail> " + EnigmailFiles.formatCmdLine(command, args) + "\n");
-
-    const procBuilder = new EnigmailExecution.processBuilder();
-    procBuilder.setCommand(command);
-    procBuilder.setArguments(args);
-    procBuilder.setEnvironment(EnigmailCore.getEnvList());
-    procBuilder.setStdin(
-      function(pipe) {
-        if (input.length > 0) {
-          pipe.write(input);
-        }
-        pipe.close();
-      }
-    );
-    procBuilder.setStdout(
-      function(data) {
-        outputData += data;
-      }
-    );
-    procBuilder.setStderr(
-      function(data) {
-        errOutput += data;
-      }
-    );
-
     return new Promise((resolve, reject) => {
+
+      if ((typeof input) != "string") input = "";
+
+      let outputData = "";
+      let errOutput = "";
+      let returnObj = {
+        exitCode: -1,
+        stdoutData: "",
+        stderrData: "",
+        errorMsg: "",
+        statusFlags: 0,
+        statusMsg: "",
+        blockSeparation: "",
+        isKilled: 0
+      };
+
+      EnigmailLog.CONSOLE("enigmail> " + EnigmailFiles.formatCmdLine(command, args) + "\n");
+
+      const procBuilder = new EnigmailExecution.processBuilder();
+      procBuilder.setCommand(command);
+      procBuilder.setArguments(args);
+      procBuilder.setEnvironment(EnigmailCore.getEnvList());
+      procBuilder.setStdin(
+        function(pipe) {
+          if (input.length > 0) {
+            pipe.write(input);
+          }
+          pipe.close();
+        }
+      );
+      procBuilder.setStdout(
+        function(data) {
+          outputData += data;
+        }
+      );
+      procBuilder.setStderr(
+        function(data) {
+          errOutput += data;
+        }
+      );
+
       procBuilder.setDone(
         function(result) {
           let exitCode = result.exitCode;

@@ -484,7 +484,7 @@ var EnigmailKeyRing = {
   },
 
   /**
-   * import key from provided key data
+   * import key from provided key data (synchronous)
    *
    * @param parent          nsIWindow
    * @param isInteractive   Boolean  - if true, display confirmation dialog
@@ -500,7 +500,28 @@ var EnigmailKeyRing = {
    *      ExitCode == -1 => Cancelled by user
    */
   importKey: function(parent, isInteractive, keyBlock, keyId, errorMsgObj, importedKeysObj, minimizeKey = false) {
-    EnigmailLog.DEBUG(`keyRing.jsm: EnigmailKeyRing.importKey('${keyId}', ${isInteractive}, ${minimizeKey})\n`);
+    const cApi = EnigmailCryptoAPI();
+    return cApi.sync(this.importKeyAsync(parent, isInteractive, keyBlock, keyId, errorMsgObj, importedKeysObj, minimizeKey));
+  },
+
+  /**
+   * import key from provided key data
+   *
+   * @param parent          nsIWindow
+   * @param isInteractive   Boolean  - if true, display confirmation dialog
+   * @param keyBlock        String   - data containing key
+   * @param keyId           String   - key ID expected to import (no meaning)
+   * @param errorMsgObj     Object   - o.value will contain error message from GnuPG
+   * @param importedKeysObj Object   - [OPTIONAL] o.value will contain an array of the FPRs imported
+   * @param minimizeKey     Boolean  - [OPTIONAL] minimize key for importing
+   *
+   * @return Integer -  exit code:
+   *      ExitCode == 0  => success
+   *      ExitCode > 0   => error
+   *      ExitCode == -1 => Cancelled by user
+   */
+  importKeyAsync: async function(parent, isInteractive, keyBlock, keyId, errorMsgObj, importedKeysObj, minimizeKey = false) {
+    EnigmailLog.DEBUG(`keyRing.jsm: EnigmailKeyRing.importKeyAsync('${keyId}', ${isInteractive}, ${minimizeKey})\n`);
 
     const beginIndexObj = {};
     const endIndexObj = {};
@@ -532,12 +553,9 @@ var EnigmailKeyRing = {
       args = EnigmailGpg.getStandardArgs(false).concat(["--no-verbose", "--status-fd", "2", "--no-auto-check-trustdb", "--import"]);
     }
 
-    const exitCodeObj = {};
-    const statusMsgObj = {};
+    const res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, pgpBlock);
 
-    EnigmailExecution.execCmd(EnigmailGpg.agentPath, args, pgpBlock, exitCodeObj, {}, statusMsgObj, errorMsgObj);
-
-    const statusMsg = statusMsgObj.value;
+    const statusMsg = res.statusMsg;
 
     if (!importedKeysObj) {
       importedKeysObj = {};

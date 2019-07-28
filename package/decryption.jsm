@@ -14,7 +14,6 @@ const EnigmailPrefs = ChromeUtils.import("chrome://enigmail/content/modules/pref
 const EnigmailArmor = ChromeUtils.import("chrome://enigmail/content/modules/armor.jsm").EnigmailArmor;
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;
-const EnigmailExecution = ChromeUtils.import("chrome://enigmail/content/modules/execution.jsm").EnigmailExecution;
 const EnigmailDialog = ChromeUtils.import("chrome://enigmail/content/modules/dialog.jsm").EnigmailDialog;
 const EnigmailHttpProxy = ChromeUtils.import("chrome://enigmail/content/modules/httpProxy.jsm").EnigmailHttpProxy;
 const EnigmailGpgAgent = ChromeUtils.import("chrome://enigmail/content/modules/gpgAgent.jsm").EnigmailGpgAgent;
@@ -214,6 +213,10 @@ var EnigmailDecryption = {
     };
     const cApi = EnigmailCryptoAPI();
     let result = cApi.sync(cApi.decrypt(pgpBlock, options));
+    EnigmailLog.DEBUG("decryption.jsm: decryptMessage: decryption finished\n");
+    if (! result) {
+      return "";
+    }
 
     var plainText = EnigmailData.getUnicodeData(result.decryptedData);
     exitCodeObj.value = result.exitCode;
