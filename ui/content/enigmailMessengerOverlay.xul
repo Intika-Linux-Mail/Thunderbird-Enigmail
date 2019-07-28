@@ -209,7 +209,7 @@
                      showRecent="true"
                      recentLabel="&enigmail.recent.label;"
                      recentAccessKey="&enigmail.recent.accesskey;"
-                     showFavorites="true" 
+                     showFavorites="true"
                      favoritesLabel="&contextMoveCopyMsgFavoritesMenu.label;"
                      favoritesAccessKey="&contextMoveCopyMsgFavoritesMenu.accesskey;"
                      hasbeenopened="false" />
@@ -357,7 +357,7 @@
                      showRecent="true"
                      recentLabel="&enigmail.recent.label;"
                      recentAccessKey="&enigmail.recent.accesskey;"
-                     showFavorites="true" 
+                     showFavorites="true"
                      favoritesLabel="&contextMoveCopyMsgFavoritesMenu.label;"
                      favoritesAccessKey="&contextMoveCopyMsgFavoritesMenu.accesskey;"
                      hasbeenopened="false" />
@@ -445,7 +445,7 @@
                  showRecent="true"
                  recentLabel="&enigmail.recent.label;"
                  recentAccessKey="&enigmail.recent.accesskey;"
-                 showFavorites="true" 
+                 showFavorites="true"
                  favoritesLabel="&contextMoveCopyMsgFavoritesMenu.label;"
                  favoritesAccessKey="&contextMoveCopyMsgFavoritesMenu.accesskey;"
                  hasbeenopened="false" />
@@ -499,11 +499,11 @@
                   oncommand="Enigmail.msg.handleUnknownKey();"/>
         </vbox>
         <vbox flex="0" pack="center">
-          <button id="enigmail_confirmKey" pack="center"
+          <button id="enigmail_flexActionButton" pack="center"
                   label="..."
                   hidden="true"
                   class="enigMsgHdrView-flat-button"
-                  oncommand="Enigmail.msg.confirmKeyRequest();"/>
+                  oncommand="Enigmail.msg.flexActionRequest();"/>
         </vbox>
         <vbox class="enigmailHeaderNameBox" flex="0" pack="center">
           <observes element="enigmailStatusText" attribute="class"/>
