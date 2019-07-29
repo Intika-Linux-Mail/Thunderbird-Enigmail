@@ -5303,7 +5303,7 @@ Enigmail.msg = {
   fixMessageSubject: function() {
     let subjElem = document.getElementById("msgSubject");
     if (subjElem) {
-      let r = subjElem.value.replace(/^(Re: )+(.*)/, "Re: $2");
+      let r = subjElem.value.replace(/^(Re: )+/, "Re: ");
       if (r !== subjElem.value) {
         subjElem.value = r;
         if (typeof subjElem.oninput === "function") subjElem.oninput();

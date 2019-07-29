@@ -400,11 +400,13 @@ CryptMessageIntoFolder.prototype = {
       if (ct.search(/protected-headers/i) >= 0) {
         if (m.hasHeader("subject")) {
           let subject = m.extractHeader("subject", false) || "";
+          subject = subject.replace(/^(Re: )+/, "Re: ");
           this.mimeTree.headers._rawHeaders.set("subject", [subject]);
         }
       } else if (this.mimeTree.headers.get("subject") === "p≡p") {
         let subject = getPepSubject(data);
         if (subject) {
+          subject = subject.replace(/^(Re: )+/, "Re: ");
           this.mimeTree.headers._rawHeaders.set("subject", [subject]);
         }
       }
