@@ -360,6 +360,9 @@ PgpMimeEncrypt.prototype = {
         allHdr += jsmime.headeremitter.emitStructuredHeader(h[i].field, h[i].parser(this.msgCompFields[i]), {});
       }
     }
+    if (this.originalSubject && this.originalSubject.length > 0) {
+      allHdr += jsmime.headeremitter.emitStructuredHeader("subject", this.originalSubject, {});
+    }
 
     // special handling for references and in-reply-to
 
