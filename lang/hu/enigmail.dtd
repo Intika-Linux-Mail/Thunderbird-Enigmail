@@ -338,7 +338,7 @@
 <!ENTITY enigmail.amPrefEnablePgp.label             "OpenPGP engedélyezése a postafiókhoz">
 <!ENTITY enigmail.amPrefUseFromAddr.label           "Használja a postafiók e-mail címét az OpenPGP-kulcs azonosítására">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Adott OpenPGP-kulcsazonosító használata (0x1234ABCD):">
-<!ENTITY enigmail.amPrefSelectKey.label             "">
+<!ENTITY enigmail.amPrefSelectKey.label             "Kulcs kiválasztása">
 <!ENTITY enigmail.amPrefMsgComp.label               "Levélírás">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Levélírás alapvető beállításai">
 <!ENTITY enigmail.encryptionDlg.label               "Enigmail titkosítás és aláírás beállításai">
@@ -536,7 +536,7 @@ Például: a „Senki Alfonz <alfonz.senki@cime.net>” formátum helytelen.">
 <!ENTITY enigmail.keyMan.nothingFound.tooltip      "A keresési kifejezésnek egyetlen kulcs sem felel meg">
 <!ENTITY enigmail.keyMan.pleaseWait.tooltip        "Kis türelmet, amíg a kulcsok betöltődnek…">
 
-<!ENTITY enigmail.keyMan.filter.label              "">
+<!ENTITY enigmail.keyMan.filter.label              "Kulcsok keresése">
 
 <!ENTITY enigmail.keyMan.close.accesskey             "b">
 <!ENTITY enigmail.keyMan.generate.accesskey          "k">
@@ -676,7 +676,7 @@ Ha szeretné ezt megtenni, akkor kattintson a „Telepítés GnuPG” gombra a G
 <!ENTITY enigmail.setupWiz.pgInstall.downloadLabel   "GnuPG letöltése…">
 <!ENTITY enigmail.setupWiz.pgInstall.installLabel    "Telepítő indítása. Telepítse a GnuPG programot a telepítővarázsló segítségével.">
 
-<!ENTITY enigmail.setupWiz.searchingGnuPG            "">
+<!ENTITY enigmail.setupWiz.searchingGnuPG            "GnuPG keresése…">
 <!ENTITY enigmail.setupWiz.checkingSetup             "">
 <!ENTITY enigmail.setupWiz.startSetupButton          "Telepítés indítás">
 <!ENTITY enigmail.setupWiz.usingPepMode              "">
@@ -686,7 +686,7 @@ Ha szeretné ezt megtenni, akkor kattintson a „Telepítés GnuPG” gombra a G
 <!ENTITY enigmail.setupWiz.existingKeysFound         "">
 <!ENTITY enigmail.setupWiz.applyExistingKeysBtn      "">
 <!ENTITY enigmail.setupWiz.rescanInboxBtn            "">
-<!ENTITY enigmail.setupWiz.importKeysBtn             "">
+<!ENTITY enigmail.setupWiz.importKeysBtn             "Kulcsok importálása">
 
 <!ENTITY enigmail.advancedIdentityDlg.title          "Haladó Enigmail postafiók beállítások">
 <!ENTITY enigmail.amPrefPgp.sendKeyWithMsg.label     "Nyilvános kulcs csatolása az üzenetekhez">
@@ -784,7 +784,7 @@ a Thunderbird levelezőklienst, és az Enigmail menüből válassza ki a Beáll�
 <!ENTITY enigmail.importSetup.dlgTitle               "Beállítások és kulcsok visszaállítása">
 <!ENTITY enigmail.importSetup.topDesc                "">
 <!ENTITY enigmail.importSetup.specifyImportFile      "">
-<!ENTITY enigmail.importSetup.startRestoreLabel      "">
+<!ENTITY enigmail.importSetup.startRestoreLabel      "Visszaállítás indítás">
 <!ENTITY enigmail.importSetup.importingKeys          "">
-<!ENTITY enigmail.importSetup.restoringGnupgSettings "">
-<!ENTITY enigmail.importSetup.restoringEnigmail      "">
+<!ENTITY enigmail.importSetup.restoringGnupgSettings "GnuPG beállítások visszaállítása…">
+<!ENTITY enigmail.importSetup.restoringEnigmail      "Enigmail beállítások visszaállítása…">
