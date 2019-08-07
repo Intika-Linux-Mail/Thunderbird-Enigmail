@@ -18,6 +18,7 @@
     <splitter class="tree-splitter" />
     <treecol id="enigmailStatusCol" persist="hidden ordinal width"
              currentView="unthreaded" flex="2"
+             closemenu="none"
              label="" tooltiptext="&enigmail.msgViewColumn.tooltip;" />
    </treecols>
   <!--/tree -->
