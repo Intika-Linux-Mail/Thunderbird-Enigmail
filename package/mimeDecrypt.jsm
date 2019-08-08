@@ -746,7 +746,9 @@ MimeDecryptHandler.prototype = {
   },
 
   extractAutocryptGossip: async function() {
-    let m = this.decryptedData.search(/^--/m);
+    let m1 = this.decryptedData.search(/^--/m);
+    let m2 = this.decryptedData.search(/\r?\n\r?\n/);
+    let m = Math.max(m1, m2);
 
     let hdr = Cc["@mozilla.org/messenger/mimeheaders;1"].createInstance(Ci.nsIMimeHeaders);
     hdr.initialize(this.decryptedData.substr(0, m));
