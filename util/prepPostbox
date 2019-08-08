@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# add defines to all files
+
+if [ $# -lt 3 ]; then
+  echo "Usage: $0 {tbird|pbx} inputfile outputfile"
+  exit 1
+fi
+
+TARGET="$1"
+INP="$2"
+OUT="$3"
+if [ ! -f "$INP" ]; then
+  echo "Cannot find file ${INP}"
+  exit 1
+fi
+
+mkdir -p $(dirname "$OUT") || exit 1 
+
+if [ $TARGET = "tbird" ]; then
+  cat "$INP" > "$OUT"
+else
+  cat > "$OUT" <<EOT || exit 1
+var ChromeUtils = Components.utils;
+var Cu = Components.utils;
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+
+EOT
+
+  cat "$INP" >> $OUT || exit 1
+fi

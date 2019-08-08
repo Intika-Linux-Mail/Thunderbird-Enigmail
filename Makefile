@@ -34,8 +34,8 @@ check:
 	util/checkFiles.py
 
 eslint:
-	static_analysis/eslint ipc
 	static_analysis/eslint package
+	static_analysis/eslint ipc
 	static_analysis/eslint ui
 
 unit:

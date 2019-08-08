@@ -7,6 +7,8 @@ DEPTH		= ..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = $(DIST)/chrome/content/modules
+
 DIRS = cryptoAPI
 
 PREFFILES = prefs/defaultPrefs.js
@@ -72,6 +74,7 @@ MODFILES = \
            overlays.jsm \
            passwordCheck.jsm \
            passwords.jsm \
+           pbxCompat.jsm \
            pEp.jsm \
            pEpAdapter.jsm \
            pEpDecrypt.jsm \
@@ -116,14 +119,21 @@ ENIG_BUILD_DATE=$(shell TZ=UTC date $(DATE_FMT) -d "@$(SOURCE_DATE_EPOCH)" 2>/de
                         TZ=UTC date -r "$(SOURCE_DATE_EPOCH)" $(DATE_FMT) || \
                         TZ=UTC date $(DATE_FMT) )
 
-all: dirs deploy
+GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
 
-deploy: $(PREFFILES) $(MODFILES)
+$(GENDIR)/%.jsm: %.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+all: dirs build deploy
+
+build: $(GENFILES)
+
+deploy: $(PREFFILES)
 	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/preferences $(PREFFILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/modules $(MODFILES)
 	echo '"use strict";' > $(DIST)/chrome/content/modules/buildDate.jsm
 	echo 'var EXPORTED_SYMBOLS = ["EnigmailBuildDate"];' >> $(DIST)/chrome/content/modules/buildDate.jsm
 	echo 'var EnigmailBuildDate = { built: "$(ENIG_BUILD_DATE)" };' >> $(DIST)/chrome/content/modules/buildDate.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) bootstrap.js $(DIST)/bootstrap.js
 
 
 clean:

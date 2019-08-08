@@ -30,7 +30,6 @@ cd "$cwd"
 
 cp ${srcDir}/package/install.rdf ${targetDir}/install.rdf
 cp ${srcDir}/package/manifest.json ${targetDir}/manifest.json
-cp ${srcDir}/package/bootstrap.js ${targetDir}/bootstrap.js
 
 # Prepare chrome.manifest
 cat  ${srcDir}/package/chrome.manifest \

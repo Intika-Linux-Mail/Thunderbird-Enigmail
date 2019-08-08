@@ -6,6 +6,8 @@ DEPTH  = ../..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = $(DIST)/chrome/content/ui
+
 AM_FILES = am-enigprefs.xul
 
 UIFILES = \
@@ -128,9 +130,28 @@ UIFILES = \
 	updateGnuPG.js \
 	setupWizard2.js \
 	setupWizard2.xul
-	
-all: deploy
 
-deploy: $(UIFILES) $(AM_FILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/ui $(UIFILES)
+GENFILES = $(addprefix $(GENDIR)/,$(UIFILES))
+
+$(GENDIR)/%.js: %.js
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+$(GENDIR)/%.xul: %.xul
+	$(PYTHON) $(DEPTH)/util/Preprocessor.py -I $(INCLUDE) -o $@ $<
+
+$(GENDIR)/%.htm: %.htm
+	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/ui $<
+
+$(GENDIR)/%.html: %.html
+	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/ui $<
+
+all: build deploy
+
+build: $(GENFILES)
+	
+deploy: $(AM_FILES)
 	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content $(AM_FILES)
+
+clean:
+	$(DEPTH)/util/install -u $(DIST)/chrome/content/ui $(UIFILES)
+	$(DEPTH)/util/install -u $(DIST)/chrome/content $(AM_FILES)
