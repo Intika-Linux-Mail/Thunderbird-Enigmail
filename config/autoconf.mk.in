@@ -24,6 +24,7 @@ ifeq ($(ENABLE_POSTBOX),yes)
 TARGET_TOOL=pbx
 INCLUDE = $(DEPTH)/include/postbox.h
 else
-TARGET_TOOL=tbird                                                                                                   endif
+TARGET_TOOL=tbird
 INCLUDE = $(DEPTH)/include/tbird.h
+endif
 
