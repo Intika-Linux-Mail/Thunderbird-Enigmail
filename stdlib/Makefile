@@ -13,7 +13,6 @@ MODFILES = \
            compose.jsm \
            misc.jsm \
            msgHdrUtils.jsm \
-           openpgp-lib.jsm \
            openpgp.worker.js \
            web-streams.jsm
 
@@ -27,11 +26,11 @@ $(GENDIR)/%.js: %.js
 
 all: deploy
 
-createlib: 
-	cat openpgp-lib-head.js openpgp-lib.js openpgp-lib-tail.js > openpgp-lib.jsm
-
 deploy: createlib $(GENFILES)
 
+createlib: 
+	cat openpgp-lib-head.js openpgp-lib.js openpgp-lib-tail.js > openpgp-lib.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL)  openpgp-lib.jsm $(GENDIR)/openpgp-lib.jsm
 
 clean:
-	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules/stdlib $(MODFILES)
+	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules/stdlib $(MODFILES) openpgp-lib.jsm
