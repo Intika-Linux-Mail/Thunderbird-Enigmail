@@ -107,6 +107,7 @@ var EnigmailKey = {
     let keyList = [];
     let key = {};
     let blocks;
+    errorMsgObj.value = "";
 
     try {
       keyList = cApi.sync(cApi.getKeyListFromKeyBlock(keyBlockStr));
