@@ -61,7 +61,8 @@ function PgpMimeEncrypt(sMimeSecurityInfo) {
 
   if (EnigmailTb60Compat.isMessageUriInPgpMime()) {
     this.onDataAvailable = this.onDataAvailable68;
-  } else {
+  }
+  else {
     this.onDataAvailable = this.onDataAvailable60;
   }
 
@@ -312,76 +313,82 @@ PgpMimeEncrypt.prototype = {
 
     let allHdr = "";
 
-    let addrParser = jsmime.headerparser.parseAddressingHeader;
-    let newsParser = function(s) {
-      return jsmime.headerparser.parseStructuredHeader("Newsgroups", s);
-    };
-    let noParser = function(s) {
-      return s;
-    };
+    if (this.sendFlags & EnigmailConstants.ENCRYPT_HEADERS) {
+      let addrParser = jsmime.headerparser.parseAddressingHeader;
+      let newsParser = function(s) {
+        return jsmime.headerparser.parseStructuredHeader("Newsgroups", s);
+      };
+      let noParser = function(s) {
+        return s;
+      };
 
-    let h = {
-      from: {
-        field: "From",
-        parser: addrParser
-      },
-      replyTo: {
-        field: "Reply-To",
-        parser: addrParser
-      },
-      to: {
-        field: "To",
-        parser: addrParser
-      },
-      cc: {
-        field: "Cc",
-        parser: addrParser
-      },
-      newsgroups: {
-        field: "Newsgroups",
-        parser: newsParser
-      },
-      followupTo: {
-        field: "Followup-To",
-        parser: addrParser
-      },
-      messageId: {
-        field: "Message-Id",
-        parser: noParser
-      },
-      subject: {
-        field: "Subject",
-        parser: noParser
+      let h = {
+        from: {
+          field: "From",
+          parser: addrParser
+        },
+        replyTo: {
+          field: "Reply-To",
+          parser: addrParser
+        },
+        to: {
+          field: "To",
+          parser: addrParser
+        },
+        cc: {
+          field: "Cc",
+          parser: addrParser
+        },
+        newsgroups: {
+          field: "Newsgroups",
+          parser: newsParser
+        },
+        followupTo: {
+          field: "Followup-To",
+          parser: addrParser
+        },
+        messageId: {
+          field: "Message-Id",
+          parser: noParser
+        },
+        subject: {
+          field: "Subject",
+          parser: noParser
+        }
+      };
+
+      for (let i in h) {
+        if (this.msgCompFields[i] && this.msgCompFields[i].length > 0) {
+          allHdr += jsmime.headeremitter.emitStructuredHeader(h[i].field, h[i].parser(this.msgCompFields[i]), {});
+        }
       }
-    };
 
-    for (let i in h) {
-      if (this.msgCompFields[i] && this.msgCompFields[i].length > 0) {
-        allHdr += jsmime.headeremitter.emitStructuredHeader(h[i].field, h[i].parser(this.msgCompFields[i]), {});
+      if (this.cryptoMode == MIME_ENCRYPTED && this.originalSubject && this.originalSubject.length > 0) {
+        allHdr += jsmime.headeremitter.emitStructuredHeader("subject", this.originalSubject, {});
+      }
+
+      // special handling for references and in-reply-to
+
+      if (this.originalReferences && this.originalReferences.length > 0) {
+        allHdr += jsmime.headeremitter.emitStructuredHeader("references", this.originalReferences, {});
+
+        let bracket = this.originalReferences.lastIndexOf("<");
+        if (bracket >= 0) {
+          allHdr += jsmime.headeremitter.emitStructuredHeader("in-reply-to", this.originalReferences.substr(bracket), {});
+        }
       }
     }
 
-    if (this.cryptoMode == MIME_ENCRYPTED && this.originalSubject && this.originalSubject.length > 0) {
-      allHdr += jsmime.headeremitter.emitStructuredHeader("subject", this.originalSubject, {});
+    let w = `Content-Type: multipart/mixed; boundary="${this.encHeader}"`;
+
+    if (allHdr.length > 0) {
+      w += `;\r\n protected-headers="v1"\r\n${allHdr}`;
+    }
+    else {
+      w += '\r\n';
     }
 
-    // special handling for references and in-reply-to
-
-    if (this.originalReferences && this.originalReferences.length > 0) {
-      allHdr += jsmime.headeremitter.emitStructuredHeader("references", this.originalReferences, {});
-
-      let bracket = this.originalReferences.lastIndexOf("<");
-      if (bracket >= 0) {
-        allHdr += jsmime.headeremitter.emitStructuredHeader("in-reply-to", this.originalReferences.substr(bracket), {});
-      }
-    }
-
-    let w = 'Content-Type: multipart/mixed; boundary="' + this.encHeader + '";\r\n' +
-      ' protected-headers="v1"\r\n' +
-      allHdr +
-      this.getAutocryptGossip() + '\r\n' +
-      "--" + this.encHeader + "\r\n";
-
+    w +=  this.getAutocryptGossip() + `\r\n--${this.encHeader}\r\n`;
     this.writeToPipe(w);
 
     if (this.cryptoMode == MIME_SIGNED) this.writeOut(w);
