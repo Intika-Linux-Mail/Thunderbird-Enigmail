@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+#
+# This script generates the Enigmail XPI
+#
+
+echo "prepPackage: Generating pakage files for version $1 in $2"
+
+if [ $# -lt 2 ]; then
+  echo "Wrong number of parameters"
+  exit 1
+fi
+
+enigmailVersion=$1
+distDir="$2"
+
+for f in manifest.json install.rdf ; do
+
+sed 's/\${EnigmailVersion}/'${enigmailVersion}'/' < $f > $distDir/$f
+
+done

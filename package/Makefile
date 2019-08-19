@@ -134,12 +134,13 @@ deploy: $(PREFFILES)
 	echo 'var EXPORTED_SYMBOLS = ["EnigmailBuildDate"];' >> $(DIST)/chrome/content/modules/buildDate.jsm
 	echo 'var EnigmailBuildDate = { built: "$(ENIG_BUILD_DATE)" };' >> $(DIST)/chrome/content/modules/buildDate.jsm
 	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) bootstrap.js $(DIST)/bootstrap.js
+	$(DEPTH)/util/prepPackage $(XPI_MODULE_VERS) $(DIST)
 
 
 clean:
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/preferences $(PREFFILES)
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules $(MODFILES)
-	$(DEPTH)/util/install -u $(DIST)/bootstrap.js
+	$(DEPTH)/util/install -u $(DIST)/bootstrap.js $(DIST)/manifest.json $(DIST)/install.rdf
 
 .PHONY: dirs $(DIRS)
 

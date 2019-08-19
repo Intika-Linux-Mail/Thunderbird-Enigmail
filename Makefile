@@ -28,7 +28,7 @@ $(DIRS):
 	$(MAKE) -C $@
 
 xpi: $(DIRS)
-	$(srcdir)/util/genxpi $(XPIFILE) $(XPI_MODULE_VERS) $(DIST) $(srcdir) $(XPI_MODULE) $(ENABLE_LANG)
+	$(srcdir)/util/genxpi $(XPIFILE) $(TARGET_TOOL) $(DIST) $(srcdir) $(XPI_MODULE) $(ENABLE_LANG)
 
 check:
 	util/checkFiles.py

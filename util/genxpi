@@ -16,7 +16,7 @@ if [ $# -lt 5 ]; then
 fi
 
 xpiFile=$1
-xpiVersion="$2"
+targetTool="$2"
 distDir="$3"
 srcDir=$4
 xpiModule=$5
@@ -27,9 +27,6 @@ cwd=`pwd`
 cd "$distDir"
 targetDir=`pwd`
 cd "$cwd"
-
-cp ${srcDir}/package/install.rdf ${targetDir}/install.rdf
-cp ${srcDir}/package/manifest.json ${targetDir}/manifest.json
 
 # Prepare chrome.manifest
 cat  ${srcDir}/package/chrome.manifest \
@@ -48,6 +45,14 @@ if [ "$enableLang" = "yes" ]; then
   fi
 fi
 
+# define which package file to include in package
+
+if [ "${targetTool}" = "tbird" ]; then
+  # Thunderbird (Gecko 68 or newer)
+  pkgFile=manifest.json
+else
+  pkgFile=install.rdf
+fi
 
 cd "$targetDir"
 
@@ -192,5 +197,4 @@ zip -9 \
     chrome/locale/*/help/*.* \
     bootstrap.js \
     chrome.manifest \
-    install.rdf \
-    manifest.json
+    ${pkgFile}

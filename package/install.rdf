@@ -1,1 +1,41 @@
-This file exists as a placeholder until https://bugzilla.mozilla.org/show_bug.cgi?id=1472123 is fixed.
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <!-- NOTE: This file must not be used for Gecko 68+ (Thunderbid 68+) -->
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>{847b3a00-7ab1-11d4-8f02-006008948af5}</em:id>
+    <em:version>${EnigmailVersion}</em:version>
+    <em:type>2</em:type> <!-- type = extension -->
+    <em:bootstrap>true</em:bootstrap>
+
+    <!-- Target Applications this extension can install into,
+         with minimum and maximum supported versions. -->
+
+    <em:targetApplication>
+      <!-- Postbox -->
+      <Description>
+        <em:id>postbox@postbox-inc.com</em:id>
+        <em:minVersion>6.1</em:minVersion>
+        <em:maxVersion>7.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <em:updateURL>https://enigmail.net/service/getEnigmailUpdate.svc</em:updateURL>
+
+    <!-- Front End MetaData -->
+    <em:name>Enigmail</em:name>
+    <em:description>OpenPGP message encryption and authentication</em:description>
+    <em:creator>Enigmail Team</em:creator>
+    <em:homepageURL>https://www.enigmail.net/</em:homepageURL>
+
+    <!-- Front End Integration Hooks (used by Extension Manager)-->
+    <em:aboutURL>chrome://enigmail/content/enigmailAbout.xul</em:aboutURL>
+    <em:optionsURL>chrome://enigmail/content/pref-enigmail.xul</em:optionsURL>
+    <em:iconURL>chrome://enigmail/skin/enigmail-about.svg</em:iconURL>
+
+  </Description>
+
+</RDF>
