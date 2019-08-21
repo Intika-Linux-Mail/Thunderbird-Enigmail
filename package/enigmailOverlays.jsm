@@ -60,13 +60,13 @@ const overlays = {
   // main mail reading window
   "chrome://messenger/content/messenger.xul": [
     "columnOverlay.xul", {
-      // Overlay for Thunderbird (and other non-SeaMonkey apps)
+      // Overlay for Thunderbird
       url: "messengerOverlay-tbird.xul",
-      application: "!{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+      application: "!postbox@postbox-inc.com"
     }, {
-      // Overlay for SeaMonkey
-      url: "messengerOverlay-sm.xul",
-      application: "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+      // Overlay for Postbox
+      url: "messengerOverlay-pbx.xul",
+      application: "postbox@postbox-inc.com"
     },
     "enigmailMessengerOverlay.xul",
     "enigmailMsgHdrViewOverlay.xul"
@@ -74,26 +74,26 @@ const overlays = {
 
   // single message reader window
   "chrome://messenger/content/messageWindow.xul": [{
-      // Overlay for Thunderbird (and other non-SeaMonkey apps)
+      // Overlay for Thunderbird
       url: "messengerOverlay-tbird.xul",
-      application: "!{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+      application: "!postbox@postbox-inc.com"
     }, {
-      // Overlay for SeaMonkey
-      url: "messengerOverlay-sm.xul",
-      application: "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+      // Overlay for Postbox
+      url: "messengerOverlay-pbx.xul",
+      application: "postbox@postbox-inc.com"
     },
     "enigmailMessengerOverlay.xul",
     "enigmailMsgHdrViewOverlay.xul"
   ],
 
   "chrome://messenger/content/messengercompose/messengercompose.xul": [{
-    // Overlay for Thunderbird (and other non-SeaMonkey apps)
+    // Overlay for Thunderbird
     url: "enigmailMsgComposeOverlay.xul",
-    application: "!{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+    application: "!postbox@postbox-inc.com"
   }, {
-    // Overlay for SeaMonkey
-    url: "enigmailMsgComposeOverlay-sm.xul",
-    application: "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+    // Overlay for Postbox
+    url: "enigmailMsgComposeOverlay-pbx.xul",
+    application: "postbox@postbox-inc.com"
   }],
 
   "chrome://messenger/content/FilterEditor.xul": ["enigmailFilterEditorOverlay.xul"],
@@ -106,7 +106,10 @@ const overlays = {
   "chrome://enigmail/content/ui/editSingleAccount.xul": ["enigmailEditIdentity.xul"],
 
   // Overlay for privacy preferences in Thunderbird
-  "chrome://messenger/content/preferences/preferences.xul": ["enigmailPrivacyOverlay.xul"],
+  "chrome://messenger/content/preferences/preferences.xul": [{
+    url: "enigmailPrivacyOverlay.xul",
+    application: "!postbox@postbox-inc.com"
+  }],
 
   // Overlay for Customize Toolbar (Windows, Linux)
   "chrome://messenger/content/customizeToolbar.xul": ["enigmailCustToolOverlay.xul"], // TB 60+
