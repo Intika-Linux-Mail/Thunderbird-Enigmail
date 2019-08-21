@@ -25,7 +25,7 @@ const EnigmailSingletons = ChromeUtils.import("chrome://enigmail/content/modules
 const EnigmailHttpProxy = ChromeUtils.import("chrome://enigmail/content/modules/httpProxy.jsm").EnigmailHttpProxy;
 const EnigmailCryptoAPI = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI.jsm").EnigmailCryptoAPI;
 const EnigmailAutocrypt = ChromeUtils.import("chrome://enigmail/content/modules/autocrypt.jsm").EnigmailAutocrypt;
-const EnigmailTb60Compat = ChromeUtils.import("chrome://enigmail/content/modules/tb60compat.jsm").EnigmailTb60Compat;
+const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 
 const APPSHELL_MEDIATOR_CONTRACTID = "@mozilla.org/appshell/window-mediator;1";
 const PGPMIME_JS_DECRYPTOR_CONTRACTID = "@mozilla.org/mime/pgp-mime-js-decrypt;1";
@@ -137,7 +137,7 @@ function MimeDecryptHandler() {
   this.dataIsBase64 = null;
   this.base64Cache = "";
 
-  if (EnigmailTb60Compat.isMessageUriInPgpMime()) {
+  if (EnigmailCompat.isMessageUriInPgpMime()) {
     this.onDataAvailable = this.onDataAvailable68;
   } else {
     this.onDataAvailable = this.onDataAvailable60;
@@ -419,9 +419,7 @@ MimeDecryptHandler.prototype = {
           let manUrl = {};
 
           if (EnigmailVerify.getManualUri()) {
-            let msgSvc = messenger.messageServiceFromURI(EnigmailVerify.getManualUri());
-
-            msgSvc.GetUrlForUri(EnigmailVerify.getManualUri(), manUrl, null);
+            manUrl.value = EnigmailCompat.getUrlFromUriSpec(EnigmailVerify.getManualUri());
           } else {
             manUrl.value = {
               spec: "enigmail://invalid/message"
@@ -440,9 +438,7 @@ MimeDecryptHandler.prototype = {
         }
 
         if (this.msgUriSpec) {
-          let msgSvc = messenger.messageServiceFromURI(this.msgUriSpec);
-
-          msgSvc.GetUrlForUri(this.msgUriSpec, url, null);
+          url.value = EnigmailCompat.getUrlFromUriSpec(this.msgUriSpec);
         }
 
         if (this.uri.spec.search(/[&?]header=[^&]+/) > 0 &&

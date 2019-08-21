@@ -12,7 +12,7 @@
 /* global currentHeaderData: false, gViewAllHeaders: false, gExpandedHeaderList: false, goDoCommand: false, HandleSelectedAttachments: false */
 /* global statusFeedback: false, displayAttachmentsForExpandedView: false, gMessageListeners: false, gExpandedHeaderView */
 
-var EnigmailTb60Compat = ChromeUtils.import("chrome://enigmail/content/modules/tb60compat.jsm").EnigmailTb60Compat;
+var EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 var EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 var EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
 var EnigmailMsgRead = ChromeUtils.import("chrome://enigmail/content/modules/msgRead.jsm").EnigmailMsgRead;
@@ -1885,7 +1885,7 @@ Enigmail.msg = {
     var msgSvc = messenger.messageServiceFromURI(msgUriSpec);
 
     var listener = {
-      QueryInterface: EnigmailTb60Compat.generateQI(["nsIStreamListener"]),
+      QueryInterface: EnigmailCompat.generateQI(["nsIStreamListener"]),
       onStartRequest: function() {
         this.data = "";
         this.inStream = Cc["@mozilla.org/scriptableinputstream;1"].createInstance(Ci.nsIScriptableInputStream);
@@ -1921,7 +1921,7 @@ Enigmail.msg = {
       }
     };
 
-    if (EnigmailTb60Compat.isMessageUriInPgpMime()) {
+    if (EnigmailCompat.isMessageUriInPgpMime()) {
       // TB >= 67
       listener.onDataAvailable = function(req, stream, offset, count) {
         this.inStream.init(stream);

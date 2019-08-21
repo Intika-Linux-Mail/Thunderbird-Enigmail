@@ -74,7 +74,6 @@ MODFILES = \
            overlays.jsm \
            passwordCheck.jsm \
            passwords.jsm \
-           pbxCompat.jsm \
            pEp.jsm \
            pEpAdapter.jsm \
            pEpDecrypt.jsm \
@@ -95,7 +94,7 @@ MODFILES = \
            stdlib.jsm \
            streams.jsm \
            system.jsm \
-           tb60compat.jsm \
+           compat.jsm \
            time.jsm \
            timer.jsm \
            tor.jsm \

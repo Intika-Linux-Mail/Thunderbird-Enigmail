@@ -54,6 +54,7 @@ const {
 } =ChromeUtils.import("resource:///modules/iteratorUtils.jsm");
 const Services = ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 const MailServices = ChromeUtils.import("resource:///modules/MailServices.jsm").MailServices;
+const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 
 const {
   gIdentities,
@@ -459,11 +460,9 @@ function msgHdrsModifyRaw(aMsgHdrs, aTransformer) {
       msgHdr, tempFile
     } = obj;
 
-    MailServices.copy.CopyFileMessage(
+    EnigmailCompat.copyFileToMailFolder(
       tempFile,
       msgHdr.folder,
-      null,
-      false,
       msgHdr.flags,
       msgHdr.getStringProperty("keywords"), {
         QueryInterface: XPCOMUtils.generateQI([Ci.nsIMsgCopyServiceListener]),

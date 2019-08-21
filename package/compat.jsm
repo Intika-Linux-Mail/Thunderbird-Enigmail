@@ -1,22 +1,19 @@
-/*
- * This Source Code Form is subject to the terms of the Mozilla Public
+/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at https://mozilla.org/MPL/2.0/.
- */
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 "use strict";
 
-var EXPORTED_SYMBOLS = ["EnigmailPbxCompat"];
+/**
+ *  TB / Postbox compatibility Module
+ */
+
+var EXPORTED_SYMBOLS = ["EnigmailCompat"];
 
 const POSTBOX_ID = "postbox@postbox-inc.com";
 const XPCOM_APPINFO = "@mozilla.org/xre/app-info;1";
 
 var gIsPostbox = null;
-
-/**
- * Message-reading related functions
- */
-
 var MailUtils;
 
 try {
@@ -28,7 +25,52 @@ catch (x) {
   MailUtils = ChromeUtils.import("resource:///modules/MailUtils.jsm").MailUtils;
 }
 
-var EnigmailPbxCompat = {
+var gCompFields, gPgpMimeObj;
+
+var EnigmailCompat = {
+  generateQI: function(aCid) {
+    if ("generateQI" in ChromeUtils) {
+      // TB > 60
+      return ChromeUtils.generateQI(aCid);
+    } else {
+      let XPCOMUtils = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm").XPCOMUtils;
+      return XPCOMUtils.generateQI(aCid);
+    }
+  },
+
+  getSecurityField: function() {
+    if (!gCompFields) {
+      gCompFields = Cc["@mozilla.org/messengercompose/composefields;1"].createInstance(Ci.nsIMsgCompFields);
+    }
+    return ("securityInfo" in gCompFields ? /* TB < 64 */ "securityInfo" : "composeSecure");
+  },
+
+  getExistingFolder: function(folderUri) {
+    if ("getExistingFolder" in MailUtils) {
+      // TB >= 65
+      return MailUtils.getExistingFolder(folderUri);
+    } else {
+      return MailUtils.getFolderForURI(folderUri, false);
+    }
+  },
+
+  isMessageUriInPgpMime: function() {
+    if (!gPgpMimeObj) {
+      gPgpMimeObj = Cc["@mozilla.org/mime/pgp-mime-js-decrypt;1"].createInstance(Ci.nsIPgpMimeProxy);
+    }
+
+    return ("messageURI" in gPgpMimeObj);
+  },
+
+  /**
+   * return true, if platform is newer than or equal a given version
+   */
+  isPlatformNewerThan: function(requestedVersion) {
+    let vc = Cc["@mozilla.org/xpcom/version-comparator;1"].getService(Ci.nsIVersionComparator);
+    let appVer = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo).platformVersion;
+
+    return vc.compare(appVer, requestedVersion) >= 0;
+  },
 
   /**
    * Get a mail URL from a uriSpec
@@ -70,7 +112,6 @@ var EnigmailPbxCompat = {
       return null;
     }
   },
-
   /**
    * Copy a file to a mail folder.
    *   in nsIFile aFile,
@@ -92,21 +133,10 @@ var EnigmailPbxCompat = {
       return copySvc.CopyFileMessage(file, destFolder, null, false, msgFlags, msgKeywords, listener, msgWindow);
     }
 
-  },
-
-  getExistingFolder: function(folderUri) {
-    if ("getExistingFolder" in MailUtils) {
-      // TB >= 65
-      return MailUtils.getExistingFolder(folderUri);
-    }
-    else {
-      return MailUtils.getFolderForURI(folderUri, false);
-    }
   }
-};
+ };
 
-
-function isPostbox() {
+ function isPostbox() {
   // return true if Postbox, false otherwise
 
   if (gIsPostbox !== null) return gIsPostbox;

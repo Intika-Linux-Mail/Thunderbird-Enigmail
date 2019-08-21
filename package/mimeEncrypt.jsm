@@ -14,7 +14,7 @@ var EXPORTED_SYMBOLS = ["EnigmailMimeEncrypt"];
 const Cr = Components.results;
 
 const jsmime = ChromeUtils.import("resource:///modules/jsmime.jsm").jsmime;
-const EnigmailTb60Compat = ChromeUtils.import("chrome://enigmail/content/modules/tb60compat.jsm").EnigmailTb60Compat;
+const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 const EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
 const EnigmailDialog = ChromeUtils.import("chrome://enigmail/content/modules/dialog.jsm").EnigmailDialog;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
@@ -59,7 +59,7 @@ function PgpMimeEncrypt(sMimeSecurityInfo) {
   this.originalSubject = null;
   this.keyMap = {};
 
-  if (EnigmailTb60Compat.isMessageUriInPgpMime()) {
+  if (EnigmailCompat.isMessageUriInPgpMime()) {
     this.onDataAvailable = this.onDataAvailable68;
   }
   else {
@@ -90,7 +90,7 @@ PgpMimeEncrypt.prototype = {
       return PGPMIME_ENCRYPT_CONTRACTID;
     }
   },
-  QueryInterface: EnigmailTb60Compat.generateQI([
+  QueryInterface: EnigmailCompat.generateQI([
     "nsIMsgComposeSecure",
     "nsIStreamListener",
     "nsIMsgSMIMECompFields" // TB < 64
