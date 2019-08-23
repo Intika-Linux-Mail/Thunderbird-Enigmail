@@ -5,11 +5,8 @@
 "use strict";
 
 const {
-  classes: Cc,
-  interfaces: Ci,
   manager: Cm,
   results: Cr,
-  utils: Cu,
   Constructor: CC
 } = Components;
 Cm.QueryInterface(Ci.nsIComponentRegistrar);

@@ -134,7 +134,7 @@ UIFILES = \
 GENFILES = $(addprefix $(GENDIR)/,$(UIFILES))
 
 $(GENDIR)/%.js: %.js
-	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+	$(DEPTH)/util/prepPostbox -c $(TARGET_TOOL) $< $@
 
 $(GENDIR)/%.xul: %.xul
 	$(PYTHON) $(DEPTH)/util/Preprocessor.py -I $(INCLUDE) -o $@ $<

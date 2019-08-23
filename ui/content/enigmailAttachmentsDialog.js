@@ -12,6 +12,10 @@
 
 "use strict";
 
+var Cu = Components.utils;
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+
 // Initialize enigmailCommon
 EnigInitCommon("enigmailAttachmentsDialog");
 

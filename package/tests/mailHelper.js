@@ -7,7 +7,14 @@
 
 "use strict";
 
-var MailServices = component("/modules/MailServices.jsm").MailServices;
+var MailServices;
+try {
+  MailServices = component("/modules/MailServices.jsm").MailServices;
+}
+catch (x){
+  MailServices = component("/modules/MailServices.js").MailServices;
+}
+
 var EnigmailFiles = component("enigmail/files.jsm").EnigmailFiles;
 //component("/modules/iteratorUtils.jsm");
 

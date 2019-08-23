@@ -7,6 +7,10 @@
 
 "use strict";
 
+var Cu = Components.utils;
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+
 /**
  * helper functions for message composition
  */

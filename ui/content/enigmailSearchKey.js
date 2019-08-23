@@ -7,6 +7,10 @@
 
 "use strict";
 
+var Cu = Components.utils;
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+
 /* from EnigmailCommon.js: */
 /* global EnigSetActive: false, ENIG_KEY_EXPIRED: false, ENIG_KEY_NOT_VALID: false */
 

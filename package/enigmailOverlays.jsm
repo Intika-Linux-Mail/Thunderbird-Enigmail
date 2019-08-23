@@ -34,12 +34,6 @@
 
 var EXPORTED_SYMBOLS = ["EnigmailOverlays"];
 
-const {
-  classes: Cc,
-  interfaces: Ci,
-  utils: Cu
-} = Components;
-
 const APP_STARTUP = 1;
 const APP_SHUTDOWN = 2;
 

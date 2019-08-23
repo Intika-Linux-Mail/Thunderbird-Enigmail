@@ -139,7 +139,7 @@ deploy: $(PREFFILES)
 clean:
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/preferences $(PREFFILES)
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules $(MODFILES)
-	$(DEPTH)/util/install -u $(DIST)/bootstrap.js $(DIST)/manifest.json $(DIST)/install.rdf
+	$(DEPTH)/util/install -u $(DIST) bootstrap.js manifest.json install.rdf chrome.manifest
 
 .PHONY: dirs $(DIRS)
 
