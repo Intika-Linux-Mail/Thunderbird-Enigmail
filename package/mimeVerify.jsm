@@ -426,18 +426,16 @@ MimeVerify.prototype = {
           let manUrl = {};
 
           if (EnigmailVerify.getManualUri()) {
-            let msgSvc = messenger.messageServiceFromURI(EnigmailVerify.getManualUri());
-
-            msgSvc.GetUrlForUri(EnigmailVerify.getManualUri(), manUrl, null);
+            manUrl = EnigmailCompat.getUrlFromUriSpec(EnigmailVerify.getManualUri());
           } else {
-            manUrl.value = {
+            manUrl = {
               spec: "enigmail://invalid/message"
             };
           }
 
           // print a message if not message explicitly decrypted
           let currUrlSpec = this.uri.spec.replace(/(\?.*)(number=[0-9]*)(&.*)?$/, "?$2");
-          let manUrlSpec = manUrl.value.spec.replace(/(\?.*)(number=[0-9]*)(&.*)?$/, "?$2");
+          let manUrlSpec = manUrl.spec.replace(/(\?.*)(number=[0-9]*)(&.*)?$/, "?$2");
 
 
           if ((!this.backgroundJob) && currUrlSpec != manUrlSpec) {
@@ -446,9 +444,7 @@ MimeVerify.prototype = {
         }
 
         if (this.msgUriSpec) {
-          let msgSvc = messenger.messageServiceFromURI(this.msgUriSpec);
-
-          msgSvc.GetUrlForUri(this.msgUriSpec, url, null);
+          url = EnigmailCompat.getUrlFromUriSpec(this.msgUriSpec);
         }
 
         if (this.uri.spec.search(/[&?]header=[a-zA-Z0-9]*$/) < 0 &&
@@ -458,17 +454,17 @@ MimeVerify.prototype = {
           if (this.uri.spec.search(/[&?]header=filter&.*$/) > 0)
             return;
 
-          if (this.uri && url && url.value) {
+          if (this.uri && url) {
 
             if ("path" in url) {
               // TB < 57
-              if (url.value.host !== this.uri.host ||
-                url.value.path !== this.uri.path)
+              if (url.host !== this.uri.host ||
+                url.path !== this.uri.path)
                 return;
             } else {
               // TB >= 57
-              if (url.value.host !== this.uri.host ||
-                url.value.pathQueryRef !== this.uri.pathQueryRef)
+              if (url.host !== this.uri.host ||
+                url.pathQueryRef !== this.uri.pathQueryRef)
                 return;
             }
           }

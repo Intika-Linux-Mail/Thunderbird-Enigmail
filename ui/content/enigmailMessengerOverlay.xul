@@ -31,6 +31,7 @@
     <broadcaster id="enigmail-pEp-bc" collapsed="true"/>
   </broadcasterset>
 
+#ifndef POSTBOX
   <!-- Thunderbird secondary pane -->
 
   <panelmultiview id="appMenu-multiView">
@@ -254,9 +255,14 @@
       </vbox>
     </panelview>
   </panelmultiview>
+#endif
 
   <!-- Menu content for all apps -->
+#ifndef POSTBOX
   <menubar id="mail-menubar">
+#else
+  <menubar id="enigmailHdrWrapper">
+#endif
     <menu id="menu_Enigmail"
           label="&enigmail.label;"
           enigmaillabel="&enigmail.label;"
@@ -343,6 +349,7 @@
           </menupopup>
         </menu>
 
+#ifndef POSTBOX
         <menu
             id="enigmailDecryptToFolder"
             label="&enigmail.decryptToFolder.label;"
@@ -362,6 +369,7 @@
                      favoritesAccessKey="&contextMoveCopyMsgFavoritesMenu.accesskey;"
                      hasbeenopened="false" />
         </menu>
+#endif
 
         <menuseparator enigmailtype="enigmail"/>
 
@@ -446,8 +454,10 @@
                  recentLabel="&enigmail.recent.label;"
                  recentAccessKey="&enigmail.recent.accesskey;"
                  showFavorites="true"
+#ifndef POSTBOX
                  favoritesLabel="&contextMoveCopyMsgFavoritesMenu.label;"
                  favoritesAccessKey="&contextMoveCopyMsgFavoritesMenu.accesskey;"
+#endif
                  hasbeenopened="false" />
     </menu>
   </menupopup>
@@ -576,8 +586,13 @@
   </vbox>
 
 
+#ifndef POSTBOX
   <!-- Thunderbird -->
   <popup id="attachmentItemContext" onpopupshowing="return Enigmail.hdrView.enigOnShowAttachmentContextMenu();">
+#else
+  <!-- Postbox -->
+  <popup id="msgPaneAttachmentContextMenu">
+#endif
     <menuseparator/>
     <menuitem id="enigmail_ctxImportKey"
       label="&enigmail.ctxImportKey.label;"

@@ -132,8 +132,9 @@ var EnigmailCompat = {
       // TB
       return copySvc.CopyFileMessage(file, destFolder, null, false, msgFlags, msgKeywords, listener, msgWindow);
     }
+  },
 
-  }
+  isPostbox: isPostbox
  };
 
  function isPostbox() {

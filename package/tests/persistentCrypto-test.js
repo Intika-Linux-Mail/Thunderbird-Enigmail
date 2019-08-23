@@ -12,6 +12,7 @@ TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
 
 testing("persistentCrypto.jsm"); /*global EnigmailPersistentCrypto: false, EnigmailMime: false */
 var EnigmailKeyRing = component("enigmail/keyRing.jsm").EnigmailKeyRing;
+var EnigmailCompat = component("enigmail/compat.jsm").EnigmailCompat;
 /*global MsgHdrToMimeMessage: false, MimeMessage: false, MimeContainer: false, EnigmailStreams: false */
 
 const inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
@@ -85,14 +86,11 @@ test(withTestGpgHome(withEnigmail(function messageIsMovedAndDecrypted() {
   Assert.ok(dispatchedHeader !== null);
 
   let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
-  const msgSvc = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger).messageServiceFromURI(msgUriSpec);
-
-  let urlObj = {};
-  msgSvc.GetUrlForUri(msgUriSpec, urlObj, null);
+  let urlObj = EnigmailCompat.getUrlFromUriSpec(msgUriSpec);
 
   do_test_pending();
   EnigmailMime.getMimeTreeFromUrl(
-    urlObj.value.spec,
+    urlObj.spec,
     true,
     function(mimeTree) {
       Assert.equal(mimeTree.subParts.length, 1);
@@ -126,14 +124,11 @@ test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndDecryp
   Assert.ok(dispatchedHeader !== null);
 
   let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
-  const msgSvc = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger).messageServiceFromURI(msgUriSpec);
-
-  let urlObj = {};
-  msgSvc.GetUrlForUri(msgUriSpec, urlObj, null);
+  let urlObj = EnigmailCompat.getUrlFromUriSpec(msgUriSpec);
 
   do_test_pending();
   EnigmailMime.getMimeTreeFromUrl(
-    urlObj.value.spec,
+    urlObj.spec,
     true,
     function(mimeTree) {
       Assert.assertContains(mimeTree.subParts[0].body, "This is encrypted");
@@ -169,14 +164,11 @@ test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndReEncr
   Assert.ok(dispatchedHeader !== null);
 
   let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
-  const msgSvc = Cc["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger).messageServiceFromURI(msgUriSpec);
-
-  let urlObj = {};
-  msgSvc.GetUrlForUri(msgUriSpec, urlObj, null);
+  let urlObj = EnigmailCompat.getUrlFromUriSpec(msgUriSpec);
 
   do_test_pending();
   EnigmailMime.getMimeTreeFromUrl(
-    urlObj.value.spec,
+    urlObj.spec,
     true,
     function(mimeTree) {
       Assert.assertContains(mimeTree.headers._rawHeaders.get("content-type")[0], "multipart/encrypted");

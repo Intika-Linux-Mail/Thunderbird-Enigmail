@@ -78,7 +78,6 @@ SKIN_TB_WIN_XP = \
 	images/headerUnprotected-18.svg
 
 SKIN_AERO = \
-	tb-aero/enigmail.css \
 	common/enigmail-common.css \
 	common/enigmail-pEp.css \
 	common/enigmail-html.css \
@@ -145,7 +144,6 @@ SKIN_AERO = \
 
 
 SKIN_TB_MAC = \
-	tb-mac/enigmail.css \
 	common/enigmail-common.css \
 	common/enigmail-pEp.css \
 	common/enigmail-html.css \
@@ -425,7 +423,14 @@ SKIN_MODERN = \
 	images/pEpEncryptInactive.svg \
 	images/pEpLogo.svg
 
-	
+ifeq ($(ENABLE_POSTBOX),yes)
+SKIN_AERO += postbox/win/enigmail.css
+SKIN_TB_MAC += postbox/mac/enigmail.css
+else
+SKIN_AERO += tb-aero/enigmail.css
+SKIN_TB_MAC += tb-mac/enigmail.css
+endif
+
 all: deploy
 
 deploy: $(UIFILES) $(SKIN_TB_WIN_XP) $(SKIN_AERO) $(SKIN_TB_MAC) $(SKIN_TB_LINUX) $(SKIN_CLASSIC_SEAMONKEY) $(SKIN_MODERN)

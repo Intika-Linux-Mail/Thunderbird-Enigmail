@@ -260,7 +260,40 @@ Enigmail.msg = {
 
   viewOpenpgpInfo: function() {
     if (Enigmail.msg.securityInfo) {
-      EnigmailDialog.info(window, EnigmailLocale.getString("securityInfo") + Enigmail.msg.securityInfo.statusInfo);
+      if (EnigmailCompat.isPostbox()) {
+        // Postbox
+        let op2Label = null;
+        let dlgOp2 = 0;
+        if (document.getElementById("enigmail_importKey").getAttribute("hidden") !== "true") {
+          op2Label = EnigmailLocale.getString("detailsDlg.importKey");
+          dlgOp2 = 1;
+        }
+        else if (this.securityInfo.keyId) {
+          op2Label = EnigmailLocale.getString("expiry.OpenKeyProperties");
+          dlgOp2 = 2;
+        }
+        let args = {
+          msgtext: EnigmailLocale.getString("securityInfo") + Enigmail.msg.securityInfo.statusInfo,
+          dialogTitle: EnigmailLocale.getString("securityInfo"),
+          iconType: 1,
+          button2: op2Label
+        };
+        let r = EnigmailDialog.msgBox(window, args);
+        if (r === 1) {
+          switch (dlgOp2) {
+            case 1:
+              Enigmail.msg.handleUnknownKey();
+              break;
+            case 2:
+              Enigmail.hdrView.dispKeyDetails();
+              break;
+          }
+        }
+      }
+      else {
+        // Thunderbird
+        EnigmailDialog.info(window, EnigmailLocale.getString("securityInfo") + Enigmail.msg.securityInfo.statusInfo);
+      }
     }
   },
 
@@ -415,6 +448,7 @@ Enigmail.msg = {
   },
 
   setMainMenuLabel: function() {
+    if (EnigmailCompat.isPostbox()) return;
     let usePep = EnigmailPEPAdapter.usingPep();
     let o = ["menu_Enigmail", "appmenu-Enigmail"];
 
@@ -865,6 +899,16 @@ Enigmail.msg = {
     }
   },
 
+  getPostboxNumContainers: function() {
+    if (EnigmailCompat.isPostbox()) {
+      let contentDocument = document.getElementById('messagepane').contentDocument;
+      let messageContainers = contentDocument.getElementsByClassName('message-container');
+      return messageContainers.length;
+    }
+    else
+      return -1;
+  },
+
   // display header about reparing buggy MS-Exchange messages
   buggyMailHeader: function() {
     let uriStr = EnigmailURIs.createMessageURI(this.getCurrentMsgUrl(),
@@ -878,10 +922,10 @@ Enigmail.msg = {
     Enigmail.hdrView.headerPane.updateSecurityStatus("", 0, 0, "", "", "", "", "", uri, "", "1");
   },
 
-  messageParse: function(interactive, importOnly, contentEncoding, msgUriSpec, isAuto) {
+  messageParse: function(interactive, importOnly, contentEncoding, msgUriSpec, isAuto, pbMessageIndex = '0') {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: messageParse: " + interactive + "\n");
 
-    var bodyElement = this.getBodyElement();
+    var bodyElement = this.getBodyElement(pbMessageIndex);
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: bodyElement=" + bodyElement + "\n");
 
     if (!bodyElement) {
@@ -903,7 +947,14 @@ Enigmail.msg = {
           // --> don't try to decrypt displayed inline attachments
           break;
         }
-        if (node.nodeName == "DIV") {
+        if (node.firstChild &&
+          node.firstChild.nodeName.toUpperCase() == "LEGEND" &&
+          node.firstChild.className == "mimeAttachmentHeaderName") {
+          // we reached the area where inline attachments are displayed
+          // --> don't try to decrypt displayed inline attachments
+          break;
+        }
+        if (node.nodeName === "DIV") {
           foundIndex = node.textContent.indexOf(findStr);
 
           if (foundIndex >= 0) {
@@ -1036,7 +1087,7 @@ Enigmail.msg = {
 
     Enigmail.msg.messageParseCallback(msgText, contentEncoding, charset, interactive,
       importOnly, urlSpec, "", retry, head, tail,
-      msgUriSpec, isAuto);
+      msgUriSpec, isAuto, pbMessageIndex);
   },
 
   hasInlineQuote: function(node) {
@@ -1080,15 +1131,30 @@ Enigmail.msg = {
     return 0;
   },
 
-  getBodyElement: function() {
-    let msgFrame = EnigmailWindows.getFrame(window, "messagepane");
-    let bodyElement = msgFrame.document.getElementsByTagName("body")[0];
+  getBodyElement: function(pbMessageIndex = '0') {
+    let bodyElement = null;
+
+    if (!EnigmailCompat.isPostbox()) {
+      // Thunderbird
+      let msgFrame = EnigmailWindows.getFrame(window, "messagepane");
+      bodyElement = msgFrame.document.getElementsByTagName("body")[0];
+    }
+    else {
+      // Postbox
+      let messagePaneDocument = document.getElementById('messagepane').contentDocument;
+      let iframe = messagePaneDocument.getElementById('flyingpigs' + pbMessageIndex);
+      if (iframe) {
+        bodyElement = iframe.contentDocument.getElementsByTagName("body")[0];
+      }
+      else return null;
+    }
     return bodyElement;
   },
 
 
   messageParseCallback: function(msgText, contentEncoding, charset, interactive,
-    importOnly, messageUrl, signature, retry, head, tail, msgUriSpec, isAuto) {
+    importOnly, messageUrl, signature, retry, head, tail, msgUriSpec, isAuto,
+    pbMessageIndex) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: messageParseCallback: " + interactive + ", " + interactive + ", importOnly=" + importOnly + ", charset=" + charset + ", msgUrl=" +
       messageUrl +
       ", retry=" + retry + ", signature='" + signature + "'\n");
@@ -1235,7 +1301,7 @@ Enigmail.msg = {
         Enigmail.msg.messageParseCallback(msgText, contentEncoding, charset,
           interactive, importOnly, messageUrl,
           signature, retry + 1,
-          head, tail, msgUriSpec, isAuto);
+          head, tail, msgUriSpec, isAuto, pbMessageIndex);
         return;
       }
       else if (retry == 2) {
@@ -1251,7 +1317,7 @@ Enigmail.msg = {
         msgText = EnigmailData.convertToUnicode(msgText, "UTF-8");
         Enigmail.msg.messageParseCallback(msgText, contentEncoding, charset, interactive,
           importOnly, messageUrl, null, retry + 1,
-          head, tail, msgUriSpec, isAuto);
+          head, tail, msgUriSpec, isAuto, pbMessageIndex);
         return;
       }
     }
@@ -1355,7 +1421,7 @@ Enigmail.msg = {
 
     Enigmail.msg.noShowReload = true;
     var node;
-    var bodyElement = Enigmail.msg.getBodyElement();
+    var bodyElement = Enigmail.msg.getBodyElement(pbMessageIndex);
 
     if (bodyElement.firstChild) {
       node = bodyElement.firstChild;
@@ -2015,22 +2081,25 @@ Enigmail.msg = {
   // handle a selected attachment (decrypt & open or save)
   handleAttachmentSel: function(actionType) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: handleAttachmentSel: actionType=" + actionType + "\n");
-    var selectedAttachments;
-    var anAttachment;
 
-    // Thunderbird
-    var contextMenu = document.getElementById('attachmentItemContext');
+    let selectedAttachments, anAttachment, contextMenu;
 
-    if (contextMenu) {
-      // Thunderbird
-      selectedAttachments = contextMenu.attachments;
+    if (EnigmailCompat.isPostbox()) {
+      // Postbox
+      contextMenu = document.getElementById('msgPaneAttachmentContextMenu');
+      /* global gatherSelectedAttachmentsForMessage: false */
+      selectedAttachments = gatherSelectedAttachmentsForMessage(contextMenu.target);
       anAttachment = selectedAttachments[0];
     }
     else {
-      // SeaMonkey
-      contextMenu = document.getElementById('attachmentListContext');
-      selectedAttachments = document.getElementById('attachmentList').selectedItems;
-      anAttachment = selectedAttachments[0].attachment;
+      // Thunderbird
+      contextMenu = document.getElementById('attachmentItemContext');
+
+      if (contextMenu) {
+        // Thunderbird
+        selectedAttachments = contextMenu.attachments;
+        anAttachment = selectedAttachments[0];
+      }
     }
 
     switch (actionType) {
