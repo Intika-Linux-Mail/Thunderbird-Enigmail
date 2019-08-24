@@ -12,8 +12,8 @@ TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
 
 testing("persistentCrypto.jsm"); /*global EnigmailPersistentCrypto: false, EnigmailMime: false */
 var EnigmailKeyRing = component("enigmail/keyRing.jsm").EnigmailKeyRing;
-var EnigmailCompat = component("enigmail/compat.jsm").EnigmailCompat;
-/*global MsgHdrToMimeMessage: false, MimeMessage: false, MimeContainer: false, EnigmailStreams: false */
+/*global MsgHdrToMimeMessage: false, MimeMessage: false, MimeContainer: false, EnigmailStreams: false,
+  EnigmailCompat: false */
 
 const inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
 
