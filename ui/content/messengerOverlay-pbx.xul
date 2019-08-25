@@ -29,4 +29,8 @@
     <command id="button_enigmail_decrypt"/>
   </commandset>
 
+  <keyset id="mailKeys">
+    <key id="enigmailAboutKey" key="A" modifiers="shift alt" oncommand="EnigmailWindows.openAboutWindow();"/>
+  </keyset>
+
 </overlay>
