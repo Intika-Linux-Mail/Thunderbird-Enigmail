@@ -711,6 +711,7 @@ Enigmail.msg = {
     bc.removeAttribute("overlay_source");
 
     // check rules for status bar icons on each change of the recipients
+    // Thunderbird
     var adrCol = document.getElementById("addressCol2#1"); // recipients field
     if (adrCol) {
       let attr = adrCol.getAttribute("oninput");
@@ -724,6 +725,14 @@ Enigmail.msg = {
       let attr = adrCol.getAttribute("oncommand");
       adrCol.setAttribute("oncommand", attr + "; Enigmail.msg.addressOnChange(this);");
       adrCol.setAttribute("observes", "enigmail-bc-sendprocess");
+    }
+
+    // Postbox
+    for (let i of ["toRow", "ccRow", "bccRow", "newsgroupsRow", "replyRow"]) {
+      adrCol = document.getElementById(i);
+      if (adrCol) {
+        adrCol.addEventListener("input", Enigmail.msg.addressOnChange.bind(Enigmail.msg), true);
+      }
     }
 
     var draftId = gMsgCompose.compFields.draftId;
