@@ -23,6 +23,11 @@ if [ ! -f "$INP" ]; then
   exit 1
 fi
 
+## Special handling for pEp-nonfunc.jsm (make pEp non-working)
+if [ $(basename "$INP") = "pEp-nonfunc.jsm" ]; then
+  OUT=$(dirname $OUT)/pEp.jsm
+fi
+
 mkdir -p $(dirname "$OUT") || exit 1
 
 if [ $TARGET = "tbird" ]; then
