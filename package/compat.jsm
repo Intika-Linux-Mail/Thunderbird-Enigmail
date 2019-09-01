@@ -144,10 +144,7 @@ var EnigmailCompat = {
    */
   isAtLeastTb68: function() {
     if (gTb68OrNewer === null) {
-      let version = Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).platformVersion;
-      let vc = Cc["@mozilla.org/xpcom/version-comparator;1"].getService(Ci.nsIVersionComparator);
-
-      gTb68OrNewer = (vc.compare(version, "68.0a1") >= 0);
+      gTb68OrNewer = this.isPlatformNewerThan("68.0a1");
     }
 
     return gTb68OrNewer;
