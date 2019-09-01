@@ -22,6 +22,8 @@ const EnigmailDns = ChromeUtils.import("chrome://enigmail/content/modules/dns.js
 const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;
 const EnigmailSqliteDb = ChromeUtils.import("chrome://enigmail/content/modules/sqliteDb.jsm").EnigmailSqliteDb;
 
+Components.utils.importGlobalProperties(["fetch"]);
+
 var EnigmailWkdLookup = {
 
   /**
