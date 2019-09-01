@@ -13,7 +13,8 @@ var EXPORTED_SYMBOLS = ["EnigmailCompat"];
 const POSTBOX_ID = "postbox@postbox-inc.com";
 const XPCOM_APPINFO = "@mozilla.org/xre/app-info;1";
 
-var gIsPostbox = null;
+var gIsPostbox = null,
+  gTb68OrNewer = null;
 var MailUtils;
 
 try {
@@ -32,7 +33,8 @@ var EnigmailCompat = {
     if ("generateQI" in ChromeUtils) {
       // TB > 60
       return ChromeUtils.generateQI(aCid);
-    } else {
+    }
+    else {
       let XPCOMUtils = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm").XPCOMUtils;
       return XPCOMUtils.generateQI(aCid);
     }
@@ -49,7 +51,8 @@ var EnigmailCompat = {
     if ("getExistingFolder" in MailUtils) {
       // TB >= 65
       return MailUtils.getExistingFolder(folderUri);
-    } else {
+    }
+    else {
       return MailUtils.getFolderForURI(folderUri, false);
     }
   },
@@ -134,14 +137,75 @@ var EnigmailCompat = {
     }
   },
 
-  isPostbox: isPostbox
- };
+  /**
+   * Determine if Platform is at version 68 or newer
+   *
+   * @return {Boolean}: true if at TB 68.0a1 or newer found
+   */
+  isAtLeastTb68: function() {
+    if (gTb68OrNewer === null) {
+      let version = Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).platformVersion;
+      let vc = Cc["@mozilla.org/xpcom/version-comparator;1"].getService(Ci.nsIVersionComparator);
 
- function isPostbox() {
+      gTb68OrNewer = (vc.compare(version, "68.0a1") >= 0);
+    }
+
+    return gTb68OrNewer;
+  },
+
+  /**
+   * Get functions that wrap the changes on nsITreeView between TB 60 and TB 68
+   *
+   * @param treeObj
+   * @param listViewHolder
+   *
+   * @return {Object}
+   */
+  getTreeCompatibleFuncs: function(treeObj, listViewHolder) {
+
+    if (this.isAtLeastTb68()) {
+      return {
+        getCellAt: treeObj.getCellAt,
+        rowCountChanged: treeObj.rowCountChanged,
+        invalidate: treeObj.invalidate,
+        invalidateRow: treeObj.invalidateRow
+      };
+    }
+    else {
+      return {
+        getCellAt: function(x, y) {
+            let row = {};
+            let col = {};
+            let elt = {};
+            treeObj.treeBoxObject.getCellAt(x, y, row, col, elt);
+
+            return {
+              row: row.value,
+              col: col.value
+            };
+        },
+        rowCountChanged: function(a, b) {
+          return listViewHolder.treebox.rowCountChanged(a, b);
+        },
+        invalidate: function() {
+          return listViewHolder.treebox.invalidate();
+        },
+        invalidateRow: function(r) {
+          return listViewHolder.treebox.invalidateRow(r);
+        }
+      };
+    }
+  },
+
+  isPostbox: isPostbox
+};
+
+function isPostbox() {
   // return true if Postbox, false otherwise
 
-  if (gIsPostbox !== null) return gIsPostbox;
+  if (gIsPostbox === null) {
+    gIsPostbox = Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).ID == POSTBOX_ID;
+  }
 
-  gIsPostbox = Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).ID == POSTBOX_ID;
   return gIsPostbox;
 }

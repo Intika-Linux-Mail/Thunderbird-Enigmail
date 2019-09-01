@@ -37,6 +37,7 @@ var EnigmailWindows = ChromeUtils.import("chrome://enigmail/content/modules/wind
 var EnigmailKeyServer = ChromeUtils.import("chrome://enigmail/content/modules/keyserver.jsm").EnigmailKeyServer;
 var EnigmailWks = ChromeUtils.import("chrome://enigmail/content/modules/webKey.jsm").EnigmailWks;
 var EnigmailSearchCallback = ChromeUtils.import("chrome://enigmail/content/modules/searchCallback.jsm").EnigmailSearchCallback;
+var EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 
 const INPUT = 0;
 const RESULT = 1;
@@ -55,6 +56,7 @@ var gShowUntrustedKeys = null;
 var gShowOthersKeys = null;
 var gPepKeyBlacklist = [];
 var gTimeoutId = {};
+var gTreeFuncs = null;
 
 function enigmailKeyManagerLoad() {
   EnigmailLog.DEBUG("enigmailKeyManager.js: enigmailKeyManagerLoad\n");
@@ -72,6 +74,7 @@ function enigmailKeyManagerLoad() {
   gShowInvalidKeys = document.getElementById("showInvalidKeys");
   gShowUntrustedKeys = document.getElementById("showUntrustedKeys");
   gShowOthersKeys = document.getElementById("showOthersKeys");
+  gTreeFuncs = EnigmailCompat.getTreeCompatibleFuncs(gUserList, gKeyListView);
 
   window.addEventListener("reload-keycache", reloadKeys);
   EnigmailSearchCallback.setup(gSearchInput, gTimeoutId, applyFilter, 200);
@@ -273,7 +276,7 @@ function onListClick(event) {
     let {
       row,
       col
-    } = gUserList.getCellAt(event.clientX, event.clientY);
+    } = gTreeFuncs.getCellAt(event.clientX, event.clientY);
 
     if (!col) // not clicked on a valid column (e.g. scrollbar)
       return;
@@ -382,7 +385,7 @@ function pEpHandleBlacklistClick(rowNum) {
     blacklistOp(key.fpr).then(function _f(x) {
       EnigmailLog.DEBUG("enigmailKeyManager.js: pEpHandleBlacklistClick: success\n");
       pEpLoadBlacklist();
-      gUserList.invalidateRow(rowNum);
+      gTreeFuncs.invalidateRow(rowNum);
     }).catch(function _err(x) {
       EnigmailLog.DEBUG("enigmailKeyManager.js: pEpHandleBlacklistClick: got Error: " + JSON.stringify(x) + "\n");
     });
@@ -1741,7 +1744,7 @@ var gKeyListView = {
     this.applyFilter(0);
     let oldRowCount = this.rowCount;
     this.rowCount = this.keyViewList.length;
-    gUserList.rowCountChanged(0, this.rowCount - oldRowCount);
+    gTreeFuncs.rowCountChanged(0, this.rowCount - oldRowCount);
   },
 
   /**
@@ -1897,13 +1900,13 @@ var gKeyListView = {
 
   adjustRowCount: function(newRowCount, selectedRow) {
     if (this.rowCount === newRowCount) {
-      gUserList.invalidate();
+      gTreeFuncs.invalidate();
       return;
     }
 
     let delta = newRowCount - this.rowCount;
     this.rowCount = newRowCount;
-    gUserList.rowCountChanged(selectedRow, delta);
+    gTreeFuncs.rowCountChanged(selectedRow, delta);
   },
 
   /**
