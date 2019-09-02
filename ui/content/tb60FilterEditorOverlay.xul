@@ -6,7 +6,7 @@
 -->
 
 <!--
- Filter Editor Overlay for Thunderbird 67 and newer
+ Filter Editor Overlay for Thunderbird 60 and earlier
 -->
 
 
@@ -18,7 +18,7 @@
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <link rel="stylesheet" type="text/css" href="chrome://enigmail/skin/enigmail.css"/>
-  <script type="application/x-javascript" src="chrome://enigmail/content/ui/enigmailFilterEditorOverlay.js"/>
+  <script type="application/x-javascript" src="chrome://enigmail/content/tbFilterEditorOverlay.js"/>
 
   <dialog insertafter="statusbar" id="FilterEditor">
     <hbox id="enigmailInfobar" style="min-height: 1em !important;" hidden="true">

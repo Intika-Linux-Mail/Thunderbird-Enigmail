@@ -4,6 +4,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+/**
+ * Filter Editor Overlay for Thunderbird 67 and newer
+ */
+
 "use strict";
 
 /* global Services: false, MailUtils: false */

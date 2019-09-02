@@ -90,7 +90,15 @@ const overlays = {
     application: "postbox@postbox-inc.com"
   }],
 
-  "chrome://messenger/content/FilterEditor.xul": ["enigmailFilterEditorOverlay.xul"],
+  "chrome://messenger/content/FilterEditor.xul": [{
+    // Overlay for TB 67+
+    url: "enigmailFilterEditorOverlay.xul",
+    minGeckoVersion: "67.0a1"
+  }, {
+    // Overlay for TB <= 66
+    url: "tb60FilterEditorOverlay.xul",
+    maxGeckoVersion: "66.0"
+  }],
   "chrome://messenger/content/FilterListDialog.xul": ["enigmailFilterListOverlay.xul"],
   "chrome://messenger/content/am-identity-edit.xul": [
     "enigmailAmIdEditOverlay.xul",
@@ -135,14 +143,30 @@ var WindowListener = {
 
       if (typeof(overlayDef) !== "string") {
         url = overlayDef.url;
-        if (overlayDef.application.substr(0, 1) === "!") {
-          if (overlayDef.application.indexOf(getAppId()) > 0) {
+        if ("application" in overlayDef) {
+          if (overlayDef.application.substr(0, 1) === "!") {
+            if (overlayDef.application.indexOf(getAppId()) > 0) {
+              continue;
+            }
+          }
+          else if (overlayDef.application.indexOf(getAppId()) < 0) {
             continue;
           }
-        } else if (overlayDef.application.indexOf(getAppId()) < 0) {
-          continue;
+        }
+
+        if ("minGeckoVersion" in overlayDef) {
+          if (!isPlatformMinVersion(overlayDef.minGeckoVersion)) {
+            continue;
+          }
+        }
+
+        if ("maxGeckoVersion" in overlayDef) {
+          if (!isPlatformMaxVersion(overlayDef.maxGeckoVersion)) {
+            continue;
+          }
         }
       }
+
       ovl.push(BASE_PATH + url);
     }
 
@@ -211,12 +235,12 @@ var EnigmailOverlays = {
         try {
           domWindow = domWindow.QueryInterface(Ci.nsIDOMWindow);
         }
-        catch(x) {}
+        catch (x) {}
 
         DEBUG_LOG("enigmailOverlays.jsm: startup: found window: " + domWindow.document.location.href + "\n");
 
         if (domWindow.document.location.href === "about:blank" ||
-            domWindow.document.readyState !== "complete") {
+          domWindow.document.readyState !== "complete") {
           // a window is available, but it's not yet fully loaded
           // ==> add an event listener to fire when the window is completely loaded
 
@@ -224,10 +248,12 @@ var EnigmailOverlays = {
             domWindow.removeEventListener("load", loadUi, false);
             loadUiForWindow(domWindow);
           }, false);
-        } else {
+        }
+        else {
           loadUiForWindow(domWindow);
         }
-      } catch (ex) {
+      }
+      catch (ex) {
         DEBUG_LOG("enigmailOverlays.jsm: startup: error " + ex.message + "\n");
       }
     }
@@ -271,4 +297,18 @@ var EnigmailOverlays = {
 
 function getAppId() {
   return Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo).ID;
+}
+
+function isPlatformMinVersion(requestedVersion) {
+  let vc = Cc["@mozilla.org/xpcom/version-comparator;1"].getService(Ci.nsIVersionComparator);
+  let appVer = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo).platformVersion;
+
+  return vc.compare(appVer, requestedVersion) >= 0;
+}
+
+function isPlatformMaxVersion(requestedVersion) {
+  let vc = Cc["@mozilla.org/xpcom/version-comparator;1"].getService(Ci.nsIVersionComparator);
+  let appVer = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo).platformVersion;
+
+  return vc.compare(appVer, requestedVersion) <= 0;
 }
