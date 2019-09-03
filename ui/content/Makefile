@@ -129,7 +129,9 @@ UIFILES = \
 	updateGnuPG.html \
 	updateGnuPG.js \
 	setupWizard2.js \
-	setupWizard2.xul
+	setupWizard2.xul \
+	tb60FilterEditorOverlay.js \
+	tb60FilterEditorOverlay.xul
 
 GENFILES = $(addprefix $(GENDIR)/,$(UIFILES))
 
