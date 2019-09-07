@@ -30,7 +30,7 @@ var gCompFields, gPgpMimeObj;
 
 var EnigmailCompat = {
   generateQI: function(aCid) {
-    if ("generateQI" in ChromeUtils) {
+    if (this.isAtLeastTb68()) {
       // TB > 60
       return ChromeUtils.generateQI(aCid);
     }
@@ -162,10 +162,18 @@ var EnigmailCompat = {
 
     if (this.isAtLeastTb68()) {
       return {
-        getCellAt: treeObj.getCellAt,
-        rowCountChanged: treeObj.rowCountChanged,
-        invalidate: treeObj.invalidate,
-        invalidateRow: treeObj.invalidateRow
+        getCellAt: function(x,y) {
+          return treeObj.getCellAt(x, y);
+        },
+        rowCountChanged: function(a, b) {
+          return treeObj.rowCountChanged(a, b);
+        },
+        invalidate: function() {
+          return treeObj.invalidate();
+        },
+        invalidateRow: function(r) {
+          return treeObj.invalidateRow(r);
+        }
       };
     }
     else {
