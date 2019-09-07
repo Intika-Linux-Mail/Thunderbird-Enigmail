@@ -155,6 +155,11 @@
 
             <menupopup onpopupshowing="EnigmailFuncs.collapseAdvanced(this, 'hidden', Enigmail.msg.setMenuSettings(''))">
 
+            <menuitem id="enigmail_wizard"
+              label="&enigmail.setupWiz.label;"
+              accesskey="&enigmail.setupWiz.accesskey;"
+              oncommand="EnigmailWindows.openSetupWizard(window, true);" />
+
               <menuitem id="enigmail_prefs"
                label="&enigmail.preferences.label;"
                accesskey="&enigmail.prefs.accesskey;"
@@ -202,26 +207,22 @@
             insertbefore="tasksMenu"
             hidden="true">
 
-        <menupopup id="menu_EnigmailPopup"
-            onpopupshowing="Enigmail.msg.pepMenuPopup()">
+        <menupopup id="menu_EnigmailPopup">
 
           <!-- encryption state / toggle menu -->
           <menuitem id="enigmail_compose_pep_encrypt"
                 accesskey="&enigmail.pepEnableProtection.accesskey;"
                 label="&enigmail.pepEnableProtection.label;"
                 key="key_enigEncrypt"
-                oncommand="Enigmail.msg.onPepEncryptMenu()"
                 type="checkbox"/>
 
           <menuitem id="enigmail_composeMenu_pep_handshake"
                 accesskey="&enigmail.pEp.verifyTrustwords.accesskey;"
-                label="&enigmail.pEp.verifyTrustwords.label;"
-                oncommand="Enigmail.msg.onPepHandshakeButton(event)"/>
+                label="&enigmail.pEp.verifyTrustwords.label;"/>
 
           <menuitem id="enigmail_composeMenu_pep_pref"
                 accesskey="&enigmail.prefs.accesskey;"
-                label="&enigmail.prefs.label;"
-                oncommand="EnigmailWindows.openPrefWindow(window, true, )"/>
+                label="&enigmail.prefs.label;"/>
       </menupopup>
     </menu>
   </menubar>
@@ -278,13 +279,11 @@
             tooltip="aTooltipSet"
             type="menu-button"
             hidden="true"
-            oncommand="Enigmail.msg.onPepEncryptButton()"
             label="&enigmail.pepEnableProtection.label;">
       <menupopup>
         <menuitem id="enigmail_composeBtn_pep_handshake"
               accesskey="&enigmail.pEp.verifyTrustwords.accesskey;"
-              label="&enigmail.pEp.verifyTrustwords.label;"
-              oncommand="Enigmail.msg.onPepHandshakeButton(event)"/>
+              label="&enigmail.pEp.verifyTrustwords.label;"/>
       </menupopup>
     </toolbarbutton>
   </toolbarpalette>
@@ -294,8 +293,7 @@
       <hbox align="center">
         <image class="enigmail-statusbar-pep-logo"/>
         <label value="&enigmail.pEp.privacyStatus.label;"/>
-        <label id="enigmail-pep-privacy-status" value="&enigmail.pEp.composestatus.label;" class="enigmail-statusbar-pep-unsecure"
-          onclick="Enigmail.msg.onPepHandshakeButton(event)"/>
+        <label id="enigmail-pep-privacy-status" value="&enigmail.pEp.composestatus.label;" class="enigmail-statusbar-pep-unsecure"/>
       </hbox>
     </statusbarpanel>
   </statusbar>
