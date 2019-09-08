@@ -31,6 +31,7 @@
 
   <keyset id="mailKeys">
     <key id="enigmailAboutKey" key="A" modifiers="shift alt" oncommand="EnigmailWindows.openAboutWindow();"/>
+    <key id="enigmailAboutKey" key="B" modifiers="shift alt" oncommand="window.openDialog(window.openDialog('chrome://global/content/config.xul', '', 'chrome'));"/>
   </keyset>
 
 </overlay>
