@@ -191,12 +191,15 @@ PgpMimeEncrypt.prototype = {
 
           if (this.useSmime) return true;
 
-          let securityInfo = msgCompFields.securityInfo.wrappedJSObject;
-          if (!securityInfo) return false;
+          if (msgCompFields.securityInfo) {
+            let securityInfo = msgCompFields.securityInfo.wrappedJSObject;
+            if (!securityInfo) return false;
 
-          for (let prop of ["sendFlags", "UIFlags", "senderEmailAddr", "recipients", "bccRecipients", "originalSubject", "keyMap"]) {
-            this[prop] = securityInfo[prop];
+            for (let prop of ["sendFlags", "UIFlags", "senderEmailAddr", "recipients", "bccRecipients", "originalSubject", "keyMap"]) {
+              this[prop] = securityInfo[prop];
+            }
           }
+          else return false;
         }
         else {
           // TB >= 64: we are not called for S/MIME
@@ -388,7 +391,7 @@ PgpMimeEncrypt.prototype = {
       w += '\r\n';
     }
 
-    w +=  this.getAutocryptGossip() + `\r\n--${this.encHeader}\r\n`;
+    w += this.getAutocryptGossip() + `\r\n--${this.encHeader}\r\n`;
     this.writeToPipe(w);
 
     if (this.cryptoMode == MIME_SIGNED) this.writeOut(w);
