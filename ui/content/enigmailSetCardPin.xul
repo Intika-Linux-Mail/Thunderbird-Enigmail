@@ -19,6 +19,7 @@
         title="&enigmail.cardPin.title;"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         onload="onLoad();"
+        theme="default-light"
         ondialogaccept="return onAccept();">
 
   <script type="application/x-javascript" src="chrome://enigmail/content/enigmailSetCardPin.js"/>

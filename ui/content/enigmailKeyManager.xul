@@ -28,6 +28,7 @@
         onload="enigmailKeyManagerLoad();"
         height="450"
         width="700"
+        theme="default-light"
         windowtype="enigmail:KeyManager"
         persist="screenX screenY width height">
 

@@ -22,6 +22,7 @@
         buttons="accept,cancel,extra1"
         buttonlabelaccept="&enigmail.send.label;"
         ondialogaccept="return onAccept();"
+        theme="default-light"
         buttonlabelextra1="&enigmail.perRecipientsOption.label;"
         ondialogextra1="newRecipientRule();"
         minheight="450">

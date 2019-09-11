@@ -21,6 +21,7 @@
         xmlns:html="http://www.w3.org/1999/xhtml"
         onwizardcancel="return onCancel();"
         onwizardnext="return onNext();"
+        theme="default-light"
         style="min-height: 500px;"
         onload="onLoad();">
 

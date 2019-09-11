@@ -18,6 +18,7 @@
 <dialog id="enigmailManageUidDlg"
         title="&enigmail.manageUidDlg.title;"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        theme="default-light"
         buttons="accept"
         onload="onLoad();">
 

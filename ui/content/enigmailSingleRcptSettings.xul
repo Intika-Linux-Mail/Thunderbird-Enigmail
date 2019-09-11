@@ -20,6 +20,7 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         onload="enigmailDlgOnLoad();"
         minheight="200"
+        theme="default-light"
         buttons="accept,cancel,help"
         ondialogaccept="return enigmailDlgOnAccept();"
         ondialoghelp="EnigHelpWindow('editRcptRule');">
@@ -128,7 +129,7 @@
               </menulist>
             </hbox>
           </row>
-#ifndef POSTBOX          
+#ifndef POSTBOX
           <row>
 #else
           <row collapsed="true">

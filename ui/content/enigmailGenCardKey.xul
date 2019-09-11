@@ -21,6 +21,7 @@
         windowtype="enigmail:genCardKey"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         onload="onLoad()"
+        theme="default-light"
         buttons="accept,cancel"
         minwidth="450px"
         width="600px">

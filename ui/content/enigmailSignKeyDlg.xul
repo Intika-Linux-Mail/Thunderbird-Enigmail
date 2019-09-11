@@ -20,6 +20,7 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         onload="onLoad();"
         buttons="accept,cancel"
+        theme="default-light"
         ondialogaccept="return onAccept();">
 
 
