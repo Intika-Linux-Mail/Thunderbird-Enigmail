@@ -1137,7 +1137,15 @@ Enigmail.msg = {
     if (!EnigmailCompat.isPostbox()) {
       // Thunderbird
       let msgFrame = EnigmailWindows.getFrame(window, "messagepane");
-      bodyElement = msgFrame.document.getElementsByTagName("body")[0];
+      if (msgFrame) {
+        // TB < 69
+        bodyElement = msgFrame.document.getElementsByTagName("body")[0];
+      }
+      else {
+        // TB >= 69
+        msgFrame = document.getElementById('messagepane');
+        bodyElement = msgFrame.contentDocument.getElementsByTagName("body")[0];
+      }
     }
     else {
       // Postbox

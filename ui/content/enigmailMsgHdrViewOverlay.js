@@ -911,9 +911,14 @@ Enigmail.hdrView = {
           this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureOk");
 
           let msgFrame = EnigmailWindows.getFrame(window, "messagepane");
+          if (!msgFrame) {
+            // TB >= 69
+            msgFrame = document.getElementById('messagepane').contentDocument;
+          }
+
           if (msgFrame) {
             msgFrame.addEventListener("unload", Enigmail.hdrView.messageUnload.bind(Enigmail.hdrView), true);
-            msgFrame.addEventListener("load", Enigmail.hdrView.messageLoad.bind(Enigmail.hdrView), false);
+            msgFrame.addEventListener("load", Enigmail.hdrView.messageLoad.bind(Enigmail.hdrView), true);
           }
 
           Enigmail.hdrView.forgetEncryptedMsgKey();
