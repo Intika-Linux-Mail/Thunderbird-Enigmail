@@ -25,7 +25,7 @@ test:
     - apt update -y -qq
     - apt install thunderbird gnupg zip unzip curl xvfb libgtk-3-0 -y -qq
     - mkdir -p $TBPROFILE/extensions tmp jsunit
-    - printf '%s/build/dist/' "$(pwd)" > "$TBPROFILE/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}"
+    - printf '%s/build-tb/dist/' "$(pwd)" > "$TBPROFILE/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}"
     - printf 'user_pref("extensions.autoDisableScopes", 14);\n' > "$TBPROFILE/prefs.js"
     - printf 'user_pref("browser.dom.window.dump.enabled", true);\n' >> "$TBPROFILE/prefs.js"
     - printf 'user_pref("extensions.update.enabled", false);\n' >> "$TBPROFILE/prefs.js"
