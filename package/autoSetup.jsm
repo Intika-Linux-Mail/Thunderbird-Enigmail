@@ -201,9 +201,10 @@ var EnigmailAutoSetup = {
           }
         }
 
-        if (msgAccountManager.defaultAccount) {
-          returnMsgValue.userName = msgAccountManager.defaultAccount.defaultIdentity.fullName;
-          returnMsgValue.userEmail = msgAccountManager.defaultAccount.defaultIdentity.email;
+        let defId = EnigmailFuncs.getDefaultIdentity();
+        if (defId) {
+          returnMsgValue.userName = defId.fullName;
+          returnMsgValue.userEmail = defId.email;
         }
         else {
           returnMsgValue.userName = undefined;

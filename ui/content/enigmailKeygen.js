@@ -15,7 +15,7 @@ var Ci = Components.interfaces;
 // modules
 /* global EnigmailData: false, EnigmailLog: false, EnigmailLocale: false, EnigmailGpg: false, EnigmailKeyEditor: false */
 /* global EnigmailOS: false, EnigmailPrefs: false, EnigmailGpgAgent: false, EnigmailApp: false, EnigmailKeyRing: false */
-/* global EnigmailDialog: false */
+/* global EnigmailDialog: false, EnigmailFuncs: false */
 
 // from enigmailCommon.js:
 /* global EnigGetWindowOptions: false, EnigConfirm: false, EnigGetString: false, GetEnigmailSvc: false */
@@ -465,7 +465,7 @@ function fillIdentityListPopup() {
     EnigmailLog.DEBUG("enigmailKeygen.js: fillIdentityListPopup: " + identities + "\n");
 
     // Default identity
-    var defIdentity = gAccountManager.defaultAccount.identities.queryElementAt(0, Components.interfaces.nsIMsgIdentity);
+    let defIdentity = EnigmailFuncs.getDefaultIdentity();
 
     EnigmailLog.DEBUG("enigmailKeygen.js: fillIdentityListPopup: default=" + defIdentity.key + "\n");
 

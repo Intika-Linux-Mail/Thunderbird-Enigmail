@@ -392,6 +392,34 @@ var EnigmailFuncs = {
   },
 
   /**
+   * Get the default identity of the default account
+   */
+  getDefaultIdentity: function() {
+    let accountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(Ci.nsIMsgAccountManager);
+
+    try {
+      let ac;
+      if (accountManager.defaultAccount) {
+        ac = accountManager.defaultAccount;
+      }
+      else {
+        for (let i = 0; i < accountManager.accounts.length; i++) {
+          ac = accountManager.accounts.queryElementAt(i, Ci.nsIMsgAccount);
+          if (ac.incomingServer.type === "imap" || ac.incomingServer.type === "pop3") break;
+        }
+      }
+
+      if (ac.defaultIdentity) {
+        return ac.defaultIdentity;
+      }
+      return ac.identities.queryElementAt(0, Ci.nsIMsgIdentity);
+    }
+    catch (x) {
+      return null;
+    }
+  },
+
+  /**
    * Strip extended email parts such as "+xyz" from "abc+xyz@gmail.com" for known domains
    * Currently supported domains: gmail.com, googlemail.com
    */

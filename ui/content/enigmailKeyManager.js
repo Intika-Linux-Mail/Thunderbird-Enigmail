@@ -618,7 +618,7 @@ function enigCreateKeyMsg() {
 
   var msgCompParam = Cc["@mozilla.org/messengercompose/composeparams;1"].createInstance(Ci.nsIMsgComposeParams);
   msgCompParam.composeFields = msgCompFields;
-  msgCompParam.identity = acctManager.defaultAccount.defaultIdentity;
+  msgCompParam.identity = EnigmailFuncs.getDefaultIdentity();
   msgCompParam.type = Ci.nsIMsgCompType.New;
   msgCompParam.format = Ci.nsIMsgCompFormat.Default;
   msgCompParam.originalMsgURI = "";
@@ -669,7 +669,7 @@ function createNewMail() {
 
   var msgCompParam = Cc["@mozilla.org/messengercompose/composeparams;1"].createInstance(Ci.nsIMsgComposeParams);
   msgCompParam.composeFields = msgCompFields;
-  msgCompParam.identity = acctManager.defaultAccount.defaultIdentity;
+  msgCompParam.identity = EnigmailFuncs.getDefaultIdentity();
   msgCompParam.type = Ci.nsIMsgCompType.New;
   msgCompParam.format = Ci.nsIMsgCompFormat.Default;
   msgCompParam.originalMsgURI = "";
