@@ -446,15 +446,15 @@ Enigmail.hdrView = {
 
     if (xtraStatus === "process-manually") {
       let buttonLabel = "";
-      if (statusFlags & EnigmailConstants.DECRYPTION_FAILED) {
-        statusLine = EnigmailLocale.getString("msgPart", [EnigmailLocale.getString("msgEncrypted")]);
-        statusLine += EnigmailLocale.getString("decryptManually");
-        buttonLabel = EnigmailLocale.getString("headerView.button.decrypt");
-      }
-      else if (statusFlags & EnigmailConstants.UNVERIFIED_SIGNATURE) {
+      if (statusFlags & EnigmailConstants.UNVERIFIED_SIGNATURE) {
         statusLine = EnigmailLocale.getString("msgPart", [EnigmailLocale.getString("msgSigned")]);
         statusLine += EnigmailLocale.getString("verifyManually");
         buttonLabel = EnigmailLocale.getString("headerView.button.verify");
+      }
+      else {
+        statusLine = EnigmailLocale.getString("msgPart", [EnigmailLocale.getString("msgEncrypted")]);
+        statusLine += EnigmailLocale.getString("decryptManually");
+        buttonLabel = EnigmailLocale.getString("headerView.button.decrypt");
       }
 
       Enigmail.msg.securityInfo = {};
