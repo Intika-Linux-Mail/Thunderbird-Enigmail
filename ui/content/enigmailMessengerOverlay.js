@@ -136,6 +136,9 @@ Enigmail.msg = {
     // Override SMIME ui
     overrideAttribute(["cmd_viewSecurityStatus"], "Enigmail.msg.viewSecurityInfo(null, true);", "", "");
 
+    // Override Postbox Attachment menu
+    overrideAttribute(["msgPaneAttachmentMenuList"], "onpopupshowing", "Enigmail.hdrView.pbxFillAttachmentListPopup(event, this, '", "');");
+
     // Override print command
     var printElementIds = ["cmd_print", "cmd_printpreview", "key_print", "button-print",
       "mailContext-print", "mailContext-printpreview"
@@ -2087,17 +2090,22 @@ Enigmail.msg = {
   },
 
   // handle a selected attachment (decrypt & open or save)
-  handleAttachmentSel: function(actionType) {
+  handleAttachmentSel: function(actionType, selectedItem = null) {
     EnigmailLog.DEBUG("enigmailMessengerOverlay.js: handleAttachmentSel: actionType=" + actionType + "\n");
 
     let selectedAttachments, anAttachment, contextMenu;
 
     if (EnigmailCompat.isPostbox()) {
       // Postbox
-      contextMenu = document.getElementById('msgPaneAttachmentContextMenu');
-      /* global gatherSelectedAttachmentsForMessage: false */
-      selectedAttachments = gatherSelectedAttachmentsForMessage(contextMenu.target);
-      anAttachment = selectedAttachments[0];
+      if (!selectedItem) {
+        contextMenu = document.getElementById('msgPaneAttachmentContextMenu');
+        /* global gatherSelectedAttachmentsForMessage: false */
+        selectedAttachments = gatherSelectedAttachmentsForMessage(contextMenu.target);
+        anAttachment = selectedAttachments[0];
+      }
+      else {
+        anAttachment = selectedItem;
+      }
     }
     else {
       // Thunderbird
