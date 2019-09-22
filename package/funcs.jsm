@@ -360,13 +360,15 @@ var EnigmailFuncs = {
 
     let certDb = Cc["@mozilla.org/security/x509certdb;1"].getService(Ci.nsIX509CertDB);
     let certs = certDb.getCerts();
-
-    let e = certs.getEnumerator();
     let nCerts = 0;
 
-    while (e.hasMoreElements()) {
-      nCerts++;
-      e.getNext();
+    if (certs) {
+      let e = certs.getEnumerator();
+
+      while (e.hasMoreElements()) {
+        nCerts++;
+        e.getNext();
+      }
     }
 
     return nCerts;
