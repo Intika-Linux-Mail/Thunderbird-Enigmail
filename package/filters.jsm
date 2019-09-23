@@ -516,7 +516,9 @@ var EnigmailFilters = {
   onStartup: function() {
     let filterService = Cc["@mozilla.org/messenger/services/filters;1"].getService(Ci.nsIMsgFilterService);
     filterService.addCustomTerm(filterTermPGPEncrypted);
-    initNewMailListener();
+    if (!EnigmailCompat.isPostbox()) {
+      initNewMailListener();
+    }
   },
 
   onShutdown: function() {
