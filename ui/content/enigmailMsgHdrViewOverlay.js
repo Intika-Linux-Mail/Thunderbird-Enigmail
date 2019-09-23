@@ -48,6 +48,7 @@ Enigmail.hdrView = {
   lastEncryptedMsgKey: null,
   lastEncryptedUri: null,
   pEpStatus: null,
+  flexbuttonAction: null,
 
 
   hdrViewLoad: function() {
@@ -526,6 +527,12 @@ Enigmail.hdrView = {
    * @param {String} requestType: action to be performed
    */
   displayFlexAction: function(hdrMessage, buttonLabel, requestType) {
+    if (!Enigmail.msg.securityInfo) {
+      Enigmail.msg.securityInfo = {};
+    }
+    Enigmail.msg.securityInfo.xtraStatus = requestType;
+    Enigmail.msg.securityInfo.statusInfo = hdrMessage;
+
     if (!EnigmailCompat.isPostbox()) {
       // Thunderbird
       this.setStatusText(hdrMessage);
@@ -536,12 +543,6 @@ Enigmail.hdrView = {
       document.getElementById("enigmail_importKey").setAttribute("hidden", "true");
 
       this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
-
-      if (!Enigmail.msg.securityInfo) {
-        Enigmail.msg.securityInfo = {};
-      }
-      Enigmail.msg.securityInfo.xtraStatus = requestType;
-      Enigmail.msg.securityInfo.statusInfo = hdrMessage;
     }
     else {
       // Postbox
@@ -553,25 +554,40 @@ Enigmail.hdrView = {
       div.className = 'securitycontentbox';
       div.setAttribute('value', hdrMessage);
       div.setAttribute('label', buttonLabel);
-      div.addEventListener("click", (event) => {
-        event.preventDefault();
-        if (event.originalTarget.className === "load-remote-button") {
-          switch (requestType) {
-            case "autocrypt-setup":
-            case "wks-request":
-              Enigmail.msg.confirmKeyRequest();
-              break;
-            case "keyImp":
-              Enigmail.msg.handleUnknownKey();
-              break;
-            case "repairMessage":
-              Enigmail.msg.fixBuggyExchangeMail();
-              break;
-          }
-        }
-      }, true);
+      div.setAttribute('id', 'enigmailFlexActionButton');
       let insertionNode = messageContainer.getElementsByClassName('message-progress-container')[0];
       div = insertionNode.parentNode.insertBefore(div, insertionNode);
+      div.addEventListener("click", this.handlePostboxFlexEvent, true);
+    }
+  },
+
+  handlePostboxFlexEvent: function(event) {
+    EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: handlePostboxFlexEvent()\n");
+    let t = event.originalTarget;
+    if (t.className === "load-remote-button") {
+      // event.preventDefault etc. don't seem to work
+      Enigmail.hdrView.flexbuttonAction = Enigmail.msg.securityInfo;
+    }
+  },
+
+  postboxFlexEventOnLoadCb: function() {
+    EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: postboxFlexEventOnLoadCb()\n");
+    let action = Enigmail.msg.securityInfo.xtraStatus;
+    switch (action) {
+      case "autocrypt-setup":
+      case "wks-request":
+      case "process-manually":
+          Enigmail.msg.securityInfo = {
+              xtraStatus: action
+          };
+        Enigmail.msg.flexActionRequest();
+        break;
+      case "keyImp":
+        Enigmail.msg.handleUnknownKey();
+        break;
+      case "repairMessage":
+        Enigmail.msg.fixBuggyExchangeMail();
+        break;
     }
   },
 
@@ -950,16 +966,29 @@ Enigmail.hdrView = {
     this.messageListener.onEndHeaders();
   },
 
-  messageUnload: function() {
+  messageUnload: function(event) {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: this.messageUnload\n");
-    if (Enigmail.msg.securityInfo && Enigmail.msg.securityInfo.xtraStatus) {
-      Enigmail.msg.securityInfo.xtraStatus = "";
+    if (Enigmail.hdrView.flexbuttonAction === null) {
+      if (Enigmail.msg.securityInfo && Enigmail.msg.securityInfo.xtraStatus) {
+        Enigmail.msg.securityInfo.xtraStatus = "";
+      }
+      this.forgetEncryptedMsgKey();
     }
-    this.forgetEncryptedMsgKey();
   },
 
-  messageLoad: function() {
+  messageLoad: function(event) {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: this.messageLoad\n");
+
+    if (Enigmail.hdrView.flexbuttonAction !== null) {
+      try {
+        Enigmail.msg.securityInfo = Enigmail.hdrView.flexbuttonAction;
+        Enigmail.hdrView.flexbuttonAction = null;
+        this.postboxFlexEventOnLoadCb();
+      }
+      catch(x) {}
+      return;
+    }
+
     Enigmail.hdrView.enablePepMenus();
     Enigmail.msg.messageAutoDecrypt();
     Enigmail.msg.handleAttchmentEvent();
@@ -969,7 +998,6 @@ Enigmail.hdrView = {
     if (Enigmail.msg.securityInfo) {
       EnigmailClipboard.setClipboardContent(Enigmail.msg.securityInfo.statusInfo);
     }
-
   },
 
   showPhoto: function() {
