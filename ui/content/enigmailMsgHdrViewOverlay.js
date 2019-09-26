@@ -577,9 +577,9 @@ Enigmail.hdrView = {
       case "autocrypt-setup":
       case "wks-request":
       case "process-manually":
-          Enigmail.msg.securityInfo = {
-              xtraStatus: action
-          };
+        Enigmail.msg.securityInfo = {
+          xtraStatus: action
+        };
         Enigmail.msg.flexActionRequest();
         break;
       case "keyImp":
@@ -985,7 +985,7 @@ Enigmail.hdrView = {
         Enigmail.hdrView.flexbuttonAction = null;
         this.postboxFlexEventOnLoadCb();
       }
-      catch(x) {}
+      catch (x) {}
       return;
     }
 
@@ -1279,12 +1279,37 @@ Enigmail.hdrView = {
         subj = subj.replace(/^(Re: )+(.*)/, "$2");
       }
       gFolderDisplay.selectedMessage.subject = subj;
-      this.updateHdrBox("subject", subject); // this needs to be the unmodified subject
+      if (EnigmailCompat.isPostbox()) {
+        let msg = gFolderDisplay.selectedMessage;
+        if (msg) {
+          let container = pbGetMessageContainerForHdr(msg);
+          if (container) {
+            let idx = container.getAttribute("index");
+            if (idx && idx === "0") {
+              this.updatePostboxSubject(subject);
+            }
+          }
+        }
+      }
+      else {
+        this.updateHdrBox("subject", subject); // this needs to be the unmodified subject
+      }
 
       let tt = document.getElementById("threadTree");
       if (tt && ("invalidate" in tt)) {
         tt.invalidate();
       }
+    }
+  },
+
+  updatePostboxSubject: function(subject) {
+    let msgDoc = document.getElementById('messagepane').contentDocument;
+    let subj = msgDoc.getElementsByClassName("conversation-subject-box");
+
+    if (subj && subj.length > 0) {
+      subj = subj[0];
+      subj.setAttribute("title", subject);
+      subj.setAttribute("value", subject);
     }
   },
 
