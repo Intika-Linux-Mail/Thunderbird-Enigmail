@@ -114,6 +114,10 @@ function startDownload(downloadKeys) {
           EnigmailDialog.keyImportDlg(window, res.keyList.length > 0 ? res.keyList : downloadKeys);
           closeDialog();
         }
+        else {
+          EnigmailDialog.info(window, getKeyNotFoundMsg());
+          closeDialog();
+        }
       }).catch(
       error => {
         DownloadListener.onCancel = null;
