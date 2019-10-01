@@ -503,7 +503,9 @@ MimeVerify.prototype = {
       const cApi = EnigmailCryptoAPI();
 
       // ensure all lines end with CRLF as specified in RFC 3156, section 5
-      this.signedData = this.signedData.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+      if (this.signedData.search(/[^\r]\n/) >= 0) {
+        this.signedData = this.signedData.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+      }
 
       this.returnStatus = cApi.sync(cApi.verifyMime(this.signedData, options));
       this.exitCode = this.returnStatus.exitCode;
