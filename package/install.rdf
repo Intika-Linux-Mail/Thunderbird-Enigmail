@@ -23,7 +23,7 @@
       </Description>
     </em:targetApplication>
 
-    <em:updateURL>https://enigmail.net/service/getEnigmailUpdate.svc</em:updateURL>
+    <em:updateURL>https://enigmail.net/service/getEnigmailUpdate.svc?appId=%APP_ID%&amp;appVersion=%APP_VERSION%&amp;itemVersion=%ITEM_VERSION%</em:updateURL>
 
     <!-- Front End MetaData -->
     <em:name>Enigmail</em:name>
