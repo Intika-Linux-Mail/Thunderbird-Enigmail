@@ -716,6 +716,7 @@ const accessKeyBase = {
    * @return:   Promise<...>
    */
   download: async function(keyIDs, keyserver, listener = null) {
+    EnigmailLog.DEBUG(`keyserver.jsm: accessKeyBase: download()\n`);
     let keyIdArr = keyIDs.split(/ +/);
     let retObj = {
       result: 0,
@@ -764,6 +765,7 @@ const accessKeyBase = {
 
    */
   search: async function(searchTerm, keyserver, listener = null) {
+    EnigmailLog.DEBUG(`keyserver.jsm: accessKeyBase: search()\n`);
     let retObj = {
       result: 0,
       errorDetails: "",
@@ -810,6 +812,7 @@ const accessKeyBase = {
   },
 
   refresh: function(keyServer, listener = null) {
+    EnigmailLog.DEBUG(`keyserver.jsm: accessKeyBase: refresh()\n`);
     let keyList = EnigmailKeyRing.getAllKeys().keyList.map(keyObj => {
       return "0x" + keyObj.fpr;
     }).join(" ");
