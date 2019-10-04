@@ -513,6 +513,13 @@ MimeDecryptHandler.prototype = {
       };
       const cApi = EnigmailCryptoAPI();
       this.returnStatus = cApi.sync(cApi.decryptMime(this.outQueue, options));
+      if (!this.returnStatus) {
+        this.returnStatus = {
+          decryptedData: "",
+          exitCode: -1,
+          statusFlags: EnigmailConstants.DECRYPTION_FAILED
+        };
+      }
       this.decryptedData = this.returnStatus.decryptedData;
       this.handleResult(this.returnStatus.exitCode);
 
@@ -565,10 +572,12 @@ MimeDecryptHandler.prototype = {
   },
 
   displayStatus: function() {
-    EnigmailLog.DEBUG("mimeDecrypt.jsm: displayStatus\n");
+    EnigmailLog.DEBUG("mimeDecrypt.jsm: displayStatus()\n");
 
-    if (this.exitCode === null || this.msgWindow === null || this.statusDisplayed)
+    if (this.exitCode === null || this.msgWindow === null || this.statusDisplayed) {
+      EnigmailLog.DEBUG("mimeDecrypt.jsm: displayStatus: nothing to display\n");
       return;
+    }
 
     let uriSpec = (this.uri ? this.uri.spec : null);
 

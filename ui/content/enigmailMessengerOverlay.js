@@ -395,14 +395,21 @@ Enigmail.msg = {
 
   getCurrentMsgUriSpec: function() {
     try {
-      if (gFolderDisplay.selectedMessages.length != 1) {
-        return "";
+      if (!EnigmailCompat.isPostbox()) {
+        // Thunderbird
+        if (gFolderDisplay.selectedMessages.length != 1) {
+          return "";
+        }
+
+        var uriSpec = gFolderDisplay.selectedMessageUris[0];
+        //EnigmailLog.DEBUG("enigmailMessengerOverlay.js: getCurrentMsgUriSpec: uriSpec="+uriSpec+"\n");
+
+        return uriSpec;
       }
-
-      var uriSpec = gFolderDisplay.selectedMessageUris[0];
-      //EnigmailLog.DEBUG("enigmailMessengerOverlay.js: getCurrentMsgUriSpec: uriSpec="+uriSpec+"\n");
-
-      return uriSpec;
+      else {
+        // Postbox
+        return gFolderDisplay.selectedMessageUri;
+      }
     }
     catch (ex) {
       return "";

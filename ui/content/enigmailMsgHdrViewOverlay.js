@@ -1280,16 +1280,7 @@ Enigmail.hdrView = {
       }
       gFolderDisplay.selectedMessage.subject = subj;
       if (EnigmailCompat.isPostbox()) {
-        let msg = gFolderDisplay.selectedMessage;
-        if (msg) {
-          let container = pbGetMessageContainerForHdr(msg);
-          if (container) {
-            let idx = container.getAttribute("index");
-            if (idx && idx === "0") {
-              this.updatePostboxSubject(subject);
-            }
-          }
-        }
+        this.updatePostboxSubject(subject);
       }
       else {
         this.updateHdrBox("subject", subject); // this needs to be the unmodified subject
@@ -1303,13 +1294,23 @@ Enigmail.hdrView = {
   },
 
   updatePostboxSubject: function(subject) {
-    let msgDoc = document.getElementById('messagepane').contentDocument;
-    let subj = msgDoc.getElementsByClassName("conversation-subject-box");
+    let msg = gFolderDisplay.selectedMessage;
+    if (msg) {
+      let container = pbGetMessageContainerForHdr(msg);
+      if (container) {
+        let idx = container.getAttribute("index");
+        if (idx && idx === "0") {
+          // we are the top message bein displayed -> replace subject
+          let msgDoc = document.getElementById('messagepane').contentDocument;
+          let subj = msgDoc.getElementsByClassName("conversation-subject-box");
 
-    if (subj && subj.length > 0) {
-      subj = subj[0];
-      subj.setAttribute("title", subject);
-      subj.setAttribute("value", subject);
+          if (subj && subj.length > 0) {
+            subj = subj[0];
+            subj.setAttribute("title", subject);
+            subj.setAttribute("value", subject);
+          }
+        }
+      }
     }
   },
 
