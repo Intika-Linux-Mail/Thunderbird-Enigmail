@@ -110,6 +110,19 @@ Enigmail.hdrView = {
       Enigmail.msg.viewSecurityInfo(event, true);
       event.preventDefault();
     }
+    else if (/quick-reply-button/.test(targetClassName)) {
+      Enigmail.hdrView.postboxHandleQuickReplyButton(event);
+    }
+    else if (/load-remote-button/.test(targetClassName)) {
+      let node = event.originalTarget;
+      while (node.parentNode) {
+        if (node.id === "enigmailFlexActionButton") {
+          Enigmail.hdrView.handlePostboxFlexEvent(event);
+          return;
+        }
+        node = node.parentNode;
+      }
+    }
   },
 
   displayAddressPopup: function(event) {
@@ -546,8 +559,7 @@ Enigmail.hdrView = {
     }
     else {
       // Postbox
-      /* global pbGetMessageContainerForHdr: false */
-      let messageContainer = pbGetMessageContainerForHdr(null);
+      let messageContainer = this.getPostboxContainer();
 
       let doc = document.getElementById("messagepane").contentDocument;
       let div = doc.createElement('div');
@@ -556,30 +568,32 @@ Enigmail.hdrView = {
       div.setAttribute('label', buttonLabel);
       div.setAttribute('id', 'enigmailFlexActionButton');
       let insertionNode = messageContainer.getElementsByClassName('message-progress-container')[0];
-      div = insertionNode.parentNode.insertBefore(div, insertionNode);
-      div.addEventListener("click", this.handlePostboxFlexEvent, true);
+      insertionNode.parentNode.insertBefore(div, insertionNode);
+    }
+  },
+
+  postboxHandleQuickReplyButton: function(event) {
+    if (Enigmail.msg.securityInfo && Enigmail.msg.securityInfo.statusFlags) {
+      if (Enigmail.msg.securityInfo.statusFlags & EnigmailConstants.DECRYPTION_OKAY) {
+        event.stopPropagation();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        EnigmailDialog.info(window, EnigmailLocale.getString("postbox.cannotUseQuickReply.message"));
+      }
     }
   },
 
   handlePostboxFlexEvent: function(event) {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: handlePostboxFlexEvent()\n");
-    let t = event.originalTarget;
-    if (t.className === "load-remote-button") {
-      // event.preventDefault etc. don't seem to work
-      Enigmail.hdrView.flexbuttonAction = Enigmail.msg.securityInfo;
-    }
-  },
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    event.preventDefault();
 
-  postboxFlexEventOnLoadCb: function() {
-    EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: postboxFlexEventOnLoadCb()\n");
     let action = Enigmail.msg.securityInfo.xtraStatus;
     switch (action) {
       case "autocrypt-setup":
       case "wks-request":
       case "process-manually":
-        Enigmail.msg.securityInfo = {
-          xtraStatus: action
-        };
         Enigmail.msg.flexActionRequest();
         break;
       case "keyImp":
@@ -910,6 +924,16 @@ Enigmail.hdrView = {
     gDBView.reloadMessageWithAllParts();
   },
 
+  getPostboxContainer: function() {
+    /* global pbGetMessageContainerForHdr: false */
+
+    let msg = gFolderDisplay.selectedMessage;
+    if (msg) {
+      return pbGetMessageContainerForHdr(msg);
+    }
+
+    return null;
+  },
 
   msgHdrViewLoad: function() {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: this.msgHdrViewLoad\n");
@@ -978,16 +1002,6 @@ Enigmail.hdrView = {
 
   messageLoad: function(event) {
     EnigmailLog.DEBUG("enigmailMsgHdrViewOverlay.js: this.messageLoad\n");
-
-    if (Enigmail.hdrView.flexbuttonAction !== null) {
-      try {
-        Enigmail.msg.securityInfo = Enigmail.hdrView.flexbuttonAction;
-        Enigmail.hdrView.flexbuttonAction = null;
-        this.postboxFlexEventOnLoadCb();
-      }
-      catch (x) {}
-      return;
-    }
 
     Enigmail.hdrView.enablePepMenus();
     Enigmail.msg.messageAutoDecrypt();
@@ -1294,21 +1308,18 @@ Enigmail.hdrView = {
   },
 
   updatePostboxSubject: function(subject) {
-    let msg = gFolderDisplay.selectedMessage;
-    if (msg) {
-      let container = pbGetMessageContainerForHdr(msg);
-      if (container) {
-        let idx = container.getAttribute("index");
-        if (idx && idx === "0") {
-          // we are the top message bein displayed -> replace subject
-          let msgDoc = document.getElementById('messagepane').contentDocument;
-          let subj = msgDoc.getElementsByClassName("conversation-subject-box");
+    let container = Enigmail.hdrView.getPostboxContainer();
+    if (container) {
+      let idx = container.getAttribute("index");
+      if (idx && idx === "0") {
+        // we are the top message bein displayed -> replace subject
+        let msgDoc = document.getElementById('messagepane').contentDocument;
+        let subj = msgDoc.getElementsByClassName("conversation-subject-box");
 
-          if (subj && subj.length > 0) {
-            subj = subj[0];
-            subj.setAttribute("title", subject);
-            subj.setAttribute("value", subject);
-          }
+        if (subj && subj.length > 0) {
+          subj = subj[0];
+          subj.setAttribute("title", subject);
+          subj.setAttribute("value", subject);
         }
       }
     }
