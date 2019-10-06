@@ -23,11 +23,9 @@ var overwriteEnigmailMime = {
 
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js");
 
-testing("mimeDecrypt.jsm"); /* global EnigmailMimeDecrypt: false, EnigmailSingletons: false, EnigmailTb60Compat: false */
+testing("mimeDecrypt.jsm"); /* global EnigmailMimeDecrypt: false, EnigmailSingletons: false, EnigmailCompat: false */
 const EnigmailFiles = component("enigmail/files.jsm").EnigmailFiles;
 const EnigmailKeyRing = component("enigmail/keyRing.jsm").EnigmailKeyRing;
-//const EnigmailTb60Compat = ChromeUtils.import("chrome://enigmail/content/modules/tb60compat.jsm").EnigmailTb60Compat;
-
 
 test(withTestGpgHome(withEnigmail(function processPgpMimeMsg() {
   const secKey = do_get_file("resources/dev-strike.sec", false);
@@ -70,7 +68,7 @@ test(withTestGpgHome(withEnigmail(function processPgpMimeMsg() {
   };
 
   let pgpMimeProxy = {
-    QueryInterface: EnigmailTb60Compat.generateQI(["nsIPgpMimeProxy"]),
+    QueryInterface: EnigmailCompat.generateQI(["nsIPgpMimeProxy"]),
     mimePart: "1",
     contentType: 'multipart/encrypted; protocol="application/pgp-encrypted"; boundary="DELIMITER"',
     outputDecryptedData: function(data, dataLen) {
@@ -82,7 +80,7 @@ test(withTestGpgHome(withEnigmail(function processPgpMimeMsg() {
   let inputStream = Cc["@mozilla.org/io/string-input-stream;1"].createInstance(Ci.nsIStringInputStream);
 
   let testUri = {
-    QueryInterface: EnigmailTb60Compat.generateQI(["nsIURI"]),
+    QueryInterface: EnigmailCompat.generateQI(["nsIURI"]),
     schemeIs: function() {
       return true;
     },
@@ -94,7 +92,7 @@ test(withTestGpgHome(withEnigmail(function processPgpMimeMsg() {
   for (i = 0; i < dataArr.length; i++) {
     let s = dataArr[i] + "\r\n";
     inputStream.setData(s, s.length);
-    if (EnigmailTb60Compat.isMessageUriInPgpMime()) {
+    if (EnigmailCompat.isMessageUriInPgpMime()) {
       // TB >= 67
       dec.onDataAvailable(null, inputStream, 0, s.length);
     } else

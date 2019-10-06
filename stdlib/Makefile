@@ -7,22 +7,30 @@ DEPTH		= ..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = $(DIST)/chrome/content/modules/stdlib
+
 MODFILES = \
            compose.jsm \
            misc.jsm \
            msgHdrUtils.jsm \
-           openpgp-lib.jsm \
            openpgp.worker.js \
            web-streams.jsm
 
+GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
+
+$(GENDIR)/%.jsm: %.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+$(GENDIR)/%.js: %.js
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
 all: deploy
+
+deploy: createlib $(GENFILES)
 
 createlib: 
 	cat openpgp-lib-head.js openpgp-lib.js openpgp-lib-tail.js > openpgp-lib.jsm
-
-deploy: createlib $(MODFILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/modules/stdlib $(MODFILES)
-
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL)  openpgp-lib.jsm $(GENDIR)/openpgp-lib.jsm
 
 clean:
-	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules/stdlib $(MODFILES)
+	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules/stdlib $(MODFILES) openpgp-lib.jsm

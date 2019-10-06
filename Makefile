@@ -10,7 +10,7 @@ include $(DEPTH)/config/autoconf.mk
 
 DIRS = ipc ui package lang stdlib
 
-ALL = dirs xpi
+ALL = xpi
 
 ifeq ($(TESTS),yes)
 ALL += test
@@ -28,14 +28,14 @@ $(DIRS):
 	$(MAKE) -C $@
 
 xpi: $(DIRS)
-	$(srcdir)/util/genxpi $(XPIFILE) $(XPI_MODULE_VERS) $(DIST) $(srcdir) $(XPI_MODULE) $(ENABLE_LANG)
+	$(srcdir)/util/genxpi $(XPIFILE) $(TARGET_TOOL) $(DIST) $(srcdir) $(XPI_MODULE) $(ENABLE_LANG)
 
 check:
 	util/checkFiles.py
 
 eslint:
-	static_analysis/eslint ipc
 	static_analysis/eslint package
+	static_analysis/eslint ipc
 	static_analysis/eslint ui
 
 unit:

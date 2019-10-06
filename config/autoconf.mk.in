@@ -11,10 +11,20 @@ TB_ARGS = @TB_ARGS@
 TESTS = @enable_tests@
 FIX_LANGUAGES = @enable_fix_lang@
 ENABLE_LANG = @enable_lang@
+ENABLE_POSTBOX = @enable_postbox@
 
 srcdir = @srcdir@
 
-DIST = $(DEPTH)/build/dist
-BUILD = $(DEPTH)/build
-
 JSUNIT = $(DEPTH)/util/run-jsunit $(PERL) $(TB_PATH) $(TB_ARGS)
+
+ifeq ($(ENABLE_POSTBOX),yes)
+TARGET_TOOL=pbx
+INCLUDE = $(DEPTH)/include/postbox.h
+BUILD = $(DEPTH)/build-pbx
+else
+TARGET_TOOL=tbird
+INCLUDE = $(DEPTH)/include/tbird.h
+BUILD = $(DEPTH)/build-tb
+endif
+
+DIST = $(BUILD)/dist

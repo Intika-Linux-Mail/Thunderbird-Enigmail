@@ -26,12 +26,7 @@ var EXPORTED_SYMBOLS = [
   'msgHdrsModifyRaw',
 ]
 
-const {
-  classes: Cc,
-  interfaces: Ci,
-  utils: Cu,
-  results: Cr
-} = Components;
+const Cr = Components.results;
 
 // from mailnews/base/public/nsMsgFolderFlags.idl
 const nsMsgFolderFlags_SentMail = 0x00000200;
@@ -53,7 +48,15 @@ const {
   fixIterator, toXPCOMArray, toArray
 } =ChromeUtils.import("resource:///modules/iteratorUtils.jsm");
 const Services = ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-const MailServices = ChromeUtils.import("resource:///modules/MailServices.jsm").MailServices;
+const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
+
+var MailServices;
+try {
+  MailServices = ChromeUtils.import("resource:///modules/MailServices.jsm").MailServices;
+}
+catch (x){
+  MailServices = ChromeUtils.import("resource:///modules/mailServices.js").MailServices;
+}
 
 const {
   gIdentities,
@@ -459,11 +462,9 @@ function msgHdrsModifyRaw(aMsgHdrs, aTransformer) {
       msgHdr, tempFile
     } = obj;
 
-    MailServices.copy.CopyFileMessage(
+    EnigmailCompat.copyFileToMailFolder(
       tempFile,
       msgHdr.folder,
-      null,
-      false,
       msgHdr.flags,
       msgHdr.getStringProperty("keywords"), {
         QueryInterface: XPCOMUtils.generateQI([Ci.nsIMsgCopyServiceListener]),

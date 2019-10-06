@@ -26,7 +26,7 @@ var EnigmailCore = {};
 
 var gSMFields;
 
-var EnigmailTb60Compat = ChromeUtils.import("chrome://enigmail/content/modules/tb60compat.jsm").EnigmailTb60Compat;
+var EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 
 var EnigmailPrefs = {
   getPref: (prop) => {
@@ -631,7 +631,7 @@ function pepMenuPopup_test() {
 }
 
 function preferPgpOverSmime_test() {
-  let si = EnigmailTb60Compat.getSecurityField();
+  let si = EnigmailCompat.getSecurityField();
   let secField;
   if (si === "securityInfo") {
     secField = Components.classes["@mozilla.org/messenger-smime/composefields;1"].createInstance(Ci.nsIMsgSMIMECompFields);
@@ -1007,7 +1007,7 @@ function replaceEditorText_test() {
 
 function resetUpdatedFields_test() {
 
-  let si = EnigmailTb60Compat.getSecurityField();
+  let si = EnigmailCompat.getSecurityField();
   gMsgCompose = {
     compFields: {
       subject: 'subject'

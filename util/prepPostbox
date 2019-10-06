@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# add defines to all files
+
+if [ $# -lt 3 ]; then
+  echo "Usage: $0 [-c] {tbird|pbx} inputfile outputfile"
+  echo "        -c  don't create Ci/Cu/Cc variables"
+  exit 1
+fi
+
+doCiCuCc=1
+
+if [ "$1" = "-c" ]; then
+  doCiCuCc=0
+  shift
+fi
+
+TARGET="$1"
+INP="$2"
+OUT="$3"
+if [ ! -f "$INP" ]; then
+  echo "Cannot find file ${INP}"
+  exit 1
+fi
+
+## Special handling for pEp-nonfunc.jsm (make pEp non-working)
+if [ $(basename "$INP") = "pEp-nonfunc.jsm" ]; then
+  OUT=$(dirname $OUT)/pEp.jsm
+fi
+
+mkdir -p $(dirname "$OUT") || exit 1
+
+if [ $TARGET = "tbird" ]; then
+  cat "$INP" > "$OUT"
+elif [ "$doCiCuCc" = "1" ]; then
+  cat > "$OUT" <<EOT || exit 1
+var ChromeUtils = Components.utils;
+var Cu = Components.utils;
+var Cc = Components.classes;
+var Ci = Components.interfaces;
+if (typeof(document) === "object") {
+  document.createXULElement = document.createElement;
+}
+
+EOT
+
+  cat "$INP" >> $OUT || exit 1
+else
+  cat > "$OUT" <<EOT || exit 1
+var ChromeUtils = Components.utils;
+
+if (typeof(document) === "object") {
+  document.createXULElement = document.createElement;
+}
+
+EOT
+
+  cat "$INP" >> $OUT || exit 1
+fi

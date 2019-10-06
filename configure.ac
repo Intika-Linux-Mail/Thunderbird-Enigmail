@@ -2,7 +2,7 @@
 AC_PREREQ(2.61)
 min_automake_version="1.10"
 
-AC_INIT([enigmail],[2.1.2], [https://www.enigmail.net])
+AC_INIT([enigmail],[2.1.3], [https://www.enigmail.net])
 
 
 AC_PATH_PROG(PYTHON, "python2")
@@ -38,10 +38,13 @@ AC_ARG_ENABLE(lang,
     enable_lang=yes
     )
 
+AC_ARG_ENABLE(postbox,
+    AC_HELP_STRING([--enable-postbox],[build for Postbox instead of Thunderbird]),
+    enable_postbox=$enableval)
 
 AC_SUBST(enable_tests)
 AC_SUBST(enable_lang)
-
+AC_SUBST(enable_postbox)
 
 AC_ARG_WITH(tb-path,
         [  --with-tb-path=/path/to/thunderbird  set the path to an installed Thunderbird],

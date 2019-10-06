@@ -7,6 +7,8 @@ DEPTH		= ../..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = $(DIST)/chrome/content/modules/cryptoAPI
+
 MODFILES = \
 	gnupg.js \
 	gnupg-decryption.jsm \
@@ -15,11 +17,17 @@ MODFILES = \
 	openpgp-js.js \
 	interface.js
 
-all: deploy
+GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
 
-deploy: $(MODFILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/modules/cryptoAPI $(MODFILES)
+$(GENDIR)/%.jsm: %.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
 
+$(GENDIR)/%.js: %.js
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+build: $(GENFILES)
+
+all: build
 
 clean:
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules/cryptoAPI $(MODFILES)

@@ -7,9 +7,17 @@ DEPTH		= ..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = $(DIST)/chrome/content/modules
+
 DIRS = cryptoAPI
 
 PREFFILES = prefs/defaultPrefs.js
+
+ifeq ($(ENABLE_POSTBOX),yes)
+PEPJSM = pEp-nonfunc.jsm
+else
+PEPJSM = pEp.jsm
+endif
 
 MODFILES = \
            addrbook.jsm \
@@ -72,7 +80,7 @@ MODFILES = \
            overlays.jsm \
            passwordCheck.jsm \
            passwords.jsm \
-           pEp.jsm \
+           $(PEPJSM) \
            pEpAdapter.jsm \
            pEpDecrypt.jsm \
            pEpFilter.jsm \
@@ -92,7 +100,7 @@ MODFILES = \
            stdlib.jsm \
            streams.jsm \
            system.jsm \
-           tb60compat.jsm \
+           compat.jsm \
            time.jsm \
            timer.jsm \
            tor.jsm \
@@ -116,20 +124,28 @@ ENIG_BUILD_DATE=$(shell TZ=UTC date $(DATE_FMT) -d "@$(SOURCE_DATE_EPOCH)" 2>/de
                         TZ=UTC date -r "$(SOURCE_DATE_EPOCH)" $(DATE_FMT) || \
                         TZ=UTC date $(DATE_FMT) )
 
-all: dirs deploy
+GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
 
-deploy: $(PREFFILES) $(MODFILES)
+$(GENDIR)/%.jsm: %.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+all: dirs build deploy
+
+build: $(GENFILES)
+
+deploy: $(PREFFILES)
 	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/preferences $(PREFFILES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/modules $(MODFILES)
 	echo '"use strict";' > $(DIST)/chrome/content/modules/buildDate.jsm
 	echo 'var EXPORTED_SYMBOLS = ["EnigmailBuildDate"];' >> $(DIST)/chrome/content/modules/buildDate.jsm
 	echo 'var EnigmailBuildDate = { built: "$(ENIG_BUILD_DATE)" };' >> $(DIST)/chrome/content/modules/buildDate.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) bootstrap.js $(DIST)/bootstrap.js
+	$(DEPTH)/util/prepPackage $(XPI_MODULE_VERS) $(DIST)
 
 
 clean:
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/preferences $(PREFFILES)
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules $(MODFILES)
-	$(DEPTH)/util/install -u $(DIST)/bootstrap.js
+	$(DEPTH)/util/install -u $(DIST) bootstrap.js manifest.json install.rdf chrome.manifest
 
 .PHONY: dirs $(DIRS)
 

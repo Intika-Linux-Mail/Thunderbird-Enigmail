@@ -7,22 +7,37 @@ DEPTH		= ../..
 
 include $(DEPTH)/config/autoconf.mk
 
+GENDIR = $(DIST)/chrome/content/modules
 
-EXTRA_JS_MODULES =  \
+MODFILES =  \
 	subprocess.jsm \
-	enigmailprocess_shared_unix.js \
-	enigmailprocess_worker_common.js \
 	enigmailprocess_common.jsm \
-	enigmailprocess_shared_win.js \
-	enigmailprocess_worker_unix.js \
 	enigmailprocess_main.jsm \
 	enigmailprocess_unix.jsm \
-	enigmailprocess_worker_win.js \
-	enigmailprocess_shared.js \
 	enigmailprocess_win.jsm
 
-all: $(EXTRA_JS_MODULES)
-	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/modules $^
+WORKERS = \
+	enigmailprocess_shared.js \
+	enigmailprocess_shared_unix.js \
+	enigmailprocess_shared_win.js \
+	enigmailprocess_worker_common.js \
+	enigmailprocess_worker_unix.js \
+	enigmailprocess_worker_win.js
 
-clean: $(EXTRA_JS_MODULES)
+GENFILES = $(addprefix $(GENDIR)/,$(MODFILES))
+
+$(GENDIR)/%.jsm: %.jsm
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+$(GENDIR)/%.js: %.js
+	$(DEPTH)/util/prepPostbox $(TARGET_TOOL) $< $@
+
+
+all: $(GENFILES) deploy
+
+deploy:
+	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/modules $(WORKERS)
+
+
+clean: $(MODFILES)
 	$(DEPTH)/util/install -u $(DIST)/chrome/content/modules $^

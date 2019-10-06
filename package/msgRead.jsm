@@ -12,12 +12,13 @@ var EXPORTED_SYMBOLS = ["EnigmailMsgRead"];
  * Message-reading related functions
  */
 
-const EnigmailPrefs = (ChromeUtils.import("chrome://enigmail/content/modules/prefs.jsm", {})).EnigmailPrefs;
-const EnigmailApp = (ChromeUtils.import("chrome://enigmail/content/modules/app.jsm", {})).EnigmailApp;
-const EnigmailVersioning = (ChromeUtils.import("chrome://enigmail/content/modules/versioning.jsm", {})).EnigmailVersioning;
-const EnigmailKeyRing = (ChromeUtils.import("chrome://enigmail/content/modules/keyRing.jsm", {})).EnigmailKeyRing;
-const EnigmailFuncs = (ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm", {})).EnigmailFuncs;
-const EnigmailAutocrypt = (ChromeUtils.import("chrome://enigmail/content/modules/autocrypt.jsm", {})).EnigmailAutocrypt;
+const EnigmailPrefs = ChromeUtils.import("chrome://enigmail/content/modules/prefs.jsm").EnigmailPrefs;
+const EnigmailApp = ChromeUtils.import("chrome://enigmail/content/modules/app.jsm").EnigmailApp;
+const EnigmailVersioning = ChromeUtils.import("chrome://enigmail/content/modules/versioning.jsm").EnigmailVersioning;
+const EnigmailKeyRing = ChromeUtils.import("chrome://enigmail/content/modules/keyRing.jsm").EnigmailKeyRing;
+const EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
+const EnigmailAutocrypt = ChromeUtils.import("chrome://enigmail/content/modules/autocrypt.jsm").EnigmailAutocrypt;
+const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 
 const ExtraHeaders = ["autocrypt", "openpgp"];
 
@@ -54,27 +55,7 @@ var EnigmailMsgRead = {
    * @return Object: nsIURL or nsIMsgMailNewsUrl object
    */
   getUrlFromUriSpec: function(uriSpec) {
-    try {
-      if (!uriSpec)
-        return null;
-
-      let messenger = Cc["@mozilla.org/messenger;1"].getService(Ci.nsIMessenger);
-      let msgService = messenger.messageServiceFromURI(uriSpec);
-
-      let urlObj = {};
-      msgService.GetUrlForUri(uriSpec, urlObj, null);
-
-      let url = urlObj.value;
-
-      if (url.scheme == "file") {
-        return url;
-      } else {
-        return url.QueryInterface(Ci.nsIMsgMailNewsUrl);
-      }
-
-    } catch (ex) {
-      return null;
-    }
+    return EnigmailCompat.getUrlFromUriSpec(uriSpec);
   },
 
   /**

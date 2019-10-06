@@ -28,12 +28,12 @@ window.document = document;
 
 do_load_module("chrome://enigmail/content/ui/enigmailMsgComposeOverlay.js");
 /* global EnigmailMimeEncrypt: false */
-var EnigmailTb60Compat = component("enigmail/tb60compat.jsm").EnigmailTb60Compat;
+var EnigmailCompat = component("enigmail/compat.jsm").EnigmailCompat;
 /* global EnigmailConstants: false */
 /* global EnigmailLocale: false */
 /* global EnigmailKeyRing: false */
 
-const SECURITY_INFO = EnigmailTb60Compat.getSecurityField();
+const SECURITY_INFO = EnigmailCompat.getSecurityField();
 
 var gMsgCompose,
   gWindowLocked,
@@ -50,7 +50,7 @@ function TestEditor(editorContent) {
 }
 
 TestEditor.prototype = {
-  QueryInterface: EnigmailTb60Compat.generateQI([
+  QueryInterface: EnigmailCompat.generateQI([
     "nsIEditorMailSupport",
     "nsIPlaintextEditor"
   ]),
