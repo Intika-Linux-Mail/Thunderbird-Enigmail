@@ -17,6 +17,7 @@ const EnigmailApp = ChromeUtils.import("chrome://enigmail/content/modules/app.js
 const EnigmailPEPAdapter = ChromeUtils.import("chrome://enigmail/content/modules/pEpAdapter.jsm").EnigmailPEPAdapter;
 const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/compat.jsm").EnigmailCompat;
 const EnigmailStdlib = ChromeUtils.import("chrome://enigmail/content/modules/stdlib.jsm").EnigmailStdlib;
+const Services = ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 const APPSHELL_MEDIATOR_CONTRACTID = "@mozilla.org/appshell/window-mediator;1";
 const APPSHSVC_CONTRACTID = "@mozilla.org/appshell/appShellService;1";
@@ -702,8 +703,12 @@ var EnigmailWindows = {
       gotTab.openedUrl = aURL;
     }
     else {
-      EnigmailWindows.openWin(windowName,
-        aURL, "resizable,centerscreen");
+      //EnigmailWindows.openWin(windowName,  aURL, "resizable,centerscreen");
+      let env = {
+        document: EnigmailStdlib.getMail3Pane().document
+      };
+      Services.scriptloader.loadSubScript("chrome://messenger/content/specialTabs.js", env, "UTF-8");
+      env.pbOpenNewContentTab({contentPage: aURL, background: false});
     }
   },
 
