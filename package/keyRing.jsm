@@ -565,7 +565,7 @@ var EnigmailKeyRing = {
       args = args.concat(["--import-options", "import-minimal"]);
     }
 
-    if (limitedUids.length > 0) {
+    if (limitedUids.length > 0 && EnigmailGpg.getGpgFeature("export-specific-uid")) {
       let filter = limitedUids.map(i => {
         return `mbox =~ ${i}`;
       }).join(" || ");
