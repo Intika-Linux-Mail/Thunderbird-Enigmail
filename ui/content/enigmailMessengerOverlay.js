@@ -990,10 +990,10 @@ Enigmail.msg = {
       if (Enigmail.msg.savedHeaders["content-type"].search(/^text\/html/i) === 0) {
         let p = Cc["@mozilla.org/parserutils;1"].createInstance(Ci.nsIParserUtils);
         const de = Ci.nsIDocumentEncoder;
-        msgText = p.convertToPlainText(topElement.innerHTML, de.OutputRaw | de.OutputBodyOnly, 0);
+        msgText = p.convertToPlainText(topElement.innerHTML, de.OutputRaw | de.OutputBodyOnly, 0).trim();
       }
       else {
-        msgText = bodyElement.textContent;
+        msgText = bodyElement.textContent.trim();
       }
     }
 
