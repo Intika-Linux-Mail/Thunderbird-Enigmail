@@ -131,12 +131,8 @@ function displayExistingEmails() {
       default:
         // no encrypted messages found
         enableDoneButton();
-        if (gPepAvailable) {
-          installPepIfNeeded();
-          gFinalAction = FINAL_ACTION_USEPEP;
-        } else {
-          gFinalAction = FINAL_ACTION_CREATEKEYS;
-        }
+        EnigmailPrefs.setPref("juniorMode", 0);
+        gFinalAction = FINAL_ACTION_CREATEKEYS;
     }
   }
   document.getElementById("determineInstall").style.visibility = "collapse";
