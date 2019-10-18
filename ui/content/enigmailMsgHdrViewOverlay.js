@@ -692,6 +692,7 @@ Enigmail.hdrView = {
 
     let secInfo = Enigmail.msg.securityInfo;
     let statusFlags = secInfo.statusFlags;
+    let sMimeContainer, encryptedUINode, signedUINode;
 
     if (secInfo.statusArr.length > 0) {
       expStatusText.value = secInfo.statusArr[0];
@@ -728,33 +729,38 @@ Enigmail.hdrView = {
       let doc = document.getElementById("messagepane").contentDocument;
       let sigNodes = doc.getElementsByClassName("hdr-signed-button");
       if (sigNodes && sigNodes.length > 0) {
-        var gSignedUINode = sigNodes[0];
+        signedUINode = sigNodes[0];
       }
 
       let encNodes = doc.getElementsByClassName("hdr-encrypted-button");
       if (encNodes && encNodes.length > 0) {
-        var gEncryptedUINode = encNodes[0];
+        encryptedUINode = encNodes[0];
       }
 
-      var gSMIMEContainer = document.getElementById("expandedEnigmailStatusText");
+      sMimeContainer = document.getElementById("expandedEnigmailStatusText");
+    }
+    else {
+      sMimeContainer = gSMIMEContainer;
+      signedUINode = gSignedUINode;
+      encryptedUINode = gEncryptedUINode;
     }
 
     /* eslint block-scoped-var: 0*/
-    if (typeof(gSMIMEContainer) !== "object")
+    if (typeof(sMimeContainer) !== "object")
       return;
-    if (!gSMIMEContainer)
+    if (!sMimeContainer)
       return;
 
     // Update icons and header-box css-class
     try {
-      gSMIMEContainer.collapsed = false;
-      gSignedUINode.collapsed = false;
-      gEncryptedUINode.collapsed = false;
+      sMimeContainer.collapsed = false;
+      signedUINode.collapsed = false;
+      encryptedUINode.collapsed = false;
 
       if ((statusFlags & EnigmailConstants.BAD_SIGNATURE) &&
         !(statusFlags & EnigmailConstants.GOOD_SIGNATURE)) {
         // Display untrusted/bad signature icon
-        gSignedUINode.setAttribute("signed", "unknown");
+        signedUINode.setAttribute("signed", "unknown");
         this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
         this.statusBar.setAttribute("signed", "unknown");
       }
@@ -764,14 +770,14 @@ Enigmail.hdrView = {
           EnigmailConstants.EXPIRED_KEY_SIGNATURE |
           EnigmailConstants.EXPIRED_SIGNATURE))) {
         // Display trusted good signature icon
-        gSignedUINode.setAttribute("signed", "ok");
+        signedUINode.setAttribute("signed", "ok");
         this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureOk");
         this.statusBar.setAttribute("signed", "ok");
         bodyElement.setAttribute("enigSigned", "ok");
       }
       else if (statusFlags & EnigmailConstants.UNVERIFIED_SIGNATURE) {
         // Display unverified signature icon
-        gSignedUINode.setAttribute("signed", "unknown");
+        signedUINode.setAttribute("signed", "unknown");
         this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureUnknown");
         this.statusBar.setAttribute("signed", "unknown");
       }
@@ -780,7 +786,7 @@ Enigmail.hdrView = {
           EnigmailConstants.EXPIRED_SIGNATURE |
           EnigmailConstants.GOOD_SIGNATURE)) {
         // Display unverified signature icon
-        gSignedUINode.setAttribute("signed", "unknown");
+        signedUINode.setAttribute("signed", "unknown");
         this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureVerified");
         this.statusBar.setAttribute("signed", "unknown");
       }
@@ -795,13 +801,13 @@ Enigmail.hdrView = {
         EnigmailURIs.rememberEncryptedUri(this.lastEncryptedMsgKey);
 
         // Display encrypted icon
-        gEncryptedUINode.setAttribute("encrypted", "ok");
+        encryptedUINode.setAttribute("encrypted", "ok");
         this.statusBar.setAttribute("encrypted", "ok");
       }
       else if (statusFlags &
         (EnigmailConstants.DECRYPTION_INCOMPLETE | EnigmailConstants.DECRYPTION_FAILED)) {
         // Display un-encrypted icon
-        gEncryptedUINode.setAttribute("encrypted", "notok");
+        encryptedUINode.setAttribute("encrypted", "notok");
         this.statusBar.setAttribute("encrypted", "notok");
         this.enigmailBox.setAttribute("class", "expandedEnigmailBox enigmailHeaderBoxLabelSignatureNotOk");
       }
