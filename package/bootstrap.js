@@ -31,7 +31,28 @@ function startup(data, reason) {
     EnigmailPgpmimeHander.startup(reason);
 
     Services.console.logStringMessage("Enigmail bootstrap completed");
-  } catch (ex) {
+  }
+  catch (ex) {
+    logException(ex);
+  }
+
+  // Try to start Unit-Test framework
+  let JSUnitService;
+  try {
+    JSUnitService = ChromeUtils.import("chrome://enigmail/content/jsunit/jsunit-service.js").JSUnitService;
+  }
+  catch (x) {
+    return;
+  }
+
+  try {
+    if (JSUnitService) {
+      JSUnitService.startup(reason).catch(ex => {
+        logException(ex);
+      });
+    }
+  }
+  catch (ex) {
     logException(ex);
   }
 }
@@ -61,7 +82,8 @@ function shutdown(data, reason) {
     //               in order to fully update images and locales, their caches need clearing here
     Services.obs.notifyObservers(null, "chrome-flush-caches", null);
 
-  } catch (ex) {
+  }
+  catch (ex) {
     logException(ex);
   }
 }
@@ -72,7 +94,8 @@ function shutdown(data, reason) {
 function shutdownModule(module, reason) {
   try {
     module.shutdown(reason);
-  } catch (ex) {}
+  }
+  catch (ex) {}
 }
 
 /**
@@ -91,7 +114,8 @@ function loadListOfModules() {
         mod = mod.replace(/^chrome/, "");
         gAllModules.push(mod);
       }
-    } else
+    }
+    else
       request.onerror(event);
   };
   request.send();
@@ -108,7 +132,8 @@ function unloadModules() {
       if (mod.search(/filtersWrapper\.jsm$/) < 0) {
         Components.utils.unload("chrome://enigmail" + mod);
       }
-    } catch (ex) {
+    }
+    catch (ex) {
       logException(ex);
     }
   }
@@ -120,5 +145,6 @@ function logException(exc) {
       Services
     } = ChromeUtils.import("resource://gre/modules/Services.jsm");
     Services.console.logStringMessage(exc.toString() + "\n" + exc.stack);
-  } catch (x) {}
+  }
+  catch (x) {}
 }

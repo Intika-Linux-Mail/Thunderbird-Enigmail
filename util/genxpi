@@ -195,6 +195,7 @@ zip -9 \
     chrome/skin/tb-win-xp/*.* \
     chrome/locale/*/*.* \
     chrome/locale/*/help/*.* \
+    chrome/content/jsunit/*.* \
     bootstrap.js \
     chrome.manifest \
     ${pkgFile}
