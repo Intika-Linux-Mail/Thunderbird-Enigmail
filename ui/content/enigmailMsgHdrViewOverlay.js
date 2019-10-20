@@ -76,7 +76,7 @@ Enigmail.hdrView = {
     }
 
     if (EnigmailCompat.isPostbox()) {
-      document.getElementById("messagepane").addEventListener('click', Enigmail.hdrView.postboxSmimeMessagePaneOnClick, true);
+      document.getElementById("messagepane").addEventListener('click', Enigmail.hdrView.postboxMessagePaneOnClick, true);
       /* global pbSmimeMessagePaneOnClick: false */
       document.getElementById("messagepane").removeEventListener('click', pbSmimeMessagePaneOnClick, true);
     }
@@ -104,7 +104,7 @@ Enigmail.hdrView = {
     }
   },
 
-  postboxSmimeMessagePaneOnClick: function(event) {
+  postboxMessagePaneOnClick: function(event) {
     let targetClassName = event.originalTarget.className;
     if (/hdr-signed-button/.test(targetClassName) || /hdr-encrypted-button/.test(targetClassName)) {
       Enigmail.msg.viewSecurityInfo(event, true);
@@ -1879,6 +1879,12 @@ Enigmail.hdrView = {
       msgFrame.removeEventListener("unload", Enigmail.hdrView.messageUnload, true);
       msgFrame.removeEventListener("load", Enigmail.hdrView.messageLoad, false);
     }
+
+    if (EnigmailCompat.isPostbox()) {
+      document.getElementById("messagepane").removeEventListener('click', Enigmail.hdrView.postboxMessagePaneOnClick, true);
+      document.getElementById("messagepane").addEventListener('click', pbSmimeMessagePaneOnClick, true);
+    }
+
 
     CanDetachAttachments = Enigmail.hdrView.origCanDetachAttachments;
   }
