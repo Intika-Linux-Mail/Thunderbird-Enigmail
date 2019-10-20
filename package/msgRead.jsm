@@ -32,19 +32,22 @@ var EnigmailMsgRead = {
     // is the Mozilla Platform number >= 59?
     const PREF_NAME = "mailnews.headers.extraAddonHeaders";
 
-    let hdr = r.getCharPref(PREF_NAME);
+    try {
+      let hdr = r.getCharPref(PREF_NAME);
 
-    if (hdr !== "*") { // do nothing if extraAddonHeaders is "*" (all headers)
-      for (let h of ExtraHeaders) {
-        let sr = new RegExp("\\b" + h + "\\b", "i");
-        if (hdr.search(h) < 0) {
-          if (hdr.length > 0) hdr += " ";
-          hdr += h;
+      if (hdr !== "*") { // do nothing if extraAddonHeaders is "*" (all headers)
+        for (let h of ExtraHeaders) {
+          let sr = new RegExp("\\b" + h + "\\b", "i");
+          if (hdr.search(h) < 0) {
+            if (hdr.length > 0) hdr += " ";
+            hdr += h;
+          }
         }
-      }
 
-      r.setCharPref(PREF_NAME, hdr);
+        r.setCharPref(PREF_NAME, hdr);
+      }
     }
+    catch (x) {}
   },
 
   /**
