@@ -12,7 +12,7 @@ try {
   MailServices = component("/modules/MailServices.jsm").MailServices;
 }
 catch (x){
-  MailServices = component("/modules/MailServices.js").MailServices;
+  MailServices = component("/modules/mailServices.js").MailServices;
 }
 
 var EnigmailFiles = component("enigmail/files.jsm").EnigmailFiles;
