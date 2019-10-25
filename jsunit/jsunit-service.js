@@ -26,12 +26,13 @@ function DEBUG_LOG(str) {
 var gStartTime;
 
 
-function startCmdLineTests(fileName, logFileName) {
+function startCmdLineTests(fileName, logFileName, doneFile) {
   var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
   gStartTime = Date.now();
 
   JSUnit.init(false, logFileName);
   JSUnit.printMsg("Starting JS unit tests " + fileName + "\n");
+  Services.console.logStringMessage("Starting JS unit tests " + fileName);
 
   try {
     try {
@@ -44,8 +45,19 @@ function startCmdLineTests(fileName, logFileName) {
       dump("** Tests aborted **\n");
     }
     JSUnit.printStats();
+    Services.console.logStringMessage("JSUnit Test completed");
+
+    if (doneFile) {
+      let stream = JSUnit.createFileStream(doneFile);
+      const doneStr = "DONE\n";
+      stream.write(doneStr, doneStr.length);
+      stream.close();
+    }
   }
-  catch (x) {}
+  catch (exc) {
+    Services.console.logStringMessage(exc.toString() + "\n" + exc.stack);
+    dump("** Error occurred **\n" + exc.toString());
+  }
 
   appStartup.quit(Ci.nsIAppStartup.eForceQuit);
 }
@@ -93,7 +105,7 @@ var JSUnitService = {
 
     setTimeout(function _f() {
       DEBUG_LOG(`JSUnit starting tests from ${launchCfg.mainFile}\n`);
-      startCmdLineTests(launchCfg.mainFile, launchCfg.logFile);
+      startCmdLineTests(launchCfg.mainFile, launchCfg.logFile, launchCfg.doneFile);
     }, 3000);
   }
 };

@@ -172,12 +172,14 @@ var JSUnit = {
     const DEFAULT_FILE_PERMS = 0x180; // equals 0600
 
     let localFile;
-    filePath = gCurrDir.path + "/" + filePath;
+    if (filePath.search(/^(\/|[a-zA-Z]:)/) !== 0) {
+      filePath = gCurrDir.path + "/" + filePath;
+    }
     if (this.getOS() == "WINNT") {
       filePath = filePath.replace(/\//g, "\\");
     }
 
-    dump("Creating log file: " + filePath + "\n");
+    dump("Creating file: " + filePath + "\n");
 
     localFile = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
     localFile.initWithPath(filePath);
