@@ -13,8 +13,9 @@ do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global TestH
 TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
 
 testing("autoSetup.jsm");
-/*global EnigmailAutoSetup: false, getMsgFolders: false, getStreamedMessage: false, getStreamedHeaders: false, checkHeaders: false, 
- EnigmailAutocrypt: false, EnigmailConstants: false, MailServices: false, EnigmailKeyRing: false*/
+/*global EnigmailAutoSetup: false, getMsgFolders: false, getStreamedMessage: false, getStreamedHeaders: false, checkHeaders: false,
+ EnigmailAutocrypt: false, EnigmailConstants: false, MailServices: false, EnigmailKeyRing: false,
+ EnigmailCompat: false*/
 
 
 const AC_HEADER =
@@ -59,13 +60,12 @@ function createCopyListener(callback) {
 }
 
 function copyMailToFolder(emlPath, folder) {
-  //let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
   return new Promise((resolve, reject) => {
     var listener = createCopyListener(() => {
       resolve(0);
     });
     let emailFile = do_get_file(emlPath, false);
-    MailServices.copy.CopyFileMessage(emailFile, folder, null, false, 0, null, listener, null);
+    EnigmailCompat.copyFileToMailFolder(emailFile, folder, 0, null, listener, null);
   });
 }
 
@@ -229,6 +229,9 @@ test(withTestGpgHome(withEnigmail(function getMsgFoldersTest() {
   let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
   copyMailToFolder("resources/encrypted-email.eml", sourceFolder).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
@@ -250,6 +253,9 @@ test(withTestGpgHome(withEnigmail(function getStreamedMessageTest() {
   const rootFolder = MailHelper.getRootFolder();
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/encrypted-email-with-attachment.eml", sourceFolder).then(() => {
+    inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
     inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
@@ -277,6 +283,9 @@ test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
   const rootFolder = MailHelper.getRootFolder();
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/encrypted-email.eml", sourceFolder).then(() => {
+    inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
     inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
@@ -309,6 +318,9 @@ test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
   const rootFolder = MailHelper.getRootFolder();
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/encrypted-email.eml", sourceFolder).then(() => {
+    inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
     inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
@@ -346,6 +358,9 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/encrypted-email.eml", sourceFolder).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
@@ -379,6 +394,9 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
   const setupFolder = MailHelper.createMailFolder("setup-box");
   copyMailToFolder("resources/autocrypt-setup-message.eml", setupFolder).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
@@ -406,6 +424,9 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
 
   const autocryptFolder = MailHelper.createMailFolder("autocrypt-box");
   copyMailToFolder("resources/encrypted-email-with-autocrypt.eml", autocryptFolder).then(() => {
+    inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
     inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
@@ -444,6 +465,9 @@ test(withTestGpgHome(withEnigmail(function determinePreviousInstallTypeTest() {
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/encrypted-email.eml", sourceFolder).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
@@ -462,17 +486,19 @@ test(withTestGpgHome(withEnigmail(function determinePreviousInstallTypeTest() {
   const autocryptFolder = MailHelper.createMailFolder("autocrypt-box");
   copyMailToFolder("resources/encrypted-email-with-autocrypt.eml", autocryptFolder).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
   EnigmailAutoSetup.determinePreviousInstallType().then((returnMsgValue) => {
     Assert.equal(returnMsgValue.value, EnigmailConstants.AUTOSETUP_NO_HEADER);
-    inspector.exitNestedEventLoop();
+    inspector.exitNestedEventLoop(0);
   }).catch(err => {
     Assert.ok(false);
-    inspector.exitNestedEventLoop();
+    inspector.exitNestedEventLoop(0);
   });
-
   inspector.enterNestedEventLoop(0);
 
   let acc2 = setupTestAccount("Unit Test Account 2", "dummy2", "testing@domain.invalid");
@@ -480,15 +506,21 @@ test(withTestGpgHome(withEnigmail(function determinePreviousInstallTypeTest() {
 
   copyMailToFolder("resources/email-acc2-pEp-message.eml", inbox).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
+  /* global do_print: false */
+  do_print("determine previous intall type...");
+
   EnigmailAutoSetup.determinePreviousInstallType().then((returnMsgValue) => {
     Assert.equal(returnMsgValue.value, EnigmailConstants.AUTOSETUP_PEP_HEADER);
-    inspector.exitNestedEventLoop();
+    inspector.exitNestedEventLoop(0);
   }).catch(err => {
     Assert.ok(false);
-    inspector.exitNestedEventLoop();
+    inspector.exitNestedEventLoop(0);
   });
 
   inspector.enterNestedEventLoop(0);
@@ -497,15 +529,18 @@ test(withTestGpgHome(withEnigmail(function determinePreviousInstallTypeTest() {
 
   copyMailToFolder("resources/autocrypt-setup-message.eml", inbox).then(() => {
     inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
+    inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
 
   EnigmailAutoSetup.determinePreviousInstallType().then((returnMsgValue) => {
     Assert.equal(returnMsgValue.value, EnigmailConstants.AUTOSETUP_AC_SETUP_MSG);
-    inspector.exitNestedEventLoop();
+    inspector.exitNestedEventLoop(0);
   }).catch(err => {
     Assert.ok(false);
-    inspector.exitNestedEventLoop();
+    inspector.exitNestedEventLoop(0);
   });
 
   inspector.enterNestedEventLoop(0);
@@ -523,6 +558,9 @@ test(withTestGpgHome(withEnigmail(function performAutocryptSetupTest() {
   const rootFolder = MailHelper.getRootFolder();
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/autocrypt-setup-message-2.eml", sourceFolder).then(() => {
+    inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
     inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);
@@ -582,6 +620,9 @@ test(withTestGpgHome(withEnigmail(function performAutocryptSetup_wrongPassword_T
   const rootFolder = MailHelper.getRootFolder();
   const sourceFolder = MailHelper.createMailFolder("source-box");
   copyMailToFolder("resources/autocrypt-setup-message-2.eml", sourceFolder).then(() => {
+    inspector.exitNestedEventLoop(0);
+  }).catch(err => {
+    Assert.ok(false, "Error in copyMailToFolder: " + err);
     inspector.exitNestedEventLoop(0);
   });
   inspector.enterNestedEventLoop(0);

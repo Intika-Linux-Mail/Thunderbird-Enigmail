@@ -72,148 +72,151 @@ var EnigmailAutoSetup = {
     return new Promise(async (resolve, reject) => {
       EnigmailLog.DEBUG("autoSetup.jsm: determinePreviousInstallType()\n");
 
-      let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(nsIMsgAccountManager);
-      let folderService = Cc["@mozilla.org/mail/folder-lookup;1"].getService(nsIFolderLookupService);
-      let returnMsgValue = {
-        value: EnigmailConstants.AUTOSETUP_NO_HEADER
-      };
+      try {
+        let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(nsIMsgAccountManager);
+        let folderService = Cc["@mozilla.org/mail/folder-lookup;1"].getService(nsIFolderLookupService);
+        let returnMsgValue = {
+          value: EnigmailConstants.AUTOSETUP_NO_HEADER
+        };
 
-      var accounts = msgAccountManager.accounts;
+        var accounts = msgAccountManager.accounts;
 
-      let msgHeaders = [];
-      let autocryptSetupMessage = {};
+        let msgHeaders = [];
+        let autocryptSetupMessage = {};
 
-      // If no account, except Local Folders is configured
-      if (accounts.length <= 1) {
-        gDeterminedSetupType.value = EnigmailConstants.AUTOSETUP_NO_ACCOUNT;
-        resolve(gDeterminedSetupType);
-        return;
-      }
-
-      // Iterate through each account
-
-      for (var i = 0; i < accounts.length; i++) {
-        var account = accounts.queryElementAt(i, Ci.nsIMsgAccount);
-        var accountMsgServer = account.incomingServer;
-        EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: scanning account "${accountMsgServer.prettyName}"\n`);
-
-        let msgFolderArr = [];
-
-        try {
-          getMsgFolders(account.incomingServer.rootFolder, msgFolderArr);
-        }
-        catch (e) {
-          EnigmailLog.DEBUG("autoSetup.jsm: determinePreviousInstallType: Error: " + e + "\n");
+        // If no account, except Local Folders is configured
+        if (accounts.length <= 1) {
+          gDeterminedSetupType.value = EnigmailConstants.AUTOSETUP_NO_ACCOUNT;
+          resolve(gDeterminedSetupType);
+          return;
         }
 
-        if (account.incomingServer.type.search(/^(none|nntp)$/) === 0) {
-          // ignore NNTP accounts and "Local Folders" accounts
-          continue;
-        }
+        // Iterate through each account
 
-        // Iterating through each non empty Folder Database in the Account
+        for (var i = 0; i < accounts.length; i++) {
+          var account = accounts.queryElementAt(i, Ci.nsIMsgAccount);
+          var accountMsgServer = account.incomingServer;
+          EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: scanning account "${accountMsgServer.prettyName}"\n`);
 
-        for (var k = 0; k < msgFolderArr.length; k++) {
-          let msgFolder = msgFolderArr[k];
-          let msgDatabase = msgFolderArr[k].msgDatabase;
+          let msgFolderArr = [];
 
-          if ((msgFolder.flags & Ci.nsMsgFolderFlags.Junk) ||
-            (msgFolder.flags & Ci.nsMsgFolderFlags.Trash) ||
-            (!account.defaultIdentity)) {
+          try {
+            getMsgFolders(account.incomingServer.rootFolder, msgFolderArr);
+          }
+          catch (e) {
+            EnigmailLog.DEBUG("autoSetup.jsm: determinePreviousInstallType: Error: " + e + "\n");
+          }
+
+          if (account.incomingServer.type.search(/^(none|nntp)$/) === 0) {
+            // ignore NNTP accounts and "Local Folders" accounts
             continue;
           }
 
-          EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: scanning folder "${msgFolder.name}"\n`);
+          // Iterating through each non empty Folder Database in the Account
 
-          let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
+          for (var k = 0; k < msgFolderArr.length; k++) {
+            let msgFolder = msgFolderArr[k];
+            let msgDatabase = msgFolderArr[k].msgDatabase;
 
-          // Iterating through each message in the Folder
-          while (msgEnumerator.hasMoreElements()) {
-            let msgHeader = msgEnumerator.getNext().QueryInterface(nsIMsgDBHdr);
-            let msgURI = msgFolder.getUriForMsg(msgHeader);
-
-            let msgAuthor = "";
-            try {
-              msgAuthor = EnigmailFuncs.stripEmail(msgHeader.author);
+            if ((msgFolder.flags & Ci.nsMsgFolderFlags.Junk) ||
+              (msgFolder.flags & Ci.nsMsgFolderFlags.Trash) ||
+              (!account.defaultIdentity)) {
+              continue;
             }
-            catch (x) {}
 
-            // Listing all the headers in the message
+            EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: scanning folder "${msgFolder.name}"\n`);
 
-            let messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
-            let mms = messenger.messageServiceFromURI(msgURI).QueryInterface(nsIMsgMessageService);
+            let msgEnumerator = msgDatabase.ReverseEnumerateMessages();
 
-            let headerObj = await getStreamedHeaders(msgURI, mms);
+            // Iterating through each message in the Folder
+            while (msgEnumerator.hasMoreElements()) {
+              let msgHeader = msgEnumerator.getNext().QueryInterface(nsIMsgDBHdr);
+              let msgURI = msgFolder.getUriForMsg(msgHeader);
 
-            let checkHeaderValues = await checkHeaders(headerObj, msgHeader, msgAuthor, account.defaultIdentity.email, msgFolder, returnMsgValue, msgHeaders);
+              let msgAuthor = "";
+              try {
+                msgAuthor = EnigmailFuncs.stripEmail(msgHeader.author);
+              }
+              catch (x) {}
 
-            msgHeaders = checkHeaderValues.msgHeaders;
-            returnMsgValue = checkHeaderValues.returnMsgValue;
+              // Listing all the headers in the message
 
-            const currDateInSeconds = getCurrentTime();
-            const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
+              let messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
+              let mms = messenger.messageServiceFromURI(msgURI).QueryInterface(nsIMsgMessageService);
 
-            /**
-                2592000 = No. of Seconds in a Month.
-                This is to ignore 1 month old messages.
-            */
-            if (diffSecond > 2592000.0) {
-              break;
+              let headerObj = await getStreamedHeaders(msgURI, mms);
+              let checkHeaderValues = await checkHeaders(headerObj, msgHeader, msgAuthor, account.defaultIdentity.email, msgFolder, returnMsgValue, msgHeaders);
+
+              msgHeaders = checkHeaderValues.msgHeaders;
+              returnMsgValue = checkHeaderValues.returnMsgValue;
+
+              const currDateInSeconds = getCurrentTime();
+              const diffSecond = currDateInSeconds - msgHeader.dateInSeconds;
+
+              /**
+                  2592000 = No. of Seconds in a Month.
+                  This is to ignore 1 month old messages.
+              */
+              if (diffSecond > 2592000.0) {
+                break;
+              }
             }
+
           }
 
         }
-
-      }
-
-      if (returnMsgValue.acSetupMessage) {
-        EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: found AC-Setup message\n`);
-        gDeterminedSetupType = returnMsgValue;
-        resolve(gDeterminedSetupType);
-      }
-      else {
-        EnigmailLog.DEBUG(`msgHeaders.length: ${msgHeaders.length}\n`);
-
-        // find newest message to know the protocol
-        let latestMsg = null;
-        for (let i = 0; i < msgHeaders.length; i++) {
-          if (!latestMsg) {
-            latestMsg = msgHeaders[i];
-          }
-
-          if (msgHeaders[i].dateTime > latestMsg.dateTime) {
-            latestMsg = msgHeaders[i];
-          }
-        }
-
-        if (latestMsg) {
-          if (latestMsg.msgType === "Autocrypt") {
-            returnMsgValue.value = EnigmailConstants.AUTOSETUP_AC_HEADER;
-            returnMsgValue.msgHeaders = msgHeaders;
-          }
-          else if (latestMsg.msgType === "pEp") {
-            returnMsgValue.value = EnigmailConstants.AUTOSETUP_PEP_HEADER;
-            returnMsgValue.msgHeaders = msgHeaders;
-          }
-          else {
-            returnMsgValue.value = EnigmailConstants.AUTOSETUP_ENCRYPTED_MSG;
-            returnMsgValue.msgHeaders = msgHeaders;
-          }
-        }
-
-        let defId = EnigmailFuncs.getDefaultIdentity();
-        if (defId) {
-          returnMsgValue.userName = defId.fullName;
-          returnMsgValue.userEmail = defId.email;
+        if (returnMsgValue.acSetupMessage) {
+          EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: found AC-Setup message\n`);
+          gDeterminedSetupType = returnMsgValue;
+          resolve(gDeterminedSetupType);
         }
         else {
-          returnMsgValue.userName = undefined;
-          returnMsgValue.userEmail = undefined;
-        }
+          EnigmailLog.DEBUG(`msgHeaders.length: ${msgHeaders.length}\n`);
 
-        gDeterminedSetupType = returnMsgValue;
-        EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: found type: ${returnMsgValue.value}\n`);
-        resolve(returnMsgValue);
+          // find newest message to know the protocol
+          let latestMsg = null;
+          for (let i = 0; i < msgHeaders.length; i++) {
+            if (!latestMsg) {
+              latestMsg = msgHeaders[i];
+            }
+
+            if (msgHeaders[i].dateTime > latestMsg.dateTime) {
+              latestMsg = msgHeaders[i];
+            }
+          }
+
+          if (latestMsg) {
+            if (latestMsg.msgType === "Autocrypt") {
+              returnMsgValue.value = EnigmailConstants.AUTOSETUP_AC_HEADER;
+              returnMsgValue.msgHeaders = msgHeaders;
+            }
+            else if (latestMsg.msgType === "pEp") {
+              returnMsgValue.value = EnigmailConstants.AUTOSETUP_PEP_HEADER;
+              returnMsgValue.msgHeaders = msgHeaders;
+            }
+            else {
+              returnMsgValue.value = EnigmailConstants.AUTOSETUP_ENCRYPTED_MSG;
+              returnMsgValue.msgHeaders = msgHeaders;
+            }
+          }
+
+          let defId = EnigmailFuncs.getDefaultIdentity();
+          if (defId) {
+            returnMsgValue.userName = defId.fullName;
+            returnMsgValue.userEmail = defId.email;
+          }
+          else {
+            returnMsgValue.userName = undefined;
+            returnMsgValue.userEmail = undefined;
+          }
+
+          gDeterminedSetupType = returnMsgValue;
+          EnigmailLog.DEBUG(`autoSetup.jsm: determinePreviousInstallType: found type: ${returnMsgValue.value}\n`);
+          resolve(returnMsgValue);
+        }
+      }
+      catch (x) {
+        reject(x);
       }
     });
 
