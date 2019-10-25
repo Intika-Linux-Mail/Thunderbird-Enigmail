@@ -9,7 +9,15 @@
 
 "use strict";
 
-do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global TestHelper: false, addMacPaths: false, withEnigmail: false, withTestGpgHome: false*/
-TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
-
-MailHelper.deleteAllAccounts();
+try {
+  let cwd = do_get_cwd();
+  cwd.append("testHelper.js");
+  do_load_module("file://" + cwd.path); /*global TestHelper: false, addMacPaths: false, withEnigmail: false, withTestGpgHome: false*/
+  TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
+  MailHelper.deleteAllAccounts();
+}
+catch (x) {
+  /* global do_print: false */
+  do_print("Initialize Error: " + x.message + "\n" + x.stack);
+  throw x;
+}

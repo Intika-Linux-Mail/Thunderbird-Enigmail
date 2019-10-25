@@ -79,21 +79,21 @@ var JSUnitService = {
       let arr = await OS.File.read(cfgFile.path);
       let fileContents = arrayBufferToString(arr); // Convert the array to a text
       let cfg = JSON.parse(fileContents);
-      return cfg.mainFile;
+      return cfg;
     }
     catch (x) {}
     return null;
   },
 
   startup: async function() {
-    let launchFile = await this.getLaunchFile();
-    if (!launchFile) return;
+    let launchCfg = await this.getLaunchFile();
+    if (!launchCfg) return;
 
     //Services.console.logStringMessage("Starting unit tests");
 
     setTimeout(function _f() {
-      DEBUG_LOG(`JSUnit starting tests from ${launchFile}\n`);
-      startCmdLineTests(launchFile, null);
+      DEBUG_LOG(`JSUnit starting tests from ${launchCfg.mainFile}\n`);
+      startCmdLineTests(launchCfg.mainFile, launchCfg.logFile);
     }, 3000);
   }
 };

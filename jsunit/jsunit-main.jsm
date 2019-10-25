@@ -73,7 +73,7 @@ var JSUnit = {
   },
 
   printStats: function() {
-    JSUnit.printMsg("\nFINAL STATS\n");
+    JSUnit.printMsg("\nJSUNIT FINAL STATS\n");
     JSUnit.printMsg("TestResult: executed : " + (JSUnit.countFailed() + JSUnit.countSucceeded()));
     JSUnit.printMsg("TestResult: succeeded: " + JSUnit.countSucceeded());
     JSUnit.printMsg("TestResult: failed   : " + JSUnit.countFailed());
@@ -222,6 +222,7 @@ var JSUnit = {
     catch (ex) {
       JSUnit.printMsg("Failed to load '" + urlString + "' into " + context + "\n");
       JSUnit.printMsg(ex.toString() + "\n");
+      JSUnit.printMsg(ex.stack + "\n");
       throw "ERROR while loading script";
     }
   },
