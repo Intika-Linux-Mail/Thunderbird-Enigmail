@@ -74,6 +74,8 @@ test(function mimeEmitterBasicTest() {
 test(function processIncomingMailTest() {
 
   var testString = "Subject: Test\r\nContent-Type: text/plain\r\n\r\nThis is a test\r\n";
+  var md = do_get_cwd().clone();
+  md.append("test-message.txt");
 
   EnigmailFilters.addNewMailConsumer({
     consumeMessage: function(msg, rawMessageData) {
@@ -84,11 +86,10 @@ test(function processIncomingMailTest() {
       } catch (ex) {
         Assert.equal(ex.toString(), "");
       }
+      md.remove(false);
       do_test_finished();
     }
   });
-  var md = do_get_cwd().clone();
-  md.append("test-message.txt");
 
   var ioService = Components.classes["@mozilla.org/network/io-service;1"]
     .getService(Components.interfaces.nsIIOService);
@@ -101,6 +102,7 @@ test(function processIncomingMailTest() {
     processIncomingMail(md, true);
   } catch (ex) {
     Assert.ok(false, "processIncomingMail: exception " + ex.toString());
+    md.remove(false);
     do_test_finished();
   }
 });

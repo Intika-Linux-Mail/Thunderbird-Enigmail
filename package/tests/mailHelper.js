@@ -76,8 +76,9 @@ const MailHelper = {
   },
 
   loadEmailToMailFolder: function(emailFilePath, mailFolder) {
+    const EnigmailCompat = component("enigmail/compat.jsm").EnigmailCompat;
     let emailFile = do_get_file(emailFilePath, false);
-    MailServices.copy.CopyFileMessage(emailFile, mailFolder, null, false, 0, null, null, null);
+    EnigmailCompat.copyFileToMailFolder(emailFile, mailFolder, 0, null, null, null);
   },
 
   fetchFirstMessageHeaderIn: function(mailFolder) {

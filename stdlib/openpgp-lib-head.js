@@ -15,35 +15,55 @@ var EXPORTED_SYMBOLS = ["getOpenPGPLibrary"];
 // Complete list of gobal prpoperties (as of TB 65), taken from
 // [mozilla-source]/js/xpconnect/src/Sandbox.cpp
 
-Components.utils.importGlobalProperties(["Blob",
-  "CSS",
-  "CSSRule",
-  "ChromeUtils",
-  "DOMParser",
-  "Directory",
-  "Element",
-  "Event",
-  "File",
-  "FileReader",
-  "FormData",
-  "InspectorUtils",
-  "MessageChannel",
-  "Node",
-  "NodeFilter",
-  "PromiseDebugging",
-  "TextDecoder",
-  "TextEncoder",
-  "URL",
-  "URLSearchParams",
-  "XMLHttpRequest",
-  "XMLSerializer",
-  "atob",
-  "btoa",
-  "caches",
-  "crypto",
-  "fetch",
-  "indexedDB"
-]);
+try {
+  // Gecko 68
+  Components.utils.importGlobalProperties(["Blob",
+    "CSS",
+    "CSSRule",
+    "ChromeUtils",
+    "DOMParser",
+    "Directory",
+    "Element",
+    "Event",
+    "File",
+    "FileReader",
+    "FormData",
+    "InspectorUtils",
+    "MessageChannel",
+    "Node",
+    "NodeFilter",
+    "PromiseDebugging",
+    "TextDecoder",
+    "TextEncoder",
+    "URL",
+    "URLSearchParams",
+    "XMLHttpRequest",
+    "XMLSerializer",
+    "atob",
+    "btoa",
+    "caches",
+    "crypto",
+    "fetch",
+    "indexedDB"
+  ]);
+}
+catch(x) {
+  // Gecko 52
+  Components.utils.importGlobalProperties(["Blob",
+    "CSS",
+    "Directory",
+    "File",
+    "TextDecoder",
+    "TextEncoder",
+    "URL",
+    "XMLHttpRequest",
+    "atob",
+    "btoa",
+    "crypto",
+    "fetch",
+    "indexedDB"
+  ]);
+}
 
 const {
   TransformStream,

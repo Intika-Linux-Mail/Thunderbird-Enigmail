@@ -639,15 +639,15 @@ function getStreamedHeaders(msgURI, mms) {
           }
         }
         catch (e) {
-          reject({});
-          EnigmailLog.DEBUG("autoSetup.jsm: getStreamedHeaders: Error: " + e + "\n");
+          EnigmailLog.DEBUG("autoSetup.jsm: getStreamedHeaders: Error 1: " + e + "\n");
+          reject(e.toString());
         }
         resolve(headerObj);
       }), null, false);
     }
     catch (e) {
-      reject({});
-      EnigmailLog.DEBUG("autoSetup.jsm: getStreamedHeaders: Error: " + e + "\n");
+      EnigmailLog.DEBUG("autoSetup.jsm: getStreamedHeaders: Error 2: " + e + "\n");
+      reject(e.toString());
     }
   });
 }

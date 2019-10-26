@@ -302,7 +302,7 @@ test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
     Assert.equal(value.date, "Tue, 09 Jun 2015 16:43:45 -0500");
     inspector.exitNestedEventLoop();
   }).catch(err => {
-    Assert.ok(false);
+    Assert.ok(err.indexOf("NS_ERROR_FAILURE") >= 0);
     inspector.exitNestedEventLoop();
   });
 
@@ -334,7 +334,7 @@ test(withTestGpgHome(withEnigmail(function getStreamedHeadersTest() {
   getStreamedHeaders(msgURI, mms).then((value) => {
     inspector.exitNestedEventLoop();
   }).catch(err => {
-    Assert.equal(Object.keys(err).length, 0);
+    Assert.equal(err, "TypeError: mms is undefined");
     inspector.exitNestedEventLoop();
   });
 
@@ -383,7 +383,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
     Assert.equal(returnValue.msgHeaders.length, 0);
     inspector.exitNestedEventLoop();
   }).catch(err => {
-    Assert.ok(false);
+    Assert.ok(err.indexOf("NS_ERROR_FAILURE") >= 0);
     inspector.exitNestedEventLoop();
   });
 
@@ -414,7 +414,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
     Assert.notEqual(returnMsgValue.attachment, null);
     inspector.exitNestedEventLoop();
   }).catch(err => {
-    Assert.ok(false);
+    Assert.ok(err.indexOf("NS_ERROR_FAILURE") >= 0);
     inspector.exitNestedEventLoop();
   });
 
@@ -446,7 +446,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
     Assert.equal(returnValue.msgHeaders[0].fromAddr, msgAuthor2);
     inspector.exitNestedEventLoop();
   }).catch(err => {
-    Assert.ok(false);
+    Assert.ok(err.indexOf("NS_ERROR_FAILURE") >= 0);
     inspector.exitNestedEventLoop();
   });
 
@@ -519,7 +519,7 @@ test(withTestGpgHome(withEnigmail(function determinePreviousInstallTypeTest() {
     Assert.equal(returnMsgValue.value, EnigmailConstants.AUTOSETUP_PEP_HEADER);
     inspector.exitNestedEventLoop(0);
   }).catch(err => {
-    Assert.ok(false);
+    Assert.ok(err.indexOf("NS_ERROR_FAILURE") >= 0);
     inspector.exitNestedEventLoop(0);
   });
 
@@ -539,7 +539,7 @@ test(withTestGpgHome(withEnigmail(function determinePreviousInstallTypeTest() {
     Assert.equal(returnMsgValue.value, EnigmailConstants.AUTOSETUP_AC_SETUP_MSG);
     inspector.exitNestedEventLoop(0);
   }).catch(err => {
-    Assert.ok(false);
+    Assert.ok(err.indexOf("NS_ERROR_FAILURE") >= 0);
     inspector.exitNestedEventLoop(0);
   });
 

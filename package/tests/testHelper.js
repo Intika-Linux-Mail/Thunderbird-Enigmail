@@ -16,8 +16,12 @@ const TestEnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/c
 const TestEnigmailFiles = ChromeUtils.import("chrome://enigmail/content/modules/files.jsm").EnigmailFiles;
 
 var TestHelper = {
+  isWindows: function() {
+    return (Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime).OS === "WINNT");
+  },
+
   getMyPath: function() {
-    let isWin = (Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime).OS === "WINNT");
+    let isWin = TestHelper.isWindows();
     let fn = Components.stack.filename.replace(/^.* -> file:\/\//, "");
 
     if (isWin) {
@@ -94,7 +98,7 @@ var TestHelper = {
     }
 
     var s = "pinentry-program " + TestHelper.getMyPath().path.replace(/\\/g, "/") + "/pinentry-auto";
-    if (JSUnit.getOS() == "WINNT") {
+    if (TestHelper.isWindows()) {
       s += ".exe";
     }
     s += "\n";

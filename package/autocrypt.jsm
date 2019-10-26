@@ -494,6 +494,7 @@ var EnigmailAutocrypt = {
       }
       catch (ex) {
         EnigmailLog.DEBUG("autocrypt.jsm: createSetupMessage: error " + ex.toString() + "\n");
+        EnigmailLog.DEBUG("  stack:\n" + ex.stack + "\n");
         reject(4);
       }
     });

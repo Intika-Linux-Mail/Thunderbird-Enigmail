@@ -8,7 +8,7 @@
 
 "use strict";
 
-do_load_module("file://" + do_get_cwd().path + "/testHelper.js");
+do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /* global TestHelper */
 
 testing("streams.jsm"); /*global EnigmailStreams: false,  EnigmailLog: false, EnigmailPrefs: false, NetUtil: false */
 const EnigmailFiles = component("enigmail/files.jsm").EnigmailFiles;
@@ -57,7 +57,9 @@ test(function readFileChannel() {
   var stringListener = EnigmailStreams.newStringStreamListener(
     function compareResults(gotData) {
       Assert.equal(testString, gotData);
-      Assert.ok(md.exists(), false, "file was deleted:");
+      if (!TestHelper.isWindows()) {
+        Assert.ok(md.exists(), "file was deleted:");
+      }
       inspector.exitNestedEventLoop();
     }
   );
