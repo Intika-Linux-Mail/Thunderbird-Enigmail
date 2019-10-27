@@ -19,7 +19,7 @@ ln -s $(pwd)/Postbox $PARENTDIR/Postbox
 ln -s $(pwd)/Perl $PARENTDIR/Perl
 ln -s $(pwd)/app/bin $HOME/.wine/drive_c/gnupg
 
-echo "C:\\Enigmail\\enigmail-src\\build-pbx\\dist\\" > "$PARENTDIR/test-profile/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}"
+echo "C:\\\\Enigmail\\\\enigmail-src\\\\build-pbx\\\\dist\\\\" > "$PARENTDIR/test-profile/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}"
 cat << EOT > "$PARENTDIR/test-profile/prefs.js"
 user_pref("extensions.autoDisableScopes", 14);
 user_pref("browser.dom.window.dump.enabled", true);
