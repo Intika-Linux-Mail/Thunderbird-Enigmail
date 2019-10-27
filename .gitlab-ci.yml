@@ -46,10 +46,39 @@ test:
     - export XAUTHORITY="$(pwd)/tmp/.Xauthority"
     - export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/
     - ./configure --enable-tests --with-tb-path=`printf '%s/thunderbird/thunderbird' "$(pwd)"` --with-tb-args="--headless --profile $TBPROFILE"
-    - make dirs xpi
+    - make xpi
     - cat config/autoconf.mk
     - ls $TBPROFILE
     - cat $TBPROFILE/prefs.js
+    - USER=root xvfb-run -a -f "$XAUTHORITY" $(which make) unit
+  artifacts:
+    paths:
+      - config
+      - tmp
+      - tb-test-profile
+
+postbox_test:
+  before_script:
+    - apt update -y -qq
+    - apt install thunderbird wine python2 perl p7zip-full zip unzip curl xvfb libgtk-3-0 -y -qq
+    - export POSTBOXDL=https://enigmail.net/unit-testing/Postbox-7.0.7.zip
+    - curl -s -o postbox.zip $POSTBOXDL
+    - unzip postbox.zip
+    - export PERLDL=https://enigmail.net/unit-testing/MiniPerl-5.30.zip
+    - curl -o perl.zip $PERLDL
+    - unzip perl.zip
+    - export GPGDL=https://enigmail.net/unit-testing/gnupg-portable-win32-2.2.17-3.7z
+    - curl -o gnupg-inst.7z $GPGDL
+    - 7z x gnupg-inst.7z
+    - provisioning/wine-setup.sh
+
+  script:
+    - export TMPDIR="$(pwd)/tmp"
+    - export XAUTHORITY="$(pwd)/tmp/.Xauthority"
+    - export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/
+    - ./configure --enable-postbox --enable-tests --with-tb-path=$(pwd)/pbx-wrapper.sh
+    - make xpi
+    - cat config/autoconf.mk
     - USER=root xvfb-run -a -f "$XAUTHORITY" $(which make) unit
   artifacts:
     paths:
