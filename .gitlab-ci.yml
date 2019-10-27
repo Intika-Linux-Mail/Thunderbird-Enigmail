@@ -60,7 +60,7 @@ test:
 postbox_test:
   before_script:
     - apt update -y -qq
-    - apt install thunderbird wine python2 perl p7zip-full zip unzip curl xvfb libgtk-3-0 -y -qq
+    - apt install thunderbird wine perl p7zip-full zip unzip curl xvfb libgtk-3-0 -y -qq
     - export POSTBOXDL=https://enigmail.net/unit-testing/Postbox-7.0.7.zip
     - curl -s -o postbox.zip $POSTBOXDL
     - unzip postbox.zip
