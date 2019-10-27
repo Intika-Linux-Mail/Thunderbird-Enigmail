@@ -55,7 +55,8 @@ test(function determineGpgHomeDirReturnsRegistryValueForWindowsIfExists() {
     resetting(EnigmailOS, 'getWinRegistryString', function(a, b, c) {
       if (a === "Software\\GNU\\GNUPG" && b === "HomeDir" && c === "foo bar") {
         return "\\foo\\bar\\gnupg";
-      } else {
+      }
+      else {
         return "\\somewhere\\else";
       }
     }, function() {
@@ -159,8 +160,14 @@ test(withEnigmail(function resolveToolPathDefaultValues(enigmail) {
   withEnvironment({}, function(e) {
     resetting(EnigmailGpgAgent, 'agentPath', "/usr/bin/gpg-agent", function() {
       enigmail.environment = e;
-      var result = EnigmailGpgAgent.resolveToolPath("sort");
-      Assert.equal("sort", result.leafName.substr(0, 4));
+      if (TestHelper.isWindows()) {
+        let result = EnigmailGpgAgent.resolveToolPath("cmd");
+        Assert.equal("cmd", result.leafName.substr(0, 3));
+      }
+      else {
+        let result = EnigmailGpgAgent.resolveToolPath("sort");
+        Assert.equal("sort", result.leafName.substr(0, 4));
+      }
     });
   });
 }));
@@ -196,9 +203,11 @@ test(withEnigmail(function detectGpgAgentWithNoAgentInfoInEnvironment(enigmail) 
     enigmail.environment = e;
     EnigmailGpgAgent.detectGpgAgent(JSUnit.createStubWindow(), enigmail);
 
-    Assert.ok(!EnigmailGpgAgent.gpgAgentInfo.preStarted);
+    if (!TestHelper.isWindows()) {
+      Assert.ok(!EnigmailGpgAgent.gpgAgentInfo.preStarted);
+      Assert.equal("none", EnigmailGpgAgent.gpgAgentInfo.envStr);
+    }
     Assert.ok(!EnigmailGpgAgent.gpgAgentIsOptional);
-    Assert.equal("none", EnigmailGpgAgent.gpgAgentInfo.envStr);
   });
 }));
 

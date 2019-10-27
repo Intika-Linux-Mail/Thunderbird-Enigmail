@@ -302,12 +302,12 @@ function run_test() {
 
 
   /////////////////////////////////////////////////////////////////
-  // Test many concurrent runs
+  // Test many subsequent runs
   /////////////////////////////////////////////////////////////////
 
   do_print("mass test");
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 1000; i++) {
     p = subprocess.call({
       command: pl.path,
       arguments: [cmd.path, 'quick'],
