@@ -103,8 +103,7 @@ var JSUnit = {
     }
   },
 
-  setMainFile: function(fileName) {
-  },
+  setMainFile: function(fileName) {},
 
   getOS: function() {
     return Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime).OS;
@@ -238,9 +237,23 @@ var JSUnit = {
   },
 
   waitForAsyncTest: function() {
-    var thread = Cc['@mozilla.org/thread-manager;1'].getService(Ci.nsIThreadManager).currentThread;
-    while (gTestPending > 0) {
-      thread.processNextEvent(true);
+    const MAX_ATTEMPT = 3;
+    let attempt = 0;
+    while (attempt < MAX_ATTEMPT) {
+      try {
+        let thread = Cc['@mozilla.org/thread-manager;1'].getService(Ci.nsIThreadManager).currentThread;
+        while (gTestPending > 0) {
+          thread.processNextEvent(true);
+        }
+        attempt = MAX_ATTEMPT + 1;
+      }
+      catch (ex) {
+        ++attempt;
+        if (attempt >= MAX_ATTEMPT) {
+          JSUnit.printMsg("Exception while waiting async test: " + ex.toString());
+          JSUnit.abortPendingTests();
+        }
+      }
     }
   },
 
