@@ -63,7 +63,6 @@ user_pref("mail.server.server2.type", "pop3");
 user_pref("mail.server.server2.userName", "dummy");
 user_pref("mail.server.server2.login_at_startup", false);
 user_pref("extensions.enigmail.configuredVersion", "99.0");
-user_pref("extensions.enigmail.warnOnMissingOwnerTrust", false);
 user_pref("mail.shell.checkDefaultClient", false);
 EOT
 

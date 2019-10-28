@@ -15,6 +15,8 @@ try {
   do_load_module("file://" + cwd.path); /*global TestHelper: false, addMacPaths: false, withEnigmail: false, withTestGpgHome: false*/
   TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
   MailHelper.deleteAllAccounts();
+  let EnigmailPrefs = component("enigmail/prefs.jsm").EnigmailPrefs;
+  EnigmailPrefs.setPref("warnOnMissingOwnerTrust", false);
 }
 catch (x) {
   /* global do_print: false */
