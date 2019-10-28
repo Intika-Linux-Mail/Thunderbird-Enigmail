@@ -37,7 +37,7 @@ test:
     - printf 'user_pref("extensions.enigmail.configuredVersion", "99.0");\n' >> "$TBPROFILE/prefs.js"
     - printf '{%s "main.js"}\n' '"mainFile":' > "$TBPROFILE/jsunit.json"
     #- export TBDOWNLOAD=$(curl -s 'https://download.mozilla.org/?product=thunderbird-beta-latest&os=linux64&lang=en-US' | sed -E 's/(.*href=")([^"]+)(".*)/\2/')
-    - export TBDOWNLOAD=https://archive.mozilla.org/pub/thunderbird/releases/68.1.2/linux-x86_64/en-US/thunderbird-68.1.2.tar.bz2
+    - export TBDOWNLOAD=https://archive.mozilla.org/pub/thunderbird/releases/68.2.0/linux-x86_64/en-US/thunderbird-68.2.0.tar.bz2
     - curl -s -o thunderbird.tar.bz2 $TBDOWNLOAD
     - tar -xjvf thunderbird.tar.bz2
     - thunderbird/thunderbird --version

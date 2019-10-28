@@ -15,18 +15,24 @@ const EnigmailKeyRing = component("enigmail/keyRing.jsm").EnigmailKeyRing;
 /* TODO: write higher level test based on actual message */
 
 test(withTestGpgHome(withEnigmail(function shouldVerifyAttachment() {
+  let inspector = Cc["@mozilla.org/jsinspector;1"].createInstance(Ci.nsIJSInspector);
+
   loadSecretKey();
   loadPublicKey();
 
   const attachment = do_get_file("resources/attachment.txt", false);
   const signature = do_get_file("resources/attachment.txt.asc", false);
-  do_test_pending();
   let promise = EnigmailVerifyAttachment.attachment(attachment, signature);
   promise.then(function(result) {
     Assert.assertContains(result, 'Good signature from anonymous strike');
     Assert.assertContains(result, 'Key ID: 0x0x65537E212DC19025AD38EDB2781617319CE311C');
-    do_test_finished();
+    inspector.exitNestedEventLoop(0);
+  }).catch(x => {
+    Assert.ok(false, "exception in verifyAttachment");
+    inspector.exitNestedEventLoop(0);
   });
+
+  inspector.enterNestedEventLoop(0);
 })));
 
 
