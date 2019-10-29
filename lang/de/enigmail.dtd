@@ -252,7 +252,7 @@
 <!ENTITY enigmail.confirmBeforeSendingIfNotEncrypted.label   "Falls nicht verschlüsselt">
 <!ENTITY enigmail.confirmBeforeSendingIfNotEncrypted.tooltip "Informationsdialog über Signieren/Verschlüsseln vor dem Senden einer UNVERSCHLÜSSELTEN Nachricht anzeigen">
 <!ENTITY enigmail.confirmBeforeSendingIfRules.label          "Wenn Regeln die Standard-Einstellung zum Verschlüsseln geändert haben">
-<!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip        "Informationsdialog ber Signieren/Verschlüsseln vor dem Senden anzeigen, falls die Standardeinstellungen durch Empfängerregeln oder automatische Verschlüsselung geändert wurden">
+<!ENTITY enigmail.confirmBeforeSendingIfRules.tooltip        "Informationsdialog über Signieren/Verschlüsseln vor dem Senden anzeigen, falls die Standardeinstellungen durch Empfängerregeln oder automatische Verschlüsselung geändert wurden">
 
 
 <!-- keySel Preferences -->
