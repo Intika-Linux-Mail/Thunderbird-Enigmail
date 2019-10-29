@@ -348,7 +348,7 @@ PGP/MIME из MS-Exchange. Если вложения не открываются
 для идентификации ключа">
 <!ENTITY enigmail.amPrefUseKeyId.label              "Использовать указанный
 идентификатор ключа:">
-<!ENTITY enigmail.amPrefSelectKey.label             "">
+<!ENTITY enigmail.amPrefSelectKey.label             "Выбрать ключ">
 <!ENTITY enigmail.amPrefMsgComp.label               "Составление сообщения">
 <!ENTITY enigmail.amPrefDefaultEncrypt.label        "Исходные параметры для составления сообщений">
 <!ENTITY enigmail.encryptionDlg.label               "Параметры шифрования и цифровых подписей Enigmail">

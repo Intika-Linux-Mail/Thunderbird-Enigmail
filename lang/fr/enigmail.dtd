@@ -379,7 +379,7 @@
 <!ENTITY enigmail.keyManWindow.label               "Gestion des clés">
 <!ENTITY enigmail.keyManWindow.accesskey           "t">
 
-<!ENTITY enigmail.singleRcptSettings.label          "Enigmail — Paramètres des destinataires">
+<!ENTITY enigmail.singleRcptSettings.label          "Enigmail – Paramètres des destinataires">
 
 <!ENTITY enigmail.compose.excesslength.label        "Votre courriel comprend de très longues lignes. Elles devraient être traitées différemment pour éviter les mauvaises signatures.">
 <!ENTITY enigmail.compose.excesslength_action.label "Comment voulez-vous procéder ?">
@@ -413,7 +413,7 @@
 <!ENTITY enigmail.matchEnd.label                    "se termine par">
 <!ENTITY enigmail.not.label                         "Non">
 
-<!ENTITY enigmail.rulesEditor.label                 "Enigmail — Éditeur de règles par destinataire">
+<!ENTITY enigmail.rulesEditor.label                 "Enigmail – Éditeur de règles par destinataire">
 <!ENTITY enigmail.email.label                       "Courriel">
 <!ENTITY enigmail.pgpKeys.label                     "Clés OpenPGP">
 <!ENTITY enigmail.sign.label                        "Signer">
@@ -433,14 +433,14 @@
 <!ENTITY enigmail.clearSearch.accesskey             "E">
 
 <!ENTITY enigmail.searchKeyDlg.label               "Télécharger les clés OpenPGP">
-<!ENTITY enigmail.searchKeyDlgCapt.label           "Des clés ont été trouvées — Sélectionnez-en pour les importer">
+<!ENTITY enigmail.searchKeyDlgCapt.label           "Des clés ont été trouvées – Sélectionnez-en pour les importer">
 <!ENTITY enigmail.searchKeyDlgSelAll.label         "Sélectionner/dessélectionner tout">
 
 <!ENTITY enigmail.created.label                    "Créée">
 
 <!ENTITY enigmail.progress.label                   "Progression">
 
-<!ENTITY enigmail.sKeyDlg.title                    "Enigmail — Signer la clé">
+<!ENTITY enigmail.sKeyDlg.title                    "Enigmail – Signer la clé">
 <!ENTITY enigmail.sKeyDlg.signKey.label            "Clé à signer :">
 <!ENTITY enigmail.sKeyDlg.fingerprint.label        "Empreinte :">
 <!ENTITY enigmail.sKeyDlg.signWithKey.label        "Clé pour signer :">
@@ -452,11 +452,11 @@
 <!ENTITY enigmail.sKeyDlg.carefulCheck.label       "J’ai vérifié minutieusement">
 <!ENTITY enigmail.sKeyDlg.createLocal.label        "Signature locale (non exportable)">
 
-<!ENTITY enigmail.addUidDlg.title                  "Enigmail — Ajouter un ID utilisateur">
+<!ENTITY enigmail.addUidDlg.title                  "Enigmail – Ajouter un ID utilisateur">
 <!ENTITY enigmail.addUidDlg.name.label             "Nom">
 <!ENTITY enigmail.addUidDlg.email.label            "Adresse courriel">
 
-<!ENTITY enigmail.keyTrust.title                   "Enigmail — Définir la confiance envers le propriétaire">
+<!ENTITY enigmail.keyTrust.title                   "Enigmail – Définir la confiance envers le propriétaire">
 <!ENTITY enigmail.keyTrust.trustKey.label          "Clé en laquelle faire confiance :">
 <!ENTITY enigmail.keyTrust.trustLevel.label        "Quel niveau de confiance accordez-vous au propriétaire de la clé pour qu’il signe d’autres clés adéquatement ?">
 <!ENTITY enigmail.keyTrust.trustLevel.tooltip      "Pour de plus amples renseignements sur les niveaux de confiance des clés, visiter (en anglais) :https://gpgtools.tenderapp.com/kb/faq/what-is-ownertrust-trust-levels-explained">
@@ -466,10 +466,10 @@
 <!ENTITY enigmail.keyTrust.fullTrust.label         "Pleine (pleine confiance pour signer des clés adéquatement)">
 <!ENTITY enigmail.keyTrust.ultimateTrust.label     "Absolue (à n’utiliser que pour les clés dont vous êtes propriétaire)">
 
-<!ENTITY enigmail.keyExpiry.title                   "Enigmail — Changer la date d’expiration">
+<!ENTITY enigmail.keyExpiry.title                   "Enigmail – Changer la date d’expiration">
 <!ENTITY enigmail.keyExpiry.expiryKey.label         "Clés pour lesquelles changer la date d’expiration :">
 
-<!ENTITY enigmail.keyMan.title                     "Enigmail — Gestion des clés">
+<!ENTITY enigmail.keyMan.title                     "Enigmail – Gestion des clés">
 <!ENTITY enigmail.keyMan.close.label               "Fermer la fenêtre">
 <!ENTITY enigmail.keyMan.generate.label            "Nouvelle biclé">
 <!ENTITY enigmail.keyMan.sign.label                "Signer la clé">
