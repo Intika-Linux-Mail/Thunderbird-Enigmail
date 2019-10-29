@@ -97,7 +97,8 @@ function displayExistingEmails() {
     // secret keys are already available
     EnigmailLog.DEBUG(`setupWizard2.js: displayExistingEmails: found existing keys\n`);
     prevInstallElem = "previousInstall_keysAvailable";
-  } else {
+  }
+  else {
     switch (gFoundSetupType.value) {
       case EnigmailConstants.AUTOSETUP_AC_SETUP_MSG:
         // found Autocrypt Setup Message
@@ -113,7 +114,8 @@ function displayExistingEmails() {
         if (gPepAvailable) {
           prevInstallElem = "previousInstall_pEp";
           unhideButtons = ["btnImportKeys"];
-        } else {
+        }
+        else {
           gFoundSetupType.value = EnigmailConstants.AUTOSETUP_ENCRYPTED_MSG;
           displayExistingEmails();
           return;
@@ -151,14 +153,16 @@ function checkGnupgInstallation() {
     if (getEnigmailService(true)) {
       resolve(true);
       return;
-    } else {
+    }
+    else {
       gResolveInstall = resolve;
       document.getElementById("searchingGnuPG").style.visibility = "collapse";
       document.getElementById("requireGnuPG").style.visibility = "visible";
 
       if (InstallGnuPG.checkAvailability()) {
         document.getElementById("installBox").style.visibility = "visible";
-      } else {
+      }
+      else {
         document.getElementById("findGpgBox").style.visibility = "visible";
       }
     }
@@ -173,7 +177,8 @@ function checkGnupgInstallation() {
 async function checkPepAvailability() {
   if (await EnigmailPEPAdapter.isPepAvailable(false)) {
     gPepAvailable = true;
-  } else {
+  }
+  else {
     EnigmailPEPAdapter.resetPepAvailability();
     gPepAvailable = await EnigmailInstallPep.isPepInstallerAvailable();
   }
@@ -203,7 +208,8 @@ function getEnigmailService(resetCheck) {
 
   try {
     gEnigmailSvc = getCore().createInstance();
-  } catch (ex) {
+  }
+  catch (ex) {
     EnigmailLog.ERROR("setupWizard2.js: getEnigmailService: Error in instantiating EnigmailService\n");
     return null;
   }
@@ -219,7 +225,8 @@ function getEnigmailService(resetCheck) {
 
       // Reset alert count to default value
       EnigmailPrefs.getPrefBranch().clearUserPref("initAlert");
-    } catch (ex) {
+    }
+    catch (ex) {
       return null;
     }
 
@@ -252,7 +259,8 @@ function locateGpg() {
 
     if (!svc) {
       EnigmailDialog.alert(window, EnigmailLocale.getString("setupWizard.invalidGpg"));
-    } else {
+    }
+    else {
       gResolveInstall(true);
     }
   }
@@ -281,11 +289,13 @@ function installGnuPG() {
         var s = EnigmailLocale.getString("errorType." + errorMessage.type);
         if (errorMessage.type.startsWith("Security")) {
           s += "\n" + EnigmailLocale.getString("setupWizard.downloadForbidden");
-        } else
+        }
+        else
           s += "\n" + EnigmailLocale.getString("setupWizard.downloadImpossible");
 
         EnigmailDialog.alert(window, s);
-      } else {
+      }
+      else {
         EnigmailDialog.alert(window, EnigmailLocale.getString(errorMessage));
       }
 
@@ -308,7 +318,8 @@ function installGnuPG() {
       if (event.lengthComputable) {
         var percentComplete = event.loaded / event.total * 100;
         downloadProgress.setAttribute("value", percentComplete);
-      } else {
+      }
+      else {
         downloadProgress.removeAttribute("value");
       }
     },
@@ -345,7 +356,8 @@ function installGnuPG() {
         EnigmailPrefs.setPref("agentPath", origPath);
         this.returnToDownload();
         EnigmailDialog.alert(window, EnigmailLocale.getString("setupWizard.installFailed"));
-      } else {
+      }
+      else {
         gResolveInstall(true);
       }
     }
@@ -375,10 +387,15 @@ function rescanInbox() {
     EnigmailLog.DEBUG(`setupWizard2.js: onLoad: got rescanInbox ${r.value}\n`);
     gFoundSetupType = r;
 
-    for (let i of["previousInstall_ac", "btnRescanInbox", "btnImportSettings"]) {
+    for (let i of ["previousInstall_ac", "btnRescanInbox", "btnImportSettings"]) {
       document.getElementById(i).style.visibility = "collapse";
     }
 
+    displayExistingEmails();
+  }).catch(x => {
+    for (let i of ["previousInstall_ac", "btnRescanInbox", "btnImportSettings"]) {
+      document.getElementById(i).style.visibility = "collapse";
+    }
     displayExistingEmails();
   });
 }
@@ -423,7 +440,8 @@ function importKeysFromFile() {
 function applyExistingKeys() {
   if (gFoundSetupType.value === EnigmailConstants.AUTOSETUP_PEP_HEADER && gPepAvailable) {
     installPepIfNeeded();
-  } else {
+  }
+  else {
     EnigmailPrefs.setPref("juniorMode", 0);
     EnigmailAutoSetup.applyExistingKeys();
   }
