@@ -537,10 +537,10 @@ function EnigGetFilePath(nsFileObj) {
 
 function EnigCreateRevokeCert(keyId, userId, callbackFunc) {
   var defaultFileName = userId.replace(/[<>]/g, "");
-  defaultFileName += " (0x" + keyId + ") rev.asc";
+  defaultFileName += " (0x" + keyId + ") revocation.rev";
   var outFile = EnigFilePicker(EnigGetString("saveRevokeCertAs"),
-    "", true, "*.asc",
-    defaultFileName, [EnigGetString("asciiArmorFile"), "*.asc"]);
+    "", true, "*.rev",
+    defaultFileName, [EnigGetString("asciiArmorFile"), "*.rev"]);
   if (!outFile) return -1;
 
   var enigmailSvc = GetEnigmailSvc();
