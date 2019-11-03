@@ -21,6 +21,7 @@
         xmlns:html="http://www.w3.org/1999/xhtml"
         onload="enigmailDlgOnLoad();"
         minheight="200"
+        theme="default-light"
         buttons="accept,cancel,help">
 
   <script type="application/x-javascript" src="chrome://enigmail/content/ui/enigmailCommon.js"/>
