@@ -77,7 +77,7 @@
     <broadcaster id="bcUploadToWkd" disabled="false"/>
   </broadcasterset>
 
-  <menubar id="main-menubar" grippyhidden="true" class="enigmail-menubar">
+  <menubar id="enigmail-menubar" grippyhidden="true">
     <menu label="&enigmail.keyMan.fileMenu.label;"
           id="menu_File"
           accesskey="&enigmail.keyMan.fileMenu.accesskey;">
