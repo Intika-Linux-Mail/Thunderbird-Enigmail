@@ -540,7 +540,7 @@ function EnigCreateRevokeCert(keyId, userId, callbackFunc) {
   defaultFileName += " (0x" + keyId + ") revocation.rev";
   var outFile = EnigFilePicker(EnigGetString("saveRevokeCertAs"),
     "", true, "*.rev",
-    defaultFileName, [EnigGetString("asciiArmorFile"), "*.rev"]);
+    defaultFileName, [EnigGetString("revocationFile"), "*.rev"]);
   if (!outFile) return -1;
 
   var enigmailSvc = GetEnigmailSvc();
