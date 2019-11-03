@@ -427,6 +427,3 @@ treechildren::-moz-tree-cell-text(STYLE) {}
   color: var(--toolbar-color);
 }
 
-#enigmail-menubar > menu > menuitem {
-  color: var(--toolbar-color);
-}
