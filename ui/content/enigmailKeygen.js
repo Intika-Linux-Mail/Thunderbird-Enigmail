@@ -91,7 +91,8 @@ function enigmailKeygenLoad() {
 function updateKeySizeSel(selectedObj) {
   if (selectedObj.id === "keyType_ecc") {
     document.getElementById("keySize").setAttribute("disabled", "true");
-  } else {
+  }
+  else {
     document.getElementById("keySize").removeAttribute("disabled");
   }
 }
@@ -137,14 +138,15 @@ function enigmailKeygenTerminate(exitCode) {
 
   gKeygenRequest = null;
 
+  document.getElementById("keygenProgress").style.visibility = "hidden";
+
   if ((!gGeneratedKey) || gGeneratedKey == KEYGEN_CANCELLED) {
     if (!gGeneratedKey)
       EnigAlert(EnigGetString("keyGenFailed"));
     return;
   }
 
-  var progMeter = document.getElementById("keygenProgress");
-  progMeter.setAttribute("value", 100);
+  document.getElementById("keygenComplete").style.visibility = "visible";
 
   if (gGeneratedKey) {
     if (gUseForSigning.checked) {
@@ -160,9 +162,11 @@ function enigmailKeygenTerminate(exitCode) {
 
       if (EnigConfirm(EnigGetString("keygenComplete", curId.email) + "\n\n" + EnigGetString("revokeCertRecommended"), EnigGetString("keyMan.button.generateCert"))) {
         EnigCreateRevokeCert(gGeneratedKey, curId.email, closeAndReset);
-      } else
+      }
+      else
         closeAndReset();
-    } else {
+    }
+    else {
       if (EnigConfirm(EnigGetString("genCompleteNoSign") + "\n\n" + EnigGetString("revokeCertRecommended"), EnigGetString("keyMan.button.generateCert"))) {
         EnigCreateRevokeCert(gGeneratedKey, curId.email, closeAndReset);
         genAndSaveRevCert(gGeneratedKey, curId.email).then(
@@ -173,10 +177,12 @@ function enigmailKeygenTerminate(exitCode) {
             // do nothing
           }
         );
-      } else
+      }
+      else
         closeAndReset();
     }
-  } else {
+  }
+  else {
     EnigAlert(EnigGetString("keyGenFailed"));
     window.close();
   }
@@ -226,7 +232,8 @@ function saveRevCert(inputKeyFile, keyId, uid, resolve, reject) {
     try {
       inputKeyFile.copyToFollowingLinks(outFile.parent, outFile.leafName);
       EnigmailDialog.info(window, EnigGetString("revokeCertOK"));
-    } catch (ex) {
+    }
+    catch (ex) {
       EnigAlert(EnigGetString("revokeCertFailed"));
       reject(2);
     }
@@ -279,7 +286,7 @@ function enigmailCheckPassphrase() {
 
 function enigmailKeygenStart() {
   EnigmailLog.DEBUG("enigmailKeygen.js: Start\n");
-
+  document.getElementById("startKeygen").setAttribute("disabled", "true");
 
   if (gKeygenRequest) {
     let req = gKeygenRequest.QueryInterface(Components.interfaces.nsIRequest);
@@ -314,7 +321,8 @@ function enigmailKeygenStart() {
       if (passphrase === null) return;
     }
 
-  } else {
+  }
+  else {
     passphrase = "";
   }
 
@@ -348,15 +356,15 @@ function enigmailKeygenStart() {
     return;
   }
 
-  var idString = userName;
-
-  idString += " <" + userEmail + ">";
+  var idString = userName + " <" + userEmail + ">";
 
   var confirmMsg = EnigGetString("keyConfirm", idString);
 
   if (!EnigConfirm(confirmMsg, EnigGetString("keyMan.button.generateKey"))) {
     return;
   }
+
+  document.getElementById("keygenProgress").style.visibility = "visible";
 
   var proc = null;
 
@@ -376,11 +384,13 @@ function enigmailKeygenStart() {
         gAllData = gAllData.replace(/\[GNUPG:\] KEY_CREATED . [a-fA-F0-9]+[\n\r]/, "");
       }
       gAllData = gAllData.replace(/[\r\n]*\[GNUPG:\] GOOD_PASSPHRASE/g, "").replace(/([\r\n]*\[GNUPG:\] PROGRESS primegen )(.)( \d+ \d+)/g, "$2");
-      var progMeter = document.getElementById("keygenProgress");
-      var progValue = Number(progMeter.value);
-      progValue += (1 + (100 - progValue) / 200);
-      if (progValue >= 95) progValue = 10;
-      progMeter.setAttribute("value", progValue);
+      /*
+            var progMeter = document.getElementById("keygenProgress");
+            var progValue = Number(progMeter.value);
+            progValue += (1 + (100 - progValue) / 200);
+            if (progValue >= 95) progValue = 10;
+            progMeter.setAttribute("value", progValue);
+      */
     }
   };
 
@@ -394,7 +404,8 @@ function enigmailKeygenStart() {
       keyType,
       EnigmailData.convertFromUnicode(passphrase),
       listener);
-  } catch (ex) {
+  }
+  catch (ex) {
     EnigmailLog.DEBUG("enigmailKeygen.js: generateKey() failed with " + ex.toString() + "\n" + ex.stack + "\n");
   }
 
@@ -417,7 +428,8 @@ function enigmailKeygenCancel() {
   if (gKeygenRequest) {
     closeWin = EnigConfirm(EnigGetString("keyAbort"), EnigGetString("keyMan.button.generateKeyAbort"), EnigGetString("keyMan.button.generateKeyContinue"));
     if (closeWin) abortKeyGeneration();
-  } else {
+  }
+  else {
     closeWin = true;
   }
 
@@ -510,7 +522,7 @@ function fillIdentityListPopup() {
       }
     }
   }
-  catch(ex) {
+  catch (ex) {
     EnigmailLog.writeException("enigmailKeygen.js: fillIdentityListPopup: exception\n", ex);
   }
 }

@@ -141,6 +141,7 @@
           class="dialog"
           tooltip="aTooltip"
           tooltiptext="&enigmail.generateKey.tooltip;"
+          id="startKeygen"
           oncommand="enigmailKeygenStart();" />
 
   <button label="&enigmail.cancelKey.label;"
@@ -157,8 +158,11 @@
 
   <description>&enigmail.keygen.desc;</description>
 
-  <vbox class="enigmailGroupbox">
-    <html:progress id="keygenProgress" max="100" value="0"/>
+  <vbox align="center">
+    <hbox>
+      <image class="enigmailWheel enigmailSpinning" id="keygenProgress" style="visibility: hidden; margin-top: 0.5em;"/>
+      <html:span id="keygenComplete" style="visibility: hidden; margin: 0.5em;" class="enigmailOkSign"/>
+    </hbox>
   </vbox>
 </vbox>
 
