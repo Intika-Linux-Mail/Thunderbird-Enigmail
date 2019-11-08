@@ -15,7 +15,7 @@ do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global withE
 testing("key.jsm"); /*global EnigmailKey: false,  EnigmailOpenPGP: false */
 //EnigmailOpenPGP.initialize(); // make sure OpenPGP is initialized and available
 
-test(function shouldGetKeyDetails() {
+test(withTestGpgHome(function shouldGetKeyDetails() {
   const publicKey = do_get_file("resources/dev-strike.asc", false);
   const secretKey = do_get_file("resources/dev-strike.sec", false);
 
@@ -40,9 +40,9 @@ test(function shouldGetKeyDetails() {
   Assert.equal(k.fpr, "65537E212DC19025AD38EDB2781617319CE311C4");
   Assert.equal(k.isSecret, true);
 
-});
+}));
 
-test(function shouldSplitKeys() {
+test(withTestGpgHome(function shouldSplitKeys() {
   const publicKey1 = do_get_file("resources/dev-strike.asc", false);
   const publicKey2 = do_get_file("resources/dev-tiger.asc", false);
 
@@ -57,10 +57,10 @@ test(function shouldSplitKeys() {
   Assert.equal(k.fpr, "8C140834F2D683E9A016D3098439E17046977C46");
   Assert.equal(k.isSecret, false);
 
-});
+}));
 
 
-test(function shouldMergePubAndSec() {
+test(withTestGpgHome(function shouldMergePubAndSec() {
   const keyList = EnigmailKey.getKeyListFromKeyBlock(
     "-----BEGIN PGP PUBLIC KEY BLOCK-----" +
     "\n" + "Comment: GPGTools - https://gpgtools.org" +
@@ -228,9 +228,9 @@ test(function shouldMergePubAndSec() {
   Assert.ok(k.isSecret);
   Assert.equal(k.name, "anonymous strike <strike.devtest@gmail.com>");
 
-});
+}));
 
-test(function testBinary() {
+test(withTestGpgHome(function testBinary() {
   let data = atob(
     "mQINBFVHm5sBEACs94Ln+RMdeyBpWQtTZ/NZnwntsB10Wd3HTgo5sdA/OOFOJrWetJfAZ/HRxiSu1bwRaFVC8p061ftTbxf8bsdfsykYJQQqPODfcO0/oY2n/Z93ya8KTzjXR3qBQ1P7f5x71yeuo7Zrj7B0G44Xjfy+1L0eka9paBqmm3U5cUew5wSr772LcflipWfncWXD2rBqgRfR339lRHd3Vwo7V8jje8rlP9msOuTMWCvQuQvpEkfIioXA7QipP2f0aPzsavNjFnAfC9rm2FDs6lX4syTMVUWy8IblRYo6MjhNaJFlBJkTCl0bugT9Ge0ZUifuAI0ihVGBpMSh4GF2B3ZPidwGSjgx1sojNHzU/3vBa9DuOmW95qrDNotvz61xYueTpOYK6ZeT880QMDvxXG9S5/H1KJxuOF1jx1DibAn9sfP4gtiQFI3FWMV9w3YrrqidoWSZBqyBO0Toqt" +
     "5fNdRyH4ET6HlJAQmFQUbqqnZrc07s/aITZN36d9eupCZQfW6e80UkXRPCU53vhh0GQey9reDyVCsV7xi6oXk1fqlpDYigQwEr4+yJ+1qAjtSVHJhFE0inQWkUwc2nxef6n7v/M9HszhP/aABadVE49oDaRm54PtA1l0mCT8IHcVR4ZDkaNwrHJtidEQcQ/+YVV3g7UJI9+g2nPvgMhk86AzBIlGpG+wARAQABtCthbm9ueW1vdXMgc3RyaWtlIDxzdHJpa2UuZGV2dGVzdEBnbWFpbC5jb20+iQI9BBMBCgAnBQJVR5ubAhsDBQkHhh+ABQsJCAcDBRUKCQgLBRYCAwEAAh4BAheAAAoJEHgWFzGc4xHEt/4P/1zf/2VsEwpJVlqwoLiJGQbViCRW34W8rTyL45GjRYAgDXrWLDPqxSbotXTXi72Dwug6a/Pn1VI1R2ZaBsWXH8qUYtSV/0b/2Hfq" +
@@ -248,4 +248,4 @@ test(function testBinary() {
   Assert.equal(k.id, "781617319CE311C4");
   Assert.ok(!k.isSecret);
   Assert.equal(k.name, "anonymous strike <strike.devtest@gmail.com>");
-});
+}));

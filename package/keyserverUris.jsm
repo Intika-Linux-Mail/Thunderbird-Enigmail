@@ -111,7 +111,8 @@ function buildKeyserverUris() {
  * @return true if keyservers exist and are valid, false otherwise.
  */
 function validKeyserversExist() {
-  return EnigmailPrefs.getPref(KEYSERVER_PREF).trim() !== "" && validProtocolsExist();
+  const keyservers = EnigmailPrefs.getPref(KEYSERVER_PREF);
+  return keyservers !== undefined && keyservers.trim() !== "" && validProtocolsExist();
 }
 
 var EnigmailKeyserverURIs = {
