@@ -8,7 +8,7 @@
 "use strict";
 
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js");
-/* global setupTestAccounts: false, withTestGpgHome: false, withEnigmail: false, component: false */
+/* global setupTestAccounts: false, withTestGpgHome: false, withEnigmail: false, component: false, withLogFiles: false */
 
 testing("autocrypt.jsm"); /*global EnigmailAutocrypt: false, EnigmailKeyRing: false, EnigmailStdlib: false, EnigmailSqliteDb: false */
 const Sqlite = ChromeUtils.import("resource://gre/modules/Sqlite.jsm").Sqlite;
@@ -170,7 +170,7 @@ test(function processHeader() {
 
 });
 
-test(withTestGpgHome(withEnigmail(function shouldGetKeyFunctions() {
+test(withLogFiles(withTestGpgHome(withEnigmail(function shouldGetKeyFunctions() {
   const publicKey = do_get_file("resources/dev-strike.asc", false);
   const secretKey = do_get_file("resources/dev-strike.sec", false);
   EnigmailKeyRing.importKeyFromFile(publicKey, {}, {});
@@ -199,4 +199,4 @@ test(withTestGpgHome(withEnigmail(function shouldGetKeyFunctions() {
   });
   inspector.enterNestedEventLoop(0);
 
-})));
+}))));
