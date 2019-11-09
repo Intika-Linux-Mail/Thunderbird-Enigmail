@@ -16,7 +16,7 @@ import logging
 from time import localtime
 from optparse import OptionParser
 from MozZipFile import ZipFile
-from cStringIO import StringIO
+from io import StringIO
 from datetime import datetime
 
 from utils import pushback_iter, lockFile
@@ -176,8 +176,7 @@ class JarMaker(object):
     '''
     lock = lockFile(manifestPath + '.lck')
     try:
-      myregister = dict.fromkeys(map(lambda s: s.replace('%', chromebasepath),
-                                     register.iterkeys()))
+      myregister = dict.fromkeys([s.replace('%', chromebasepath) for s in iter(register.keys())])
       manifestExists = os.path.isfile(manifestPath)
       mode = (manifestExists and 'r+b') or 'wb'
       mf = open(manifestPath, mode)
@@ -189,7 +188,7 @@ class JarMaker(object):
             continue
           myregister[l] = None
         mf.seek(0)
-      for k in myregister.iterkeys():
+      for k in myregister.keys():
         mf.write(k + os.linesep)
       mf.close()
     finally:
@@ -209,7 +208,7 @@ class JarMaker(object):
       self.localedirs = [_normpath(p) for p in self.localedirs]
     elif self.relativesrcdir:
       self.localedirs = self.generateLocaleDirs(self.relativesrcdir)
-    if isinstance(infile, basestring):
+    if isinstance(infile, str):
       logging.info("processing " + infile)
       self.sourcedirs.append(_normpath(os.path.dirname(infile)))
     pp = self.pp.clone()
@@ -218,7 +217,7 @@ class JarMaker(object):
     lines = pushback_iter(pp.out.getvalue().splitlines())
     try:
       while True:
-        l = lines.next()
+        l = next(lines)
         m = self.jarline.match(l)
         if not m:
           raise RuntimeError(l)
@@ -287,7 +286,7 @@ class JarMaker(object):
     try:
       while True:
         try:
-          l = lines.next()
+          l = next(lines)
         except StopIteration:
           # we're done with this jar.mn, and this jar section
           self.finalizeJar(jarfile, chromebasepath, register)
