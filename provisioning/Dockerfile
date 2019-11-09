@@ -9,7 +9,6 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y zip
 RUN apt-get install -y wget
-RUN apt-get install -y xvfb
 RUN apt-get install -y thunderbird
 RUN apt-get install -y gnupg2
 RUN apt-get install -y make
