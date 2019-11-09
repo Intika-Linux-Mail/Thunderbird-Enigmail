@@ -139,7 +139,7 @@ $(GENDIR)/%.js: %.js
 	$(DEPTH)/util/prepPostbox -c $(TARGET_TOOL) $< $@
 
 $(GENDIR)/%.xul: %.xul
-	$(PYTHON) $(DEPTH)/util/Preprocessor.py -I $(INCLUDE) -o $@ $<
+	$(PERL) $(DEPTH)/util/plpp.pl -i $(INCLUDE) -o $@ $<
 
 $(GENDIR)/%.htm: %.htm
 	$(DEPTH)/util/install -m 644 $(DIST)/chrome/content/ui $<
