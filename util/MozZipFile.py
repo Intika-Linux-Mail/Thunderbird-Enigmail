@@ -88,7 +88,7 @@ class ZipFile(zipfile.ZipFile):
         # Couldn't optimize, sadly, just remember the old entry for removal
         self._remove.append(self.filelist.pop(i))
     zipfile.ZipFile.writestr(self, zinfo, bytes)
-    self.filelist.sort(lambda l, r: cmp(l.header_offset, r.header_offset))
+    self.filelist.sort(lambda l, r: l.header_offset < r.header_offset)
     if doSeek:
       self.fp.seek(self.end)
     self.end = self.fp.tell()
@@ -111,7 +111,7 @@ class ZipFile(zipfile.ZipFile):
       self.fp = open(self.filename, 'r+b')
     all = [(zi, True) for zi in self.filelist] + \
         [(zi, False) for zi in self._remove]
-    all.sort(lambda l, r: cmp(l[0].header_offset, r[0].header_offset))
+    all.sort(lambda l, r: l[0].header_offset < r[0].header_offset)
     # empty _remove for multiple closes
     self._remove = []
 
