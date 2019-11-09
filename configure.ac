@@ -5,15 +5,15 @@ min_automake_version="1.10"
 AC_INIT([enigmail],[2.1.3], [https://www.enigmail.net])
 
 
-AC_PATH_PROG(PYTHON, "python2")
+AC_PATH_PROG(PYTHON, "python3")
 
-# fallback to python if python2 does not exist
+# fallback to python if python3 does not exist
 if test "x$PYTHON" = "x" ; then
   AC_PATH_PROG(PYTHON, "python")
 fi
 
 if test "x$PYTHON" = "x" ; then
-  AC_MSG_ERROR([[python2 or python not found.]])
+  AC_MSG_ERROR([[python3 or python not found.]])
 fi
 
 

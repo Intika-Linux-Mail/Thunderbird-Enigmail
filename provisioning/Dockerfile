@@ -12,7 +12,7 @@ RUN apt-get install -y wget
 RUN apt-get install -y thunderbird
 RUN apt-get install -y gnupg2
 RUN apt-get install -y make
-RUN apt-get install -y python
+RUN apt-get install -y python3
 RUN apt-get install -y gcc
 RUN apt-get install -y psmisc
 RUN apt-get install -y language-pack-en-base

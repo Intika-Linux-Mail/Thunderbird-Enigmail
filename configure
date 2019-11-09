@@ -1725,8 +1725,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-# Extract the first word of ""python2"", so it can be a program name with args.
-set dummy "python2"; ac_word=$2
+# Extract the first word of ""python3"", so it can be a program name with args.
+set dummy "python3"; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
 if ${ac_cv_path_PYTHON+:} false; then :
@@ -1766,7 +1766,7 @@ fi
 
 
 
-# fallback to python if python2 does not exist
+# fallback to python if python3 does not exist
 if test "x$PYTHON" = "x" ; then
   # Extract the first word of ""python"", so it can be a program name with args.
 set dummy "python"; ac_word=$2
@@ -1811,7 +1811,7 @@ fi
 fi
 
 if test "x$PYTHON" = "x" ; then
-  as_fn_error $? "python2 or python not found." "$LINENO" 5
+  as_fn_error $? "python3 or python not found." "$LINENO" 5
 fi
 
 
