@@ -99,21 +99,21 @@ class pushback_iter(object):
   def __iter__(self):
     return self
 
-  def __nonzero__(self):
+  def __bool__(self):
     if self.pushed_back:
       return True
 
     try:
-      self.pushed_back.insert(0, self.it.next())
+      self.pushed_back.insert(0, next(self.it))
     except StopIteration:
       return False
     else:
       return True
 
-  def next(self):
+  def __next__(self):
     if self.pushed_back:
       return self.pushed_back.pop()
-    return self.it.next()
+    return next(self.it)
 
   def pushback(self, item):
     self.pushed_back.append(item)

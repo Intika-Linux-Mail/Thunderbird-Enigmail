@@ -13,6 +13,7 @@ import os.path
 import re
 from optparse import OptionParser
 import errno
+from functools import reduce
 
 # hack around win32 mangling our line endings
 # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/65443
@@ -40,7 +41,7 @@ class Preprocessor:
     self.context = Expression.Context()
     for k,v in {'FILE': '',
                 'LINE': 0,
-                'DIRECTORY': os.path.abspath('.')}.iteritems():
+                'DIRECTORY': os.path.abspath('.')}.items():
       self.context[k] = v
     self.actionLevel = 0
     self.disableLevel = 0
@@ -55,26 +56,26 @@ class Preprocessor:
     self.cmds = {}
     for cmd, level in {'define': 0,
                        'undef': 0,
-                       'if': sys.maxint,
-                       'ifdef': sys.maxint,
-                       'ifndef': sys.maxint,
+                       'if': sys.maxsize,
+                       'ifdef': sys.maxsize,
+                       'ifndef': sys.maxsize,
                        'else': 1,
                        'elif': 1,
                        'elifdef': 1,
                        'elifndef': 1,
-                       'endif': sys.maxint,
+                       'endif': sys.maxsize,
                        'expand': 0,
                        'literal': 0,
                        'filter': 0,
                        'unfilter': 0,
                        'include': 0,
                        'includesubst': 0,
-                       'error': 0}.iteritems():
+                       'error': 0}.items():
       self.cmds[cmd] = (level, getattr(self, 'do_' + cmd))
     self.out = sys.stdout
     self.setMarker('#')
     self.LE = '\n'
-    self.varsubst = re.compile('@(?P<VAR>\w+)@', re.U)
+    self.varsubst = re.compile('@(?P<VAR>\w+)@')
   
   def warnUnused(self, file):
     if self.actionLevel == 0:
@@ -98,9 +99,8 @@ class Preprocessor:
     self.marker = aMarker
     if aMarker:
       self.instruction = re.compile('{0}(?P<cmd>[a-z]+)(?:\s(?P<args>.*))?$'
-                                    .format(aMarker), 
-                                    re.U)
-      self.comment = re.compile(aMarker, re.U)
+                                    .format(aMarker))
+      self.comment = re.compile(aMarker)
     else:
       class NoMatch(object):
         def match(self, *args):
@@ -174,7 +174,7 @@ class Preprocessor:
     escapedValue = re.compile('".*"$')
     numberValue = re.compile('\d+$')
     def handleE(option, opt, value, parser):
-      for k,v in os.environ.iteritems():
+      for k,v in os.environ.items():
         self.context[k] = v
     def handleD(option, opt, value, parser):
       vals = value.split('=', 1)
@@ -246,7 +246,7 @@ class Preprocessor:
   
   # Variables
   def do_define(self, args):
-    m = re.match('(?P<name>\w+)(?:\s(?P<value>.*))?', args, re.U)
+    m = re.match('(?P<name>\w+)(?:\s(?P<value>.*))?', args)
     if not m:
       raise Preprocessor.Error(self, 'SYNTAX_DEF', args)
     val = 1
@@ -258,7 +258,7 @@ class Preprocessor:
         pass
     self.context[m.group('name')] = val
   def do_undef(self, args):
-    m = re.match('(?P<name>\w+)$', args, re.U)
+    m = re.match('(?P<name>\w+)$', args)
     if not m:
       raise Preprocessor.Error(self, 'SYNTAX_DEF', args)
     if args in self.context:
@@ -294,7 +294,7 @@ class Preprocessor:
     if self.disableLevel and not replace:
       self.disableLevel += 1
       return
-    if re.match('\W', args, re.U):
+    if re.match('\W', args):
       raise Preprocessor.Error(self, 'INVALID_VAR', args)
     if args not in self.context:
       self.disableLevel = 1
@@ -309,7 +309,7 @@ class Preprocessor:
     if self.disableLevel and not replace:
       self.disableLevel += 1
       return
-    if re.match('\W', args, re.U):
+    if re.match('\W', args):
       raise Preprocessor.Error(self, 'INVALID_VAR', args)
     if args in self.context:
       self.disableLevel = 1
@@ -353,7 +353,7 @@ class Preprocessor:
       self.ifStates.pop()
   # output processing
   def do_expand(self, args):
-    lst = re.split('__(\w+)__', args, re.U)
+    lst = re.split('__(\w+)__', args)
     do_replace = False
     def vsubst(v):
       if v in self.context:
@@ -372,7 +372,7 @@ class Preprocessor:
     current = dict(self.filters)
     for f in filters:
       current[f] = getattr(self, 'filter_' + f)
-    filterNames = current.keys()
+    filterNames = list(current.keys())
     filterNames.sort()
     self.filters = [(fn, current[fn]) for fn in filterNames]
     return
@@ -382,7 +382,7 @@ class Preprocessor:
     for f in filters:
       if f in current:
         del current[f]
-    filterNames = current.keys()
+    filterNames = list(current.keys())
     filterNames.sort()
     self.filters = [(fn, current[fn]) for fn in filterNames]
     return
@@ -427,7 +427,7 @@ class Preprocessor:
     args can either be a file name, or a file-like object.
     Files should be opened, and will be closed after processing.
     """
-    isName = type(args) == str or type(args) == unicode
+    isName = type(args) == str or type(args) == str
     oldWrittenLines = self.writtenLines
     oldCheckLineNumbers = self.checkLineNumbers
     self.checkLineNumbers = False
@@ -438,7 +438,7 @@ class Preprocessor:
           args = self.applyFilters(args)
         if not os.path.isabs(args):
           args = os.path.join(self.context['DIRECTORY'], args)
-        args = open(args, 'rU')
+        args = open(args, 'r')
       except Preprocessor.Error:
         raise
       except:

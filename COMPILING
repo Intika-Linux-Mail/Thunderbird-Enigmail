@@ -6,7 +6,7 @@ Prerequisites
 In order to build Enigmail you will need the following helper tools:
 - GNU make 3.81 or newer
 - zip
-- python 2.7 or newer
+- python 3
 - perl 5 or newer
 
 If you want to execute unit tests, you will also need:
