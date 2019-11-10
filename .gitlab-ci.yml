@@ -1,4 +1,4 @@
-image: node:10-stretch
+image: node:13-buster
 
 build:
   script:
