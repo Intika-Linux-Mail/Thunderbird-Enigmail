@@ -43,7 +43,7 @@ var EnigmailGnuPGUpdate = {
   isUpdateCheckNeeded: function() {
     // check once a week
     let now = Math.floor(Date.now() / 1000);
-    return (now < Number(EnigmailPrefs.getPref("gpgLastUpdate")) + 604800);
+    return (now > Number(EnigmailPrefs.getPref("gpgLastUpdate")) + 604800);
   },
 
   stopCheckingForUpdate: function() {
@@ -88,7 +88,7 @@ var EnigmailGnuPGUpdate = {
     }
 
     let self = this;
-    let timeoutSec = 3600 + Math.floor(Math.random() * 1800) - 900;
+    let timeoutSec = 300 + Math.floor(Math.random() * 1800);
 
     EnigmailLog.DEBUG(`gnupgUpdate.jsm: runUpdateCheck: check needed; waiting for ${timeoutSec} seconds\n`);
 
@@ -103,7 +103,7 @@ var EnigmailGnuPGUpdate = {
 };
 
 function isGpg4WinInstalled() {
-  const reg = ["Software\\Gpg4win", "Software\\GNU\\Gpg4win"];
+  const reg = ["Software\\Gpg4win", "Software\\GNU\\Gpg4win", "Software\\WOW6432Node\\Gpg4win", "Software\\WOW6432Node\\GNU\\Gpg4win"];
 
   for (let i in reg) {
     let s = EnigmailOS.getWinRegistryString(reg[i], "Installer Language", Ci.nsIWindowsRegKey.ROOT_KEY_LOCAL_MACHINE);
