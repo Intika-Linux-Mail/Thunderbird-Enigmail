@@ -163,6 +163,9 @@ pref("extensions.enigmail.autoWkdLookup", 1);
 // 4: if send (un)encrypted due to rules
 pref("extensions.enigmail.confirmBeforeSending", 0);
 
+// Show or hide the Enigmail (or pEp) column in the message list
+pref("extensions.enigmail.columnVisible", false);
+
 // show "Missing Trust in own keys" message (and remember selected state)
 pref("extensions.enigmail.warnOnMissingOwnerTrust", true);
 
