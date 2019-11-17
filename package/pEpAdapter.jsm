@@ -333,7 +333,7 @@ var EnigmailPEPAdapter = {
 
     // manual pEp or automatic mode
     if (mode === 2 || (!this.isAccountCryptEnabled())) {
-      return this.isPepAvailable(true);
+      return EnigmailFuncs.syncPromise(this.isPepAvailable(true));
     }
 
     return false;

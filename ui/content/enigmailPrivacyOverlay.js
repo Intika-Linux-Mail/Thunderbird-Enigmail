@@ -31,17 +31,17 @@ var EnigmailPrefOverlay = {
     }
 
     // call check to pEp-avalability asynchronously
-    EnigmailTimer.setTimeout(function _f() {
-      if (EnigmailPEPAdapter.isPepAvailable()) {
+    EnigmailTimer.setTimeout(async function _f() {
+      if (await EnigmailPEPAdapter.isPepAvailable(true)) {
         EnigmailLog.DEBUG("enigmailPrivacyOverlay.js: initJuniorMode - pEp is available\n");
         forceOn.removeAttribute("disabled");
       }
     }, 10);
   },
 
-  onWindowClose: function(event) {
+  onWindowClose: async function(event) {
     try {
-      if (EnigmailPEPAdapter.isPepAvailable()) {
+      if (await EnigmailPEPAdapter.isPepAvailable(false)) {
         EnigmailPEPAdapter.initialize();
       }
     } catch (ex) {}
