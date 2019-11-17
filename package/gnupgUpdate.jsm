@@ -78,8 +78,12 @@ var EnigmailGnuPGUpdate = {
 
   runUpdateCheck: function() {
     EnigmailLog.DEBUG(`gnupgUpdate.jsm: runUpdateCheck()\n`);
-    if (!this.isGnuPGUpdatable() || !this.isUpdateCheckNeeded()) {
-      EnigmailLog.DEBUG(`gnupgUpdate.jsm: runUpdateCheck: no action required\n`);
+    if (!this.isGnuPGUpdatable()) {
+      EnigmailLog.DEBUG(`gnupgUpdate.jsm: runUpdateCheck: cannot update GnuPG\n`);
+      return;
+    }
+    if (!this.isUpdateCheckNeeded()) {
+      EnigmailLog.DEBUG(`gnupgUpdate.jsm: runUpdateCheck: no checking needed\n`);
       return;
     }
 

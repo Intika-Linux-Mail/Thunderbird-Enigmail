@@ -710,7 +710,7 @@ Enigmail.msg = {
     var msgUri = null;
     var msgIsDraft = false;
 
-    this.juniorMode = EnigmailPEPAdapter.getPepJuniorMode();
+    this.juniorMode = EnigmailPEPAdapter.usingPep();
 
     this.setupMenuAndToolbar();
 

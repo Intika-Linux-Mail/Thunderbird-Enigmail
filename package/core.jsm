@@ -357,8 +357,8 @@ Enigmail.prototype = {
 
     this.initialized = true;
 
-    getEnigmailLog().DEBUG("core.jsm: Enigmail.initialize: END\n");
     getEnigmailGnuPGUpdate().runUpdateCheck();
+    getEnigmailLog().DEBUG("core.jsm: Enigmail.initialize: END\n");
   },
 
   reinitialize: function() {
