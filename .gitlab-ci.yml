@@ -35,6 +35,7 @@ test:
     - printf 'user_pref("app.update.auto", false);\n' >> "$TBPROFILE/prefs.js"
     - printf 'user_pref("extensions.enigmail.configuredVersion", "99.0");\n' >> "$TBPROFILE/prefs.js"
     - printf 'user_pref("extensions.enigmail.logDirectory", "%s");\n' $(pwd)/tmp >> "$TBPROFILE/prefs.js"
+    - printf 'user_pref("extensions.enigmail.pEpAutoDownload", false);\n' >> "$TBPROFILE/prefs.js"
     - curl -s -o "$TBPROFILE/extensions/jsunit@enigmail.net.xpi" https://www.enigmail.net/jsunit/jsunit-0.2.2.xpi
     #- export TBDOWNLOAD=$(curl -s 'https://download.mozilla.org/?product=thunderbird-beta-latest&os=linux64&lang=en-US' | sed -E 's/(.*href=")([^"]+)(".*)/\2/')
     - export TBDOWNLOAD=https://archive.mozilla.org/pub/thunderbird/releases/68.0/linux-x86_64/en-US/thunderbird-68.0.tar.bz2
