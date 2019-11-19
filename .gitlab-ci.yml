@@ -23,7 +23,7 @@ test:
   before_script:
     - export TBPROFILE="$(pwd)/tb-test-profile"
     - apt update -y -qq
-    - apt install thunderbird gnupg zip unzip curl xvfb libgtk-3-0 -y -qq
+    - apt install thunderbird gnupg zip unzip curl libgtk-3-0 -y -qq
     - mkdir -p $TBPROFILE/extensions tmp
     - printf '%s/build-tb/dist/' "$(pwd)" > "$TBPROFILE/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}"
     - printf 'user_pref("extensions.autoDisableScopes", 14);\n' > "$TBPROFILE/prefs.js"
@@ -45,14 +45,14 @@ test:
   script:
     - export TBPROFILE="$(pwd)/tb-test-profile"
     - export TMPDIR="$(pwd)/tmp"
-    - export XAUTHORITY="$(pwd)/tmp/.Xauthority"
+    - mkdir -p $TMPDIR
     - export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/
     - ./configure --enable-tests --with-tb-path=`printf '%s/thunderbird/thunderbird' "$(pwd)"` --with-tb-args="--headless --profile $TBPROFILE"
     - make xpi
     - cat config/autoconf.mk
     - ls $TBPROFILE
     - cat $TBPROFILE/prefs.js
-    - USER=root xvfb-run -a -f "$XAUTHORITY" $(which make) unit
+    - USER=root make unit
   artifacts:
     paths:
       - config

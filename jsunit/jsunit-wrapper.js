@@ -26,6 +26,8 @@ function do_get_file(filename, allowNonexistent) {
 
 var do_get_cwd = JSUnit.getCwd;
 
+var do_get_tmp_dir = JSUnit.getTempDir;
+
 var do_test_pending = JSUnit.testPending;
 
 var do_test_finished = JSUnit.testFinished;

@@ -113,6 +113,27 @@ var JSUnit = {
     return gCurrDir.clone();
   },
 
+  getTempDir: function() {
+    const TEMPDIR_PROP = "TmpD";
+
+    try {
+      const dsprops = Cc["@mozilla.org/file/directory_service;1"].getService().
+      QueryInterface(Ci.nsIProperties);
+      return dsprops.get(TEMPDIR_PROP, Ci.nsIFile);
+    }
+    catch (ex) {
+      // let's guess ...
+      const tmpDirObj = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
+      if (this.getOS() == "WINNT") {
+        tmpDirObj.initWithPath("C:/TEMP");
+      }
+      else {
+        tmpDirObj.initWithPath("/tmp");
+      }
+      return tmpDirObj;
+    }
+  },
+
   getFile: function(stack, testdirRelativePath, allowNonexistent) {
 
     //DEBUG_LOG("getFile: "+gCurrDir);
