@@ -94,13 +94,14 @@ Enigmail.edit = {
       this.pgpSignEncPolicy.checked = this.identity.getBoolAttribute("pgpSignEncrypted");
       this.pgpSignPlainPolicy.checked = this.identity.getBoolAttribute("pgpSignPlain");
       this.autoEncryptDrafts.checked = this.identity.getBoolAttribute("autoEncryptDrafts");
-
+      this.openPgpSendKeyWithMsg.checked = this.identity.getBoolAttribute("attachPgpKey");
     } else {
       this.enablePgp.checked = false;
       this.cryptoChoicesEnabled = false;
       this.pgpMimeMode.checked = true;
       this.pgpSignEncPolicy.checked = true;
       this.autoEncryptDrafts.checked = true;
+      this.openPgpSendKeyWithMsg.checked = false;
     }
 
     if (this.account) {
