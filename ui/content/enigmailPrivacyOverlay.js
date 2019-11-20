@@ -40,6 +40,7 @@ var EnigmailPrefOverlay = {
   },
 
   onWindowClose: async function(event) {
+    EnigmailLog.DEBUG("enigmailPrivacyOverlay.js: onWindowClose()\n");
     try {
       if (await EnigmailPEPAdapter.isPepAvailable(false)) {
         EnigmailPEPAdapter.initialize();
@@ -48,6 +49,7 @@ var EnigmailPrefOverlay = {
   },
 
   onLoad: function() {
+    EnigmailLog.DEBUG("enigmailPrivacyOverlay.js: onLoad()\n");
     window.addEventListener("unload", EnigmailPrefOverlay.onWindowClose, false);
     let prefPane = document.getElementById("panePrivacy");
     prefPane.addEventListener("paneload", EnigmailPrefOverlay.initJuniorMode);
@@ -65,5 +67,4 @@ var EnigmailPrefOverlay = {
   }
 };
 
-window.addEventListener("load-enigmail", EnigmailPrefOverlay.onLoad.bind(EnigmailPrefOverlay), false);
-window.addEventListener("unload-enigmail", EnigmailPrefOverlay.onUnload.bind(EnigmailPrefOverlay), false);
+EnigmailPrefOverlay.onLoad();
