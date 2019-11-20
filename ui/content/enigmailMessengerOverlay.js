@@ -112,15 +112,9 @@ Enigmail.msg = {
     }
 
     let t = document.getElementById("tabmail");
-
     if (t) {
       // TB >= 63
-      t.addEventListener("pageshow", function(e) {
-        if (e.type === "pageshow" && e.target.URL === "about:preferences") {
-          let Overlays = ChromeUtils.import("chrome://enigmail/content/modules/overlays.jsm", {}).Overlays;
-          Overlays.loadOverlays("Enigmail", e.target.defaultView, ["chrome://enigmail/content/ui/enigmailPrivacyOverlay.xul"]);
-        }
-      }, false);
+      t.addEventListener("pageshow", Enigmail.msg.pageShowListener, false);
     }
 
     let customizeToolbar = document.getElementById("customizeToolbarSheetIFrame");
@@ -225,6 +219,14 @@ Enigmail.msg = {
     EnigmailMsgRead.ensureExtraAddonHeaders();
     gMessageListeners.push(Enigmail.msg.messageListener);
     Enigmail.msg.messageListener.onEndHeaders();
+  },
+
+  pageShowListener: function(e) {
+    if (e.type === "pageshow" && e.target.URL === "about:preferences") {
+      EnigmailLog.DEBUG("enigmailMessengerOverlay.js: loading enigmailPrivacyOverlay.xul\n");
+      let Overlays = ChromeUtils.import("chrome://enigmail/content/modules/overlays.jsm", {}).Overlays;
+      Overlays.loadOverlays("Enigmail", e.target.defaultView, ["chrome://enigmail/content/ui/enigmailPrivacyOverlay.xul"]);
+    }
   },
 
   messageListener: {
@@ -2738,6 +2740,10 @@ Enigmail.msg = {
     window.removeEventListener("unload", Enigmail.msg.messengerClose, false);
     window.removeEventListener("unload-enigmail", Enigmail.msg.onUnloadEnigmail, false);
     window.removeEventListener("load-enigmail", Enigmail.msg.messengerStartup, false);
+    let t = document.getElementById("tabmail");
+    if (t) {
+      t.removeEventListener("pageshow", Enigmail.msg.pageShowListener, false);
+    }
 
     this.messageCleanup();
 
