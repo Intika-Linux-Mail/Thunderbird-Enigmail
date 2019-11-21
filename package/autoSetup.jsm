@@ -413,6 +413,7 @@ var EnigmailAutoSetup = {
    * Configure Enigmail to use existing keys
    */
   applyExistingKeys: function() {
+    EnigmailLog.DEBUG(`autoSetup.jsm: applyExistingKeys()\n`);
     let msgAccountManager = Cc["@mozilla.org/messenger/account-manager;1"].getService(nsIMsgAccountManager);
     let identities = msgAccountManager.allIdentities;
 
@@ -444,6 +445,7 @@ var EnigmailAutoSetup = {
  */
 
 function getMsgFolders(folder, msgFolderArr) {
+  EnigmailLog.DEBUG(`autoSetup.jsm: getMsgFolders(${folder.prettyName})\n`);
   if (folder.getTotalMessages(false) > 0) {
     msgFolderArr.push(folder);
   }
@@ -458,7 +460,7 @@ function getMsgFolders(folder, msgFolderArr) {
 }
 
 // Util Function for Extracting manually added Headers
-function streamListener(callback) {
+function getStreamListener(callback) {
   let streamListener = {
     mAttachments: [],
     mHeaders: [],
@@ -525,7 +527,8 @@ function streamListener(callback) {
 function getStreamedMessage(msgFolder, msgHeader) {
   return new Promise((resolve, reject) => {
     let msgURI = msgFolder.getUriForMsg(msgHeader);
-    var listener = streamListener(() => {
+    EnigmailLog.DEBUG(`autoSetup.jsm: getStreamedMessage(${msgURI})\n`);
+    var listener = getStreamListener(() => {
       resolve(listener.mAttachments[0]);
     });
     let messenger = Components.classes["@mozilla.org/messenger;1"].createInstance(nsIMessenger);
@@ -535,6 +538,8 @@ function getStreamedMessage(msgFolder, msgHeader) {
 }
 
 function checkHeaders(headerObj, msgHeader, msgAuthor, accountEmail, msgFolder, returnMsgValue, msgHeaders) {
+  EnigmailLog.DEBUG(`autoSetup.jsm: checkHeaders()\n`);
+
   return new Promise(async (resolve, reject) => {
     if (headerObj['autocrypt-setup-message'] && msgHeader.author == msgHeader.recipients) {
 
@@ -604,6 +609,7 @@ function checkHeaders(headerObj, msgHeader, msgAuthor, accountEmail, msgFolder, 
 }
 
 function getStreamedHeaders(msgURI, mms) {
+  EnigmailLog.DEBUG(`autoSetup.jsm: getStreamedHeaders(${msgURI})\n`);
 
   return new Promise((resolve, reject) => {
     let headers = Cc["@mozilla.org/messenger/mimeheaders;1"].createInstance(Ci.nsIMimeHeaders);
