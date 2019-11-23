@@ -617,7 +617,7 @@ function getStreamedHeaders(msgURI, mms) {
     try {
       mms.streamHeaders(msgURI, EnigmailStreams.newStringStreamListener(aRawString => {
         try {
-          //EnigmailLog.DEBUG(`getStreamedHeaders: ${aRawString}\n`);
+          EnigmailLog.DEBUG(`autoSetup.jsm: getStreamedHeaders: got ${aRawString.length} chars\n`);
           headers.initialize(aRawString);
 
           let i = headers.headerNames;
