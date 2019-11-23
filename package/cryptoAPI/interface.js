@@ -145,6 +145,24 @@ class CryptoAPI {
   }
 
   /**
+   * Import key(s) from a file
+   *
+   * @param {String} keyData:  the key data to be imported (ASCII armored)
+   * @param {Boolean} minimizeKey: import the minimum key without any 3rd-party signatures
+   * @param {Array of String} limitedUids: skip UIDs that were not specified
+   *
+   * @return {Object} or null in case no data / error:
+   *   - {Number}          exitCode:        result code (0: OK)
+   *   - {Array of String) importedKeys:    imported fingerprints
+   *   - {Number}          importSum:       total number of processed keys
+   *   - {Number}          importUnchanged: number of unchanged keys
+   */
+
+  async importKeyData(keyData, minimizeKey, limitedUids) {
+    return null;
+  }
+
+  /**
    * Export secret key(s) as ASCII armored data
    *
    * @param {String}  keyId       Specification by fingerprint or keyID

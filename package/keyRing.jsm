@@ -286,11 +286,12 @@ var EnigmailKeyRing = {
 
     const cApi = EnigmailCryptoAPI();
     let res = cApi.sync(cApi.importKeyFromFile(inputFile));
+
+    if (!res) return 1;
+
     if (importedKeysObj) {
       importedKeysObj.value = res.importedKeys.join(";");
     }
-
-    if (!res) return 1;
 
     if (res.importedKeys.length > 0) {
       EnigmailKeyRing.updateKeys(res.importedKeys);
@@ -553,62 +554,24 @@ var EnigmailKeyRing = {
       }
     }
 
-    let args = EnigmailGpg.getStandardArgs(false).concat(["--no-verbose", "--status-fd", "2"]);
-    if (minimizeKey) {
-      args = args.concat(["--import-options", "import-minimal"]);
+    const cApi = EnigmailCryptoAPI();
+    const res = await cApi.importKeyData(keyBlock, minimizeKey, limitedUids);
+
+
+    let exitCode = res.exitCode;
+
+    if (res.secCount !== res.secImported + res.secDups) {
+      EnigmailKeyRing.clearCache();
+      errorMsgObj.value = EnigmailLocale.getString("import.secretKeyImportError");
+      return 1;
     }
 
-    if (limitedUids.length > 0 && EnigmailGpg.getGpgFeature("export-specific-uid")) {
-      let filter = limitedUids.map(i => {
-        return `mbox =~ ${i}`;
-      }).join(" || ");
-
-      args.push("--import-filter");
-      args.push(`keep-uid=${filter}`);
+    if (importedKeysObj) {
+      importedKeysObj.value = res.importedKeys;
     }
-    args = args.concat(["--no-auto-check-trustdb", "--import"]);
 
-    const res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, pgpBlock);
-
-    const statusMsg = res.statusMsg;
-
-    if (!importedKeysObj) {
-      importedKeysObj = {};
-    }
-    importedKeysObj.value = [];
-
-    let exitCode = 1;
-    if (statusMsg && (statusMsg.search(/^IMPORT_RES /m) > -1)) {
-      let importRes = statusMsg.match(/^IMPORT_RES ([0-9]+) ([0-9]+) ([0-9]+) 0 ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)/m);
-
-      if (importRes !== null) {
-        let secCount = parseInt(importRes[9], 10); // number of secret keys found
-        let secImported = parseInt(importRes[10], 10); // number of secret keys imported
-        let secDups = parseInt(importRes[11], 10); // number of secret keys already on the keyring
-
-        if (secCount !== secImported + secDups) {
-          EnigmailKeyRing.clearCache();
-          errorMsgObj.value = EnigmailLocale.getString("import.secretKeyImportError");
-          return 1;
-        }
-      }
-
-      exitCode = 0;
-      // Normal return
-      if (statusMsg.search(/^IMPORT_OK /m) > -1) {
-        let l = statusMsg.split(/\r|\n/);
-        for (let i = 0; i < l.length; i++) {
-          const matches = l[i].match(/^(IMPORT_OK [0-9]+ )(([0-9a-fA-F]{8}){2,5})/);
-          if (matches && (matches.length > 2)) {
-            EnigmailLog.DEBUG("enigmail.js: Enigmail.importKey: IMPORTED 0x" + matches[2] + "\n");
-            importedKeysObj.value.push(matches[2]);
-          }
-        }
-
-        if (importedKeysObj.value.length > 0) {
-          EnigmailKeyRing.updateKeys(importedKeysObj.value);
-        }
-      }
+    if (res.importedKeys.length > 0) {
+      EnigmailKeyRing.updateKeys(res.importedKeys);
     }
 
     return exitCode;
