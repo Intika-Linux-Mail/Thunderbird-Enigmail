@@ -145,7 +145,7 @@ class CryptoAPI {
   }
 
   /**
-   * Export secret key(s) to a file
+   * Export secret key(s) as ASCII armored data
    *
    * @param {String}  keyId       Specification by fingerprint or keyID
    * @param {Boolean} minimalKey  if true, reduce key to minimum required
@@ -157,6 +157,22 @@ class CryptoAPI {
    */
 
   async extractSecretKey(keyId, minimalKey) {
+    return null;
+  }
+
+  /**
+   * Export public key(s) as ASCII armored data
+   *
+   * @param {String}  keyId       Specification by fingerprint or keyID
+   * @param {Boolean} minimalKey  if true, reduce key to minimum required
+   *
+   * @return {Object}:
+   *   - {Number} exitCode:  result code (0: OK)
+   *   - {String} keyData:   ASCII armored key data material
+   *   - {String} errorMsg:  error message in case exitCode !== 0
+   */
+
+  async extractPublicKey(keyId) {
     return null;
   }
 

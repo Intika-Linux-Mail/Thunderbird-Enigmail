@@ -61,6 +61,7 @@ var EXPORTED_SYMBOLS = ["newEnigmailKeyObj"];
      * clone
      * getMinimalPubKey
      * getVirtualKeySize
+     * getSecretKey
 */
 
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;

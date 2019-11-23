@@ -10,7 +10,7 @@
 
 "use strict";
 
-var EXPORTED_SYMBOLS = ["GnuPG_importKeyFromFile", "GnuPG_extractSecretKey"];
+var EXPORTED_SYMBOLS = ["GnuPG_importKeyFromFile", "GnuPG_extractSecretKey", "GnuPG_extractPublicKey"];
 
 const EnigmailExecution = ChromeUtils.import("chrome://enigmail/content/modules/execution.jsm").EnigmailExecution;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
@@ -95,6 +95,39 @@ async function GnuPG_extractSecretKey(userId, minimalKey) {
 
   args.push("-a");
   args.push("--export-secret-keys");
+
+  if (userId) {
+    args = args.concat(userId.split(/[ ,\t]+/));
+  }
+
+  let res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, "");
+
+  if (res.stdoutData) {
+    exitCode = 0;
+  }
+
+  if (exitCode !== 0) {
+    if (res.errorMsg) {
+      errorMsg = EnigmailFiles.formatCmdLine(EnigmailGpg.agentPath, args);
+      errorMsg += "\n" + res.errorMsg;
+    }
+  }
+
+  return {
+    keyData: res.stdoutData,
+    exitCode: exitCode,
+    errorMsg: errorMsg
+  };
+}
+
+
+async function GnuPG_extractPublicKey(userId) {
+  let args = EnigmailGpg.getStandardArgs(true);
+  let exitCode = -1,
+    errorMsg = "";
+
+  args.push("-a");
+  args.push("--export");
 
   if (userId) {
     args = args.concat(userId.split(/[ ,\t]+/));

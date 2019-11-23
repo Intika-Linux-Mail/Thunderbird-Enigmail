@@ -387,28 +387,21 @@ var EnigmailKeyRing = {
    * @return String - if outputFile is NULL, the key block data; "" if a file is written
    */
   extractKey: function(includeSecretKey, userId, outputFile, exitCodeObj, errorMsgObj) {
-    EnigmailLog.DEBUG("keyRing.jsm: EnigmailKeyRing.extractKey: " + userId + "\n");
-    let args = EnigmailGpg.getStandardArgs(true).concat(["-a", "--export"]);
+    EnigmailLog.DEBUG(`keyRing.jsm: EnigmailKeyRing.extractKey: ${userId}\n`);
 
-    if (userId) {
-      args = args.concat(userId.split(/[ ,\t]+/));
-    }
+    const cApi = EnigmailCryptoAPI();
 
-    const cmdErrorMsgObj = {};
-    let keyBlock = EnigmailExecution.execCmd(EnigmailGpg.agentPath, args, "", exitCodeObj, {}, {}, cmdErrorMsgObj);
+    let r = cApi.sync(cApi.extractPublicKey(userId));
 
-    if ((exitCodeObj.value === 0) && !keyBlock) {
+    let keyBlock = r.keyData;
+    exitCodeObj.value = r.exitCode;
+
+    if ((r.exitCode === 0) && !r.keyData) {
       exitCodeObj.value = -1;
     }
 
-    if (exitCodeObj.value !== 0) {
-      errorMsgObj.value = EnigmailLocale.getString("failKeyExtract");
-
-      if (cmdErrorMsgObj.value) {
-        errorMsgObj.value += "\n" + EnigmailFiles.formatCmdLine(EnigmailGpg.agentPath, args);
-        errorMsgObj.value += "\n" + cmdErrorMsgObj.value;
-      }
-
+    if (r.exitCode !== 0) {
+      errorMsgObj.value = r.errorMsg;
       return "";
     }
 

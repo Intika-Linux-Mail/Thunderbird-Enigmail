@@ -39,7 +39,8 @@ const {
 
 const {
   GnuPG_importKeyFromFile,
-  GnuPG_extractSecretKey
+  GnuPG_extractSecretKey,
+  GnuPG_extractPublicKey
 } = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-key.jsm");
 
 /**
@@ -246,7 +247,7 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
   }
 
   /**
-   * Export secret key(s) to a file
+   * Export secret key(s) as ASCII armored text
    *
    * @param {String}  keyId      Specification by fingerprint or keyID
    * @param {Boolean} minimalKey  if true, reduce key to minimum required
@@ -265,6 +266,27 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
     }
     return ret;
   }
+
+  /**
+   * Export public key(s) as ASCII armored text
+   *
+   * @param {String}  keyId      Specification by fingerprint or keyID
+   *
+   * @return {Object}:
+   *   - {Number} exitCode:  result code (0: OK)
+   *   - {String} keyData:   ASCII armored key data material
+   *   - {String} errorMsg:  error message in case exitCode !== 0
+   */
+
+  async extractPublicKey(keyId) {
+    let ret = await GnuPG_extractPublicKey(keyId);
+
+    if (ret.exitCode !== 0) {
+      ret.errorMsg = EnigmailLocale.getString("failKeyExtract") + "\n" + ret.errorMsg;
+    }
+    return ret;
+  }
+
 
   /**
    *
