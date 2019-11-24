@@ -33,6 +33,7 @@ function startCmdLineTests(fileName, logFileName, doneFile) {
   JSUnit.init(false, logFileName);
   JSUnit.printMsg("Starting JS unit tests " + fileName + "\n");
   Services.console.logStringMessage("Starting JS unit tests " + fileName);
+  hideMainWindow();
 
   try {
     try {
@@ -77,6 +78,24 @@ function arrayBufferToString(buffer) {
   return ret;
 }
 
+/**
+ * Hide the main messenger
+ */
+function hideMainWindow() {
+  const MAIN_WINDOW = "chrome://messenger/content/messenger.xul";
+
+  try {
+    let windowManager = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
+
+    let winEnum = windowManager.getEnumerator(null);
+    while (winEnum.hasMoreElements()) {var thisWin = winEnum.getNext();
+      if (thisWin.location.href === MAIN_WINDOW) {
+        thisWin.minimize();
+      }
+    }
+  }
+  catch(ex) {}
+}
 
 var JSUnitService = {
   getLaunchFile: async function() {
