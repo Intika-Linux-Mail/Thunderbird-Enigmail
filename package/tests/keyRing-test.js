@@ -1,5 +1,5 @@
 /*global do_load_module: false, do_get_file: false, do_get_cwd: false, testing: false, test: false, Assert: false, */
-/*global  resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false, component: false */
+/*global  resetting: false, JSUnit: false, do_test_pending: false, do_test_finished: false, component: false, do_get_tmp_dir: false */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,6 +15,8 @@ do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global withE
 let GnuPGKeyList = {};
 do_load_module("chrome://enigmail/content/modules/cryptoAPI/gnupg-keylist.jsm", GnuPGKeyList); /*global appendKeyItems: false */
 /*global createAndSortKeyList: false */
+
+const EnigmailKeyEditor = ChromeUtils.import("chrome://enigmail/content/modules/keyEditor.jsm").EnigmailKeyEditor;
 
 testing("keyRing.jsm"); /*global EnigmailKeyRing: false, EnigmailTrust: false, EnigmailLocale: false */
 
@@ -594,3 +596,30 @@ test(function shouldClone() {
   Assert.equal(cp.fprFormatted, "EA25 EF48 BF20 01E4 1FAB 0C1C DEF9 FC80 8A3F F001");
   Assert.equal(cp.getEncryptionValidity().keyValid, false);
 });
+
+test(withTestGpgHome(withEnigmail(function testOwnerTrust() {
+  const secretKey = do_get_file("resources/dev-strike.sec", false);
+  EnigmailKeyRing.importKeyFromFile(secretKey, {}, {});
+
+  EnigmailKeyEditor.setKeyTrust(null, "0x65537E212DC19025AD38EDB2781617319CE311C4", 5, function _onComplete() {});
+
+  let errorMsgObj = {};
+  let exitCodeObj = {};
+  let ot = EnigmailKeyRing.extractOwnerTrust(null, exitCodeObj, errorMsgObj);
+
+  let arr = ot.split(/\r?\n/);
+  Assert.equal(arr[2], "65537E212DC19025AD38EDB2781617319CE311C4:6:");
+  Assert.equal(exitCodeObj.value, 0);
+  Assert.equal(errorMsgObj.value, "");
+
+  let otFile = do_get_tmp_dir();
+  otFile.append("ownertrust-test.txt");
+
+  if (!EnigmailFiles.writeFileContents(otFile, ot)) {
+    Assert.ok(false);
+  }
+
+  exitCodeObj.value = EnigmailKeyRing.importOwnerTrust(otFile, errorMsgObj);
+  Assert.equal(exitCodeObj.value, 0);
+  Assert.equal(errorMsgObj.value, "");
+})));

@@ -16,7 +16,7 @@ const EnigmailExecution = ChromeUtils.import("chrome://enigmail/content/modules/
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
 const EnigmailGpg = ChromeUtils.import("chrome://enigmail/content/modules/gpg.jsm").EnigmailGpg;
 const EnigmailFiles = ChromeUtils.import("chrome://enigmail/content/modules/files.jsm").EnigmailFiles;
-const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/files.jsm").EnigmailLocale;
+const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 
 
 async function GnuPG_importKeyFromFile(inputFile) {
@@ -138,6 +138,7 @@ async function GnuPG_extractSecretKey(userId, minimalKey) {
   }
 
   let res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, "");
+  exitCode = res.exitCode;
 
   if (res.stdoutData) {
     exitCode = 0;
@@ -171,6 +172,7 @@ async function GnuPG_extractPublicKey(userId) {
   }
 
   let res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, "");
+  exitCode = res.exitCode;
 
   if (res.stdoutData) {
     exitCode = 0;

@@ -9,10 +9,6 @@
 
 var EXPORTED_SYMBOLS = ["EnigmailKeyEditor"];
 
-
-
-
-
 const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 const EnigmailKey = ChromeUtils.import("chrome://enigmail/content/modules/key.jsm").EnigmailKey;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
@@ -404,7 +400,7 @@ var EnigmailKeyEditor = {
         EnigmailKeyRing.updateKeys([keyId]);
         callbackFunc(returnCode, errorMsg);
       });
-      
+
   },
 
   genRevokeCert: function(parent, keyId, outFile, reasonCode, reasonText, callbackFunc) {

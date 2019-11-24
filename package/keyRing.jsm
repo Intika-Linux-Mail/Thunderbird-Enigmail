@@ -10,7 +10,6 @@ var EXPORTED_SYMBOLS = ["EnigmailKeyRing"];
 
 const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
-const EnigmailExecution = ChromeUtils.import("chrome://enigmail/content/modules/execution.jsm").EnigmailExecution;
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 const EnigmailFiles = ChromeUtils.import("chrome://enigmail/content/modules/files.jsm").EnigmailFiles;
 const EnigmailGpg = ChromeUtils.import("chrome://enigmail/content/modules/gpg.jsm").EnigmailGpg;
@@ -454,39 +453,30 @@ var EnigmailKeyRing = {
    * @return String - if outputFile is NULL, the key block data; "" if a file is written
    */
   extractOwnerTrust: function(outputFile, exitCodeObj, errorMsgObj) {
-    let args = EnigmailGpg.getStandardArgs(true).concat(["--export-ownertrust"]);
+    let cApi = EnigmailCryptoAPI();
 
-    let trustData = EnigmailExecution.execCmd(EnigmailGpg.agentPath, args, "", exitCodeObj, {}, {}, errorMsgObj);
+    let res = cApi.sync(cApi.getOwnerTrust(outputFile));
 
-    if (outputFile) {
-      if (!EnigmailFiles.writeFileContents(outputFile, trustData, DEFAULT_FILE_PERMS)) {
-        exitCodeObj.value = -1;
-        errorMsgObj.value = EnigmailLocale.getString("fileWriteFailed", [outputFile]);
-      }
-      return "";
-    }
+    exitCodeObj.value = res.exitCode;
+    errorMsgObj.value = res.errorMsg;
 
-    return trustData;
+    return res.ownerTrustData;
   },
 
   /**
    * Import the ownertrust database into GnuPG
-   * @param inputFile        String or nsIFile - input file name or Object - or NULL
+   * @param inputFile        String or nsIFile - input file name or Object
    * @param errorMsgObj       Object   - o.value will contain error message from GnuPG
    *
    * @return exit code
    */
   importOwnerTrust: function(inputFile, errorMsgObj) {
-    let args = EnigmailGpg.getStandardArgs(true).concat(["--import-ownertrust"]);
+    let cApi = EnigmailCryptoAPI();
 
-    let exitCodeObj = {};
-    try {
-      let trustData = EnigmailFiles.readFile(inputFile);
-      EnigmailExecution.execCmd(EnigmailGpg.agentPath, args, trustData, exitCodeObj, {}, {}, errorMsgObj);
-    }
-    catch (ex) {}
+    let res = cApi.sync(cApi.importOwnerTrust(inputFile));
+    errorMsgObj.value = res.errorMsg;
 
-    return exitCodeObj.value;
+    return res.exitCode;
   },
 
   /**

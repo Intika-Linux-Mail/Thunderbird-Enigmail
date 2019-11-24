@@ -304,4 +304,32 @@ class CryptoAPI {
   async getKeyListFromKeyBlock(keyBlockStr) {
     return null;
   }
+
+/**
+   * Export the ownertrust database
+   * @param {String or nsIFile} outputFile: Output file name or Object - or NULL if trust data
+   *                                        should be returned as string
+   *
+   * @return {Object}:
+   *          - ownerTrustData {String}: if outputFile is NULL, the key block data; "" if a file is written
+   *          - exitCode {Number}: exit code
+   *          - errorMsg {String}: error message
+   */
+  async getOwnerTrust(outputFile) {
+    return null;
+  }
+
+
+  /**
+   * Import the ownertrust database
+   *
+   * @param {String or nsIFile} inputFile: input file name or Object
+   *
+   * @return {Object}:
+   *         - exitCode {Number}: exit code
+   *         - errorMsg {String}: error message
+   */
+  async importOwnerTrust(inputFile) {
+    return null;
+  }
 }

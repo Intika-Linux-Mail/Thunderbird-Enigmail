@@ -44,6 +44,8 @@ const {
   GnuPG_importKeyData
 } = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-key.jsm");
 
+const DEFAULT_FILE_PERMS = 0o600;
+
 /**
  * GnuPG implementation of CryptoAPI
  */
@@ -486,6 +488,64 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
     return res;
   }
 
+  /**
+   * Export the ownertrust database from GnuPG
+   * @param {String or nsIFile} outputFile: Output file name or Object - or NULL if trust data
+   *                                        should be returned as string
+   *
+   * @return {Object}:
+   *          - ownerTrustData {String}: if outputFile is NULL, the key block data; "" if a file is written
+   *          - exitCode {Number}: exit code
+   *          - errorMsg {String}: error message
+   */
+  async getOwnerTrust(outputFile) {
+    let args = EnigmailGpg.getStandardArgs(true).concat(["--export-ownertrust"]);
+
+    let res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, "");
+    let exitCode = res.exitCode;
+    let errorMsg = res.errorMsg;
+
+    if (outputFile) {
+      if (!EnigmailFiles.writeFileContents(outputFile, res.stdoutData, DEFAULT_FILE_PERMS)) {
+        exitCode = -1;
+        errorMsg = EnigmailLocale.getString("fileWriteFailed", [outputFile]);
+      }
+      return "";
+    }
+
+    return {
+      ownerTrustData: res.stdoutData,
+      exitCode: exitCode,
+      errorMsg: errorMsg
+    };
+  }
+
+
+  /**
+   * Import the ownertrust database into GnuPG
+   *
+   * @param {String or nsIFile} inputFile: input file name or Object
+   *
+   * @return {Object}:
+   *         - exitCode {Number}: exit code
+   *         - errorMsg {String}: error message
+   */
+  async importOwnerTrust(inputFile) {
+    let args = EnigmailGpg.getStandardArgs(true).concat(["--import-ownertrust"]);
+    let res = {
+      exitCode: -1,
+      errorMsg: ""
+    };
+
+    let exitCodeObj = {};
+    try {
+      let trustData = EnigmailFiles.readFile(inputFile);
+      res = await EnigmailExecution.execAsync(EnigmailGpg.agentPath, args, trustData);
+    }
+    catch (ex) {}
+
+    return res;
+  }
 }
 
 function getGnuPGAPI() {
