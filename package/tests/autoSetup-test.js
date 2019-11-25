@@ -15,7 +15,7 @@ TestHelper.loadDirectly("tests/mailHelper.js"); /*global MailHelper: false */
 testing("autoSetup.jsm");
 /*global EnigmailAutoSetup: false, getMsgFolders: false, getStreamedMessage: false, getStreamedHeaders: false, checkHeaders: false,
  EnigmailAutocrypt: false, EnigmailConstants: false, MailServices: false, EnigmailKeyRing: false,
- EnigmailCompat: false*/
+ EnigmailCompat: false, EnigmailTimer: false*/
 
 
 const AC_HEADER =
@@ -107,13 +107,21 @@ test(withTestGpgHome(withEnigmail(function keyGenTest() {
 
   EnigmailKeyRing._generateKey = EnigmailKeyRing.generateKey;
 
-  EnigmailKeyRing.generateKey = function(userName, comment, userEmail, expiry, keyLength, keyType, passphrase, generateObserver) {
+  EnigmailKeyRing.generateKey = function(userName, comment, userEmail, expiry, keyLength, keyType, passphrase) {
     let keyFile = do_get_file("resources/testing-domain.invalid.pub-sec", false);
 
     Assert.equal(keyType, "ECC");
     let exitCode = EnigmailKeyRing.importKeyFromFile(keyFile, {}, {});
-    generateObserver.keyId = KEY_ID;
-    generateObserver.onStopRequest(exitCode);
+    let handle = {
+      cancel: function() {},
+      onCompleteListener: function() {}
+    };
+
+    EnigmailTimer.setTimeout(function f() {
+      handle.onCompleteListener(exitCode, KEY_ID);
+    }, 50);
+
+    return handle;
   };
 
   EnigmailAutoSetup.createAutocryptKey(userName, userEmail).then((value) => {

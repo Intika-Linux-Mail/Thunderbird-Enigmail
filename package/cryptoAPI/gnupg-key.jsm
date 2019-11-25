@@ -10,13 +10,15 @@
 
 "use strict";
 
-var EXPORTED_SYMBOLS = ["GnuPG_importKeyFromFile", "GnuPG_importKeyData", "GnuPG_extractSecretKey", "GnuPG_extractPublicKey"];
+var EXPORTED_SYMBOLS = ["GnuPG_importKeyFromFile", "GnuPG_importKeyData", "GnuPG_extractSecretKey", "GnuPG_extractPublicKey",
+  "GnuPG_generateKey"];
 
 const EnigmailExecution = ChromeUtils.import("chrome://enigmail/content/modules/execution.jsm").EnigmailExecution;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
 const EnigmailGpg = ChromeUtils.import("chrome://enigmail/content/modules/gpg.jsm").EnigmailGpg;
 const EnigmailFiles = ChromeUtils.import("chrome://enigmail/content/modules/files.jsm").EnigmailFiles;
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
+const subprocess = ChromeUtils.import("chrome://enigmail/content/modules/subprocess.jsm").subprocess;
 
 
 async function GnuPG_importKeyFromFile(inputFile) {
@@ -248,4 +250,104 @@ function parseImportResult(statusMsg) {
   }
 
   return res;
+}
+
+
+function GnuPG_generateKey(name, comment, email, expiryDate, keyLength, keyType, passphrase) {
+  EnigmailLog.DEBUG("gnupg-key.jsm: generateKey()\n");
+
+  const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
+  const args = EnigmailGpg.getStandardArgs(true).concat(["--gen-key"]);
+
+  EnigmailLog.CONSOLE(EnigmailFiles.formatCmdLine(EnigmailGpg.agentPath, args));
+
+  let inputData = "%echo Generating key\nKey-Type: ";
+
+  switch (keyType) {
+    case "RSA":
+      inputData += "RSA\nKey-Usage: sign,auth\nKey-Length: " + keyLength;
+      inputData += "\nSubkey-Type: RSA\nSubkey-Usage: encrypt\nSubkey-Length: " + keyLength + "\n";
+      break;
+    case "ECC":
+      inputData += "EDDSA\nKey-Curve: Ed25519\nKey-Usage: sign\n";
+      inputData += "Subkey-Type: ECDH\nSubkey-Curve: Curve25519\nSubkey-Usage: encrypt\n";
+      break;
+    default:
+      return null;
+  }
+
+  if (name.replace(/ /g, "").length) {
+    inputData += "Name-Real: " + name + "\n";
+  }
+  if (comment && comment.replace(/ /g, "").length) {
+    inputData += "Name-Comment: " + comment + "\n";
+  }
+  inputData += "Name-Email: " + email + "\n";
+  inputData += "Expire-Date: " + String(expiryDate) + "\n";
+
+  EnigmailLog.CONSOLE(inputData + " \n");
+
+  if (passphrase.length) {
+    inputData += "Passphrase: " + passphrase + "\n";
+  }
+  else {
+    if (EnigmailGpg.getGpgFeature("genkey-no-protection")) {
+      inputData += "%echo no-protection\n";
+      inputData += "%no-protection\n";
+    }
+  }
+
+  inputData += "%commit\n%echo done\n";
+
+  let proc = null;
+  let generatedKeyId = "";
+  let returnHandle = {
+    cancel: function() {
+      EnigmailLog.DEBUG("gnupg-key.jsm: generateKey -> cancel()\n");
+      if (proc) {
+        proc.kill(false);
+      }
+    },
+
+    onCompleteListener: function f() {
+      EnigmailLog.DEBUG("gnupg-key.jsm: generateKey -> done()\n");
+    }
+  };
+
+  try {
+    proc = subprocess.call({
+      command: EnigmailGpg.agentPath,
+      arguments: args,
+      environment: EnigmailCore.getEnvList(),
+      charset: null,
+      stdin: function(pipe) {
+        pipe.write(inputData);
+        pipe.close();
+      },
+      stderr: function(data) {
+        // extract key ID
+        if (data.search(/^\[GNUPG:\] KEY_CREATED/m)) {
+          let m = data.match(/^(\[GNUPG:\] KEY_CREATED [BPS] )([^ \r\n\t]+)$/m);
+          if (m && m.length > 2) {
+            generatedKeyId = "0x" + m[2];
+          }
+        }
+      },
+      done: function(result) {
+        try {
+          returnHandle.onCompleteListener(result.exitCode, generatedKeyId);
+        }
+        catch (ex) {}
+      },
+      mergeStderr: false
+    });
+  }
+  catch (ex) {
+    EnigmailLog.ERROR("keyRing.jsm: generateKey: subprocess.call failed with '" + ex.toString() + "'\n");
+    throw ex;
+  }
+
+  EnigmailLog.DEBUG("keyRing.jsm: generateKey: subprocess = " + proc + "\n");
+
+  return returnHandle;
 }

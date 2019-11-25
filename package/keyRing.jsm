@@ -8,23 +8,17 @@
 
 var EXPORTED_SYMBOLS = ["EnigmailKeyRing"];
 
-const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 const EnigmailFiles = ChromeUtils.import("chrome://enigmail/content/modules/files.jsm").EnigmailFiles;
-const EnigmailGpg = ChromeUtils.import("chrome://enigmail/content/modules/gpg.jsm").EnigmailGpg;
 const EnigmailTrust = ChromeUtils.import("chrome://enigmail/content/modules/trust.jsm").EnigmailTrust;
 const EnigmailArmor = ChromeUtils.import("chrome://enigmail/content/modules/armor.jsm").EnigmailArmor;
 const EnigmailTime = ChromeUtils.import("chrome://enigmail/content/modules/time.jsm").EnigmailTime;
-const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;
-const subprocess = ChromeUtils.import("chrome://enigmail/content/modules/subprocess.jsm").subprocess;
 const EnigmailLazy = ChromeUtils.import("chrome://enigmail/content/modules/lazy.jsm").EnigmailLazy;
 const newEnigmailKeyObj = ChromeUtils.import("chrome://enigmail/content/modules/keyObj.jsm").newEnigmailKeyObj;
 const EnigmailTimer = ChromeUtils.import("chrome://enigmail/content/modules/timer.jsm").EnigmailTimer;
 const Services = ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-const EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
 const EnigmailCryptoAPI = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI.jsm").EnigmailCryptoAPI;
-
 
 const getDialog = EnigmailLazy.loader("enigmail/dialog.jsm", "EnigmailDialog");
 const getWindows = EnigmailLazy.loader("enigmail/windows.jsm", "EnigmailWindows");
@@ -581,109 +575,14 @@ var EnigmailKeyRing = {
    * @keyLength:  Number     - size of key in bytes (e.g 4096)
    * @keyType:    String     - RSA or ECC
    * @passphrase: String     - password; null if no password
-   * @listener:   Object     - {
-   *                             function onDataAvailable(data) {...},
-   *                             function onStopRequest(exitCode) {...}
-   *                           }
    *
-   * @return: handle to process
+   * @return: handle to process, @see interface.js->generatedKey()
    */
-  generateKey: function(name, comment, email, expiryDate, keyLength, keyType,
-    passphrase, listener) {
-    EnigmailLog.WRITE("keyRing.jsm: generateKey:\n");
+  generateKey: function(name, comment, email, expiryDate, keyLength, keyType, passphrase) {
+    EnigmailLog.DEBUG("keyRing.jsm: generateKey:\n");
 
-    if (EnigmailKeyRing.isGeneratingKey()) {
-      // key generation already ongoing
-      throw Components.results.NS_ERROR_FAILURE;
-    }
-
-    const args = EnigmailGpg.getStandardArgs(true).concat(["--gen-key"]);
-
-    EnigmailLog.CONSOLE(EnigmailFiles.formatCmdLine(EnigmailGpg.agentPath, args));
-
-    let inputData = "%echo Generating key\nKey-Type: ";
-
-    switch (keyType) {
-      case "RSA":
-        inputData += "RSA\nKey-Usage: sign,auth\nKey-Length: " + keyLength;
-        inputData += "\nSubkey-Type: RSA\nSubkey-Usage: encrypt\nSubkey-Length: " + keyLength + "\n";
-        break;
-      case "ECC":
-        inputData += "EDDSA\nKey-Curve: Ed25519\nKey-Usage: sign\n";
-        inputData += "Subkey-Type: ECDH\nSubkey-Curve: Curve25519\nSubkey-Usage: encrypt\n";
-        break;
-      default:
-        return null;
-    }
-
-    if (name.replace(/ /g, "").length) {
-      inputData += "Name-Real: " + name + "\n";
-    }
-    if (comment && comment.replace(/ /g, "").length) {
-      inputData += "Name-Comment: " + comment + "\n";
-    }
-    inputData += "Name-Email: " + email + "\n";
-    inputData += "Expire-Date: " + String(expiryDate) + "\n";
-
-    EnigmailLog.CONSOLE(inputData + " \n");
-
-    if (passphrase.length) {
-      inputData += "Passphrase: " + passphrase + "\n";
-    }
-    else {
-      if (EnigmailGpg.getGpgFeature("genkey-no-protection")) {
-        inputData += "%echo no-protection\n";
-        inputData += "%no-protection\n";
-      }
-    }
-
-    inputData += "%commit\n%echo done\n";
-
-    let proc = null;
-
-    try {
-      proc = subprocess.call({
-        command: EnigmailGpg.agentPath,
-        arguments: args,
-        environment: EnigmailCore.getEnvList(),
-        charset: null,
-        stdin: function(pipe) {
-          pipe.write(inputData);
-          pipe.close();
-        },
-        stderr: function(data) {
-          // extract key ID
-          if (data.search(/^\[GNUPG:\] KEY_CREATED/m)) {
-            let m = data.match(/^(\[GNUPG:\] KEY_CREATED [BPS] )([^ \r\n\t]+)$/m);
-            if (m && m.length > 2) {
-              listener.keyId = "0x" + m[2];
-            }
-          }
-          listener.onDataAvailable(data);
-        },
-        done: function(result) {
-          gKeygenProcess = null;
-          try {
-            if (result.exitCode === 0) {
-              EnigmailKeyRing.clearCache();
-            }
-            listener.onStopRequest(result.exitCode);
-          }
-          catch (ex) {}
-        },
-        mergeStderr: false
-      });
-    }
-    catch (ex) {
-      EnigmailLog.ERROR("keyRing.jsm: generateKey: subprocess.call failed with '" + ex.toString() + "'\n");
-      throw ex;
-    }
-
-    gKeygenProcess = proc;
-
-    EnigmailLog.DEBUG("keyRing.jsm: generateKey: subprocess = " + proc + "\n");
-
-    return proc;
+    const cApi = EnigmailCryptoAPI();
+    return cApi.generateKey(name, comment, email, expiryDate, keyLength, keyType, passphrase);
   },
 
   /**

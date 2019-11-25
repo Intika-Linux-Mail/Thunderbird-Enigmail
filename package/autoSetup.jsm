@@ -370,7 +370,7 @@ var EnigmailAutoSetup = {
    * @param {String} userName:  Display name
    * @param {String} userEmail: Email address
    *
-   * @return {Promise<Boolean>}: Success (true = successful)
+   * @return {Promise<String>}: Generated key ID
    */
   createAutocryptKey: function(userName, userEmail) {
     return new Promise((resolve, reject) => {
@@ -386,21 +386,15 @@ var EnigmailAutoSetup = {
       }
 
       let expiry = 1825, // 5 years
-        passphrase = "",
-        generateObserver = {
-          keyId: null,
-          backupLocation: null,
-          _state: 0,
-
-          onDataAvailable: function(data) {},
-          onStopRequest: function(exitCode) {
-            EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey(): key generation complete\n");
-            resolve(generateObserver.keyId);
-          }
-        };
+        passphrase = "";
 
       try {
-        let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase, generateObserver);
+        let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase);
+        keygenRequest.onCompleteListener = function(exitCode, generateKey) {
+          EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey(): key generation complete\n");
+          resolve(generateKey);
+        };
+
       }
       catch (ex) {
         EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey: error: " + ex.message);

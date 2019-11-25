@@ -195,6 +195,30 @@ class CryptoAPI {
   }
 
   /**
+   * Generate a new key pair
+   *
+   * @param {String} name:       name part of UID
+   * @param {String} comment:    comment part of UID (brackets are added)
+   * @param {String} email:      email part of UID (<> will be added)
+   * @param {Number} expiryDate: Unix timestamp of key expiry date; 0 if no expiry
+   * @param {Number} keyLength:  size of key in bytes (e.g 4096)
+   * @param {String} keyType:    'RSA' or 'ECC'
+   * @param {String} passphrase: password; use null if no password
+   *
+   * @return {Object}: Handle to key creation
+   *    - {function} cancel(): abort key creation
+   *    - {function} onCompleteListener(exitCode, generatedKeyId): function that may be overwritten to be
+   *                    notified when key creation is complete
+   *                        - {Number} exitCode: result code (0: OK)
+   *                        - {String} keyId:    generated key ID
+   */
+
+  generateKey(name, comment, email, expiryDate, keyLength, keyType, passphrase) {
+    return null;
+  }
+
+
+  /**
    * Determine the file name from OpenPGP data.
    *
    * @param {byte} byteData    The encrypted data
@@ -305,7 +329,7 @@ class CryptoAPI {
     return null;
   }
 
-/**
+  /**
    * Export the ownertrust database
    * @param {String or nsIFile} outputFile: Output file name or Object - or NULL if trust data
    *                                        should be returned as string

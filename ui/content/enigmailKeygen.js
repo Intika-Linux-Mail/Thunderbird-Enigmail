@@ -251,9 +251,8 @@ function enigmailKeygenCloseRequest() {
   EnigmailLog.DEBUG("enigmailKeygen.js: CloseRequest\n");
 
   if (gKeygenRequest) {
-    var p = gKeygenRequest;
+    gKeygenRequest.cancel();
     gKeygenRequest = null;
-    p.kill(false);
   }
 }
 
@@ -366,34 +365,6 @@ function enigmailKeygenStart() {
 
   document.getElementById("keygenProgress").style.visibility = "visible";
 
-  var proc = null;
-
-  var listener = {
-    onStartRequest: function() {},
-    onStopRequest: function(status) {
-      enigmailKeygenTerminate(status);
-    },
-    onDataAvailable: function(data) {
-      EnigmailLog.DEBUG("enigmailKeygen.js: onDataAvailable() " + data + "\n");
-
-      gAllData += data;
-      var keyCreatedIndex = gAllData.indexOf("[GNUPG:] KEY_CREATED");
-      if (keyCreatedIndex > 0) {
-        gGeneratedKey = gAllData.substr(keyCreatedIndex);
-        gGeneratedKey = gGeneratedKey.replace(/(.*\[GNUPG:\] KEY_CREATED . )([a-fA-F0-9]+)([\n\r].*)*/, "$2");
-        gAllData = gAllData.replace(/\[GNUPG:\] KEY_CREATED . [a-fA-F0-9]+[\n\r]/, "");
-      }
-      gAllData = gAllData.replace(/[\r\n]*\[GNUPG:\] GOOD_PASSPHRASE/g, "").replace(/([\r\n]*\[GNUPG:\] PROGRESS primegen )(.)( \d+ \d+)/g, "$2");
-      /*
-            var progMeter = document.getElementById("keygenProgress");
-            var progValue = Number(progMeter.value);
-            progValue += (1 + (100 - progValue) / 200);
-            if (progValue >= 95) progValue = 10;
-            progMeter.setAttribute("value", progValue);
-      */
-    }
-  };
-
   try {
     gKeygenRequest = EnigmailKeyRing.generateKey(
       EnigmailData.convertFromUnicode(userName),
@@ -402,8 +373,14 @@ function enigmailKeygenStart() {
       expiryTime,
       keySize,
       keyType,
-      EnigmailData.convertFromUnicode(passphrase),
-      listener);
+      EnigmailData.convertFromUnicode(passphrase)
+    );
+
+    gKeygenRequest.onCompleteListener = function(status, generatedKeyId) {
+      EnigmailLog.DEBUG("enigmailKeygen.js: onCompleteListener()\n");
+      gGeneratedKey = generatedKeyId;
+      enigmailKeygenTerminate(status);
+    };
   }
   catch (ex) {
     EnigmailLog.DEBUG("enigmailKeygen.js: generateKey() failed with " + ex.toString() + "\n" + ex.stack + "\n");

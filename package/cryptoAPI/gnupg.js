@@ -41,7 +41,8 @@ const {
   GnuPG_importKeyFromFile,
   GnuPG_extractSecretKey,
   GnuPG_extractPublicKey,
-  GnuPG_importKeyData
+  GnuPG_importKeyData,
+  GnuPG_generateKey
 } = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-key.jsm");
 
 const DEFAULT_FILE_PERMS = 0o600;
@@ -288,6 +289,29 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
       ret.errorMsg = EnigmailLocale.getString("failKeyExtract") + "\n" + ret.errorMsg;
     }
     return ret;
+  }
+
+    /**
+   * Generate a new key pair
+   *
+   * @param {String} name:       name part of UID
+   * @param {String} comment:    comment part of UID (brackets are added)
+   * @param {String} email:      email part of UID (<> will be added)
+   * @param {Number} expiryDate: Unix timestamp of key expiry date; 0 if no expiry
+   * @param {Number} keyLength:  size of key in bytes (e.g 4096)
+   * @param {String} keyType:    'RSA' or 'ECC'
+   * @param {String} passphrase: password; use null if no password
+   *
+   * @return {Object}:
+   *    - {function} cancel(): abort key creation
+   *    - {function} onCompleteListener(exitCode, generatedKeyId): function that may be overwritten to be
+   *                    notified when key creation is complete
+   *                        - {Number} exitCode: result code (0: OK)
+   *                        - {String} keyId:    generated key ID
+   */
+
+  generateKey(name, comment, email, expiryDate, keyLength, keyType, passphrase) {
+    return GnuPG_generateKey(name, comment, email, expiryDate, keyLength, keyType, passphrase);
   }
 
   /**
