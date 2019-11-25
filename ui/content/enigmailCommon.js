@@ -471,7 +471,12 @@ function EnigSignKey(userId, keyId) {
 
 function EnigChangeKeyPwd(keyId, userId) {
   // gpg-agent used: gpg-agent will handle everything
-  EnigmailKeyEditor.changePassphrase(window, "0x" + keyId, "", "",
+
+  if (keyId.substr(0, 2) !== "0x") {
+    keyId = "0x" + keyId;
+  }
+
+  EnigmailKeyEditor.changePassphrase(window, keyId, "", "",
     function _changePwdCb(exitCode, errorMsg) {
       if (exitCode !== 0) {
         EnigAlert(EnigGetString("changePassFailed") + "\n\n" + errorMsg);
@@ -485,7 +490,10 @@ function EnigRevokeKey(keyId, userId, callbackFunc) {
   if (!enigmailSvc)
     return false;
 
-  var userDesc = "0x" + keyId + " - " + userId;
+  if (keyId.substr(0, 2) !== "0x") {
+    keyId = "0x" + keyId;
+  }
+  var userDesc = keyId + " - " + userId;
   if (!EnigConfirm(EnigGetString("revokeKeyQuestion", userDesc), EnigGetString("keyMan.button.revokeKey")))
     return false;
 
@@ -501,7 +509,7 @@ function EnigRevokeKey(keyId, userId, callbackFunc) {
   } catch (ex) {}
   revFile.append("revkey.asc");
 
-  EnigmailKeyEditor.genRevokeCert(window, "0x" + keyId, revFile, "0", "",
+  EnigmailKeyEditor.genRevokeCert(window, keyId, revFile, "0", "",
     function _revokeCertCb(exitCode, errorMsg) {
       if (exitCode !== 0) {
         revFile.remove(false);
@@ -536,8 +544,12 @@ function EnigGetFilePath(nsFileObj) {
 }
 
 function EnigCreateRevokeCert(keyId, userId, callbackFunc) {
+  if (keyId.substr(0, 2) !== "0x") {
+    keyId = "0x" + keyId;
+  }
+
   var defaultFileName = userId.replace(/[<>]/g, "");
-  defaultFileName += " (0x" + keyId + ") revocation.rev";
+  defaultFileName += " (" + keyId + ") revocation.rev";
   var outFile = EnigFilePicker(EnigGetString("saveRevokeCertAs"),
     "", true, "*.rev",
     defaultFileName, [EnigGetString("revocationFile"), "*.rev"]);
@@ -547,7 +559,7 @@ function EnigCreateRevokeCert(keyId, userId, callbackFunc) {
   if (!enigmailSvc)
     return -1;
 
-  EnigmailKeyEditor.genRevokeCert(window, "0x" + keyId, outFile, "1", "",
+  EnigmailKeyEditor.genRevokeCert(window, keyId, outFile, "1", "",
     function _revokeCertCb(exitCode, errorMsg) {
       if (exitCode !== 0) {
         EnigAlert(EnigGetString("revokeCertFailed") + "\n\n" + errorMsg);
