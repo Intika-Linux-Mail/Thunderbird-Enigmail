@@ -207,10 +207,9 @@ class CryptoAPI {
    *
    * @return {Object}: Handle to key creation
    *    - {function} cancel(): abort key creation
-   *    - {function} onCompleteListener(exitCode, generatedKeyId): function that may be overwritten to be
-   *                    notified when key creation is complete
-   *                        - {Number} exitCode: result code (0: OK)
-   *                        - {String} keyId:    generated key ID
+   *    - {Promise<exitCode, generatedKeyId>} promise: resolved when key creation is complete
+   *                 - {Number} exitCode:       result code (0: OK)
+   *                 - {String} generatedKeyId: generated key ID
    */
 
   generateKey(name, comment, email, expiryDate, keyLength, keyType, passphrase) {

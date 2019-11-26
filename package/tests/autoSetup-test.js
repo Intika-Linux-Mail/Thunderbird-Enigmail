@@ -114,12 +114,13 @@ test(withTestGpgHome(withEnigmail(function keyGenTest() {
     let exitCode = EnigmailKeyRing.importKeyFromFile(keyFile, {}, {});
     let handle = {
       cancel: function() {},
-      onCompleteListener: function() {}
+      promise: new Promise((resolve, reject) => {
+        resolve({
+          exitCode: exitCode,
+          generatedKeyId: KEY_ID
+        });
+      })
     };
-
-    EnigmailTimer.setTimeout(function f() {
-      handle.onCompleteListener(exitCode, KEY_ID);
-    }, 50);
 
     return handle;
   };
@@ -384,7 +385,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
   let mms1 = messenger1.messageServiceFromURI(msgURI1).QueryInterface(Ci.nsIMsgMessageService);
 
 
-  getStreamedHeaders(msgURI1, mms1).then(async(value) => {
+  getStreamedHeaders(msgURI1, mms1).then(async (value) => {
     let returnValue = await checkHeaders(value, msgHeader1, msgAuthor, account.defaultIdentity.email, sourceFolder, returnMsgValue, msgHeaders);
     Assert.notEqual(returnValue, null);
     Assert.equal(returnValue.returnMsgValue.value, EnigmailConstants.AUTOSETUP_NO_HEADER);
@@ -414,7 +415,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
   let messenger2 = Components.classes["@mozilla.org/messenger;1"].createInstance(Ci.nsIMessenger);
   let mms2 = messenger2.messageServiceFromURI(msgURI2).QueryInterface(Ci.nsIMsgMessageService);
 
-  getStreamedHeaders(msgURI2, mms2).then(async(value) => {
+  getStreamedHeaders(msgURI2, mms2).then(async (value) => {
     let returnValue = await checkHeaders(value, msgHeader2, msgAuthor, account.defaultIdentity.email, setupFolder, returnMsgValue, msgHeaders);
     Assert.notEqual(returnValue, null);
     Assert.equal(returnValue.returnMsgValue.value, EnigmailConstants.AUTOSETUP_AC_SETUP_MSG);
@@ -447,7 +448,7 @@ test(withTestGpgHome(withEnigmail(function checkHeadersTest() {
 
   let msgAuthor2 = account.defaultIdentity.email;
 
-  getStreamedHeaders(msgURI3, mms3).then(async(value) => {
+  getStreamedHeaders(msgURI3, mms3).then(async (value) => {
     let returnValue = await checkHeaders(value, msgHeader3, msgAuthor2, account.defaultIdentity.email, autocryptFolder, returnMsgValue, msgHeaders);
     Assert.notEqual(returnValue, null);
     Assert.equal(returnValue.msgHeaders.length, 1);

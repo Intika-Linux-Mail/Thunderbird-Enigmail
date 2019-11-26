@@ -376,6 +376,10 @@ var EnigmailAutoSetup = {
     return new Promise((resolve, reject) => {
       EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey()\n");
 
+      if (!userEmail) {
+        reject("no email");
+      }
+
       let keyType = "ECC",
         keyLength = 0;
 
@@ -388,18 +392,15 @@ var EnigmailAutoSetup = {
       let expiry = 1825, // 5 years
         passphrase = "";
 
-      try {
-        let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase);
-        keygenRequest.onCompleteListener = function(exitCode, generateKey) {
-          EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey(): key generation complete\n");
-          resolve(generateKey);
-        };
-
-      }
-      catch (ex) {
+      let keygenRequest = EnigmailKeyRing.generateKey(userName, "", userEmail, expiry, keyLength, keyType, passphrase);
+      keygenRequest.promise.then(result => {
+        EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey(): key generation complete\n");
+        resolve(result.generatedKeyId);
+      })
+      .catch(ex => {
         EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey: error: " + ex.message);
         resolve(null);
-      }
+      });
     });
   },
 

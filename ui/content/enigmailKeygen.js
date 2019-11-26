@@ -365,32 +365,31 @@ function enigmailKeygenStart() {
 
   document.getElementById("keygenProgress").style.visibility = "visible";
 
-  try {
-    gKeygenRequest = EnigmailKeyRing.generateKey(
-      EnigmailData.convertFromUnicode(userName),
-      "", // user id comment
-      EnigmailData.convertFromUnicode(userEmail),
-      expiryTime,
-      keySize,
-      keyType,
-      EnigmailData.convertFromUnicode(passphrase)
-    );
+  EnigmailLog.WRITE("enigmailKeygen.js: Start: gKeygenRequest = " + gKeygenRequest + "\n");
 
-    gKeygenRequest.onCompleteListener = function(status, generatedKeyId) {
-      EnigmailLog.DEBUG("enigmailKeygen.js: onCompleteListener()\n");
-      gGeneratedKey = generatedKeyId;
-      enigmailKeygenTerminate(status);
-    };
-  }
-  catch (ex) {
-    EnigmailLog.DEBUG("enigmailKeygen.js: generateKey() failed with " + ex.toString() + "\n" + ex.stack + "\n");
-  }
+  gKeygenRequest = EnigmailKeyRing.generateKey(
+    EnigmailData.convertFromUnicode(userName),
+    "", // user id comment
+    EnigmailData.convertFromUnicode(userEmail),
+    expiryTime,
+    keySize,
+    keyType,
+    EnigmailData.convertFromUnicode(passphrase)
+  );
 
   if (!gKeygenRequest) {
     EnigAlert(EnigGetString("keyGenFailed"));
+    return;
   }
 
-  EnigmailLog.WRITE("enigmailKeygen.js: Start: gKeygenRequest = " + gKeygenRequest + "\n");
+  gKeygenRequest.promise.then(result => {
+    EnigmailLog.DEBUG(`enigmailKeygen.js: key ${result.generatedKeyId} created with status ${result.exitCode}\n`);
+    gGeneratedKey = result.generatedKeyId;
+    enigmailKeygenTerminate(result.exitCode);
+  }).
+  catch(ex => {
+    EnigmailLog.DEBUG("enigmailKeygen.js: generateKey() failed with " + ex.toString() + "\n" + ex.stack + "\n");
+  });
 }
 
 function abortKeyGeneration() {
