@@ -503,8 +503,10 @@ PgpMimeEncrypt.prototype = {
 
     const cApi = EnigmailCryptoAPI();
 
+    let ret = null;
+    try {
 
-    let ret = cApi.sync(cApi.encryptMessage(this.senderEmailAddr,
+    ret = cApi.sync(cApi.encryptMessage(this.senderEmailAddr,
       this.recipients,
       this.bccRecipients,
       this.sendFlags,
@@ -512,7 +514,9 @@ PgpMimeEncrypt.prototype = {
       this.hashAlgorithm,
       this.win));
 
-    this.pipeQueue = "";
+      this.pipeQueue = "";
+    }
+    catch(ex) {}
 
     if (!ret) throw Cr.NS_ERROR_FAILURE;
 
@@ -653,11 +657,7 @@ PgpMimeEncrypt.prototype = {
     if (gDebugLogLevel > 4)
       LOCAL_DEBUG("mimeEncrypt.js: writeToPipe: " + str.length + "\n");
 
-    if (this.pipe) {
-      this.pipeQueue += str;
-    }
-    else
-      this.pipeQueue += str;
+    this.pipeQueue += str;
   },
 
   getHeader: function(hdrStr, fullHeader) {

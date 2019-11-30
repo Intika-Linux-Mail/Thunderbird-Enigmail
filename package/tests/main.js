@@ -48,6 +48,7 @@ execTest("os-test.js");
 execTest("prefs-test.js");
 execTest("rules-test.js");
 execTest("mimeDecrypt-test.js");
+execTest("mimeEncrypt-test.js");
 execTest("expiry-test.js");
 execTest("installGnuPG-test.js");
 execTest("keyRefreshService-test.js");
