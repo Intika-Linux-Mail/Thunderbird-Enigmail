@@ -398,8 +398,8 @@ var EnigmailAutoSetup = {
         resolve(result.generatedKeyId);
       })
       .catch(ex => {
-        EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey: error: " + ex.message);
-        resolve(null);
+        EnigmailLog.DEBUG("autoSetup.jsm: createAutocryptKey: error: " + ex.message + "\n");
+        reject(null);
       });
     });
   },

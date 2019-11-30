@@ -153,7 +153,7 @@ test(withTestGpgHome(withEnigmail(function keyGen_error_Test() {
     Assert.equal(value, null);
     inspector.exitNestedEventLoop();
   }).catch(res => {
-    Assert.ok(false);
+    Assert.ok(true);
     inspector.exitNestedEventLoop();
   });
 
