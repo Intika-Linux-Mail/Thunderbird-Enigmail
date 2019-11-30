@@ -355,4 +355,26 @@ class CryptoAPI {
   async importOwnerTrust(inputFile) {
     return null;
   }
+
+
+  /**
+   * Encrypt messages
+   *
+   * @param {String} from: keyID or email address of sender/signer
+   * @param {String} recipients: keyIDs or email addresses of recipients, separated by spaces
+   * @param {String} hiddenRecipients: keyIDs or email addresses of hidden recipients (bcc), separated by spaces
+   * @param {Number} encryptionFlags: Flags for Signed/encrypted/PGP-MIME etc.
+   * @param {String} plainText: data to encrypt
+   * @param {String} hashAlgorithm: [OPTIONAL] hash algorithm
+   * @param {nsIWindow} parentWindow: [OPTIONAL] window on top of which to display modal dialogs
+   *
+   * @return {Object}:
+   *     - {Number} exitCode: 0 = success / other values: error
+   *     - {String} data:     encrypted data
+   *     - {String} errorMsg: error message in case exitCode !== 0
+   */
+
+  async encryptMessage(from, recipients, hiddenRecipients, encryptionFlags, hashAlgorithm = null, parentWindow = null) {
+    return null;
+  }
 }

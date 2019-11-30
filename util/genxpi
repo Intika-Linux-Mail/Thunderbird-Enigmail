@@ -78,6 +78,7 @@ zip -9 --must-match\
     chrome/content/modules/constants.jsm \
     chrome/content/modules/cryptoAPI.jsm \
     chrome/content/modules/cryptoAPI/gnupg.js \
+    chrome/content/modules/cryptoAPI/gnupg-encryption.jsm \
     chrome/content/modules/cryptoAPI/gnupg-decryption.jsm \
     chrome/content/modules/cryptoAPI/gnupg-key.jsm \
     chrome/content/modules/cryptoAPI/gnupg-keylist.jsm \
@@ -88,7 +89,6 @@ zip -9 --must-match\
     chrome/content/modules/decryption.jsm \
     chrome/content/modules/persistentCrypto.jsm \
     chrome/content/modules/dialog.jsm \
-    chrome/content/modules/encryption.jsm \
     chrome/content/modules/core.jsm \
     chrome/content/modules/configBackup.jsm \
     chrome/content/modules/enigmailOverlays.jsm \

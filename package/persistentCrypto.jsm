@@ -25,7 +25,7 @@ const EnigmailTimer = ChromeUtils.import("chrome://enigmail/content/modules/time
 const EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
 const jsmime = ChromeUtils.import("resource:///modules/jsmime.jsm").jsmime;
 const EnigmailStdlib = ChromeUtils.import("chrome://enigmail/content/modules/stdlib.jsm").EnigmailStdlib;
-const EnigmailEncryption = ChromeUtils.import("chrome://enigmail/content/modules/encryption.jsm").EnigmailEncryption;
+const GnuPG_Encryption = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-encryption.jsm").GnuPG_Encryption;
 
 const getFixExchangeMsg = EnigmailLazy.loader("enigmail/fixExchangeMsg.jsm", "EnigmailFixExchangeMsg");
 const getDecryption = EnigmailLazy.loader("enigmail/decryption.jsm", "EnigmailDecryption");
@@ -198,7 +198,7 @@ CryptMessageIntoFolder.prototype = {
 
     let encmsg = "";
     try {
-      encmsg = EnigmailEncryption.encryptMessage(null,
+      encmsg = GnuPG_Encryption.encryptMessage(null,
         0,
         inputMsg,
         "0x" + this.targetKey.fpr,

@@ -9,7 +9,7 @@
 
 do_load_module("file://" + do_get_cwd().path + "/testHelper.js"); /*global withEnigmail: false, withTestGpgHome: false */
 
-testing("encryption.jsm"); /*global EnigmailEncryption: false, EnigmailLocale: false, EnigmailKeyRing: false, EnigmailConstants: false */
+testing("cryptoAPI/gnupg-encryption.jsm"); /*global GnuPG_Encryption: false, EnigmailLocale: false, EnigmailKeyRing: false, EnigmailConstants: false, determineOwnKeyUsability: false */
 const EnigmailArmor = component("enigmail/armor.jsm").EnigmailArmor;
 
 test(withTestGpgHome(withEnigmail(function shouldSignMessage() {
@@ -23,7 +23,7 @@ test(withTestGpgHome(withEnigmail(function shouldSignMessage() {
   const strikeAccount = "strike.devtest@gmail.com";
   const exitCodeObj = {};
   const statusFlagObj = {};
-  const encryptResult = EnigmailEncryption.encryptMessage(parentWindow,
+  const encryptResult = GnuPG_Encryption.encryptMessage(parentWindow,
     EnigmailConstants.UI_TEST,
     plainText,
     strikeAccount,
@@ -40,12 +40,12 @@ test(withTestGpgHome(withEnigmail(function shouldSignMessage() {
   const blockType = EnigmailArmor.locateArmoredBlock(encryptResult, 0, "", {}, {}, {});
   Assert.equal("SIGNED MESSAGE", blockType);
 
-  let r = EnigmailEncryption.determineOwnKeyUsability(EnigmailConstants.SEND_SIGNED, "strike.devtest@gmail.com");
+  let r = determineOwnKeyUsability(EnigmailConstants.SEND_SIGNED, "strike.devtest@gmail.com");
   Assert.ok(r.keyId === "A3EC002971E33E6A7DAC481B7A1F45055AAFFACB" ||  
     r.keyId === "65537E212DC19025AD38EDB2781617319CE311C4");
 
   EnigmailKeyRing.importKeyFromFile(revocationCert, errorMsgObj, importedKeysObj);
-  r = EnigmailEncryption.determineOwnKeyUsability(EnigmailConstants.SEND_SIGNED, "0x65537E212DC19025AD38EDB2781617319CE311C4");
+  r = determineOwnKeyUsability(EnigmailConstants.SEND_SIGNED, "0x65537E212DC19025AD38EDB2781617319CE311C4");
   Assert.equal(r.errorMsg, EnigmailLocale.getString("keyRing.pubKeyRevoked", ["anonymous strike <strike.devtest@gmail.com>", "0x781617319CE311C4"]));
 })));
 
@@ -61,7 +61,7 @@ test(withTestGpgHome(withEnigmail(function shouldEncryptMessage() {
   const strikeAccount = "strike.devtest@gmail.com";
   const exitCodeObj = {};
   const statusFlagObj = {};
-  const encryptResult = EnigmailEncryption.encryptMessage(parentWindow,
+  const encryptResult = GnuPG_Encryption.encryptMessage(parentWindow,
     EnigmailConstants.UI_TEST,
     plainText,
     strikeAccount,
@@ -78,12 +78,12 @@ test(withTestGpgHome(withEnigmail(function shouldEncryptMessage() {
   const blockType = EnigmailArmor.locateArmoredBlock(encryptResult, 0, "", {}, {}, {});
   Assert.equal("MESSAGE", blockType);
 
-  let r = EnigmailEncryption.determineOwnKeyUsability(EnigmailConstants.SEND_ENCRYPTED, "strike.devtest@gmail.com");
+  let r = determineOwnKeyUsability(EnigmailConstants.SEND_ENCRYPTED, "strike.devtest@gmail.com");
   Assert.equal(r.keyId, "65537E212DC19025AD38EDB2781617319CE311C4");
 })));
 
 test(withTestGpgHome(withEnigmail(function shouldGetErrorReason() {
-  let r = EnigmailEncryption.determineOwnKeyUsability(EnigmailConstants.SEND_SIGNED | EnigmailConstants.SEND_ENCRYPTED, "nobody@notfound.net");
+  let r = determineOwnKeyUsability(EnigmailConstants.SEND_SIGNED | EnigmailConstants.SEND_ENCRYPTED, "nobody@notfound.net");
   let expected = EnigmailLocale.getString("errorOwnKeyUnusable", "nobody@notfound.net");
   Assert.equal(r.errorMsg, expected);
 

@@ -45,6 +45,8 @@ const {
   GnuPG_generateKey
 } = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-key.jsm");
 
+const GnuPG_Encryption = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-encryption.jsm").GnuPG_Encryption;
+
 const DEFAULT_FILE_PERMS = 0o600;
 
 /**
@@ -170,7 +172,8 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
         "--export-filter", "drop-subkey=" + dropSubkeyFilter,
         "--export", fpr
       ]);
-    } else {
+    }
+    else {
       args = args.concat(["--export-options", "export-minimal,no-export-attributes", "-a", "--export", fpr]);
     }
 
@@ -188,7 +191,8 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
         retObj.errorMsg = EnigmailLocale.getString("failKeyExtract");
         exportOK = false;
       }
-    } else {
+    }
+    else {
       // GnuPG older than 2.1.10
       if (keyBlock.length < 50) {
         retObj.exitCode = 2;
@@ -291,7 +295,7 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
     return ret;
   }
 
-    /**
+  /**
    * Generate a new key pair
    *
    * @param {String} name:       name part of UID
@@ -354,7 +358,8 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
         filename = filename.replace(/ .*$/, "");
       }
       return EnigmailData.convertToUnicode(unescape(filename), "utf-8");
-    } else {
+    }
+    else {
       return null;
     }
   }
@@ -383,7 +388,8 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
       const msg2 = EnigmailLocale.getString("keyAndSigDate", ["0x" + decrypted.keyId, dateTime]);
       const message = msg1 + "\n" + msg2;
       return (message);
-    } else {
+    }
+    else {
       throw (decrypted.errorMsg);
     }
   }
@@ -503,10 +509,12 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
     let res;
     try {
       res = await getGpgKeyData(keyBlockStr);
-    } catch (ex) {
+    }
+    catch (ex) {
       if (ex === "unsupported") {
         res = await this.OPENPGPjs_getKeyListFromKeyBlock(keyBlockStr);
-      } else throw ex;
+      }
+      else throw ex;
     }
     return res;
   }
@@ -568,6 +576,82 @@ class GnuPGCryptoAPI extends OpenPGPjsCryptoAPI {
     catch (ex) {}
 
     return res;
+  }
+
+
+  /**
+   * Encrypt messages
+   *
+   * @param {String} from: keyID or email address of sender/signer
+   * @param {String} recipients: keyIDs or email addresses of recipients, separated by spaces
+   * @param {String} hiddenRecipients: keyIDs or email addresses of hidden recipients (bcc), separated by spaces
+   * @param {Number} encryptionFlags: Flags for Signed/encrypted/PGP-MIME etc.
+   * @param {String} plainText: data to encrypt
+   * @param {String} hashAlgorithm: [OPTIONAL] hash algorithm
+   * @param {nsIWindow} parentWindow: [OPTIONAL] window on top of which to display modal dialogs
+   *
+   * @returns {Object}:
+   *     - {Number} exitCode: 0 = success / other values: error
+   *     - {String} data:     encrypted data
+   *     - {String} errorMsg: error message in case exitCode !== 0
+   */
+  encryptMessage(from, recipients, hiddenRecipients, encryptionFlags, plainText, hashAlgorithm = null, parentWindow = null) {
+    return new Promise((resolve, reject) => {
+      let stdoutData = "",
+        stderrData = "";
+
+      const listener = {
+        stdin: function(pipe) {
+          EnigmailLog.DEBUG("gnugp-encryption.js: stdin\n");
+          if (plainText.length > 0) {
+            pipe.write(plainText);
+          }
+          pipe.close();
+        },
+        stdout: function(data) {
+          stdoutData += data;
+        },
+        stderr: function(data) {
+          stderrData += data;
+        },
+        done: function(exitCode) {
+          let retStatusObj = {};
+
+          exitCode = GnuPG_Encryption.encryptMessageEnd(from,
+            stderrData,
+            exitCode,
+            0,
+            encryptionFlags,
+            stdoutData.length,
+            retStatusObj);
+
+          if (exitCode !== 0) {
+            resolve({
+              exitCode: exitCode,
+              errorMsg: retStatusObj.errorMsg,
+              data: ""
+            });
+          }
+          else {
+            resolve({
+              exitCode: 0,
+              data: stdoutData,
+              errorMsg: ""
+            });
+          }
+        }
+      };
+
+      let statusFlagsObj = {},
+        errorMsgObj = {};
+
+      let proc = GnuPG_Encryption.encryptMessageStart(parentWindow, 0, from, recipients, hiddenRecipients,
+        hashAlgorithm, encryptionFlags, listener, statusFlagsObj, errorMsgObj);
+
+      if (!proc) {
+        resolve(null);
+      }
+    });
   }
 }
 

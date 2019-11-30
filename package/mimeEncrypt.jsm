@@ -18,7 +18,7 @@ const EnigmailCompat = ChromeUtils.import("chrome://enigmail/content/modules/com
 const EnigmailFuncs = ChromeUtils.import("chrome://enigmail/content/modules/funcs.jsm").EnigmailFuncs;
 const EnigmailDialog = ChromeUtils.import("chrome://enigmail/content/modules/dialog.jsm").EnigmailDialog;
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
-const EnigmailEncryption = ChromeUtils.import("chrome://enigmail/content/modules/encryption.jsm").EnigmailEncryption;
+const EnigmailCryptoAPI = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI.jsm").EnigmailCryptoAPI;
 const EnigmailMime = ChromeUtils.import("chrome://enigmail/content/modules/mime.jsm").EnigmailMime;
 const EnigmailHash = ChromeUtils.import("chrome://enigmail/content/modules/hash.jsm").EnigmailHash;
 const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;
@@ -494,42 +494,40 @@ PgpMimeEncrypt.prototype = {
       return;
     }
 
+    if (this.encapsulate) this.writeToPipe("--" + this.encapsulate + "--\r\n");
 
-    let statusFlagsObj = {};
-    let errorMsgObj = {};
-    let proc = EnigmailEncryption.encryptMessageStart(this.win,
-      this.UIFlags,
-      this.senderEmailAddr,
+    if (this.encHeader) {
+      this.writeToPipe("\r\n--" + this.encHeader + "--\r\n");
+      if (this.cryptoMode == MIME_SIGNED) this.writeOut("\r\n--" + this.encHeader + "--\r\n");
+    }
+
+    const cApi = EnigmailCryptoAPI();
+
+
+    let ret = cApi.sync(cApi.encryptMessage(this.senderEmailAddr,
       this.recipients,
       this.bccRecipients,
-      this.hashAlgorithm,
       this.sendFlags,
-      this,
-      statusFlagsObj,
-      errorMsgObj);
-    if (!proc) throw Cr.NS_ERROR_FAILURE;
+      this.pipeQueue,
+      this.hashAlgorithm,
+      this.win));
+
+    this.pipeQueue = "";
+
+    if (!ret) throw Cr.NS_ERROR_FAILURE;
+
+    this.encryptedData = ret.data;
+    this.dataLength = ret.data.length;
+    this.exitCode = ret.exitCode;
 
     try {
-      if (this.encapsulate) this.writeToPipe("--" + this.encapsulate + "--\r\n");
-
-      if (this.encHeader) {
-        this.writeToPipe("\r\n--" + this.encHeader + "--\r\n");
-        if (this.cryptoMode == MIME_SIGNED) this.writeOut("\r\n--" + this.encHeader + "--\r\n");
-      }
-
-      this.flushInput();
-
-      if (!this.pipe) {
-        this.closePipe = true;
-      }
-      else
-        this.pipe.close();
-
-      // wait here for proc to terminate
-      proc.wait();
-
       LOCAL_DEBUG("mimeEncrypt.js: finishCryptoEncapsulation: exitCode = " + this.exitCode + "\n");
-      if (this.exitCode !== 0) throw Cr.NS_ERROR_FAILURE;
+      if (this.exitCode !== 0) {
+        EnigmailLog.DEBUG(`mimeEncrypt.js: finishCryptoEncapsulation: error: ${ret.errorMsg}\n`);
+        EnigmailDialog.alert(this.win, ret.errorMsg);
+
+        throw Cr.NS_ERROR_FAILURE;
+      }
 
       if (this.cryptoMode == MIME_SIGNED) this.signedHeaders2();
 
@@ -542,7 +540,6 @@ PgpMimeEncrypt.prototype = {
       EnigmailLog.writeException("mimeEncrypt.js", ex);
       throw (ex);
     }
-
   },
 
   mimeCryptoWriteBlock: function(buffer, length) {
@@ -658,18 +655,9 @@ PgpMimeEncrypt.prototype = {
 
     if (this.pipe) {
       this.pipeQueue += str;
-      if (this.pipeQueue.length > maxBufferLen)
-        this.flushInput();
     }
     else
       this.pipeQueue += str;
-  },
-
-  flushInput: function() {
-    LOCAL_DEBUG("mimeEncrypt.js: flushInput\n");
-    if (!this.pipe) return;
-    this.pipe.write(this.pipeQueue);
-    this.pipeQueue = "";
   },
 
   getHeader: function(hdrStr, fullHeader) {
@@ -704,50 +692,6 @@ PgpMimeEncrypt.prototype = {
     return res;
   },
 
-
-  // API for decryptMessage Listener
-  stdin: function(pipe) {
-    LOCAL_DEBUG("mimeEncrypt.js: stdin\n");
-    if (this.pipeQueue.length > 0) {
-      pipe.write(this.pipeQueue);
-      this.pipeQueue = "";
-    }
-    if (this.closePipe) {
-      pipe.close();
-    }
-    else {
-      this.pipe = pipe;
-    }
-  },
-
-  stdout: function(s) {
-    LOCAL_DEBUG("mimeEncrypt.js: stdout:" + s.length + "\n");
-    this.encryptedData += s;
-    this.dataLength += s.length;
-  },
-
-  stderr: function(s) {
-    LOCAL_DEBUG("mimeEncrypt.js: stderr\n");
-    this.statusStr += s;
-  },
-
-  done: function(exitCode) {
-    EnigmailLog.DEBUG("mimeEncrypt.js: done: " + exitCode + "\n");
-
-    let retStatusObj = {};
-
-    this.exitCode = EnigmailEncryption.encryptMessageEnd(this.senderEmailAddr,
-      this.statusStr,
-      exitCode,
-      this.UIFlags,
-      this.sendFlags,
-      this.dataLength,
-      retStatusObj);
-
-    if (this.exitCode !== 0)
-      EnigmailDialog.alert(this.win, retStatusObj.errorMsg);
-
-  },
 
   processPepEncryption: function() {
     EnigmailLog.DEBUG("mimeEncrypt.js: processPepEncryption:\n");

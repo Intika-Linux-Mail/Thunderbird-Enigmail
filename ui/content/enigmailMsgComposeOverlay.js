@@ -34,7 +34,7 @@ var EnigmailURIs = ChromeUtils.import("chrome://enigmail/content/modules/uris.js
 var EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
 var EnigmailPassword = ChromeUtils.import("chrome://enigmail/content/modules/passwords.jsm").EnigmailPassword;
 var EnigmailDecryption = ChromeUtils.import("chrome://enigmail/content/modules/decryption.jsm").EnigmailDecryption;
-var EnigmailEncryption = ChromeUtils.import("chrome://enigmail/content/modules/encryption.jsm").EnigmailEncryption;
+var GnuPG_Encryption = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-encryption.jsm").GnuPG_Encryption;
 var EnigmailRules = ChromeUtils.import("chrome://enigmail/content/modules/rules.jsm").EnigmailRules;
 var EnigmailClipboard = ChromeUtils.import("chrome://enigmail/content/modules/clipboard.jsm").EnigmailClipboard;
 var EnigmailPEPAdapter = ChromeUtils.import("chrome://enigmail/content/modules/pEpAdapter.jsm").EnigmailPEPAdapter;
@@ -2549,7 +2549,7 @@ Enigmail.msg = {
       success: false,
       resetDefaults: false
     };
-    window.openDialog("chrome://enigmail/content/ui/enigmailEncryptionDlg.xul", "", "dialog,modal,centerscreen", inputObj);
+    window.openDialog("chrome://enigmail/content/ui/GnuPG_EncryptionDlg.xul", "", "dialog,modal,centerscreen", inputObj);
 
     if (!inputObj.success) return; // Cancel pressed
 
@@ -3110,7 +3110,7 @@ Enigmail.msg = {
     var testSendFlags = EnigmailConstants.SEND_TEST | ENCRYPT | optSendFlags;
     EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.encryptTestMessage(): call encryptMessage() for fromAddr=\"" + fromAddr + "\" toAddrStr=\"" + toAddrStr + "\" bccAddrStr=\"" +
       bccAddrStr + "\"\n");
-    testCipher = EnigmailEncryption.encryptMessage(window, testUiFlags, testPlain,
+    testCipher = GnuPG_Encryption.encryptMessage(window, testUiFlags, testPlain,
       fromAddr, toAddrStr, bccAddrStr,
       testSendFlags,
       testExitCodeObj,
@@ -3410,7 +3410,7 @@ Enigmail.msg = {
     var testPlain = "Test Message";
     var testUiFlags = EnigmailConstants.UI_TEST;
     EnigmailLog.DEBUG("enigmailMsgComposeOverlay.js: Enigmail.msg.saveDraft(): call encryptMessage() for fromAddr=\"" + fromAddr + "\"\n");
-    testCipher = EnigmailEncryption.encryptMessage(null, testUiFlags, testPlain,
+    testCipher = GnuPG_Encryption.encryptMessage(null, testUiFlags, testPlain,
       fromAddr, fromAddr, "",
       sendFlags | EnigmailConstants.SEND_TEST,
       testExitCodeObj,
@@ -4509,7 +4509,7 @@ Enigmail.msg = {
         EnigmailData.convertFromUnicode(origText, charset) :
         EnigmailData.convertFromUnicode(escText, charset);
 
-      var cipherText = EnigmailEncryption.encryptMessage(window, sendInfo.uiFlags, plainText,
+      var cipherText = GnuPG_Encryption.encryptMessage(window, sendInfo.uiFlags, plainText,
         sendInfo.fromAddr, sendInfo.toAddr, sendInfo.bccAddr,
         sendInfo.sendFlags,
         exitCodeObj, statusFlagsObj,
@@ -4908,7 +4908,7 @@ Enigmail.msg = {
       var txtMessage;
       try {
         newFile.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0x180);
-        txtMessage = EnigmailEncryption.encryptAttachment(window, fromAddr, toAddr, bccAddr, sendFlags,
+        txtMessage = GnuPG_Encryption.encryptAttachment(window, fromAddr, toAddr, bccAddr, sendFlags,
           origFile.file, newFile,
           exitCodeObj, statusFlagsObj,
           errorMsgObj);

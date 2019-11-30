@@ -7,7 +7,7 @@
 
 "use strict";
 
-var EXPORTED_SYMBOLS = ["EnigmailEncryption"];
+var EXPORTED_SYMBOLS = ["GnuPG_Encryption"];
 
 const EnigmailCore = ChromeUtils.import("chrome://enigmail/content/modules/core.jsm").EnigmailCore;
 const EnigmailData = ChromeUtils.import("chrome://enigmail/content/modules/data.jsm").EnigmailData;
@@ -36,204 +36,13 @@ const ENC_TYPE_ATTACH_ASCII = 2;
 const GPG_COMMENT_OPT = "Using GnuPG with %s - https://www.enigmail.net/";
 
 
-var EnigmailEncryption = {
-  getEncryptCommand: function(fromMailAddr, toMailAddr, bccMailAddr, hashAlgorithm, sendFlags, isAscii, errorMsgObj,
-    logFileObj) {
-    EnigmailLog.DEBUG("encryption.jsm: getEncryptCommand: hashAlgorithm=" + hashAlgorithm + "\n");
-
-    try {
-      fromMailAddr = EnigmailFuncs.stripEmail(fromMailAddr);
-      toMailAddr = EnigmailFuncs.stripEmail(toMailAddr);
-      bccMailAddr = EnigmailFuncs.stripEmail(bccMailAddr);
-
-    }
-    catch (ex) {
-      errorMsgObj.value = EnigmailLocale.getString("invalidEmail");
-      return null;
-    }
-
-    var defaultSend = sendFlags & EnigmailConstants.SEND_DEFAULT;
-    var signMsg = sendFlags & EnigmailConstants.SEND_SIGNED;
-    var encryptMsg = sendFlags & EnigmailConstants.SEND_ENCRYPTED;
-    var usePgpMime = sendFlags & EnigmailConstants.SEND_PGP_MIME;
-
-    var useDefaultComment = false;
-    try {
-      useDefaultComment = EnigmailPrefs.getPref("useDefaultComment");
-    }
-    catch (ex) {}
-
-    var hushMailSupport = false;
-    try {
-      hushMailSupport = EnigmailPrefs.getPref("hushMailSupport");
-    }
-    catch (ex) {}
-
-    var detachedSig = (usePgpMime || (sendFlags & EnigmailConstants.SEND_ATTACHMENT)) && signMsg && !encryptMsg;
-
-    var toAddrList = toMailAddr.split(/\s*,\s*/);
-    var bccAddrList = bccMailAddr.split(/\s*,\s*/);
-    var k;
-
-    var encryptArgs = EnigmailGpg.getStandardArgs(true);
-
-    if (!useDefaultComment)
-      encryptArgs = encryptArgs.concat(["--comment", GPG_COMMENT_OPT.replace(/%s/, EnigmailApp.getName())]);
-
-    var angledFromMailAddr = ((fromMailAddr.search(/^0x/) === 0) || hushMailSupport) ?
-      fromMailAddr : "<" + fromMailAddr + ">";
-    angledFromMailAddr = angledFromMailAddr.replace(/(["'`])/g, "\\$1");
-
-    if (signMsg && hashAlgorithm) {
-      encryptArgs = encryptArgs.concat(["--digest-algo", hashAlgorithm]);
-    }
-
-    if (logFileObj) {
-      logFileObj.value = EnigmailErrorHandling.getTempLogFile();
-      encryptArgs.push("--log-file");
-      encryptArgs.push(EnigmailFiles.getEscapedFilename(EnigmailFiles.getFilePath(logFileObj.value)));
-    }
-
-    if (encryptMsg) {
-      switch (isAscii) {
-        case ENC_TYPE_MSG:
-          encryptArgs.push("-a");
-          encryptArgs.push("-t");
-          break;
-        case ENC_TYPE_ATTACH_ASCII:
-          encryptArgs.push("-a");
-      }
-
-      encryptArgs.push("--encrypt");
-
-      if (signMsg)
-        encryptArgs.push("--sign");
-
-      if (sendFlags & EnigmailConstants.SEND_ALWAYS_TRUST) {
-        encryptArgs.push("--trust-model");
-        encryptArgs.push("always");
-      }
-      if ((sendFlags & EnigmailConstants.SEND_ENCRYPT_TO_SELF) && fromMailAddr)
-        encryptArgs = encryptArgs.concat(["--encrypt-to", angledFromMailAddr]);
-
-      for (k = 0; k < toAddrList.length; k++) {
-        toAddrList[k] = toAddrList[k].replace(/'/g, "\\'");
-        if (toAddrList[k].length > 0) {
-          encryptArgs.push("-r");
-          if (toAddrList[k].search(/^GROUP:/) === 0) {
-            // groups from gpg.conf file
-            encryptArgs.push(toAddrList[k].substr(6));
-          }
-          else {
-            encryptArgs.push((hushMailSupport || (toAddrList[k].search(/^0x/) === 0)) ? toAddrList[k] : "<" + toAddrList[k] + ">");
-          }
-        }
-      }
-
-      for (k = 0; k < bccAddrList.length; k++) {
-        bccAddrList[k] = bccAddrList[k].replace(/'/g, "\\'");
-        if (bccAddrList[k].length > 0) {
-          encryptArgs.push("--hidden-recipient");
-          encryptArgs.push((hushMailSupport || (bccAddrList[k].search(/^0x/) === 0)) ? bccAddrList[k] : "<" + bccAddrList[k] + ">");
-        }
-      }
-
-    }
-    else if (detachedSig) {
-      encryptArgs = encryptArgs.concat(["-s", "-b"]);
-
-      switch (isAscii) {
-        case ENC_TYPE_MSG:
-          encryptArgs = encryptArgs.concat(["-a", "-t"]);
-          break;
-        case ENC_TYPE_ATTACH_ASCII:
-          encryptArgs.push("-a");
-      }
-
-    }
-    else if (signMsg) {
-      encryptArgs = encryptArgs.concat(["-t", "--clearsign"]);
-    }
-
-    if (fromMailAddr) {
-      encryptArgs = encryptArgs.concat(["-u", angledFromMailAddr]);
-    }
-
-    return encryptArgs;
-  },
-
-  /**
-   * Determine if the sender key ID or user ID can be used for signing and/or encryption
-   *
-   * @param sendFlags:    Number  - the send Flags; need to contain SEND_SIGNED and/or SEND_ENCRYPTED
-   * @param fromMailAddr: String  - the sender email address or key ID
-   *
-   * @return Object:
-   *         - keyId:    String - the found key ID, or null if fromMailAddr is not valid
-   *         - errorMsg: String - the erorr message if key not valid, or null if key is valid
-   */
-  determineOwnKeyUsability: function(sendFlags, fromMailAddr) {
-    EnigmailLog.DEBUG("encryption.jsm: determineOwnKeyUsability: sendFlags=" + sendFlags + ", sender=" + fromMailAddr + "\n");
-
-    let keyList = [];
-    let ret = {
-      keyId: null,
-      errorMsg: null
-    };
-
-    let sign = (sendFlags & EnigmailConstants.SEND_SIGNED ? true : false);
-    let encrypt = (sendFlags & EnigmailConstants.SEND_ENCRYPTED ? true : false);
-
-    if (fromMailAddr.search(/^(0x)?[A-Z0-9]+$/) === 0) {
-      // key ID specified
-      let key = EnigmailKeyRing.getKeyById(fromMailAddr);
-      keyList.push(key);
-    }
-    else {
-      // email address specified
-      keyList = EnigmailKeyRing.getKeysByUserId(fromMailAddr);
-    }
-
-    if (keyList.length === 0) {
-      ret.errorMsg = EnigmailLocale.getString("errorOwnKeyUnusable", fromMailAddr);
-      return ret;
-    }
-
-    if (sign) {
-      keyList = keyList.reduce(function _f(p, keyObj) {
-        if (keyObj && keyObj.getSigningValidity().keyValid) p.push(keyObj);
-        return p;
-      }, []);
-    }
-
-    if (encrypt) {
-      keyList = keyList.reduce(function _f(p, keyObj) {
-        if (keyObj && keyObj.getEncryptionValidity().keyValid) p.push(keyObj);
-        return p;
-      }, []);
-    }
-
-    if (keyList.length === 0) {
-      if (sign) {
-        ret.errorMsg = EnigmailErrorHandling.determineInvSignReason(fromMailAddr);
-      }
-      else {
-        ret.errorMsg = EnigmailErrorHandling.determineInvRcptReason(fromMailAddr);
-      }
-    }
-    else {
-      ret.keyId = keyList[0].fpr;
-    }
-
-    return ret;
-  },
-
+var GnuPG_Encryption = {
   encryptMessageStart: function(win, uiFlags, fromMailAddr, toMailAddr, bccMailAddr,
     hashAlgorithm, sendFlags, listener, statusFlagsObj, errorMsgObj) {
     EnigmailLog.DEBUG("encryption.jsm: encryptMessageStart: uiFlags=" + uiFlags + ", from " + fromMailAddr + " to " + toMailAddr + ", hashAlgorithm=" + hashAlgorithm + " (" + EnigmailData.bytesToHex(
       EnigmailData.pack(sendFlags, 4)) + ")\n");
 
-    let keyUseability = this.determineOwnKeyUsability(sendFlags, fromMailAddr);
+    let keyUseability = determineOwnKeyUsability(sendFlags, fromMailAddr);
 
     if (!keyUseability.keyId) {
       EnigmailLog.DEBUG("encryption.jsm: encryptMessageStart: own key invalid\n");
@@ -266,7 +75,7 @@ var EnigmailEncryption = {
     }
 
     let logFileObj = {};
-    let encryptArgs = EnigmailEncryption.getEncryptCommand(fromMailAddr, toMailAddr, bccMailAddr, hashAlgo, sendFlags, ENC_TYPE_MSG, errorMsgObj, logFileObj);
+    let encryptArgs = getEncryptCommand(fromMailAddr, toMailAddr, bccMailAddr, hashAlgo, sendFlags, ENC_TYPE_MSG, errorMsgObj, logFileObj);
     if (!encryptArgs)
       return null;
 
@@ -408,7 +217,7 @@ var EnigmailEncryption = {
       function _done(exitCode) {});
 
 
-    var proc = EnigmailEncryption.encryptMessageStart(parent, uiFlags,
+    var proc = GnuPG_Encryption.encryptMessageStart(parent, uiFlags,
       fromMailAddr, toMailAddr, bccMailAddr,
       null, sendFlags,
       listener, statusFlagsObj, errorMsgObj);
@@ -422,7 +231,7 @@ var EnigmailEncryption = {
     proc.wait();
 
     var retStatusObj = {};
-    exitCodeObj.value = EnigmailEncryption.encryptMessageEnd(fromMailAddr, EnigmailData.getUnicodeData(listener.stderrData), listener.exitCode,
+    exitCodeObj.value = GnuPG_Encryption.encryptMessageEnd(fromMailAddr, EnigmailData.getUnicodeData(listener.stderrData), listener.exitCode,
       uiFlags, sendFlags,
       listener.stdoutData.length,
       retStatusObj);
@@ -448,7 +257,7 @@ var EnigmailEncryption = {
 
   encryptAttachment: function(parent, fromMailAddr, toMailAddr, bccMailAddr, sendFlags, inFile, outFile,
     exitCodeObj, statusFlagsObj, errorMsgObj) {
-    EnigmailLog.DEBUG("encryption.jsm: EnigmailEncryption.encryptAttachment infileName=" + inFile.path + "\n");
+    EnigmailLog.DEBUG("encryption.jsm: GnuPG_Encryption.encryptAttachment infileName=" + inFile.path + "\n");
 
     statusFlagsObj.value = 0;
     sendFlags |= EnigmailConstants.SEND_ATTACHMENT;
@@ -460,7 +269,7 @@ var EnigmailEncryption = {
     catch (ex) {}
 
     const asciiFlags = (asciiArmor ? ENC_TYPE_ATTACH_ASCII : ENC_TYPE_ATTACH_BINARY);
-    let args = EnigmailEncryption.getEncryptCommand(fromMailAddr, toMailAddr, bccMailAddr, "", sendFlags, asciiFlags, errorMsgObj);
+    let args = getEncryptCommand(fromMailAddr, toMailAddr, bccMailAddr, "", sendFlags, asciiFlags, errorMsgObj);
 
     if (!args) {
       return null;
@@ -497,3 +306,195 @@ var EnigmailEncryption = {
     return msg;
   }
 };
+
+
+function getEncryptCommand(fromMailAddr, toMailAddr, bccMailAddr, hashAlgorithm, sendFlags, isAscii, errorMsgObj,
+  logFileObj) {
+  EnigmailLog.DEBUG("encryption.jsm: getEncryptCommand: hashAlgorithm=" + hashAlgorithm + "\n");
+
+  try {
+    fromMailAddr = EnigmailFuncs.stripEmail(fromMailAddr);
+    toMailAddr = EnigmailFuncs.stripEmail(toMailAddr);
+    bccMailAddr = EnigmailFuncs.stripEmail(bccMailAddr);
+
+  }
+  catch (ex) {
+    errorMsgObj.value = EnigmailLocale.getString("invalidEmail");
+    return null;
+  }
+
+  var signMsg = sendFlags & EnigmailConstants.SEND_SIGNED;
+  var encryptMsg = sendFlags & EnigmailConstants.SEND_ENCRYPTED;
+  var usePgpMime = sendFlags & EnigmailConstants.SEND_PGP_MIME;
+
+  var useDefaultComment = false;
+  try {
+    useDefaultComment = EnigmailPrefs.getPref("useDefaultComment");
+  }
+  catch (ex) {}
+
+  var hushMailSupport = false;
+  try {
+    hushMailSupport = EnigmailPrefs.getPref("hushMailSupport");
+  }
+  catch (ex) {}
+
+  var detachedSig = (usePgpMime || (sendFlags & EnigmailConstants.SEND_ATTACHMENT)) && signMsg && !encryptMsg;
+
+  var toAddrList = toMailAddr.split(/\s*,\s*/);
+  var bccAddrList = bccMailAddr.split(/\s*,\s*/);
+  var k;
+
+  var encryptArgs = EnigmailGpg.getStandardArgs(true);
+
+  if (!useDefaultComment)
+    encryptArgs = encryptArgs.concat(["--comment", GPG_COMMENT_OPT.replace(/%s/, EnigmailApp.getName())]);
+
+  var angledFromMailAddr = ((fromMailAddr.search(/^0x/) === 0) || hushMailSupport) ?
+    fromMailAddr : "<" + fromMailAddr + ">";
+  angledFromMailAddr = angledFromMailAddr.replace(/(["'`])/g, "\\$1");
+
+  if (signMsg && hashAlgorithm) {
+    encryptArgs = encryptArgs.concat(["--digest-algo", hashAlgorithm]);
+  }
+
+  if (logFileObj) {
+    logFileObj.value = EnigmailErrorHandling.getTempLogFile();
+    encryptArgs.push("--log-file");
+    encryptArgs.push(EnigmailFiles.getEscapedFilename(EnigmailFiles.getFilePath(logFileObj.value)));
+  }
+
+  if (encryptMsg) {
+    switch (isAscii) {
+      case ENC_TYPE_MSG:
+        encryptArgs.push("-a");
+        encryptArgs.push("-t");
+        break;
+      case ENC_TYPE_ATTACH_ASCII:
+        encryptArgs.push("-a");
+    }
+
+    encryptArgs.push("--encrypt");
+
+    if (signMsg)
+      encryptArgs.push("--sign");
+
+    if (sendFlags & EnigmailConstants.SEND_ALWAYS_TRUST) {
+      encryptArgs.push("--trust-model");
+      encryptArgs.push("always");
+    }
+    if ((sendFlags & EnigmailConstants.SEND_ENCRYPT_TO_SELF) && fromMailAddr)
+      encryptArgs = encryptArgs.concat(["--encrypt-to", angledFromMailAddr]);
+
+    for (k = 0; k < toAddrList.length; k++) {
+      toAddrList[k] = toAddrList[k].replace(/'/g, "\\'");
+      if (toAddrList[k].length > 0) {
+        encryptArgs.push("-r");
+        if (toAddrList[k].search(/^GROUP:/) === 0) {
+          // groups from gpg.conf file
+          encryptArgs.push(toAddrList[k].substr(6));
+        }
+        else {
+          encryptArgs.push((hushMailSupport || (toAddrList[k].search(/^0x/) === 0)) ? toAddrList[k] : "<" + toAddrList[k] + ">");
+        }
+      }
+    }
+
+    for (k = 0; k < bccAddrList.length; k++) {
+      bccAddrList[k] = bccAddrList[k].replace(/'/g, "\\'");
+      if (bccAddrList[k].length > 0) {
+        encryptArgs.push("--hidden-recipient");
+        encryptArgs.push((hushMailSupport || (bccAddrList[k].search(/^0x/) === 0)) ? bccAddrList[k] : "<" + bccAddrList[k] + ">");
+      }
+    }
+
+  }
+  else if (detachedSig) {
+    encryptArgs = encryptArgs.concat(["-s", "-b"]);
+
+    switch (isAscii) {
+      case ENC_TYPE_MSG:
+        encryptArgs = encryptArgs.concat(["-a", "-t"]);
+        break;
+      case ENC_TYPE_ATTACH_ASCII:
+        encryptArgs.push("-a");
+    }
+
+  }
+  else if (signMsg) {
+    encryptArgs = encryptArgs.concat(["-t", "--clearsign"]);
+  }
+
+  if (fromMailAddr) {
+    encryptArgs = encryptArgs.concat(["-u", angledFromMailAddr]);
+  }
+
+  return encryptArgs;
+}
+
+
+/**
+ * Determine if the sender key ID or user ID can be used for signing and/or encryption
+ *
+ * @param sendFlags:    Number  - the send Flags; need to contain SEND_SIGNED and/or SEND_ENCRYPTED
+ * @param fromMailAddr: String  - the sender email address or key ID
+ *
+ * @return Object:
+ *         - keyId:    String - the found key ID, or null if fromMailAddr is not valid
+ *         - errorMsg: String - the erorr message if key not valid, or null if key is valid
+ */
+function determineOwnKeyUsability(sendFlags, fromMailAddr) {
+  EnigmailLog.DEBUG("encryption.jsm: determineOwnKeyUsability: sendFlags=" + sendFlags + ", sender=" + fromMailAddr + "\n");
+
+  let keyList = [];
+  let ret = {
+    keyId: null,
+    errorMsg: null
+  };
+
+  let sign = (sendFlags & EnigmailConstants.SEND_SIGNED ? true : false);
+  let encrypt = (sendFlags & EnigmailConstants.SEND_ENCRYPTED ? true : false);
+
+  if (fromMailAddr.search(/^(0x)?[A-Z0-9]+$/) === 0) {
+    // key ID specified
+    let key = EnigmailKeyRing.getKeyById(fromMailAddr);
+    keyList.push(key);
+  }
+  else {
+    // email address specified
+    keyList = EnigmailKeyRing.getKeysByUserId(fromMailAddr);
+  }
+
+  if (keyList.length === 0) {
+    ret.errorMsg = EnigmailLocale.getString("errorOwnKeyUnusable", fromMailAddr);
+    return ret;
+  }
+
+  if (sign) {
+    keyList = keyList.reduce(function _f(p, keyObj) {
+      if (keyObj && keyObj.getSigningValidity().keyValid) p.push(keyObj);
+      return p;
+    }, []);
+  }
+
+  if (encrypt) {
+    keyList = keyList.reduce(function _f(p, keyObj) {
+      if (keyObj && keyObj.getEncryptionValidity().keyValid) p.push(keyObj);
+      return p;
+    }, []);
+  }
+
+  if (keyList.length === 0) {
+    if (sign) {
+      ret.errorMsg = EnigmailErrorHandling.determineInvSignReason(fromMailAddr);
+    }
+    else {
+      ret.errorMsg = EnigmailErrorHandling.determineInvRcptReason(fromMailAddr);
+    }
+  }
+  else {
+    ret.keyId = keyList[0].fpr;
+  }
+
+  return ret;
+}

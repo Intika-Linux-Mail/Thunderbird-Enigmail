@@ -15,10 +15,9 @@ const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.js
 const EnigmailWindows = ChromeUtils.import("chrome://enigmail/content/modules/windows.jsm").EnigmailWindows;
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 const EnigmailPrefs = ChromeUtils.import("chrome://enigmail/content/modules/prefs.jsm").EnigmailPrefs;
-const EnigmailEncryption = ChromeUtils.import("chrome://enigmail/content/modules/encryption.jsm").EnigmailEncryption;
+const GnuPG_Encryption = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-encryption.jsm").GnuPG_Encryption;
 const EnigmailDialog = ChromeUtils.import("chrome://enigmail/content/modules/dialog.jsm").EnigmailDialog;
 const EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
-
 
 
 const keyAlgorithms = [];
@@ -60,7 +59,7 @@ var EnigmailHash = {
 
       let errorMsgObj = {};
       let statusFlagsObj = {};
-      const proc = EnigmailEncryption.encryptMessageStart(win, testUiFlags, fromMailAddr, "",
+      const proc = GnuPG_Encryption.encryptMessageStart(win, testUiFlags, fromMailAddr, "",
         "", hashAlgo, sendFlags,
         listener, statusFlagsObj, errorMsgObj);
 
@@ -76,7 +75,7 @@ var EnigmailHash = {
       const exitCode = listener.exitCode;
 
       const retStatusObj = {};
-      let exitCode2 = EnigmailEncryption.encryptMessageEnd(fromMailAddr, listener.stderrData, exitCode,
+      let exitCode2 = GnuPG_Encryption.encryptMessageEnd(fromMailAddr, listener.stderrData, exitCode,
         testUiFlags, sendFlags, 10,
         retStatusObj);
 
