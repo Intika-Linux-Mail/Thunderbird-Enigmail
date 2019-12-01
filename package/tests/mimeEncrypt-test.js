@@ -60,4 +60,15 @@ test(withTestGpgHome(withEnigmail(function testSignedMessage() {
   Assert.equal(e.encryptedData.substr(0, 27), "-----BEGIN PGP MESSAGE-----");
 
   Assert.ok(e.encryptedData.split(/[\r\n]+/).length >= 14);
+
+  // test if we get an exception if encryption fails
+  e.sendFlags = EnigmailConstants.SEND_PGP_MIME | EnigmailConstants.SEND_ENCRYPTED;
+  try {
+    e.finishCryptoEncapsulation(false, false);
+    Assert.ok(false); // should not succeed because "always trust" is off
+  }
+  catch (ex) {
+    Assert.ok(true);
+  }
+
 })));
