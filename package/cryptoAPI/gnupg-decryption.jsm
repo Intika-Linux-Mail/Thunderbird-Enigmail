@@ -82,6 +82,7 @@ var GnuPGDecryption = {
 
     return args;
   },
+
   decryptMessageEnd: function(stderrStr, exitCode, outputLen, verifyOnly, noOutput, uiFlags, retStatusObj) {
     EnigmailLog.DEBUG("gnupg-decryption.jsm: decryptMessageEnd: uiFlags=" + uiFlags + ", verifyOnly=" + verifyOnly + ", noOutput=" + noOutput + "\n");
 
@@ -89,17 +90,14 @@ var GnuPGDecryption = {
     EnigmailLog.DEBUG("gnupg-decryption.jsm: decryptMessageEnd: stderrStr=\n" + stderrStr + "\n");
 
 
-    var interactive = uiFlags & EnigmailConstants.UI_INTERACTIVE;
-    var pgpMime = uiFlags & EnigmailConstants.UI_PGP_MIME;
-    var allowImport = uiFlags & EnigmailConstants.UI_ALLOW_KEY_IMPORT;
-    var unverifiedEncryptedOK = uiFlags & EnigmailConstants.UI_UNVERIFIED_ENC_OK;
-    var j;
+    let pgpMime = uiFlags & EnigmailConstants.UI_PGP_MIME;
+    let j;
 
     retStatusObj.statusFlags = 0;
     retStatusObj.errorMsg = "";
     retStatusObj.blockSeparation = "";
 
-    var errorMsg = EnigmailErrorHandling.parseErrorOutput(stderrStr, retStatusObj);
+    let errorMsg = EnigmailErrorHandling.parseErrorOutput(stderrStr, retStatusObj);
     if (retStatusObj.statusFlags & STATUS_ERROR) {
       retStatusObj.errorMsg = errorMsg;
     }
@@ -111,7 +109,7 @@ var GnuPGDecryption = {
       retStatusObj.statusFlags |= verifyOnly ? EnigmailConstants.PGP_MIME_SIGNED : EnigmailConstants.PGP_MIME_ENCRYPTED;
     }
 
-    var statusMsg = retStatusObj.statusMsg;
+    let statusMsg = retStatusObj.statusMsg;
     exitCode = EnigmailExecution.fixExitCode(exitCode, retStatusObj);
     if ((exitCode === 0) && !noOutput && !outputLen &&
       ((retStatusObj.statusFlags & (STATUS_DECRYPTION_OK | STATUS_GOODSIG)) === 0)) {
@@ -123,7 +121,7 @@ var GnuPGDecryption = {
       return -1;
     }
 
-    var errLines;
+    let errLines;
     if (statusMsg) {
       errLines = statusMsg.split(/\r?\n/);
     }
@@ -134,31 +132,31 @@ var GnuPGDecryption = {
 
     // possible STATUS Patterns (see GPG dod DETAILS.txt):
     // one of these should be set for a signature:
-    var newsigPat = /^NEWSIG ?.*$/i;
-    var trustedsigPat = /^TRUST_(FULLY|ULTIMATE) ?.*$/i;
-    var goodsigPat = /^GOODSIG (\w{16}) (.*)$/i;
-    var badsigPat = /^BADSIG (\w{16}) (.*)$/i;
-    var expsigPat = /^EXPSIG (\w{16}) (.*)$/i;
-    var expkeysigPat = /^EXPKEYSIG (\w{16}) (.*)$/i;
-    var revkeysigPat = /^REVKEYSIG (\w{16}) (.*)$/i;
-    var errsigPat = /^ERRSIG (\w{16}) (.*)$/i;
+    let newsigPat = /^NEWSIG ?.*$/i;
+    let trustedsigPat = /^TRUST_(FULLY|ULTIMATE) ?.*$/i;
+    let goodsigPat = /^GOODSIG (\w{16}) (.*)$/i;
+    let badsigPat = /^BADSIG (\w{16}) (.*)$/i;
+    let expsigPat = /^EXPSIG (\w{16}) (.*)$/i;
+    let expkeysigPat = /^EXPKEYSIG (\w{16}) (.*)$/i;
+    let revkeysigPat = /^REVKEYSIG (\w{16}) (.*)$/i;
+    let errsigPat = /^ERRSIG (\w{16}) (.*)$/i;
     // additional infos for good signatures:
-    var validSigPat = /^VALIDSIG (\w+) (.*) (\d+) (.*)/i;
+    let validSigPat = /^VALIDSIG (\w+) (.*) (\d+) (.*)/i;
     // hint for a certain key id:
-    var userIdHintPat = /^USERID_HINT (\w{16}) (.*)$/i;
+    let userIdHintPat = /^USERID_HINT (\w{16}) (.*)$/i;
     // to find out for which recipients the email was encrypted:
-    var encToPat = /^ENC_TO (\w{16}) (.*)$/i;
+    let encToPat = /^ENC_TO (\w{16}) (.*)$/i;
 
-    var matches;
+    let matches;
 
-    var signed = false;
-    var goodOrExpOrRevSignature = false;
-    var sigKeyId = ""; // key of sender
-    var sigUserId = ""; // user ID of sender
-    var sigDetails = "";
-    var sigTrusted = false;
-    var encToDetails = "";
-    var encToArray = []; // collect ENC_TO lines here
+    let signed = false;
+    let goodOrExpOrRevSignature = false;
+    let sigKeyId = ""; // key of sender
+    let sigUserId = ""; // user ID of sender
+    let sigDetails = "";
+    let sigTrusted = false;
+    let encToDetails = "";
+    let encToArray = []; // collect ENC_TO lines here
 
     for (j = 0; j < errLines.length; j++) {
       EnigmailLog.DEBUG("gnupg-decryption.jsm: decryptMessageEnd: process: " + errLines[j] + "\n");

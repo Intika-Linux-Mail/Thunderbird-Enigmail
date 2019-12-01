@@ -60,6 +60,10 @@ test(withTestGpgHome(withEnigmail(function messageIsMovedToNewDir() {
   const header = MailHelper.fetchFirstMessageHeaderIn(sourceFolder);
   const targetFolder = MailHelper.createMailFolder("target-box");
   const move = true;
+
+  copyListener.OnStopCopy = function(statusCode) {
+    inspector.exitNestedEventLoop();
+  };
   EnigmailPersistentCrypto.dispatchMessages([header], targetFolder.URI, copyListener, move);
   inspector.enterNestedEventLoop(0);
 
@@ -88,7 +92,6 @@ test(withTestGpgHome(withEnigmail(function messageIsMovedAndDecrypted() {
   let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
   let urlObj = EnigmailCompat.getUrlFromUriSpec(msgUriSpec);
 
-  do_test_pending();
   EnigmailMime.getMimeTreeFromUrl(
     urlObj.spec,
     true,
@@ -97,10 +100,11 @@ test(withTestGpgHome(withEnigmail(function messageIsMovedAndDecrypted() {
       if (mimeTree.subParts.length > 0) {
         Assert.assertContains(mimeTree.subParts[0].body, "This message is encrypted");
       }
-      do_test_finished();
+      inspector.exitNestedEventLoop();
     },
     false
   );
+  inspector.enterNestedEventLoop(0);
 })));
 
 
@@ -166,7 +170,6 @@ test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndReEncr
   let msgUriSpec = dispatchedHeader.folder.getUriForMsg(dispatchedHeader);
   let urlObj = EnigmailCompat.getUrlFromUriSpec(msgUriSpec);
 
-  do_test_pending();
   EnigmailMime.getMimeTreeFromUrl(
     urlObj.spec,
     true,
@@ -177,10 +180,11 @@ test(withTestGpgHome(withEnigmail(function messageWithAttachemntIsMovedAndReEncr
       if (mimeTree.subParts.length >= 2) {
         Assert.assertContains(mimeTree.subParts[1].body, "---BEGIN PGP MESSAGE---");
       }
-      do_test_finished();
+      inspector.exitNestedEventLoop();
     },
     false
   );
+  inspector.enterNestedEventLoop(0);
 })));
 
 var loadSecretKey = function() {
