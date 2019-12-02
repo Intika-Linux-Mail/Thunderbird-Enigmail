@@ -10,12 +10,11 @@
 var EXPORTED_SYMBOLS = ["EnigmailHash"];
 
 
-
 const EnigmailLog = ChromeUtils.import("chrome://enigmail/content/modules/log.jsm").EnigmailLog;
 const EnigmailWindows = ChromeUtils.import("chrome://enigmail/content/modules/windows.jsm").EnigmailWindows;
 const EnigmailLocale = ChromeUtils.import("chrome://enigmail/content/modules/locale.jsm").EnigmailLocale;
 const EnigmailPrefs = ChromeUtils.import("chrome://enigmail/content/modules/prefs.jsm").EnigmailPrefs;
-const GnuPG_Encryption = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI/gnupg-encryption.jsm").GnuPG_Encryption;
+const EnigmailCryptoAPI = ChromeUtils.import("chrome://enigmail/content/modules/cryptoAPI.jsm").EnigmailCryptoAPI;
 const EnigmailDialog = ChromeUtils.import("chrome://enigmail/content/modules/dialog.jsm").EnigmailDialog;
 const EnigmailConstants = ChromeUtils.import("chrome://enigmail/content/modules/constants.jsm").EnigmailConstants;
 
@@ -24,7 +23,7 @@ const keyAlgorithms = [];
 const mimeHashAlgorithms = [null, "sha1", "ripemd160", "sha256", "sha384", "sha512", "sha224", "md5"];
 
 var EnigmailHash = {
-  determineAlgorithm: function(win, uiFlags, fromMailAddr, hashAlgoObj) {
+  determineAlgorithm: function(win, fromMailAddr, hashAlgoObj) {
     EnigmailLog.DEBUG("hash.jsm: determineAlgorithm\n");
 
     if (!win) {
@@ -32,74 +31,44 @@ var EnigmailHash = {
     }
 
     const sendFlags = EnigmailConstants.SEND_TEST | EnigmailConstants.SEND_SIGNED;
-    const hashAlgo = mimeHashAlgorithms[EnigmailPrefs.getPref("mimeHashAlgorithm")];
 
     if (typeof(keyAlgorithms[fromMailAddr]) != "string") {
       // hash algorithm not yet known
+      const cApi = EnigmailCryptoAPI();
+      let ret = null;
 
-      const testUiFlags = EnigmailConstants.UI_TEST;
-      const listener = {
-        stdoutData: "",
-        stderrData: "",
-        exitCode: -1,
-        stdin: function(pipe) {
-          pipe.write("Dummy Test");
-          pipe.close();
-        },
-        stdout: function(data) {
-          this.stdoutData += data;
-        },
-        stderr: function(data) {
-          this.stderrData += data;
-        },
-        done: function(exitCode) {
-          this.exitCode = exitCode;
+      try {
+        ret = cApi.sync(cApi.encryptMessage(fromMailAddr,
+          "",
+          "",
+          sendFlags,
+          "Test",
+          null,
+          win));
+      }
+      catch (ex) {}
+
+      if (! ret) return -2;
+
+      if (!ret.data || ret.data.length === 0) {
+        if (ret.exitCode === 0) {
+          ret.exitCode = -1;
         }
-      };
-
-      let errorMsgObj = {};
-      let statusFlagsObj = {};
-      const proc = GnuPG_Encryption.encryptMessageStart(win, testUiFlags, fromMailAddr, "",
-        "", hashAlgo, sendFlags,
-        listener, statusFlagsObj, errorMsgObj);
-
-      if (!proc) {
-        hashAlgoObj.errorMsg = errorMsgObj.value;
-        hashAlgoObj.statusFlags = statusFlagsObj.value;
-        return 1;
+        if (ret.statusFlags & EnigmailConstants.BAD_PASSPHRASE) {
+          ret.errorMsg = EnigmailLocale.getString("badPhrase");
+        }
+        EnigmailDialog.alert(win, ret.errorMsg);
+        return ret.exitCode;
       }
 
-      proc.wait();
+      let hashAlgorithm = "sha256"; // safe default in 2019
 
-      const msgText = listener.stdoutData;
-      const exitCode = listener.exitCode;
-
-      const retStatusObj = {};
-      let exitCode2 = GnuPG_Encryption.encryptMessageEnd(fromMailAddr, listener.stderrData, exitCode,
-        testUiFlags, sendFlags, 10,
-        retStatusObj);
-
-      if ((exitCode2 === 0) && !msgText) exitCode2 = 1;
-      // if (exitCode2 > 0) exitCode2 = -exitCode2;
-
-      if (exitCode2 !== 0) {
-        // Abormal return
-        if (retStatusObj.statusFlags & EnigmailConstants.BAD_PASSPHRASE) {
-          // "Unremember" passphrase on error return
-          retStatusObj.errorMsg = EnigmailLocale.getString("badPhrase");
-        }
-        EnigmailDialog.alert(win, retStatusObj.errorMsg);
-        return exitCode2;
-      }
-
-      let hashAlgorithm = "sha1"; // default as defined in RFC 4880, section 7 is MD5 -- but that's outdated
-
-      const m = msgText.match(/^(Hash: )(.*)$/m);
+      const m = ret.data.match(/^(Hash: )(.*)$/m);
       if (m && (m.length > 2) && (m[1] == "Hash: ")) {
         hashAlgorithm = m[2].toLowerCase();
       }
       else {
-        EnigmailLog.DEBUG("hash.jsm: determineAlgorithm: no hashAlgorithm specified - using MD5\n");
+        EnigmailLog.DEBUG("hash.jsm: determineAlgorithm: no hashAlgorithm specified - using SHA256\n");
       }
 
       for (let i = 1; i < mimeHashAlgorithms.length; i++) {

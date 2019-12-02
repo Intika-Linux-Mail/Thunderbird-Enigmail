@@ -31,7 +31,7 @@ test(function testSignedMessage() {
 });
 
 
-test(withTestGpgHome(withEnigmail(function testSignedMessage() {
+test(withTestGpgHome(withEnigmail(function testFinishCryptoEncapsulation() {
   const publicKey = do_get_file("resources/dev-strike.asc", false);
   const secretKey = do_get_file("resources/dev-strike.sec", false);
   const errorMsgObj = {};
@@ -71,4 +71,36 @@ test(withTestGpgHome(withEnigmail(function testSignedMessage() {
     Assert.ok(true);
   }
 
+  // test signed message
+  e.sendFlags = EnigmailConstants.SEND_PGP_MIME | EnigmailConstants.SEND_SIGNED;
+  e.finishCryptoEncapsulation(false, false);
+  Assert.equal(e.encryptedData.substr(0, 29), "-----BEGIN PGP SIGNATURE-----");
+})));
+
+
+test(withTestGpgHome(withEnigmail(function testBeginCryptoEncapsulation() {
+  const secretKey = do_get_file("resources/dev-strike.sec", false);
+  const errorMsgObj = {};
+  const importedKeysObj = {};
+  EnigmailKeyRing.importKeyFromFile(secretKey, errorMsgObj, importedKeysObj);
+  const strikeAccount = "strike.devtest@gmail.com";
+
+  const e = new PgpMimeEncrypt(null);
+  e.msgCompFields = [];
+  e.hashAlgorithm = "SHA256";
+  e.useSmime = false;
+  e.cryptoMode = MIME_ENCRYPTED;
+  e.sendFlags = EnigmailConstants.SEND_PGP_MIME | EnigmailConstants.SEND_SIGNED;
+  e.senderEmailAddr = strikeAccount;
+  e.recipients = strikeAccount;
+  e.bccRecipients = "";
+  e.pipeQueue = "Hello World";
+  e.win = JSUnit.createStubWindow();
+  e.checkSMime = false;
+  e.encapsulate = false;
+  e.encHeader = null;
+
+  e.beginCryptoEncapsulation({}, strikeAccount, {}, {}, false, false);
+
+  Assert.equal(e.hashAlgorithm, "sha512");
 })));

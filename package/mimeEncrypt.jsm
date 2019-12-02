@@ -273,7 +273,6 @@ PgpMimeEncrypt.prototype = {
 
           let hashAlgoObj = {};
           if (EnigmailHash.determineAlgorithm(this.win,
-              this.UIFlags,
               this.senderEmailAddr,
               hashAlgoObj) === 0) {
             this.hashAlgorithm = hashAlgoObj.value;
