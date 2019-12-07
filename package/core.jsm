@@ -91,6 +91,16 @@ var EnigmailCore = {
         getEnigmailOverlays().startup();
         self.factories.push(new Factory(getEnigmailProtocolHandler()));
         self.factories.push(new Factory(mimeEncrypt.Handler));
+
+        const configuredVersion = getEnigmailPrefs().getPref("configuredVersion");
+
+        if (configuredVersion && configuredVersion.length > 0) {
+          self.createInstance();
+          if (!gEnigmailService.initialized) {
+              // try to initialize Enigmail
+              gEnigmailService.initialize(null, getEnigmailApp().getVersion());
+          }
+        }
       } catch (ex) {
         logger.DEBUG("core.jsm: startup.continueStartup: error " + ex.message + "\n" + ex.stack + "\n");
       }
