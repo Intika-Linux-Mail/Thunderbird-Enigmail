@@ -97,11 +97,13 @@ var EnigmailCore = {
         if (configuredVersion && configuredVersion.length > 0) {
           self.createInstance();
           if (!gEnigmailService.initialized) {
-              // try to initialize Enigmail
-              gEnigmailService.initialize(null, getEnigmailApp().getVersion());
+            // try to initialize Enigmail
+            gEnigmailService.initialize(null, getEnigmailApp().getVersion());
           }
         }
-      } catch (ex) {
+      }
+      catch (ex) {
+        gEnigmailService = null;
         logger.DEBUG("core.jsm: startup.continueStartup: error " + ex.message + "\n" + ex.stack + "\n");
       }
     }
@@ -165,7 +167,8 @@ var EnigmailCore = {
     try {
       this.createInstance();
       return gEnigmailService.getService(win, startingPreferences);
-    } catch (ex) {
+    }
+    catch (ex) {
       return null;
     }
 
@@ -210,7 +213,8 @@ var EnigmailCore = {
 function getLogDirectoryPrefix() {
   try {
     return getEnigmailPrefs().getPrefBranch().getCharPref("logDirectory") || "";
-  } catch (ex) {
+  }
+  catch (ex) {
     return "";
   }
 }
@@ -265,7 +269,8 @@ function failureOn(ex, status) {
 function getEnvironment(status) {
   try {
     return Cc["@mozilla.org/process/environment;1"].getService(nsIEnvironment);
-  } catch (ex) {
+  }
+  catch (ex) {
     failureOn(ex, status);
   }
   return null;
@@ -319,7 +324,8 @@ function initializeEnvironment(env) {
 
     if (envName in gOverwriteEnvVar) {
       envValue = gOverwriteEnvVar[envName];
-    } else {
+    }
+    else {
       envValue = env.get(envName);
     }
     if (envValue) {
@@ -354,7 +360,8 @@ Enigmail.prototype = {
 
     try {
       getEnigmailConsole().write("Initializing Enigmail service ...\n");
-    } catch (ex) {
+    }
+    catch (ex) {
       failureOn(ex, this);
     }
 
@@ -417,8 +424,10 @@ Enigmail.prototype = {
         try {
           // Reset alert count to default value
           getEnigmailPrefs().getPrefBranch().clearUserPref("initAlert");
-        } catch (ex) {}
-      } catch (ex) {
+        }
+        catch (ex) {}
+      }
+      catch (ex) {
         if (firstInitialization) {
           // Display initialization error alert
           const errMsg = (this.initializationError ? this.initializationError : getEnigmailLocale().getString("accessError")) +
