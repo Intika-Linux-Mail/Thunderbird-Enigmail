@@ -56,10 +56,7 @@ Enigmail.edit = {
     this.isSingleIdEditor = document.getElementById("enigmail_singleId") ? true : false;
     this.openPgpSendKeyWithMsg = document.getElementById("openpgp.sendKeyWithMsg");
 
-    try {
-      document.getElementById("enigmail_amPrefAutocryptDesc").innerHTML = EnigmailLocale.getString("amPrefAutocrypt.desc");
-    }
-    catch(ex){}
+    document.getElementById("enigmail_amPrefAutocryptDesc").innerHTML = EnigmailLocale.getString("amPrefAutocrypt.desc");
 
     if (this.isSingleIdEditor) {
       let acTab = document.getElementById("enigmail_autocryptTab");
