@@ -17,6 +17,7 @@ testing("mimeEncrypt.jsm");
  MIME_SIGNED: false, MIME_ENCRYPTED: false */
 
 const EnigmailFiles = component("enigmail/files.jsm").EnigmailFiles;
+const EnigmailPrefs = component("enigmail/prefs.jsm").EnigmailPrefs;
 
 test(function testSignedMessage() {
   const e = new PgpMimeEncrypt(null);
@@ -85,9 +86,12 @@ test(withTestGpgHome(withEnigmail(function testBeginCryptoEncapsulation() {
   EnigmailKeyRing.importKeyFromFile(secretKey, errorMsgObj, importedKeysObj);
   const strikeAccount = "strike.devtest@gmail.com";
 
+  // force GnuPG to use SHA512
+  EnigmailPrefs.setPref("agentAdditionalParam", "--digest-algo SHA512");
+
   const e = new PgpMimeEncrypt(null);
   e.msgCompFields = [];
-  e.hashAlgorithm = "SHA256";
+  e.hashAlgorithm = "";
   e.useSmime = false;
   e.cryptoMode = MIME_ENCRYPTED;
   e.sendFlags = EnigmailConstants.SEND_PGP_MIME | EnigmailConstants.SEND_SIGNED;
@@ -103,4 +107,5 @@ test(withTestGpgHome(withEnigmail(function testBeginCryptoEncapsulation() {
   e.beginCryptoEncapsulation({}, strikeAccount, {}, {}, false, false);
 
   Assert.equal(e.hashAlgorithm, "sha512");
+  EnigmailPrefs.setPref("agentAdditionalParam", "");
 })));
