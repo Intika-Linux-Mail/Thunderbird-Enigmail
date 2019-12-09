@@ -22,9 +22,6 @@
         onload="Enigmail.edit.openEditSingleAccount();"
         style="min-width: 45em; min-height: 47em;">
 
-  <script type="application/x-javascript" src="chrome://enigmail/content/ui/editSingleAccount.js"/>
-  <script type="application/x-javascript" src="chrome://enigmail/content/ui/enigmailEditIdentity.js"/>
-
   <broadcasterset>
     <broadcaster id="enigmail_bcEnablePgp" disabled="false"/>
     <broadcaster id="enigmail_bcUseKeyId" disabled="false"/>
