@@ -1228,8 +1228,13 @@ function runKeyUsabilityCheck() {
 
 function waitForKeyList() {
   let mainThread = Services.tm.mainThread;
-  while (gLoadingKeys)
-    mainThread.processNextEvent(true);
+  try {
+    while (gLoadingKeys)
+      mainThread.processNextEvent(true);
+  }
+  catch (ex) {
+    EnigmailLog.DEBUG("keyRing.jsm: waitForKeyList: exception " + ex.message + "\n");
+  }
 }
 
 
