@@ -47,6 +47,7 @@ var EXPORTED_SYMBOLS = ["EnigmailCore"];
 
 // Interfaces
 const nsIEnvironment = Ci.nsIEnvironment;
+const APP_STARTUP = 1;
 
 var gPreferredGpgPath = null;
 var gOverwriteEnvVar = [];
@@ -68,6 +69,7 @@ var EnigmailCore = {
 
   startup: function(reason) {
     let self = this;
+    let observerFired = 0;
 
     let env = getEnvironment();
     initializeLogDirectory();
@@ -82,6 +84,21 @@ var EnigmailCore = {
 
     this.factories = [];
 
+    function initService() {
+      if (observerFired > 0) return;
+
+      ++observerFired;
+      const configuredVersion = getEnigmailPrefs().getPref("configuredVersion");
+
+      if (configuredVersion && configuredVersion.length > 0) {
+        self.createInstance();
+        if (!gEnigmailService.initialized) {
+          // try to initialize Enigmail
+          gEnigmailService.initialize(null, getEnigmailApp().getVersion());
+        }
+      }
+    }
+
     function continueStartup(type) {
       logger.DEBUG(`core.jsm: startup.continueStartup(${type})\n`);
 
@@ -92,20 +109,21 @@ var EnigmailCore = {
         self.factories.push(new Factory(getEnigmailProtocolHandler()));
         self.factories.push(new Factory(mimeEncrypt.Handler));
 
-        const configuredVersion = getEnigmailPrefs().getPref("configuredVersion");
-
-        if (configuredVersion && configuredVersion.length > 0) {
-          self.createInstance();
-          if (!gEnigmailService.initialized) {
-            // try to initialize Enigmail
-            gEnigmailService.initialize(null, getEnigmailApp().getVersion());
-          }
+        if (isPostbox() || reason !== APP_STARTUP) {
+          // Postbox or while not starting up
+          initService();
         }
+
       }
       catch (ex) {
         gEnigmailService = null;
         logger.DEBUG("core.jsm: startup.continueStartup: error " + ex.message + "\n" + ex.stack + "\n");
       }
+    }
+
+    if ((!isPostbox()) && reason === APP_STARTUP) {
+      // if TB starts up, observe "mail-tabs-session-restored"
+      Services.obs.addObserver(initService, "mail-tabs-session-restored", false);
     }
 
     getEnigmailVerify().registerContentTypeHandler();
@@ -502,4 +520,11 @@ class Factory {
   unregister() {
     Cm.unregisterFactory(this.component.prototype.classID, this);
   }
+}
+
+function isPostbox() {
+  const POSTBOX_ID = "postbox@postbox-inc.com";
+  const XPCOM_APPINFO = "@mozilla.org/xre/app-info;1";
+
+  return Cc[XPCOM_APPINFO].getService(Ci.nsIXULAppInfo).ID == POSTBOX_ID;
 }
