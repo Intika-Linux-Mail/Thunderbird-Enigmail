@@ -329,8 +329,10 @@ var EnigmailMime = {
       }
     }
     else {
-      startPos = -1;
-      endPos = -1;
+      if (!(innerCt.search(/^text\/plain/i) === 0 && innerCt.search(/; *protected-headers="v1"/i) > 0)) {
+        startPos = -1;
+        endPos = -1;
+      }
     }
 
     return {
